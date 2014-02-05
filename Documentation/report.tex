@@ -1,0 +1,87 @@
+\documentclass{report}
+
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{float}
+
+
+\fancyfoot[OC]{\textit{\thepage}}
+
+\title{Sample Title}
+\date{\today}
+\author{Asbj\o rn Fjelbro Steffensen (afjs@itu.dk)\\ Thomas Stoy Dragsb\ae k (thst@itu.dk)\\ Nicki Hjorth J\o rgensen (nhjo@itu.dk)\\ Jacob Benjamin Cholewa (jbec@itu.dk)\\ Jakob Merrild (xxxx@itu.dk)\\ Mathias Kindsholm Pedersen (xxxx@itu.dk)}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+
+\chapter{Introduction}
+
+\section{Revision History}
+\begin{center}
+\begin{tabularx}{\textwidth}{|X|X|X|X|}
+\hline
+\textbf{Version} & \textbf{Edited by} & \textbf{Date} & \textbf{Description} \\
+\hline
+1.0 & nhjo & 05-02-2014 & Initial Version \\
+\hline
+
+\end{tabularx}
+\end{center}
+
+\chapter{Proposed System}
+
+\section{Overview}
+The proposed system is to handle different types of media files (e.g. books, video, sound or images). It must be extendable, such that any given client can upload and search for the most common types of media.
+
+The systems functionality is aimed for anyone that uses their computer as a media center. This is, users that has a collection of books, video-, sound- or imagefiles on their computer or mobile devices.
+
+\section{Scope of the system}
+
+Since our proposal is a full scale rental system, normally you would deal with payment. In our case this is out of scope. Also since every user is able to upload any material, there might also be  issues with infringement of copyright. It is also decided that this is out of the systems scope.
+
+\section{Functional Requirements}
+
+\begin{itemize}
+\item Users must be able to register or create a new account, read, update and delete  account information
+\item Users must be able to login and logout
+\item Admins must be able to add new media, read, update and delete media information. The display of the media should provide information such as the thumbnail image, category (for search), and analytic information (recent searches)
+\item The system must support media file types in a genric way
+\item Users must be able to search for media files
+\item Users must be able to rent and download media (without payment)
+\item The system must support at least to types of streamable media
+\end{itemize}
+
+\section{Non-functional Requirements}
+
+\subsection{Usability}
+\subsection{Reliability}
+\subsection{Performance}
+\subsection{Supportability}
+\subsection{Implementation}
+\subsection{Interface}
+
+\section{System Model}
+
+\subsection{Scenarios}
+
+\chapter{Design and Architecture}
+
+\chapter{User Manual}
+
+\chapter{Test Strategy}
+
+\chapter{Test}
+
+\chapter{Appendix}
+
+
+\end{document}
