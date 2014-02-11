@@ -9,6 +9,8 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
+\usepackage{color}
+
 
 
 \fancyfoot[OC]{\textit{\thepage}}
@@ -27,11 +29,13 @@
 
 \section{Revision History}
 \begin{center}
-\begin{tabularx}{\textwidth}{|X|X|X|X|}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
 \hline
 \textbf{Version} & \textbf{Edited by} & \textbf{Date} & \textbf{Description} \\
 \hline
 1.0 & nhjo & 05-02-2014 & Initial Version \\
+\hline
+1.1 & nhjo & 11-02-2014 & Non-functional requirements added in section 2.4 \\
 \hline
 
 \end{tabularx}
@@ -63,12 +67,53 @@ Since our proposal is a full scale rental system, normally you would deal with p
 \section{Non-functional Requirements}
 
 \subsection{Usability}
+
+\begin{itemize}
+\item The client must have an intuitive user interface, such that a novice user must be able to use basic functionality such as creating a user, searching for media and purchasing media files within 2 minutes without reading any tutorials beforehand.
+\end{itemize}
+
 \subsection{Reliability}
+
+\begin{itemize}
+\item The client must be available at all times, given that the user is online. 
+\item If the connection to the service endpoint is lost for any reason, the client must not crash. \item In case of failure the client must provide extensive error messages, such that the user can understand and react to it accordingly.
+\end{itemize}
+
 \subsection{Performance}
+
+\begin{itemize}
+\item The client must be optimized for fast response time. The user must not experience a delay of more than 5 seconds on any operation, assuming that the internet connection is not the bottleneck.
+
+\item The client should support at least 100 concurrent users. 
+\end{itemize}
 \subsection{Supportability}
+
+\begin{itemize}
+\item Developers must be able to extend the functionality of the client without talking to the original developer. This requires that the code is well written and documented. Such extensions might require a temporary shutdown of the web service.
+\end{itemize}
+
 \subsection{Implementation}
+\begin{itemize}
+\item The client is developed in ASP.NET and is accessible through a web browser.
+\item System requirements
+
+
+\begin{tabular}{| l | l | }
+\hline
+ Execution environment & Webkit2+ browser \\ \hline
+ Processer & 1.4 GHz Scorpion or equivalent \\ \hline
+ Memory & 512mb RAM  \\ \hline
+
+\end{tabular}
+
+\item For testing purposes it is required that the code is consistent, unambigous and well documented.
+\end{itemize}
+
 \subsection{Interface}
 
+\begin{itemize}
+\item {\color{red}What standards in use by the client should be supported by the system?}
+\end{itemize}
 \section{System Model}
 
 \subsection{Scenarios}
