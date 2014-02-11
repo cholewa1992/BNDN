@@ -1,0 +1,50 @@
+\documentclass{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{float}
+
+
+\fancyfoot[OC]{\textit{\thepage}}
+
+\begin{document}
+
+
+\section{Actors}
+\begin{itemize}
+\item \textbf{Admin} \\
+The Admin has access to all content and is able to delete content if necessary. 
+\item \textbf{Anonymous user}\\ 
+The Anonymous User is an anonymous client of the system. This actor is not able to use all functionality of the system. Only browsing the content is allowed
+\item \textbf{User} \\
+The User is an registered and identified client of the system. The user has created an account which he is logged into. This user is allowed to do more than the Anonymous User. This includes uploading, purchasing and rating content and managing account information and content uploaded by the User.
+\end{itemize}
+
+\section{User Stories}
+\begin{itemize}
+\item UploadContent \\
+John is an anonymous user of RentIt. He wants to upload "Sinful Summer", a movie he has made, so he can make some money from it. In order to be able to do so he must register a user with the system. He registers a user called John33. John33 finds the movie file he wants to upload and enters information about it into the system. He then uploads the movie.
+\item PurchaseContent \\
+Robert is an anonymous user of RentIt. He wants to purchase "War and Peace" as an ebook. He uses the search function to find the ebook he is looking for. In order to be able to purchase the ebook he must log in. Robert already has a user called Robbie93 so he logs in as Robbie93. Robbie93 purchases the ebook and downloads it.
+\item RateContent \\
+Daniel54 is a registered RentIt user. He has previously purchased and listened to the Pink Floyd song "Money". He thought it was a great song and he wants to let the other users of RentIt know about this. He finds "Money" using the search function. He then uses the rating system to give it a high rating.
+\item ManageUploadedContent \\
+Bob1970, a registered user of RentIt, notices that he made a spelling error in the title of the music track he just uploaded. He changes the title from "Parise the Lord" to "Praise the Lord" and saves the changes.
+\item ManageAccount \\
+Kelly89 is a registered user of RentIt. When Kelly89 registered with RentIt, she did not fill the description of her account. She now wants to add a description so that other users can see what to expect from her account. She updates the description and saves the changes.
+\item DeleteContent \\
+Anna, an admin of RentIt, browses through the content and finds a suspicious movie called "Sinful Summer". Anna watches the movie and finds out that the movie violates the law. Anna deletes the movie.
+\end{itemize}
+
+\section{Use Cases}
+Anonymous: Search, CreateAccount \\
+User: Search, Login, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download \\
+Admin: DeleteContent, Search, Login, Logout, EditUserAccountInfo, EditContentInfo, Download
+
+\end{document}
