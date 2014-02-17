@@ -32,8 +32,109 @@ Anna, an admin of RentIt, browses through the content and finds a suspicious mov
 \end{itemize}
 
 \section{Use Cases}
-Anonymous: Search, CreateAccount \\
-User: Search, Login, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download \\
-Admin: DeleteContent, Search, Login, Logout, EditUserAccountInfo, EditContentInfo, Download
+Anonymous: Search, CreateAccount, Login \\
+User: Search, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download \\
+Admin: DeleteContent, Search, Logout, EditUserAccountInfo, EditContentInfo, Download \\
+% Search, CreateAccount, Login, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download, DeleteContent
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & Search   \\   \hline                
+ Participating actors:  & \texttt{Anonymous user, User, Admin} \\   \hline %They all have the same role though. Is this the right way to represent this?               
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{Actor} enters a search word and presses Search}
+\item{The \texttt{Actor} is presented with the search results}
+\item{The \texttt{Actor} picks the desired search result}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & None \\ \hline
+Exit condition: & The \texttt{Actor} has found the result he was looking for or he is certain that the search word did not help him find what he was looking for. \\ \hline
+Quality requirements: & The search results (if any) must be presented within 5 seconds from pressing Search \\ \hline             
+\end{tabular}
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & CreateAccount   \\   \hline                
+ Participating actors:  & \texttt{Anonymous user, User} \\   \hline          
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{Anonymous user} presses Create Account}
+\item{The \texttt{Anonymous user} is presented with a form to fill}
+\item{The \texttt{Anonymous user} fills out the form by entering the desired user name, password, email and profile text before clicking Create}
+\item{The \texttt{Anonymous user} is notified that the account is created.}
+\item{When the \texttt{Anonymous user} logs into his account, he becomes a \texttt{User}}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & The \texttt{Anonymous user} has no account. \\ \hline
+Exit condition: & The \texttt{Anonymous user} has created an account and is able to login in order to become a \texttt{User} \\ \hline
+Quality requirements: & The account must have a unique user name and email. The account must be created within 5 seconds from pressing Create \\ \hline             
+\end{tabular} \\
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & Login   \\   \hline                
+ Participating actors:  & \texttt{Anonymous user, User} \\   \hline          
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{Anonymous user} presses Login}
+\item{The \texttt{Anonymous user} is presented with a login form}
+\item{The \texttt{Anonymous user} enters his user name and password before clicking Login}
+\item{If the user name and the password is correct, the \texttt{Anonymous user} becomes a \texttt{User}. If not, the \texttt{Anonymous user} is notified that the user name or password was incorrect.}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & The account with the specified user name and password exists. The \texttt{Anonymous User} is not logged in. \\ \hline
+Exit condition: & The \texttt{Anonymous user} has been logged in to his account and is now a \texttt{User} or the \texttt{Anonymous user} is notified that the user name or password is incorrect. \\ \hline
+Quality requirements: & The \texttt{Anonymous user} must be logged in within 5 seconds from pressing Login provided that user name and password exists. \\ \hline             
+\end{tabular} \\
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & Logout   \\   \hline                
+ Participating actors:  & \texttt{User, Anonymous user} \\   \hline          
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{User} presses Logout}
+\item{The \texttt{User} is notified that he has logged out.}
+\item{The \texttt{User} is now an \texttt{Anonymous user}.}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & The \texttt{User} is logged in. \\ \hline
+Exit condition: & The \texttt{User} is no longer logged in and is therefore an \texttt{Anonymous user}. \\ \hline
+Quality requirements: & The \texttt{User} must be logged out within 5 seconds from pressing Logout. \\ \hline             
+\end{tabular} \\
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & Upload   \\   \hline                
+ Participating actors:  & \texttt{User} \\   \hline          
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{User} presses Upload}
+\item{The \texttt{User} is presented with a form to fill.}
+\item{The \texttt{User} chooses the file he wishes to upload. He enters the title of the file before pressing Submit}
+\item{The \texttt{User} is notified that the file is being uploaded.}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & The \texttt{User} is logged in and he has the desired file locally on his system. \\ \hline
+Exit condition: & The \texttt{User} has uploaded the desired file. \\ \hline
+Quality requirements: & The file must be uploaded with a speed of XXX. \\ \hline             
+\end{tabular} \\
+
+\noindent
+\begin{tabular}{| l | p{8cm} |}
+  \hline                        
+ Use case name:  & Purchase   \\   \hline                
+ Participating actors:  & \texttt{User} \\   \hline          
+  Flow of events: & \begin{enumerate}
+\item{The \texttt{User} presses Purchase on the selected file.}
+\item{If the \texttt{User} has enough coins, he is notified that the file has been bought. If not, the \texttt{User} is notified that he does not have enough coins to buy the file.}
+\item{Given that there was enough coins, the \texttt{User} will now be able to download the file.}
+\end{enumerate}
+ \\   \hline 
+Entry condition: & The \texttt{User} is logged in. \\ \hline
+Exit condition: & The \texttt{User} has bought the desired file or is notified that he does not have enough coins to buy the file. \\ \hline
+Quality requirements: & The file must be purchased within 5 seconds from pressing Purchase given that the \texttt{User} has enough coins. \\ \hline             
+\end{tabular} \\
 
 \end{document}
