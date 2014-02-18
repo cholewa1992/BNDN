@@ -5,7 +5,7 @@
 \begin{document}
 
 
-\section{Actors}
+\subsubsection{Actors}
 \begin{itemize}
 \item \textbf{Admin} \\
 The Admin has access to all content and is able to delete content if necessary. 
@@ -15,7 +15,7 @@ The Anonymous User is an anonymous client of the system. This actor is not able 
 The User is an registered and identified client of the system. The user has created an account which he is logged into. This user is allowed to do more than the Anonymous User. This includes uploading, purchasing and rating content and managing account information and content uploaded by the User.
 \end{itemize}
 
-\section{User Stories}
+\subsubsection{User Stories}
 \begin{itemize}
 \item UploadContent \\
 John is an anonymous user of RentIt. He wants to upload "Sinful Summer", a movie he has made, so he can make some money from it. In order to be able to do so he must register a user with the system. He registers a user called John33. John33 finds the movie file he wants to upload and enters information about it into the system. He then uploads the movie.
@@ -30,136 +30,5 @@ Kelly89 is a registered user of RentIt. When Kelly89 registered with RentIt, she
 \item DeleteContent \\
 Anna, an admin of RentIt, browses through the content and finds a suspicious movie called "Sinful Summer". Anna watches the movie and finds out that the movie violates the law. Anna deletes the movie.
 \end{itemize}
-
-\section{Use Cases}
-Anonymous: Search, CreateAccount, Login \\
-User: Search, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download \\
-Admin: DeleteContent, Search, Logout, EditUserAccountInfo, EditContentInfo, Download \\
-% Search, CreateAccount, Login, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download, DeleteContent
-
-\noindent
-\begin{tabular}{ l p{8cm} }                      
- Use case name:  & Search   \\   \hline \\                
- Participating actors:  & \texttt{Anonymous user, User, Admin} \\   \hline \\
-  Flow of events: & \begin{enumerate}
-\item{The \texttt{Actor} enters a search keyword and initiates the search}
-\item{The \texttt{Actor} is presented with the search results}
-\item{The \texttt{Actor} picks the desired search result or tries again with another search keyword}
-\end{enumerate} \\
-Alternatives: & \begin{itemize}
-\item[\textbf{3a:}] \textbf{The \texttt{Actor} picks the desired search result}
-\item[]  3a1. The \textit{Details page} of the desired search result is shown by \textit{The System}
-\item[\textbf{3b:}] \textbf{The \texttt{Actor} tries again with another search keyword}
-\item[]  3b1. The \texttt{Actor} is back at step 2.
-\end{itemize} \\ 
-\hline \\
-Rules: & \\ \hline \\
-Entry condition: & \\ \hline \\
-Exit condition: & The \texttt{Actor} has found the result he was looking for or he is certain that the search keyword did not help him find what he was looking for \\ \hline \\
-Quality requirements: & The search results (if any) must be presented within 5 seconds from initiating search \\ \hline           
-\end{tabular}
-
-\noindent
-\begin{tabular}{ l p{8cm} }                        
- Use case name:  & CreateAccount   \\   \hline  \\              
- Participating actors:  & \texttt{Anonymous user} \\   \hline \\
- Flow of events: & \begin{enumerate}
-\item{The \texttt{Anonymous user} initiates the creation of an \textit{Account}}
-\item{The \texttt{Anonymous user} is presented with a form to fill}
-\item{The \texttt{Anonymous user} fills out the form by entering \textbf{\_ACCOUNTINFORMATION\_} before submitting} %update when account information is known 
-\item{The \texttt{Anonymous user} is notified that the \textit{Account} is created}
-\end{enumerate}
- \\   \hline \\
- Rules: & \begin{itemize}
- \item{The \textit{Account} must have a unique user name and email}
- \end{itemize} \\ \hline \\
- Entry condition: & The \texttt{Anonymous user} has no \textit{Account} \\ \hline \\
- Exit condition: & The \texttt{Anonymous user} has created an \textit{Account} \\ \hline \\
-Quality requirements: & The \textit{Account} must be created within 5 seconds from submitting \\  \hline      
-\end{tabular} \\
-
-\noindent
-\begin{tabular}{ l p{8cm} }                 
- Use case name:  & Login   \\   \hline \\            
- Participating actors:  & \texttt{Anonymous user, User} \\   \hline \\   
- Flow of events: & \begin{enumerate}
-\item{The \texttt{Anonymous user} initiates the login}
-\item{The \texttt{Anonymous user} is presented with a login form}
-\item{The \texttt{Anonymous user} enters his user name and password before submitting}
-\end{enumerate} \\
-Alternatives: & \begin{itemize}
-\item[\textbf{3a:}] \textbf{The \texttt{Anonymous user} enters the correct user name and password}
-\item[]  3a1. The \texttt{Anonymous user} is logged in and becomes a \texttt{User}
-\item[\textbf{3b:}] \textbf{The \texttt{Anonymous user} enters the incorrect user name or password}
-\item[]  3b1. The \texttt{Anonymous user} is notified that the user name or password was incorrect
-\end{itemize} \\ 
-\hline \\
-Rules: & \\ \hline \\
-Entry condition: & The \texttt{Anonymous User} is not logged in \\ \hline \\
-Exit condition: & The \texttt{Anonymous user} has been logged in to his \textit{Account} and is now a \texttt{User} or the \texttt{Anonymous user} is notified that the user name or password is incorrect \\ \hline \\
-Quality requirements: & The \texttt{Anonymous user} must be logged in within 5 seconds from submitting provided that user name and password are correct \\ \hline \\            
-\end{tabular} \\
-
-\noindent
-\begin{tabular}{ l p{8cm} }                    
- Use case name:  & Logout   \\   \hline \\               
- Participating actors:  & \texttt{User, Anonymous user} \\   \hline \\         
- Flow of events: & \begin{enumerate}
-\item{The \texttt{User} initiates the logout}
-\item{The \texttt{User} is notified that he has logged out}
-\item{The \texttt{User} is now an \texttt{Anonymous user}}
-\end{enumerate}
- \\   \hline \\
-Rules: & \\ \hline \\
-Entry condition: & The \texttt{User} is logged in \\ \hline \\
-Exit condition: & The \texttt{User} is no longer logged in and is therefore an \texttt{Anonymous user} \\ \hline \\
-Quality requirements: & The \texttt{User} must be logged out within 5 seconds from initiating the logout \\ \hline             
-\end{tabular} \\
-\\ \\ \\
-
-\noindent
-\begin{tabular}{ l p{8cm} }                      
- Use case name:  & Upload   \\   \hline \\               
- Participating actors:  & \texttt{User} \\   \hline \\         
- Flow of events: & \begin{enumerate}
-\item{The \texttt{User} initiates the upload}
-\item{The \texttt{User} is presented with a form to fill}
-\item{The \texttt{User} chooses the \textit{Media} he wishes to upload. He enters the \_MEDIAINFORMATION\_ of the \textit{Media} before submitting}
-\end{enumerate} \\
-Alternatives: & \begin{itemize}
-\item[\textbf{3a:}] \textbf{The \textit{Media} is accepted}
-\item[]  3a1. The \texttt{User} is notified that the \textit{Media} is being uploaded
-\item[\textbf{3b:}] \textbf{The \textit{Media} is not accepted}
-\item[]  3b1. The \texttt{User} is notified that the \textit{Media} is not accepted
-\end{itemize}
- \\   \hline \\
-Rules: & \\ \hline \\
-Entry condition: & The \texttt{User} is logged in and he has the desired \textit{Media} locally on his system \\ \hline \\
-Exit condition: & The \texttt{User} has uploaded the desired \textit{Media} \\ \hline \\
-Quality requirements: & \\ \hline \\ %The file must be uploaded with a speed of XXX??      
-\end{tabular} \\
-
-\noindent
-\begin{tabular}{ l p{8cm} }                
- Use case name:  & Purchase   \\   \hline \\                
- Participating actors:  & \texttt{User} \\   \hline \\         
- Flow of events: & \begin{enumerate}
-\item{The \texttt{User} initiates the purchase of the selected \textit{Media}}
-\item{The \texttt{User} is notified that the \textit{Media} has been bought}
-\item{The \texttt{User} will now be able to download the \textit{Media}}
-\end{enumerate} \\
-%Alternatives: & \begin{itemize}
-%\item[\textbf{1a:}] \textbf{The \texttt{User} has enough coins}
-%\item[]  1a1. The \texttt{User} is notified that the \textit{Media} has been bought
-%\item[]  1a2. The \texttt{User} will now be able to download the \textit{Media}
-%\item[\textbf{1b:}] \textbf{The \texttt{User} does not have enough coins}
-%\item[]  1b1. The \texttt{User} is notified that the \textit{Media} has not been bought
-%\end{itemize} \\
-\hline \\
-Rules: & \\ \hline \\
-Entry condition: & The \texttt{User} is logged in \\ \hline \\
-Exit condition: & The \texttt{User} has bought the desired \textit{Media} or is notified that he does not have enough coins to buy the \textit{Media} \\ \hline \\
-Quality requirements: & The \textit{Media} must be purchased within 5 seconds from initiating the purchase \\ \hline             
-\end{tabular} \\
 
 \end{document}
