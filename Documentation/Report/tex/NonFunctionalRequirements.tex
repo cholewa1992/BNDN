@@ -4,11 +4,10 @@
 \subsection{Usability}
 
 \begin{enumerate}[label=U\arabic*:]
-\item The client must have an intutive user interface
-\item Without prior knowlegde to the client, a user must be able to
+\item Without prior knowledge to the client, a user must be able to
 	\begin{enumerate}
-	\item{Create a user within 5 minutes}
-	\item Search for media within 1 minutes
+	\item{Create an account within 5 minutes}
+	\item Search for media within 1 minute
 	\item Purchase media files within 3 minutes
 	\end{enumerate}
 \end{enumerate}
@@ -30,15 +29,15 @@
 \subsection{Supportability}
 
 \begin{enumerate}[label=S\arabic*:]
-\item Developers must be able to extend the functionality of the client without talking to the original developer. 
-\item Extensions to the client requires that the code is well written and documented. 
+\item Developers must be able to extend the functionality of the client by only reading the code and the documentation.
 \item Extensions might require a temporary shutdown of the web service.
+\item The code must be written in such way, that all modules can be tested in isolation.
 \end{enumerate}
 
 \subsection{Implementation}
 \begin{enumerate}[label=Im\arabic*:]
 \item The client is developed in ASP.NET and is accessible through a web browser.
-\item System requirements
+\item Minimum system requirements
 
 
 \begin{tabular}{| l | l | }
@@ -46,12 +45,12 @@
  Execution environment & Internet Explorer v10+\\
 & Google Chrome v31+\\
 & Webkit v2.0+\\ \hline
- Processer & 1.4 GHz Scorpion or equivalent \\ \hline
+ Processor & 1.4 GHz Scorpion or equivalent \\ \hline
  Memory & 512mb RAM  \\ \hline
 
 \end{tabular}
 
-\item For testing purposes it is required that the code is consistent, unambigous and well documented.
+\item Each test case must be independent from the others and must test a module in isolation.
 \end{enumerate}
 
 \subsection{Interface}
