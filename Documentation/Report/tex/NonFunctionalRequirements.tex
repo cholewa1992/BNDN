@@ -1,0 +1,62 @@
+\documentclass[../report.tex]{subfiles}
+\begin{document}
+
+\subsection{Usability}
+
+\begin{enumerate}[label=U\arabic*:]
+\item Without prior knowledge to the client, a user must be able to
+	\begin{enumerate}
+	\item{Create an account within 5 minutes}
+	\item Search for media within 1 minute
+	\item Purchase media files within 3 minutes
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Reliability}
+
+\begin{enumerate}[label=R\arabic*:]
+\item If the connection to ShareIT is lost for any reason, the client must not crash. 
+\item In case of failure the client must provide extensive error messages, such that the user can understand and react to it accordingly.
+\end{enumerate}
+
+\subsection{Performance}
+
+\begin{enumerate}[label=P\arabic*:]
+\item The user must not experience a delay of more than 5 seconds on any operation, assuming that the user has an internet connection of at least 2 Mbit/s
+\item The client should support at least 10 concurrent users. 
+\end{enumerate}
+
+\subsection{Supportability}
+
+\begin{enumerate}[label=S\arabic*:]
+\item Developers must be able to extend the functionality of the client by only reading the code and the documentation.
+\item Extensions might require a temporary shutdown of the web service.
+\item The code must be written in such way, that all modules can be tested in isolation.
+\end{enumerate}
+
+\subsection{Implementation}
+\begin{enumerate}[label=Im\arabic*:]
+\item The client is developed in ASP.NET and is accessible through a web browser.
+\item Minimum system requirements
+
+
+\begin{tabular}{| l | l | }
+\hline
+ Execution environment & Internet Explorer v10+\\
+& Google Chrome v31+\\
+& Webkit v2.0+\\ \hline
+ Processor & 1.4 GHz Scorpion or equivalent \\ \hline
+ Memory & 512mb RAM  \\ \hline
+
+\end{tabular}
+
+\item Each test case must be independent from the others and must test a module in isolation.
+\end{enumerate}
+
+\subsection{Interface}
+
+\begin{enumerate}[label=In\arabic*:]
+\item {\color{red}What standards in use by the client should be supported by the system?}
+\end{enumerate}
+
+\end{document}
