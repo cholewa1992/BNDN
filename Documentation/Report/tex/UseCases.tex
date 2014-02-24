@@ -66,10 +66,10 @@ Flow of events: & \begin{enumerate}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
-\item[3a:]{The \texttt{Actor} saves the changes}
-\item[]  3a1. The changes are saved by the \textit{System}
-\item[3b:]{The \texttt{Actor} discards the changes}
-\item[]  3b1. The changes are not saved by the \textit{System}
+\item[5a:]{The \texttt{Actor} saves the changes}
+\item[]  5a1. The changes are saved by the \textit{System}
+\item[5b:]{The \texttt{Actor} discards the changes}
+\item[]  5b1. The changes are not saved by the \textit{System}
 \end{itemize}
 \\ \hline
 \\
@@ -80,7 +80,8 @@ Rules: & \begin{itemize}
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
-Exit condition: & The \textit{Account}'s info has been changed and the \textit{System} has been updated to reflect these changes \\ \hline
+Exit condition: & The \textit{Account}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
+nothing has changed if the \texttt{Actor} discarded the changes\\ \hline
 \\
 Quality requirements: & QUALITY REQUIREMENT \\ \hline  
 \end{tabular}
@@ -107,10 +108,10 @@ Flow of events: & \begin{enumerate}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
-\item[\textbf{3a:}]{\textbf{The \texttt{Actor} saves the changes}}
-\item[]  3a1. The changes are saved by the \textit{System}
-\item[\textbf{3b:}]{\textbf{The \texttt{Actor} discards the changes}}
-\item[]  3b1. The changes are not saved by the \textit{System}
+\item[\textbf{5a:}]{\textbf{The \texttt{Actor} saves the changes}}
+\item[]  5a1. The changes are saved by the \textit{System}
+\item[\textbf{5b:}]{\textbf{The \texttt{Actor} discards the changes}}
+\item[]  5b1. The changes are not saved by the \textit{System}
 \end{itemize}
 \\ \hline
 \\
@@ -121,7 +122,8 @@ Rules: & \begin{itemize}
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
-Exit condition: & The \textit{Media}'s info has been changed and the \textit{System} has been updated to reflect these changes \\ \hline
+Exit condition: & The \textit{Media}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
+nothing has changed if the \texttt{Actor} discarded the changes \\ \hline
 \\
 Quality requirements: & QUALITY REQUIREMENT \\ \hline  
 \end{tabular}
@@ -141,7 +143,6 @@ Participating actors:  & \texttt{\texttt{User}, \texttt{Admin}} \\   \hline
 Flow of events: & \begin{enumerate}
 \item{The \texttt{Actor} navigates to the \textit{Details Page} for the \textit{Media} which is to be downloaded}
 \item{The \texttt{Actor} initiates the download of the \textit{Media}}
-\item{The \texttt{Actor} chooses where he wants to save the file on his local hard drive}
 \item{The \textit{System} transfers the file containing the \textit{Media} to the \texttt{Actor}'s local hard drive}
 \end{enumerate}
 \\ \hline
