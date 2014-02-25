@@ -6,95 +6,107 @@
 
 \section{Functional Requirements}
 
-	\begin{enumerate}
-		\item Search
-			\begin{enumerate}
-				\item All \textbf{users} must be able to initiate a search by providing a keyword or key-phrase.
-				\item The keyword or key-phrase must be matched with \textit{media} on title and artist/user.
-				\item The \textbf{user} must be presented with all matches.
-				\item Each match must include a link to a detailed page about the \textit{media}.
-				\item Matches must be grouped by media type. 
-			\end{enumerate}
-			
-			
-		\item Create account
-			\begin{enumerate}
-				\item An anonymous user must be able to create an account.
-				\item To create an account the user must provide a desired username and password.
-				
-				\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
-				\item A user must be given an alert if the desired username is unavailable.
-				\item A username must consist of between 1 and 20 characters.
-				\item A username must only consist of alphanumeric characters (a-zA-z0-9).
-				
-				\item A password must consist of between 1 and 50 characters. \label{FR-CA.7}
-				\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} is not met a warning must be displayed to the user.
-			\end{enumerate}
-			
-		
-		\item Login
-			\begin{enumerate}
-				\item A registered user must be able to login to the system providing a username and password pair.
-				\item If the username and password pair is not matched an error message must be provided to the user. 
-			\end{enumerate}
+\subsection {Search}
 
-		
-		\item Manage account
-			\begin{enumerate}
-				\item A logged-in user must be able to edit all profile information excluding username.
-				
-				\item Changes to a users password must still comply with requirement \ref{FR-CA.7} \label{FR-MA.2}
-				\item A warning must be displayed to the user if requirement \ref{FR-MA.2} is not met.	
-			\end{enumerate}
-			
-			
-		\item Logout
-			\begin{enumerate}
-				\item A logged-in user must be able to logout.
-				\item After logout, content only visible to logged-in users must not be displayed.
-			\end{enumerate}
-			
-		
-		\item Media \label{FR-Media}
-			\begin{enumerate}
-				\item A medium must have a title.
-				\item A medium must have a description.
-				\item A medium must have a price.
-				\item A medium must have an picture/poster.
-				\item A medium must have a owner/artist.
-			\end{enumerate}
+\begin{enumerate}[label=FR-\twodigits*]
 
-		\item Uploading media
-			\begin{enumerate}
-				\item A logged-in user must be able to upload media to the system.
-				\item When uploading requirement \ref{FR-Media} must be met
-				\item If an upload is not successfully completed, no information about the media must be stored.
-				\item If an upload is successful an acknowledgment must be displayed to the user.
-				\item If an upload is unsuccessful an error message must be displayed to the user. 
-			\end{enumerate}
-
-		\item Purchase
-			\begin{enumerate}
-				A logged-in user must be able to purchase media whom he has not uploaded himself or not already bought.
-			\end{enumerate}
-
-		\item Downloading media
-			\begin{enumerate}
-			content...
-			\end{enumerate}
-
-		\item Purchase art as digital download.
-		\item Rate purchased art on a score from 1 to 10, latest being the highest.
-		\item Upload own art to the system for other users to purchase.
-		\item Manage own already uploaded art. This includes changing linked information and permanently deleting the art from the system.
-
-
-
-
-	\item Delete art from the website permanently
-
+	\item All \textbf{users} must be able to initiate a search by providing a keyword or key-phrase.
+	\item The keyword or key-phrase must be matched with \textit{media} on title and artist/user.
+	\item The \textbf{user} must be presented with all matches.
+	\item Each match must include a link to a detailed page about the \textit{medium}.
+	\item Matches must be grouped by media type. 
 \end{enumerate}	
+			
+\subsection{Create account}
 
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item An anonymous user must be able to create an account.
+	\item To create an account the user must provide a desired username and password.
+	\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
+	\item A user must be given an alert if the desired username is unavailable.
+	\item A username must consist of between 1 and 20 characters.
+	\item A username must only consist of alphanumeric characters (a-zA-z0-9).
+	\item A password must consist of between 1 and 50 characters. \label{FR-CA.7}
+	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} is not met a warning must be displayed to the user.
+\end{enumerate}
+	
+\subsection {Login}
+	
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A registered user must be able to login to the system providing a username and password pair.
+	\item If the username and password pair is not matched an error message must be provided to the user. 
+\end{enumerate}
+		
+\subsection {Manage account}
 
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to edit all profile information on his own account excluding username.
+	\item A administrator must be able to edit all profile information of all accounts excluding usernames.
+	\item Changes to a users password must still comply with requirement \ref{FR-CA.7} \label{FR-MA.2}
+	\item A warning must be displayed to the user if requirement \ref{FR-MA.2} is not met.	
+\end{enumerate}
+		
+\subsection {Logout}
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to logout.
+	\item After logout, content only visible to logged-in users must not be displayed.
+\end{enumerate}
+	
+\subsection {Media information} \label{FR-Media}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A medium must have a title.
+	\item A medium must have a description.
+	\item A medium must have a price.
+	\item A medium must have an picture/poster.
+	\item A medium must have a owner/artist.
+	\item A medium must be either available for purchase or unavailable for purchase.
+\end{enumerate}
+
+\subsection {Uploading media}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to upload media to the system.
+	\item When uploading a medium information about the medium as specified by requirement \ref{FR-Media} must provided.
+	\item If an upload is not successfully completed, no information about the medium must be stored.
+	\item If an upload is successful an acknowledgement must be displayed to the user.
+	\item If an upload is unsuccessful an error message must be displayed to the user. 
+\end{enumerate}
+
+\subsection {Purchase}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to purchase media which is available for purchase providing he has not uploaded it himself or  purchased it previously.
+\end{enumerate}
+
+\subsection {Downloading media}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to download media which he has purchased.
+	\item A logged-in user must be able to download media which he has uploaded himself.
+	\item An administrator must be able to download all media.
+\end{enumerate}
+		
+\subsection {Rating media} \label{FR-RatingMedia}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to rate media which he has purchased on a scale from 1 to 10 with 1 being the lowest rating and 10 being the highest rating.
+\end{enumerate}
+		
+\subsection{Editing media information}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item A logged-in user must be able to edit the information about media which he has uploaded himself providing that requirement \ref{FR-Media} is met.
+	\item An administrator must be able to edit the information about any media providing that requirement \nameref{FR-Media} is met.
+\end{enumerate}
+			
+\subsection {Medium details page}
+
+\begin{enumerate}[label=FR-\twodigits*, resume]
+	\item The medium details page must include information about the medium as specified by requirement \ref{FR-Media}.
+	\item The medium details page must provide information about the average rating of the media providing that it has been rated at least once.
+	\item The medium details page must provide information about the number of times the medium has been rated.
+\end{enumerate}
+			
 
 \end{document}
