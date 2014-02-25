@@ -15,8 +15,8 @@
 
 \noindent
 \begin{table}
-\caption{Use Case 1}
-\label{Use Case 1}
+\caption{UC-01}
+\label{UC-01}
 \begin{tabular}{ l  p{8cm} }  
 \hline
 \\
@@ -41,14 +41,15 @@ Entry condition: & \texttt{User} must be logged in \\ \hline
 \\
 Exit condition: & The \textit{Media} has been rated \\ \hline
 \\
-Quality requirements: & QUALITY REQUIREMENT \\ \hline  
+Quality requirements: & The \textit{System} must reflect the changes to the rating and notify the \texttt{User} within 5 seconds of the
+\texttt{User} submitting the rating\\ \hline  
 \end{tabular}
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 2}
-\label{Use Case 2}
+\caption{UC-02}
+\label{UC-02}
 \begin{tabular}{ l  p{8cm} } 
 \hline 
 \\
@@ -83,14 +84,14 @@ Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 Exit condition: & The \textit{Account}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
 nothing has changed if the \texttt{Actor} discarded the changes\\ \hline
 \\
-Quality requirements: & QUALITY REQUIREMENT \\ \hline  
+Quality requirements: & The \textit{System} must reflect the changes to the \textit{Account} and notify the \texttt{User} within 5 seconds of the \texttt{User} submitting the changes \\ \hline  
 \end{tabular}
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 3}
-\label{Use Case 3}
+\caption{UC-03}
+\label{UC-03}
 \begin{tabular}{ l  p{8cm} }  
 \hline
 \\
@@ -125,14 +126,14 @@ Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 Exit condition: & The \textit{Media}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
 nothing has changed if the \texttt{Actor} discarded the changes \\ \hline
 \\
-Quality requirements: & QUALITY REQUIREMENT \\ \hline  
+Quality requirements: & The \textit{System} must reflect the changes to the \textit{Account} and notify the \texttt{User} within 5 seconds of the \texttt{User} submitting the changes \\ \hline  
 \end{tabular}
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 4}
-\label{Use Case 4}
+\caption{UC-04}
+\label{UC-04}
 \begin{tabular}{ l  p{8cm} }   
 \hline
 \\
@@ -156,14 +157,14 @@ Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
 Exit condition: & The \texttt{Actor} has received the \textit{Media} \\ \hline
 \\
-Quality requirements: & QUALITY REQUIREMENT \\ \hline  
+Quality requirements: &  \\ \hline
 \end{tabular}
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 5}
-\label{Use Case 5}
+\caption{UC-05}
+\label{UC-05}
 \begin{tabular}{ l  p{8cm} }
 \hline                        
 \\
@@ -185,23 +186,24 @@ Alternatives: & \begin{itemize}
 \end{itemize}
 \\ \hline
 \\
-Rules: & 
+Rules: & N/A
 \\   \hline 
 \\
 Entry condition: & \texttt{Admin} must be logged in \\ \hline
 \\
 Exit condition: & The file containing the \textit{Media} has been deleted and the \textit{System} has been updated to reflect these changes \\ \hline
 \\
-Quality requirements: & QUALITY REQUIREMENT \\ \hline  
+Quality requirements: & N/A \\ \hline  
 \end{tabular}
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 6}
-\label{Use Case 6}
+\caption{UC-06}
+\label{UC-06}
 \begin{tabular}{ l p{8cm} } 
-\hline                     
+\hline  
+\\                   
 Use case name:  & Search   \\   \hline \\                
 Participating actors:  & \texttt{Anonymous user, User, Admin} \\   \hline \\
 Flow of events: & \begin{enumerate}
@@ -216,8 +218,8 @@ Alternatives: & \begin{itemize}
 \item[]  3b1. The \texttt{Actor} is back at step 2.
 \end{itemize} \\ 
 \hline \\
-Rules: & \\ \hline \\
-Entry condition: & \\ \hline \\
+Rules: & N/A \\ \hline \\
+Entry condition: & N/A \\ \hline \\
 Exit condition: & The \texttt{Actor} has found the result he was looking for or he is certain that the search keyword did not help him find what he was looking for \\ \hline \\
 Quality requirements: & The search results (if any) must be presented within 5 seconds from initiating search \\ \hline           
 \end{tabular}
@@ -225,10 +227,11 @@ Quality requirements: & The search results (if any) must be presented within 5 s
 
 \noindent
 \begin{table}
-\caption{Use Case 7}
-\label{Use Case 7}
+\caption{UC-07}
+\label{UC-07}
 \begin{tabular}{ l p{8cm} } 
-\hline                       
+\hline       
+\\                
 Use case name:  & CreateAccount   \\   \hline  \\              
 Participating actors:  & \texttt{Anonymous user} \\   \hline \\
 Flow of events: & \begin{enumerate}
@@ -249,10 +252,11 @@ Quality requirements: & The \textit{Account} must be created within 5 seconds fr
 
 \noindent
 \begin{table}
-\caption{Use Case 8}
-\label{Use Case 8}
+\caption{UC-08}
+\label{UC-08}
 \begin{tabular}{ l p{8cm} }
-\hline                 
+\hline             
+\\    
 Use case name:  & Login   \\   \hline \\            
 Participating actors:  & \texttt{Anonymous user, User} \\   \hline \\   
 Flow of events: & \begin{enumerate}
@@ -267,7 +271,7 @@ Alternatives: & \begin{itemize}
 \item[]  3b1. The \texttt{Anonymous user} is notified that the user name or password was incorrect
 \end{itemize} \\ 
 \hline \\
-Rules: & \\ \hline \\
+Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{Anonymous User} is not logged in \\ \hline \\
 Exit condition: & The \texttt{Anonymous user} has been logged in to his \textit{Account} and is now a \texttt{User} or the \texttt{Anonymous user} is notified that the user name or password is incorrect \\ \hline \\
 Quality requirements: & The \texttt{Anonymous user} must be logged in within 5 seconds from submitting provided that user name and password are correct \\ \hline \\            
@@ -276,10 +280,11 @@ Quality requirements: & The \texttt{Anonymous user} must be logged in within 5 s
 
 \noindent
 \begin{table}
-\caption{Use Case 9}
-\label{Use Case 9}
+\caption{UC-09}
+\label{UC-09}
 \begin{tabular}{ l p{8cm} }  
-\hline                  
+\hline           
+\\       
 Use case name:  & Logout   \\   \hline \\               
 Participating actors:  & \texttt{User, Anonymous user} \\   \hline \\         
 Flow of events: & \begin{enumerate}
@@ -288,7 +293,7 @@ Flow of events: & \begin{enumerate}
 \item{The \texttt{User} is now an \texttt{Anonymous user}}
 \end{enumerate}
 \\   \hline \\
-Rules: & \\ \hline \\
+Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{User} is logged in \\ \hline \\
 Exit condition: & The \texttt{User} is no longer logged in and is therefore an \texttt{Anonymous user} \\ \hline \\
 Quality requirements: & The \texttt{User} must be logged out within 5 seconds from initiating the logout \\ \hline             
@@ -298,10 +303,11 @@ Quality requirements: & The \texttt{User} must be logged out within 5 seconds fr
 
 \noindent
 \begin{table}
-\caption{Use Case 10}
-\label{Use Case 10}
+\caption{UC-10}
+\label{UC-10}
 \begin{tabular}{ l p{8cm} } 
-\hline                     
+\hline  
+\\                   
 Use case name:  & Upload   \\   \hline \\               
 Participating actors:  & \texttt{User} \\   \hline \\         
 Flow of events: & \begin{enumerate}
@@ -316,35 +322,30 @@ Alternatives: & \begin{itemize}
 \item[]  3b1. The \texttt{User} is notified that the \textit{Media} is not accepted
 \end{itemize}
 \\   \hline \\
-Rules: & \\ \hline \\
+Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{User} is logged in and he has the desired \textit{Media} locally on his system \\ \hline \\
 Exit condition: & The \texttt{User} has uploaded the desired \textit{Media} \\ \hline \\
-Quality requirements: & \\ \hline \\ %The file must be uploaded with a speed of XXX??      
+Quality requirements: & N/A \\ \hline \\
 \end{tabular} \\
 \end{table}
 
 \noindent
 \begin{table}
-\caption{Use Case 11}
-\label{Use Case 11}
+\caption{UC-11}
+\label{UC-11}
 \begin{tabular}{ l p{8cm} }   
 \hline             
+\\
 Use case name:  & Purchase   \\   \hline \\                
 Participating actors:  & \texttt{User} \\   \hline \\         
 Flow of events: & \begin{enumerate}
 \item{The \texttt{User} initiates the purchase of the selected \textit{Media}}
 \item{The \texttt{User} is notified that the \textit{Media} has been bought}
 \item{The \texttt{User} will now be able to download the \textit{Media}}
-\end{enumerate} \\
-%Alternatives: & \begin{itemize}
-%\item[\textbf{1a:}] \textbf{The \texttt{User} has enough coins}
-%\item[]  1a1. The \texttt{User} is notified that the \textit{Media} has been bought
-%\item[]  1a2. The \texttt{User} will now be able to download the \textit{Media}
-%\item[\textbf{1b:}] \textbf{The \texttt{User} does not have enough coins}
-%\item[]  1b1. The \texttt{User} is notified that the \textit{Media} has not been bought
-%\end{itemize} \\
+\end{enumerate}
+\\
 \hline \\
-Rules: & \\ \hline \\
+Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{User} is logged in \\ \hline \\
 Exit condition: & The \texttt{User} has bought the desired \textit{Media} or is notified that he does not have enough coins to buy the \textit{Media} \\ \hline \\
 Quality requirements: & The \textit{Media} must be purchased within 5 seconds from initiating the purchase \\ \hline             
