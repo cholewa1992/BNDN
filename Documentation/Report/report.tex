@@ -13,6 +13,16 @@
 \usepackage{enumitem}
 \usepackage{nameref}
 \usepackage{caption}
+
+\makeatletter
+
+\def\twodigits#1{\expandafter\two@digits\csname c@#1\endcsname}
+
+\AddEnumerateCounter\twodigits\two@digits{01}
+
+\makeatother
+
+
 \fancyfoot[OC]{\textit{\thepage}}
 
 \title{Sample Title}
