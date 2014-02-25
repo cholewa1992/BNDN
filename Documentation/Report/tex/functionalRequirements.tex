@@ -6,36 +6,94 @@
 
 \section{Functional Requirements}
 
-\begin{enumerate}
+	\begin{enumerate}
+		\item Search
+			\begin{enumerate}
+				\item All \textbf{users} must be able to initiate a search by providing a keyword or key-phrase.
+				\item The keyword or key-phrase must be matched with \textit{media} on title and artist/user.
+				\item The \textbf{user} must be presented with all matches.
+				\item Each match must include a link to a detailed page about the \textit{media}.
+				\item Matches must be grouped by media type. 
+			\end{enumerate}
+			
+			
+		\item Create account
+			\begin{enumerate}
+				\item An anonymous user must be able to create an account.
+				\item To create an account the user must provide a desired username and password.
+				
+				\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
+				\item A user must be given an alert if the desired username is unavailable.
+				\item A username must consist of between 1 and 20 characters.
+				\item A username must only consist of alphanumeric characters (a-zA-z0-9).
+				
+				\item A password must consist of between 1 and 50 characters. \label{FR-CA.7}
+				\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} is not met a warning must be displayed to the user.
+			\end{enumerate}
+			
+		
+		\item Login
+			\begin{enumerate}
+				\item A registered user must be able to login to the system providing a username and password pair.
+				\item If the username and password pair is not matched an error message must be provided to the user. 
+			\end{enumerate}
 
+		
+		\item Manage account
+			\begin{enumerate}
+				\item A logged-in user must be able to edit all profile information excluding username.
+				
+				\item Changes to a users password must still comply with requirement \ref{FR-CA.7} \label{FR-MA.2}
+				\item A warning must be displayed to the user if requirement \ref{FR-MA.2} is not met.	
+			\end{enumerate}
+			
+			
+		\item Logout
+			\begin{enumerate}
+				\item A logged-in user must be able to logout.
+				\item After logout, content only visible to logged-in users must not be displayed.
+			\end{enumerate}
+			
+		
+		\item Media \label{FR-Media}
+			\begin{enumerate}
+				\item A medium must have a title.
+				\item A medium must have a description.
+				\item A medium must have a price.
+				\item A medium must have an picture/poster.
+				\item A medium must have a owner/artist.
+			\end{enumerate}
 
-\item All user will be able to: 
-	\begin{itemize}
-		\item Search for art by title, artist/producer, media type, and genre all ordered by either lexigrafi, price or popularity.
-	\end{itemize}
+		\item Uploading media
+			\begin{enumerate}
+				\item A logged-in user must be able to upload media to the system.
+				\item When uploading requirement \ref{FR-Media} must be met
+				\item If an upload is not successfully completed, no information about the media must be stored.
+				\item If an upload is successful an acknowledgment must be displayed to the user.
+				\item If an upload is unsuccessful an error message must be displayed to the user. 
+			\end{enumerate}
 
-\item An anonymous or not logged-in user will in addition be able to:
-	\begin{itemize}
-		\item Create a personal user account.
-		\item Login with already existing  personal user account.
-	\end{itemize}
-	
-\item A logged-in user will in addition be able to:
-	\begin{itemize}
-		\item Logout from personal user account.
-		\item Edit personal user profile. This includes changing email and password and updating personal description and profile picture.
+		\item Purchase
+			\begin{enumerate}
+				A logged-in user must be able to purchase media whom he has not uploaded himself or not already bought.
+			\end{enumerate}
+
+		\item Downloading media
+			\begin{enumerate}
+			content...
+			\end{enumerate}
+
 		\item Purchase art as digital download.
 		\item Rate purchased art on a score from 1 to 10, latest being the highest.
 		\item Upload own art to the system for other users to purchase.
 		\item Manage own already uploaded art. This includes changing linked information and permanently deleting the art from the system.
-	\end{itemize}
 
-\item An user with administrative privileges will in addition be able to:
-	\begin{itemize} 
+
+
+
 	\item Delete art from the website permanently
-	\end{itemize}
-	
-\end{enumerate}
+
+\end{enumerate}	
 
 
 
