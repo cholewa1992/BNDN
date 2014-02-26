@@ -1,8 +1,8 @@
-% \documentclass[../report.tex]{subfiles}
+ \documentclass[../report.tex]{subfiles}
 
 
 
-% \begin{document}
+ \begin{document}
 
 \section{Functional Requirements}
 
@@ -25,16 +25,16 @@
 	\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
 	\item A user must be given an alert if the desired username is unavailable.
 	\item A username must consist of between 1 and 20 characters.
-	\item A username must only consist of alphanumeric characters (a-zA-z0-9).
+	\item A username must only consist of alphanumeric characters (a-zA-Z0-9).
 	\item A password must consist of between 1 and 50 characters. \label{FR-CA.7}
-	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} is not met a warning must be displayed to the user.
+	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} are not met a warning must be displayed to the user.
 \end{enumerate}
 	
 \subsection {Login}
 	
 \begin{enumerate}[label=FR-\twodigits*, resume]
-	\item A registered user must be able to login to the system providing a username and password pair.
-	\item If the username and password pair is not matched an error message must be provided to the user. 
+	\item A registered user must be able to login to the system providing a registered username and password pair.
+	\item If the username and password pair is not matched an error message must be displayed to the user. 
 \end{enumerate}
 		
 \subsection {Manage account}
@@ -42,7 +42,7 @@
 \begin{enumerate}[label=FR-\twodigits*, resume]
 	\item A logged-in user must be able to edit all profile information on his own account excluding username.
 	\item A administrator must be able to edit all profile information of all accounts excluding usernames.
-	\item Changes to a users password must still comply with requirement \ref{FR-CA.7} \label{FR-MA.2}
+	\item Changes to a users password must still satisfy requirement \ref{FR-CA.7} \label{FR-MA.2}
 	\item A warning must be displayed to the user if requirement \ref{FR-MA.2} is not met.	
 \end{enumerate}
 		
@@ -96,8 +96,8 @@
 \subsection{Editing media information}
 
 \begin{enumerate}[label=FR-\twodigits*, resume]
-	\item A logged-in user must be able to edit the information about media which he has uploaded himself providing that requirement \ref{FR-Media} is met.
-	\item An administrator must be able to edit the information about any media providing that all requirements in subsection \ref{FR-Media} are met.
+	\item A logged-in user must be able to edit the information about media which he has uploaded himself provided that requirement \ref{FR-Media} is met.
+	\item An administrator must be able to edit the information about any media provided that all requirements in subsection \ref{FR-Media} are met.
 \end{enumerate}
 			
 \subsection {Medium details page}
@@ -109,4 +109,4 @@
 \end{enumerate}
 			
 
-% \end{document}
+ \end{document}
