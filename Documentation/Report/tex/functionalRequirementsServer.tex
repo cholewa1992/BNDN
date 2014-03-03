@@ -1,11 +1,12 @@
-% \documentclass[../report.tex]{subfiles}
+ \documentclass[../report.tex]{subfiles}
 
-% \begin{document}
+ \begin{document}
 
 \noindent
-\subsection{Browsing}
 
+\subsection{Read}
 \begin{enumerate}[label=FR-\twodigits*, resume]
+
 \item The \textit{ShareIt back end} must be able to provide \textit{Media Item Information} about a specific \textit{Media Item}. This includes a computed average rating and the amount of ratings given to said \textit{Media Item} if it has been rated at least once.
 
 \item The \textit{ShareIt back end} must be able to provide a list of promoted \textit{Media Item}s for each \textit{Media Type} individually.
@@ -14,41 +15,38 @@
 
 \item The \textit{ShareIt back end} must be able to provide a segment of all \textit{Media Item}s of a specific \textit{Media Type} in alphabetical order.
 
+\item The \textit{ShareIt back end} must be able to validate a login request.
+
+\item The \textit{ShareIt back end} must be able to transfer a \textit{Media Item} to whoever requests it provided that they have access rights to said \textit{Media Item}.
+
+\item The \textit{ShareIt back end} must be able to provide \textit{Account Information} about a specific \textit{Account}.
+
 \end{enumerate}
-
-\noindent
-\subsection{Management}
-
+\subsection{Create}
 \begin{enumerate}[label=FR-\twodigits*,resume]
+
+\item The \textit{ShareIt back end} must be able to create new \textit{Account}s containing the information specified in the request.
+
+\item The \textit{ShareIt back end} must be able to associate an \textit{Account} with a \textit{Media Item}. This association should also include a value from 1-10 representing the rating.
+
+\item The \textit{ShareIt back end} must be able to associate a \textit{Media Item} with an \textit{Account} as \textit{Buyer}.
+
+\item The \textit{ShareIt back end} must be able to associate a \textit{Media Item} with an \textit{Account} as \textit{Uploader}.
+
+\end{enumerate}
+\subsection{Update}
+\begin{enumerate}[label=FR-\twodigits*,resume]
+
 \item The \textit{ShareIt back end} must be able to update \textit{Account Information}. 
 
 \item The \textit{ShareIt back end} must be able to update \textit{Media Item Information}.
 
-\item The \textit{ShareIt back end} must be able to validate a login request.
-
-\item The \textit{ShareIt back end} must be able to create new \textit{Account}s containing the information specified in the request.
+\end{enumerate}
+\subsection{Delete}
+\begin{enumerate}[label=FR-\twodigits*,resume]
 
 \item The \textit{ShareIt back end} must be able to remove a \textit{Media Item} including its \textit{Media Item Information} and its associations to \textit{Account}s.
 
-\item The \textit{ShareIt back end} must be able to associate an \textit{Account} with a \textit{Media Item}. This association should also include a value from 1-10 representing the rating.
-
 \end{enumerate}
 
-\noindent
-\subsection{Purchase}
-
-\begin{enumerate}[label=FR-\twodigits*,resume] 
-\item The \textit{ShareIt back end} must be able to associate a \textit{Media Item} with an \textit{Account} as \textit{Buyer}.
-\end{enumerate}
-
-
-\subsection{Share}
-
-\begin{enumerate}[label=FR-\twodigits*,resume] 
-\item The \textit{ShareIt back end} must be able to associate a \textit{Media Item} with an \textit{Account} as \textit{Uploader}.
-
-\item The \textit{ShareIt back end} must be able to transfer a \textit{Media Item} to whoever requests it provided that they have access rights to said \textit{Media Item}.
-\end{enumerate}
-
-
-% \end{document}
+ \end{document}
