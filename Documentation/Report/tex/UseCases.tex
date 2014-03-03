@@ -4,6 +4,8 @@
 
 \begin{document}
 
+%\addtolength{\topmargin}{-1in}
+
 %Anonymous: Search, CreateAccount, Login \\
 %User: Search, Logout, Upload, Purchase, Rate, EditUserAccountInfo, EditContentInfo, Download \\
 %Admin: DeleteContent, Search, Logout, EditUserAccountInfo, EditContentInfo, Download \\
@@ -14,6 +16,7 @@
 \captionsetup[table]{textfont=bf}
 
 \noindent
+\vspace{50mm}
 \begin{table}
 \caption{UC-01}
 \label{UC-01}
@@ -32,9 +35,7 @@ Flow of events: & \begin{enumerate}
 \end{enumerate}
 \\ \hline
 \\
-Rules: & \begin{itemize}
-\item{Each \texttt{User} can only rate the same \textit{Media} once}
-\end{itemize} 
+Rules: & Each \texttt{User} can only rate the same \textit{Media} once
 \\   \hline 
 \\
 Entry condition: & \texttt{User} must be logged in \\ \hline
@@ -67,16 +68,14 @@ Flow of events: & \begin{enumerate}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
-\item[5a:]{The \texttt{Actor} saves the changes}
+\item[\textbf{5a:}]{\textbf{The \texttt{Actor} saves the changes}}
 \item[]  5a1. The changes are saved by the \textit{System}
-\item[5b:]{The \texttt{Actor} discards the changes}
+\item[\textbf{5b:}]\textbf{The \texttt{Actor} discards the changes}
 \item[]  5b1. The changes are not saved by the \textit{System}
 \end{itemize}
 \\ \hline
 \\
-Rules: & \begin{itemize}
-\item{\texttt{Users} can only edit their own \textit{Account} information whereas \texttt{Admins} can edit the information of any  \textit{Account}}
-\end{itemize}
+Rules: & \texttt{Users} can only edit their own \textit{Account} information whereas \texttt{Admins} can edit the information of any  \textit{Account}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
@@ -116,9 +115,7 @@ Alternatives: & \begin{itemize}
 \end{itemize}
 \\ \hline
 \\
-Rules: & \begin{itemize}
-\item{\texttt{Users} can only edit the information of the \textit{Media} they have uploaded whereas \texttt{Admins} can edit the information of all \textit{Media}}
-\end{itemize}
+Rules: & \texttt{Users} can only edit the information of the \textit{Media} they have uploaded whereas \texttt{Admins} can edit the information of all \textit{Media}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
@@ -148,16 +145,14 @@ Flow of events: & \begin{enumerate}
 \end{enumerate}
 \\ \hline
 \\
-Rules: & \begin{itemize}
-\item{\texttt{Users} can only download \textit{Media} that they have gained access to by purchasing it whereas \texttt{Admins} can download all \textit{Media}}
-\end{itemize}
+Rules: & \texttt{Users} can only download \textit{Media} that they have gained access to by purchasing it whereas \texttt{Admins} can download all \textit{Media}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
 Exit condition: & The \texttt{Actor} has received the \textit{Media} \\ \hline
 \\
-Quality requirements: &  \\ \hline
+Quality requirements: & N/A  \\ \hline
 \end{tabular}
 \end{table}
 
@@ -241,9 +236,7 @@ Flow of events: & \begin{enumerate}
 \item{The \texttt{Anonymous user} is notified that the \textit{Account} is created}
 \end{enumerate}
 \\   \hline \\
-Rules: & \begin{itemize}
-\item{The \textit{Account} must have a unique user name and email}
-\end{itemize} \\ \hline \\
+Rules: & The \textit{Account} must have a unique user name and email \\ \hline \\
 Entry condition: & The \texttt{Anonymous user} has no \textit{Account} \\ \hline \\
 Exit condition: & The \texttt{Anonymous user} has created an \textit{Account} \\ \hline \\
 Quality requirements: & The \textit{Account} must be created within 5 seconds from submitting \\  \hline      
