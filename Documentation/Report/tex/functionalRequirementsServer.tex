@@ -28,6 +28,13 @@
 \item The \textit{ShareIt Back End} must be able to transfer a \textit{Media Item} to whoever requests it provided that they have access rights to said \textit{Media Item}.
 
 \item The \textit{ShareIt Back End} must be able to provide \textit{Account Information} about a specific \textit{Account}.
+
+\item (S) The \textit{ShareIT Back End} must be able to provide a list of the 10 most purchased \textit{Media Items} in a given timespan
+
+\item (S) The \textit{ShareIT Back End} must be able to provide a list of the 10 most viewed \textit{Details page}s of \textit{Media Items} in a given timespan
+
+\item (S) The \textit{ShareIT Back End} must be able to provide a count on how many times a \textit{Media Item} has occurred in a search result as index 9 or higher index 0 being the first hit. 
+
 \end{enumerate}
 
 \subsubsection{Create}
@@ -45,7 +52,7 @@
 
 \item A password must not contain any whitespace characters.
 
-\item The \textit{ShareIt Back End} must be able to 
+\item The \textit{ShareIT Back End} must be able to able to receive a \textit{Media Item} file along with any associated \textit{Media Item Information} and added to the collection of stored \textit{Media Items}'s
 
 \item The \textit{ShareIt Back End} must be able to associate an \textit{Account} with a \textit{Media Item}.
 
@@ -65,7 +72,7 @@
 \end{enumerate}
 
 \subsubsection{Delete}
-\begin{enumerate}[label=FR-\twodigits*,resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*},resume]
 
 \item The \textit{ShareIt Back End} must be able to remove a \textit{Media Item} including its \textit{Media Item Information} and its associations to \textit{Account}s provided that the \textit{User} sending the request has access rights to do so.
 
@@ -77,6 +84,10 @@
 \item The \textit{ShareIt Back End} must be able to check whether or not a \textit{User} has access rights to perform a given request.
 
 \item The \textit{ShareIt Back End} must be able to notify the \textit{Client} if a \textit{User} sends a request which he does not have access rights to perform.
+
+\item (S) An access right must be able to expire given an expire date
+
+\item (S) the \textit{ShareIT Back End} must be able to provide data about when a given \textbf{User}'s access rights expires.
 
 \end{enumerate}
 
