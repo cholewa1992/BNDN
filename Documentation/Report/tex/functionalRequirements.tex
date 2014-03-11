@@ -4,9 +4,9 @@
 
 %\begin{document}
 
-\subsection {Search}
+\subsubsection {Search}
 
-\begin{enumerate}[label=FR-\twodigits*]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}]
 
 	\item All \textit{End Users} must be able to initiate a search by providing a keyword or key-phrase.
 	\item The keyword or key-phrase must be matched with \textit{Media Items} on title and \textit{Uploader}.
@@ -16,9 +16,9 @@
 	\item Matches must be grouped by \textit{Media Type}. 
 \end{enumerate}	
 			
-\subsection{Create account}
+\subsubsection{Create account}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item An \textbf{Anonymous User} must be able to create an \textit{Account}.
 	\item To create an \textit{Account} the \textbf{User} must provide a desired username and password.
 	\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
@@ -26,35 +26,36 @@
 	\item A username must consist of between 1 and 20 characters.
 	\item A username must only consist of alphanumeric characters (a-zA-Z0-9).
 	\item A password must consist of between 1 and 50 characters. 
+	\label{FR-CA.6}
 	\item A password must not contain any whitespace characters. \label{FR-CA.7}
 	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} are not met a warning must be displayed to the \textbf{User}.
 \end{enumerate}
 	
-\subsection {Login}
+\subsubsection {Login}
 	
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A registered \textbf{User} must be able to login to \textit{The System} providing a registered username and password pair.
 	\item If the username and password pair is not matched an error message must be displayed to the \textbf{User}. 
 \end{enumerate}
 		
-\subsection {Manage account}
+\subsubsection {Manage account}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to edit all \textit{Account Information} on his own \textit{Account} excluding username.
-	\item A \textbf{Admin} must be able to edit all \textit{Account Information} of all \textit{Accounts} excluding usernames.
-	\item Changes to a \textbf{User's} password must still satisfy requirement \ref{FR-CA.7} \label{FR-MA.2}
+	\item An \textbf{Admin} must be able to edit all \textit{Account Information} of all \textit{Accounts} excluding usernames.
+	\item Changes to a \textbf{User's} password must still satisfy requirement \ref{FR-CA.6} and \ref{FR-CA.7} \label{FR-MA.2}
 	\item A warning must be displayed to the \textbf{User}/\textbf{Admin} if requirement \ref{FR-MA.2} is not met.	
 \end{enumerate}
 		
-\subsection {Logout}
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\subsubsection {Logout}
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to logout.
 	\item After logout, content only visible to logged-in \textbf{Users} must not be displayed.
 \end{enumerate}
 	
-\subsection {Media Item Information} \label{FR-Media}
+\subsubsection {Media Item Information} \label{FR-Media}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A \textit{Media Item} must have a title.
 	\item A \textit{Media Item} must have a description.
 	\item A \textit{Media Item} must have a price.
@@ -63,46 +64,46 @@
 	\item A \textit{Media Item} must be either available for purchase or unavailable for purchase.
 \end{enumerate}
 
-\subsection {Uploading Media Items}
+\subsubsection {Uploading Media Items}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to upload \textit{Media Items} to the system.
-	\item When uploading a \textit{Media Item} information about the \textit{Media Item} must provided as specified by the requirements in subsection \ref{FR-Media}.
+	\item When uploading a \textit{Media Item} information about the \textit{Media Item} must be provided as specified by the requirements in subsection \ref{FR-Media}.
 	\item If an upload is not successfully completed, no information about the \textit{Media Item} must be stored.
 	\item If an upload is successful an acknowledgement must be displayed to the \textbf{User}.
 	\item If an upload is unsuccessful an error message must be displayed to the \textbf{User}. 
 \end{enumerate}
 
-\subsection {Purchase Media Items}
+\subsubsection {Purchase Media Items}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to purchase a \textit{Media Item} which is available for purchase provided he has not uploaded it himself or  purchased it previously.
 \end{enumerate}
 
-\subsection {Downloading Media Items}
+\subsubsection {Downloading Media Items}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to download \textit{Media Items} which he has purchased.
 	\item A logged-in \textbf{User} must be able to download \textit{Media Items} which he has uploaded himself.
 	\item An \textbf{Admin} must be able to download all \textit{Media Items}.
 \end{enumerate}
 		
-\subsection {Rating Media Items} \label{FR-RatingMedia}
+\subsubsection {Rating Media Items} \label{FR-RatingMedia}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to rate \textit{Media Items} which he has purchased on a scale from 1 to 10 with 1 being the lowest rating and 10 being the highest rating.
 \end{enumerate}
 
-\subsection{Editing Media Item Information}
+\subsubsection{Editing Media Item Information}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to edit the information about \textit{Media Items} which he has uploaded himself provided that all requirements in subsection \ref{FR-Media} are met.
 	\item An \textbf{Admin} must be able to edit the information about any \textit{Media Item} provided that all requirements in subsection \ref{FR-Media} are met.
 \end{enumerate}
 			
-\subsection {Details Page}
+\subsubsection {Details Page}
 
-\begin{enumerate}[label=FR-\twodigits*, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item The \textit{Media Item} details page must include information about the \textit{Media Item} as specified by the requirements in subsection \ref{FR-Media}.
 	\item The \textit{Media Item} details page must provide information about the average rating of the \textit{Media Item} provided that it has been rated at least once.
 	\item The \textit{Media Item} details page must provide information about the number of times the \textit{Media Item} has been rated.

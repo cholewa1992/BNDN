@@ -1,9 +1,9 @@
-\documentclass[../report.tex]{subfiles}
-\begin{document}
+%\documentclass[../report.tex]{subfiles}
+%\begin{document}
 
-\subsection{Usability}
+\subsubsection{Usability}
 
-\begin{enumerate}[label=U\arabic*:]
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}]
 \item Without prior knowledge of the client, a user must be able to
 	\begin{enumerate}
 	\item{Create an account within 5 minutes}
@@ -12,30 +12,30 @@
 	\end{enumerate}
 \end{enumerate}
 
-\subsection{Reliability}
+\subsubsection{Reliability}
 
-\begin{enumerate}[label=R\arabic*:]
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item If the connection to ShareIT is lost for any reason, the client must not crash. 
 \item In case of failure the client must provide extensive error messages, such that the user can understand and react to it accordingly.
 \end{enumerate}
 
-\subsection{Performance}
+\subsubsection{Performance}
 
-\begin{enumerate}[label=P\arabic*:]
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item The user must not experience a delay of more than 5 seconds on any operation, assuming that the user has an internet connection of at least 2 Mbit/s. This limit does not include the time it takes to transfer purchased media to the user's computer.
 \item The client should support at least 10 concurrent users. 
 \end{enumerate}
 
-\subsection{Supportability}
+\subsubsection{Supportability}
 
-\begin{enumerate}[label=S\arabic*:]
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item Developers must be able to extend the functionality of the client by only reading the code and the documentation.
 \item Extensions might require a temporary shutdown of the web service.
 \item The code must be written in such way, that all modules can be tested in isolation.
 \end{enumerate}
 
-\subsection{Implementation}
-\begin{enumerate}[label=Im\arabic*:]
+\subsubsection{Implementation}
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item The client is developed in ASP.NET and is accessible through a web browser.
 \item Minimum system requirements
 
@@ -53,10 +53,10 @@
 \item Each test case must be independent from the others and must test a module in isolation.
 \end{enumerate}
 
-\subsection{Interface}
+\subsubsection{Interface}
 
-\begin{enumerate}[label=In\arabic*:]
+\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item {\color{red}What standards in use by the client should be supported by the system?}
 \end{enumerate}
 
-\end{document}
+%\end{document}

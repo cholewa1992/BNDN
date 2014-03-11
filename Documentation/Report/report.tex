@@ -13,6 +13,11 @@
 \usepackage{enumitem}
 \usepackage{nameref}
 \usepackage{caption}
+\usepackage{parskip}
+\usepackage{placeins}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
 
 \makeatletter
 
@@ -41,6 +46,7 @@
 \chapter{Introduction}
 \subfile{tex/introduction.tex}
 
+\newpage
 \subfile{tex/businessCase.tex}
 
 \chapter{Proposed System}
@@ -56,28 +62,38 @@ The systems functionality is aimed for anyone that uses their computer as a medi
 \section{Scope of the system}
 \subfile{tex/scope.tex}
 
-\section{Functional Requirements - ArtShare}
+\section{Requirement specification}
+\subsection{Section overview}
+This section will describe elicitation of requirements for both AreShare (Our client implementation) and our shareIT back-end API. As it is a part of the project requirements, the shareIT API will be build so that other client implementations can be build on top of the existing API.
+
+In this section only scenarios, use cases, and function requirements to our part of the platform will be discussed, but shareIT requirements will be influenced by external requirements from a third-party 
+
+The following describes scenarios of what end-users will be able to do on the platform followed by use cases and functional requirements derived from these scenarios.
+
+
+% SCENARIOS SECTION %
+\subsection{Scenarios}
+\input{tex/scenarios.tex}
+
+% USE CASE SECTION %
+\newpage
+\subsection{Use Cases}
+\FloatBarrier
+\input{tex/UseCases.tex}
+
+% FUNCTION REQUIREMENTS
+
+\FloatBarrier
+\newpage \subsection{Functional Requirements - ArtShare}
 \input{tex/functionalRequirements.tex}
 
-\section{Functional Requirements - ShareIt}
-
+\newpage \subsection{Functional Requirements - ShareIt}
 \input{tex/functionalRequirementsServer.tex}
 
-\section{Non-functional Requirements}
-
-\subfile{tex/NonFunctionalRequirements.tex}
+\newpage \subsection{Non-functional Requirements}
+\input{tex/NonFunctionalRequirements.tex}
 
 \section{System Model}
-
-\subsection{Scenarios}
-
-\subfile{tex/scenarios.tex}
-
-\subsection{Use Cases}
-
-\newpage
-
-\subfile{tex/UseCases.tex}
 
 \chapter{Design and Architecture}
 
