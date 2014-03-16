@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ba2dfb75b65742b7b196961a4bff8eab" Name="Diagram1">
+        <EntityTypeShape EntityType="BNDNModel.AccessRightType" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.AcessRight" Width="1.5" PointX="9" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.Client" Width="1.5" PointX="3.875" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.ClientAdmin" Width="1.5" PointX="1.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.Entity" Width="1.5" PointX="6.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.EntityInfo" Width="1.5" PointX="11.125" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.EntityInfoType" Width="1.5" PointX="10.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.EntityType" Width="1.5" PointX="3.875" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.UserAcc" Width="1.5" PointX="8.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.UserInfo" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="BNDNModel.UserInfoType" Width="1.5" PointX="8.5" PointY="10.75" IsExpanded="true" />
+        <AssociationConnector Association="BNDNModel.FK__AcessRigh__Acces__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__AcessRigh__Entit__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__AcessRigh__UserI__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__ClientAdm__Clien__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__Entity__ClientId__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__ClientAdm__UserI__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__Entity__TypeId__1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__EntityInf__Entit__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__EntityInf__Entit__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__UserInfo__UserId__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="BNDNModel.FK__UserInfo__UserIn__29572725" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
