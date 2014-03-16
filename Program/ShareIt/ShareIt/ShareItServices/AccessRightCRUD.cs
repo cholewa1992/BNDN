@@ -16,8 +16,9 @@ namespace ShareItServices
     {
         private IBusinessLogicFactory _factory;
         private IAuthLogic _authLogic;
+
         /// <summary>
-        /// Construct a TransferService which uses the default business logic factory.
+        /// Construct a AccessRightCRUD Service which uses the default business logic factory.
         /// This constructor is called by WCF.
         /// </summary>
         public AccessRightCRUD()
@@ -26,7 +27,7 @@ namespace ShareItServices
             _authLogic = _factory.CreateAuthLogic();
         }
         /// <summary>
-        /// Construct a TransferService object which uses a specified IBusinessLogicFactory.
+        /// Construct a AccessRightCRUD Service object which uses a specified IBusinessLogicFactory.
         /// Should be used for test purposes.
         /// </summary>
         /// <param name="factory">The IBusinessLogicFactory which the TransferService should use for its logic.</param>
@@ -36,6 +37,13 @@ namespace ShareItServices
             _authLogic = _factory.CreateAuthLogic();
         }
 
+        /// <summary>
+        /// Gives a new user admin rights
+        /// </summary>
+        /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
+        /// <param name="newAdmin">The user who is the subject of the upgrade</param>
+        /// <param name="c">The client from which the request originates</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(User oldAdmin, User newAdmin, Client c)
         {
             if (_authLogic.CheckClientPassword(c))
