@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareItServices
 {
@@ -20,6 +21,7 @@ namespace ShareItServices
         //HttpStatusCode Upload(User u, MediaItem m, Client c);
 
         [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
         [OperationContract]
         bool MakeAdmin(User oldAdmin, User newAdmin, Client c);
 
