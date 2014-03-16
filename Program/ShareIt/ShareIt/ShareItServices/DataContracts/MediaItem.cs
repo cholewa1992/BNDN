@@ -15,7 +15,7 @@ namespace ShareItServices.DataContracts
         public decimal Price { get; set; }
 
         [DataMember]
-        public string Extenstion { get; set; }
+        public string Extension { get; set; }
 
         [DataMember]
         public string Description { get; set; }
