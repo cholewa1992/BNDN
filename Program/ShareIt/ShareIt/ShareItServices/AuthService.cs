@@ -7,10 +7,13 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareItServices
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AuthService" in both code and config file together.
+    /// <summary>
+    /// This service exposes validation of user and client credentials
+    /// </summary>
     public class AuthService : IAuthService
     {
 
@@ -44,7 +47,7 @@ namespace ShareItServices
         /// <summary>
         /// Validates whether a user exists in the system
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">A user to check</param>
         /// <returns></returns>
         public bool ValidateUser(User user)
         {
@@ -53,9 +56,9 @@ namespace ShareItServices
             {
                 return _factory.CreateAuthLogic().CheckUserExists(user);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new FaultException();
+                throw new FaultException(new FaultReason(e.Message));
             }
 
         }
@@ -63,7 +66,7 @@ namespace ShareItServices
         /// <summary>
         /// Validates whether a client exists in the system
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client">A client to check</param>
         /// <returns></returns>
         public bool CheckClientPassword(Client client)
         {
@@ -71,9 +74,9 @@ namespace ShareItServices
             {
                 return _factory.CreateAuthLogic().CheckClientPassword(client);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new FaultException();
+                throw new FaultException(new FaultReason(e.Message));
             }
 
         }
