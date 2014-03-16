@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using BusinessLogicLayer;
 using ShareItServices.MessageContracts;
 
 namespace ShareItServices
@@ -13,6 +14,11 @@ namespace ShareItServices
     /// </summary>
     public class TransferService : ITransferService
     {
+        private IBusinessLogicFactory _factory;
+        public TransferService()
+        {
+            _factory = BusinessLogicFacade.GetBusinessFactory();
+        }
         /// <summary>
         /// Download a media.
         /// </summary>
