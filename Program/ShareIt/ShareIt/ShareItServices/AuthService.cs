@@ -14,7 +14,7 @@ namespace ShareItServices
     public class AuthService : IAuthService
     {
 
-        private IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
         public AuthService(IBusinessLogicFactory factory)
@@ -27,12 +27,14 @@ namespace ShareItServices
         {
             try
             {
-                _factory.CreateAuthLogic()
+                _factory.CreateAuthLogic();
             }
             catch (Exception)
             {
                 return HttpStatusCode.InternalServerError;
             }
+
+            return HttpStatusCode.Accepted;
         }
 
         
