@@ -46,5 +46,15 @@ namespace BusinessLogicLayer.Stub
         {
             return true;
         }
+
+        /// <summary>
+        /// Always true
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool CheckUserExists(User user)
+        {
+            return true;
+        }
     }
 }
