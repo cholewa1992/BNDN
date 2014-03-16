@@ -41,6 +41,9 @@
   <ItemGroup>
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="BusinessLogicFacade.cs" />
+    <Compile Include="DTO\Client.cs" />
+    <Compile Include="DTO\MediaItem.cs" />
+    <Compile Include="DTO\User.cs" />
     <Compile Include="IAccessRightLogic.cs" />
     <Compile Include="IAuthLogic.cs" />
     <Compile Include="IBusinessLogicFactory.cs" />

@@ -8,5 +8,6 @@ namespace BusinessLogicLayer
 {
     public interface IAuthLogic
     {
+        CheckAccess()
     }
 }
