@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using ShareItServices.DataContracts;
 
 namespace ShareItServices
 {
@@ -12,7 +13,7 @@ namespace ShareItServices
     public interface IAuthService
     {
         [OperationContract]
-        string GetAuthToken(string username, string password);
+        string GetAuthToken(User user);
 
         [OperationContract]
         bool ValidateToken(string token);
