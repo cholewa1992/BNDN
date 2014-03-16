@@ -15,9 +15,22 @@ namespace ShareItServices
     public class TransferService : ITransferService
     {
         private IBusinessLogicFactory _factory;
+        /// <summary>
+        /// Construct a TransferService which uses the default business logic factory.
+        /// This constructor is called by WCF.
+        /// </summary>
         public TransferService()
         {
             _factory = BusinessLogicFacade.GetBusinessFactory();
+        }
+        /// <summary>
+        /// Construct a TransferService object which uses a specified IBusinessLogicFactory.
+        /// Should be used for test purposes.
+        /// </summary>
+        /// <param name="factory">The IBusinessLogicFactory which the TransferService should use for its logic.</param>
+        public TransferService(IBusinessLogicFactory factory)
+        {
+            _factory = factory;
         }
         /// <summary>
         /// Download a media.
