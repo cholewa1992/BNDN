@@ -17,6 +17,9 @@ namespace ShareItServices
         private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
+        public AuthService() {}
+
+
         public AuthService(IBusinessLogicFactory factory)
         {
             _factory = factory;
