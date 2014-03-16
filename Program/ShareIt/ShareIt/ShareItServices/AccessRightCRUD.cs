@@ -12,24 +12,24 @@ namespace ShareItServices
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AccessRightCRUD" in both code and config file together.
     public class AccessRightCRUD : IAccessRightCRUD
     {
-        public HttpStatusCode MakeAdmin(User oldAdmin, User newAdmin, Client c)
+        public bool MakeAdmin(User oldAdmin, User newAdmin, Client c)
         {
-            var lol = new UnauthorizedUser();
-            lol.Message = "Hey";
-            throw new FaultException<UnauthorizedUser>(lol);
+            var fault = new UnauthorizedUser();
+            fault.Message = "The User is not authorized to perform this request.";
+            throw new FaultException<UnauthorizedUser>(fault);
         }
 
-        public HttpStatusCode Delete(User admin, AccessRight ar, Client c)
+        public bool Delete(User admin, AccessRight ar, Client c)
+        {
+            return true;
+        }
+
+        public List<AccessRight> GetInfo(User u, Client c)
         {
             throw new NotImplementedException();
         }
 
-        public HttpStatusCode GetInfo(User u, Client c)
-        {
-            throw new NotImplementedException();
-        }
-
-        public HttpStatusCode EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c)
+        public bool EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c)
         {
             throw new NotImplementedException();
         }

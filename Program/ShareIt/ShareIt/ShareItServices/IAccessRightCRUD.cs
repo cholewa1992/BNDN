@@ -21,15 +21,15 @@ namespace ShareItServices
 
         [FaultContract(typeof(UnauthorizedUser))]
         [OperationContract]
-        HttpStatusCode MakeAdmin(User oldAdmin, User newAdmin, Client c);
+        bool MakeAdmin(User oldAdmin, User newAdmin, Client c);
 
         [OperationContract]
-        HttpStatusCode Delete(User admin, AccessRight ar, Client c);
+        bool Delete(User admin, AccessRight ar, Client c);
 
         [OperationContract]
-        HttpStatusCode GetInfo(User u, Client c);
+        List<AccessRight> GetInfo(User u, Client c);
 
         [OperationContract]
-        HttpStatusCode EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c);
+        bool EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c);
     }
 }
