@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using ShareItServices.DataContracts;
 
 namespace ShareItServices
 {
@@ -12,13 +13,13 @@ namespace ShareItServices
     public interface IUserService
     {
         [OperationContract]
-        void CreateAccount();
+        void CreateAccount(User user);
 
         [OperationContract]
-        void GetAccountInformation();
+        User GetAccountInformation();
 
         [OperationContract]
-        void UpdateAccounInformation();
+        void UpdateAccounInformation(User user);
     }
 
 }

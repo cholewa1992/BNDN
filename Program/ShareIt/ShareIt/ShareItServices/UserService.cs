@@ -4,23 +4,24 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using ShareItServices.DataContracts;
 
 namespace ShareItServices
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "UserService" in both code and config file together.
     public class UserService : IUserService
     {
-        public void CreateAccount()
+        public void CreateAccount(User user)
         {
             throw new NotImplementedException();
         }
 
-        public void GetAccountInformation()
+        public User GetAccountInformation()
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateAccounInformation()
+        public void UpdateAccounInformation(User user)
         {
             throw new NotImplementedException();
         }
