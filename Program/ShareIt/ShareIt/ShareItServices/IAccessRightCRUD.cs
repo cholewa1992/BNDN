@@ -32,6 +32,6 @@ namespace ShareItServices
         List<AccessRight> GetInfo(User u, Client c);
 
         [OperationContract]
-        bool EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c);
+        bool EditExpiration(User u, AccessRight oldAR, AccessRight newAR, Client c);
     }
 }

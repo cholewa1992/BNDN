@@ -15,7 +15,6 @@ namespace ShareItServices
     public class AccessRightCRUD : IAccessRightCRUD
     {
         private IBusinessLogicFactory _factory;
-        private IAuthLogic _authLogic;
 
         /// <summary>
         /// Construct a AccessRightCRUD Service which uses the default business logic factory.
@@ -24,7 +23,6 @@ namespace ShareItServices
         public AccessRightCRUD()
         {
             _factory = BusinessLogicFacade.GetBusinessFactory();
-            _authLogic = _factory.CreateAuthLogic();
         }
         /// <summary>
         /// Construct a AccessRightCRUD Service object which uses a specified IBusinessLogicFactory.
@@ -34,7 +32,6 @@ namespace ShareItServices
         public AccessRightCRUD(IBusinessLogicFactory factory)
         {
             _factory = factory;
-            _authLogic = _factory.CreateAuthLogic();
         }
 
         /// <summary>
@@ -42,42 +39,140 @@ namespace ShareItServices
         /// </summary>
         /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
         /// <param name="newAdmin">The user who is the subject of the upgrade</param>
-        /// <param name="c">The client from which the request originates</param>
+        /// <param name="c">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(User oldAdmin, User newAdmin, Client c)
         {
-            if (_authLogic.CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
 
-            if (_authLogic.IsUserAdminOnClient(oldAdmin, c))
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, c))
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
             }
 
-            //DO SHIT!
+            try
+            {
+                //DO SHIT!
 
-            return true;
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
+        /// <summary>
+        /// Deletes an AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
+        /// </summary>
+        /// <param name="admin">The admin trying to delete an AccessRight</param>
+        /// <param name="ar">The AccessRight to be deleted</param>
+        /// <param name="c">The client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool Delete(User admin, AccessRight ar, Client c)
         {
-            return true;
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, c))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
+            try
+            {
+                //DO SHIT!
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
+        /// <summary>
+        /// Returns a list of MediaItems that a given User has purchased or uploaded
+        /// </summary>
+        /// <param name="u">The user whose AccessRights will be returned</param>
+        /// <param name="c">The client from which the request originated</param>
+        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
         public List<AccessRight> GetInfo(User u, Client c)
         {
-            throw new NotImplementedException();
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            try
+            {
+                //DO SHIT!
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
-        public bool EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c)
+        /// <summary>
+        /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
+        /// </summary>
+        /// <param name="u">The User performing the request</param>
+        /// <param name="oldAR">The AccessRight to be edited</param>
+        /// <param name="newAR">The AccessRight containing the new information</param>
+        /// <param name="c">The client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
+        public bool EditExpiration(User u, AccessRight oldAR, AccessRight newAR, Client c)
         {
-            throw new NotImplementedException();
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            if (!_factory.CreateAuthLogic().CheckUserExists(u))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
+            if (!_factory.CreateAuthLogic().CheckUserAccess(oldAR.User, oldAR.MediaItem) && 
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, c))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
+            try
+            {
+                //DO SHIT!
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
     }
 }
