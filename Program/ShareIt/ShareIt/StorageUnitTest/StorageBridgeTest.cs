@@ -33,11 +33,21 @@ namespace StorageUnitTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InternalDbException))]
+        public void AddFailedIdNotSetTest()
+        {
+            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.Add(It.IsAny<UserAcc>()));
+            var sud = new StorageBridge(_mock.Object);
+            sud.Add(new UserAcc());
+        }
+
+        [TestMethod]
         public void UpdateTest()
         {
             _mock.Setup(foo => foo.SaveChanges()).Returns(true);
             var sud = new StorageBridge(_mock.Object);
-            sud.Update(new UserAcc());
+            sud.Update(_user1);
         }
 
         [TestMethod]
@@ -46,7 +56,7 @@ namespace StorageUnitTest
         {
             _mock.Setup(foo => foo.SaveChanges()).Returns(false);
             var sud = new StorageBridge(_mock.Object);
-            sud.Update(new UserAcc());
+            sud.Update(_user1);
         }
 
         [TestMethod]
@@ -54,7 +64,7 @@ namespace StorageUnitTest
         {
             _mock.Setup(foo => foo.SaveChanges()).Returns(true);
             var sud = new StorageBridge(_mock.Object);
-            sud.Delete(new UserAcc());
+            sud.Delete(_user1);
         }
 
         [TestMethod]
@@ -63,7 +73,7 @@ namespace StorageUnitTest
         {
             _mock.Setup(foo => foo.SaveChanges()).Returns(false);
             var sud = new StorageBridge(_mock.Object);
-            sud.Delete(new UserAcc());
+            sud.Delete(_user1);
         }
 
         [TestMethod]
@@ -154,9 +164,7 @@ namespace StorageUnitTest
             _mock = new Mock<IStorageConnection>();
             var users = new HashSet<UserAcc> {_user1, _user2, _user3};
             _mock.Setup(foo => foo.Get<UserAcc>()).Returns(users.AsQueryable);
-            _mock.Setup(foo => foo.Add(_user1));
-            _mock.Setup(foo => foo.Add(_user2));
-            _mock.Setup(foo => foo.Add(_user3));
+            _mock.Setup(foo => foo.Add(It.IsAny<UserAcc>())).Callback<UserAcc>((user) => user.Id = 1);
             _mock.Setup(foo => foo.Delete(_user1));
             _mock.Setup(foo => foo.Delete(_user2));
             _mock.Setup(foo => foo.Delete(_user3));

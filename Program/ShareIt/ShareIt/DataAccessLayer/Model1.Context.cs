@@ -39,7 +39,7 @@ namespace DataAccessLayer
 
         public new IDbSet<T> Set<T>() where T : class
         {
-            base.Set<T>();
+            return base.Set<T>();
         }
     }
 }

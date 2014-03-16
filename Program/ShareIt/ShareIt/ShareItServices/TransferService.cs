@@ -45,7 +45,7 @@ namespace ShareItServices
         /// Upload a media.
         /// </summary>
         /// <param name="media">The MediaTransferMessage containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
-        public void UploadMedia(MediaTransferMessage media)
+        public UploadStatusMessage UploadMedia(MediaTransferMessage media)
         {
             throw new NotImplementedException();
         }

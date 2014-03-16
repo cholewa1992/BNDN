@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices.MessageContracts
 {

@@ -5,10 +5,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.DTO
+namespace BusinessLogicLayer.FaultDataContracts
 {
     [DataContract]
-    public class UnauthorizedUser
+    public class UnauthorizedClient
     {
         [DataMember]
         public string Message { get; set; }

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices
 {
@@ -17,25 +17,68 @@ namespace ShareItServices
         private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
+#region constructors
+
+        /// <summary>
+        /// Default constructor initialized by WCF
+        /// </summary>
+        public AuthService() { }
+
+
+        /// <summary>
+        /// Constructor with injection
+        /// </summary>
+        /// <param name="factory">Business logic factory to use</param>
         public AuthService(IBusinessLogicFactory factory)
         {
             _factory = factory;
         }
 
+#endregion
 
-        public HttpStatusCode CheckAccess(User user, Client client)
+        
+
+
+#region methods
+
+        /// <summary>
+        /// Validates whether a user exists in the system
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool ValidateUser(User user)
         {
+            
             try
             {
-                _factory.CreateAuthLogic();
+                return _factory.CreateAuthLogic().CheckUserExists(user);
             }
             catch (Exception)
             {
-                return HttpStatusCode.InternalServerError;
+                throw new FaultException();
             }
 
-            return HttpStatusCode.Accepted;
         }
+
+        /// <summary>
+        /// Validates whether a client exists in the system
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        public bool CheckClientPassword(Client client)
+        {
+            try
+            {
+                return _factory.CreateAuthLogic().CheckClientPassword(client);
+            }
+            catch (Exception)
+            {
+                throw new FaultException();
+            }
+
+        }
+
+#endregion
 
         
     }

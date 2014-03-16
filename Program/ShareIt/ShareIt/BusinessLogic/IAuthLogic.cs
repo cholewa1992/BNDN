@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer
 {
     public interface IAuthLogic
     {
-        CheckAccess()
+        bool CheckUserAccess(User user, MediaItem mediaItem);
+        bool CheckClientAccess(Client client, MediaItem mediaItem);
+        bool CheckClientPassword(Client client);
+        bool IsUserAdminOnClient(User user, Client client);
+        bool CheckUserExists(User user);
     }
 }
