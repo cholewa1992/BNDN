@@ -15,7 +15,8 @@ namespace ShareItServices
     {
 
         [OperationContract]
-        HttpStatusCode CheckAccess(User user);
+        HttpStatusCode CheckAccess(User user, Client client);
+
 
 
     }
