@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -12,10 +13,10 @@ namespace ShareItServices
     [ServiceContract]
     public interface IAuthService
     {
-        [OperationContract]
-        string GetAuthToken(User user);
 
         [OperationContract]
-        bool ValidateToken(string token);
+        HttpStatusCode CheckAccess(User user);
+
+
     }
 }

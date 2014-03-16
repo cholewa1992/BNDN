@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using ShareItServices.DataContracts;
 
 namespace ShareItServices
 {
@@ -12,6 +14,21 @@ namespace ShareItServices
     public interface IAccessRightCRUD
     {
         [OperationContract]
-        void DoWork();
+        HttpStatusCode Purchase(User u, MediaItem m, Client c);
+
+        [OperationContract]
+        HttpStatusCode Upload(User u, MediaItem m, Client c);
+
+        [OperationContract]
+        HttpStatusCode MakeAdmin(User admin, User );
+
+        [OperationContract]
+        HttpStatusCode Delete();
+
+        [OperationContract]
+        HttpStatusCode GetInfo();
+
+        [OperationContract]
+        HttpStatusCode EditExpiration();
     }
 }
