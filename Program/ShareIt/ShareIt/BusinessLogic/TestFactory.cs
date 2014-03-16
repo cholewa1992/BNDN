@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogicLayer.Stub;
 
 namespace BusinessLogicLayer
 {
@@ -15,7 +16,7 @@ namespace BusinessLogicLayer
 
         public IAuthLogic CreateAuthLogic()
         {
-            throw new NotImplementedException();
+            return new AuthLogicStub();
         }
 
         public IAccessRightLogic CreateAccessRightLogic()

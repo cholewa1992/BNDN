@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices
 {
@@ -11,14 +12,27 @@ namespace ShareItServices
     [ServiceContract]
     public interface IUserService
     {
+        /// <summary>
+        /// Creates an account
+        /// </summary>
+        /// <param name="user">The user to be created</param>
         [OperationContract]
-        void CreateAccount();
+        void CreateAccount(User user);
 
+        /// <summary>
+        /// Returns account information
+        /// </summary>
+        /// <param name="id">The id of the user of which you want to fetch account information</param>
+        /// <returns></returns>
         [OperationContract]
-        void GetAccountInformation();
+        User GetAccountInformation(int id);
 
+        /// <summary>
+        /// Update a user account
+        /// </summary>
+        /// <param name="user">The user to be updated</param>
         [OperationContract]
-        void UpdateAccounInformation();
+        void UpdateAccounInformation(User user);
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Runtime.InteropServices;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
@@ -10,13 +11,20 @@ namespace AuthTest
     [TestClass]
     public class AuthServiceTest
     {
+        readonly AuthService _authService = new AuthService(BusinessLogicFacade.GetTestFactory());
 
-        AuthService authService = new AuthService(BusinessLogicFacade.GetTestFactory());
 
         [TestMethod]
-        public void TestCheckAccess()
+        public void TestValidateUser()
         {
-            var r = authService.CheckAccess(new User(), new Client());
+            var r = _authService.ValidateUser(new User());
+            Assert.AreEqual(true, r);
+        }
+
+        [TestMethod]
+        public void TestCheckClientPassword()
+        {
+            var r = _authService.CheckClientPassword(new Client());
             Assert.AreEqual(true, r);
         }
     }

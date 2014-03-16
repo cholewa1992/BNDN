@@ -7,38 +7,81 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareItServices
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AuthService" in both code and config file together.
+    /// <summary>
+    /// This service exposes validation of user and client credentials
+    /// </summary>
     public class AuthService : IAuthService
     {
 
         private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
-        public AuthService() {}
+#region constructors
+
+        /// <summary>
+        /// Default constructor initialized by WCF
+        /// </summary>
+        public AuthService() { }
 
 
+        /// <summary>
+        /// Constructor with injection
+        /// </summary>
+        /// <param name="factory">Business logic factory to use</param>
         public AuthService(IBusinessLogicFactory factory)
         {
             _factory = factory;
         }
 
+#endregion
 
-        public HttpStatusCode CheckAccess(User user, Client client)
+        
+
+
+#region methods
+
+        /// <summary>
+        /// Validates whether a user exists in the system
+        /// </summary>
+        /// <param name="user">A user to check</param>
+        /// <returns></returns>
+        public bool ValidateUser(User user)
+        {
+            
+            try
+            {
+                return _factory.CreateAuthLogic().CheckUserExists(user);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+
+        }
+
+        /// <summary>
+        /// Validates whether a client exists in the system
+        /// </summary>
+        /// <param name="client">A client to check</param>
+        /// <returns></returns>
+        public bool CheckClientPassword(Client client)
         {
             try
             {
-                _factory.CreateAuthLogic();
+                return _factory.CreateAuthLogic().CheckClientPassword(client);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return HttpStatusCode.InternalServerError;
+                throw new FaultException(new FaultReason(e.Message));
             }
 
-            return HttpStatusCode.Accepted;
         }
+
+#endregion
 
         
     }
