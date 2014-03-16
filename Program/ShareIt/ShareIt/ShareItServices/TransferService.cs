@@ -41,11 +41,12 @@ namespace ShareItServices
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Upload a media.
         /// </summary>
         /// <param name="media">The MediaTransferMessage containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
-        public UploadStatusMessage UploadMedia(MediaTransferMessage media)
+        public UploadStatusMessage UploadMedia(UploadRequest media)
         {
             throw new NotImplementedException();
         }

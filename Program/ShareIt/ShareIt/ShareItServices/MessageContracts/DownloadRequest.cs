@@ -17,12 +17,17 @@ namespace ShareItServices.MessageContracts
         /// <summary>
         /// The user requesting the download.
         /// </summary>
-        [MessageHeader(MustUnderstand = true)]
+        [MessageBodyMember(Order = 1)]
         public User User { get; set; }
         /// <summary>
         /// The Id of the media which the user wishes to download.
         /// </summary>
-        [MessageHeader(MustUnderstand = true)]
+        [MessageBodyMember(Order = 2)]
         public int MediaId { get; set; }
+        /// <summary>
+        /// The client from which the request is send.
+        /// </summary>
+        [MessageBodyMember(Order = 3)]
+        public Client Client { get; set; }
     }
 }

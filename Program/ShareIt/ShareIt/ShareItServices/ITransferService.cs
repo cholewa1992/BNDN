@@ -22,12 +22,13 @@ namespace ShareItServices
         /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
         [OperationContract]
         MediaTransferMessage DownloadMedia(DownloadRequest request);
+
         /// <summary>
         /// Upload a media.
         /// </summary>
-        /// <param name="media">The MediaTransferMessage containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <param name="media">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <returns>An UploadStatusMessage specifying wether the upload succeeded or not.</returns>
         [OperationContract]
-
-        UploadStatusMessage UploadMedia(MediaTransferMessage media);
+        UploadStatusMessage UploadMedia(UploadRequest media);
     }
 }
