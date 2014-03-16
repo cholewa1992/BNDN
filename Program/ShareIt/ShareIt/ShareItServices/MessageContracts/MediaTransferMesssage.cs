@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.ServiceModel;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices.MessageContracts
 {

@@ -1,4 +1,4 @@
-﻿using ShareItServices.DataContracts;
+﻿using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer.Stub
 {
