@@ -8,5 +8,6 @@ namespace BusinessLogicLayer
         bool CheckClientAccess(Client client, MediaItem mediaItem);
         bool CheckClientPassword(Client client);
         bool IsUserAdminOnClient(User user, Client client);
+        bool CheckUserExists(User user);
     }
 }
