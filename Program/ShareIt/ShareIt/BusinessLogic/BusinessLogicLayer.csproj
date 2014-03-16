@@ -44,6 +44,7 @@
     <Compile Include="BusinessLogicFacade.cs" />
     <Compile Include="DTO\AccessRight.cs" />
     <Compile Include="DTO\Client.cs" />
+    <Compile Include="DTO\UnauthorizedUser.cs" />
     <Compile Include="DTO\MediaItem.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="IAccessRightLogic.cs" />

@@ -13,22 +13,23 @@ namespace ShareItServices
     [ServiceContract]
     public interface IAccessRightCRUD
     {
+        //[OperationContract]
+        //HttpStatusCode Purchase(User u, MediaItem m, Client c, DateTime expiration);
+
+        //[OperationContract]
+        //HttpStatusCode Upload(User u, MediaItem m, Client c);
+
+        [FaultContract(typeof(UnauthorizedUser))]
         [OperationContract]
-        HttpStatusCode Purchase(User u, MediaItem m, Client c, DateTime expiration);
+        HttpStatusCode MakeAdmin(User oldAdmin, User newAdmin, Client c);
 
         [OperationContract]
-        HttpStatusCode Upload(User u, MediaItem m, Client c);
+        HttpStatusCode Delete(User admin, AccessRight ar, Client c);
 
         [OperationContract]
-        HttpStatusCode MakeAdmin(User oldAdmin, User newAdmin);
+        HttpStatusCode GetInfo(User u, Client c);
 
         [OperationContract]
-        HttpStatusCode Delete(User admin, AccessRight ar);
-
-        [OperationContract]
-        HttpStatusCode GetInfo(User u);
-
-        [OperationContract]
-        HttpStatusCode EditExpiration(User u, AccessRight ar, DateTime newExpiration);
+        HttpStatusCode EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c);
     }
 }
