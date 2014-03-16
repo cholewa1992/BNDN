@@ -1,12 +1,12 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ShareItServices.DataContracts
+namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public class Client
+    public class User
     {
         [DataMember]
-        public string Name { get; set; }
+        public string Username { get; set; }
 
         [DataMember]
         public string Password { get; set; }

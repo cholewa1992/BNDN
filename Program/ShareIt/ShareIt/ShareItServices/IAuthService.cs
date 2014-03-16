@@ -5,7 +5,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices
 {
@@ -15,7 +15,8 @@ namespace ShareItServices
     {
 
         [OperationContract]
-        HttpStatusCode CheckAccess(User user);
+        HttpStatusCode CheckAccess(User user, Client client);
+
 
 
     }

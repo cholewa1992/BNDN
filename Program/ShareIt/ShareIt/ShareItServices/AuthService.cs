@@ -1,24 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AuthService" in both code and config file together.
     public class AuthService : IAuthService
     {
-        public string GetAuthToken(User user)
+
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
+
+
+        public AuthService() {}
+
+
+        public AuthService(IBusinessLogicFactory factory)
         {
-            throw new NotImplementedException();
+            _factory = factory;
         }
 
-        public bool ValidateToken(string token)
+
+        public HttpStatusCode CheckAccess(User user, Client client)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _factory.CreateAuthLogic();
+            }
+            catch (Exception)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+
+            return HttpStatusCode.Accepted;
         }
+
+        
     }
 }

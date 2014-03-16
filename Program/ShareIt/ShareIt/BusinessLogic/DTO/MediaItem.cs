@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ShareItServices.DataContracts
+namespace BusinessLogicLayer.DTO
 {
     [DataContract]
     public class MediaItem
@@ -15,7 +15,7 @@ namespace ShareItServices.DataContracts
         public decimal Price { get; set; }
 
         [DataMember]
-        public string Extenstion { get; set; }
+        public string Extension { get; set; }
 
         [DataMember]
         public string Description { get; set; }

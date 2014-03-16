@@ -5,7 +5,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using ShareItServices.DataContracts;
+using BusinessLogicLayer.DTO;
 
 namespace ShareItServices
 {
@@ -13,22 +13,23 @@ namespace ShareItServices
     [ServiceContract]
     public interface IAccessRightCRUD
     {
+        //[OperationContract]
+        //HttpStatusCode Purchase(User u, MediaItem m, Client c, DateTime expiration);
+
+        //[OperationContract]
+        //HttpStatusCode Upload(User u, MediaItem m, Client c);
+
+        [FaultContract(typeof(UnauthorizedUser))]
         [OperationContract]
-        HttpStatusCode Purchase(User u, MediaItem m, Client c);
+        HttpStatusCode MakeAdmin(User oldAdmin, User newAdmin, Client c);
 
         [OperationContract]
-        HttpStatusCode Upload(User u, MediaItem m, Client c);
+        HttpStatusCode Delete(User admin, AccessRight ar, Client c);
 
         [OperationContract]
-        HttpStatusCode MakeAdmin(User admin, User );
+        HttpStatusCode GetInfo(User u, Client c);
 
         [OperationContract]
-        HttpStatusCode Delete();
-
-        [OperationContract]
-        HttpStatusCode GetInfo();
-
-        [OperationContract]
-        HttpStatusCode EditExpiration();
+        HttpStatusCode EditExpiration(User u, AccessRight ar, DateTime newExpiration, Client c);
     }
 }
