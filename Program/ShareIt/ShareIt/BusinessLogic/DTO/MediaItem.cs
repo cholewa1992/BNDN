@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Security.AccessControl;
 
 namespace BusinessLogicLayer.DTO
 {
@@ -9,15 +11,9 @@ namespace BusinessLogicLayer.DTO
         public int Id { get; set; }
 
         [DataMember]
-        public string Title { get; set; }
+        public string FileExtension { get; set; }
 
         [DataMember]
-        public decimal Price { get; set; }
-
-        [DataMember]
-        public string Extension { get; set; }
-
-        [DataMember]
-        public string Description { get; set; }
+        public IList<MediaItemInformation> Information { get; set; } 
     }
 }

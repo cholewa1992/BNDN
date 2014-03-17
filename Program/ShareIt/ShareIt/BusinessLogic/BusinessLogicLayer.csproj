@@ -88,6 +88,8 @@
     <Compile Include="BusinessLogicFacade.cs" />
     <Compile Include="DTO\AccessRight.cs" />
     <Compile Include="DTO\Client.cs" />
+    <Compile Include="DTO\InformationType.cs" />
+    <Compile Include="DTO\MediaItemInformation.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
     <Compile Include="DTO\MediaItem.cs" />
