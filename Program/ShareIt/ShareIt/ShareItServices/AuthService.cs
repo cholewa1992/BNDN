@@ -17,7 +17,7 @@ namespace ShareItServices
     public class AuthService : IAuthService
     {
 
-        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetTestFactory();
 
 
 #region constructors
