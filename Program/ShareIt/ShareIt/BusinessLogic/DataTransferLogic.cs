@@ -15,10 +15,10 @@ namespace BusinessLogicLayer
         public Stream GetMediaFileStream(Client client, User user, int id, out string fileExtension)
         {
             throw new NotImplementedException();
-            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
-            {
-                var storageClient = storage.Get<DataAccessLayer.Client>().SingleOrDefault(c => c.Name == client.Name);
-            }
+            //using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            //{
+            //    var storageClient = storage.Get<DataAccessLayer.Client>().SingleOrDefault(c => c.Name == client.Name);
+            //}
         }
 
         public bool SaveMedia(MediaItem media, Stream stream)
