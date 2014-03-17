@@ -35,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -48,8 +51,10 @@
     <Compile Include="AuthService.cs" />
     <Compile Include="IAccessRightCRUD.cs" />
     <Compile Include="IAuthService.cs" />
+    <Compile Include="IMediaItemService.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="ITransferService.cs" />
+    <Compile Include="MediaItemService.cs" />
     <Compile Include="MessageContracts\DownloadRequest.cs" />
     <Compile Include="MessageContracts\MediaTransferMessage.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />
@@ -64,6 +69,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogicLayer.csproj">

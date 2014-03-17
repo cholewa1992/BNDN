@@ -12,5 +12,6 @@ namespace BusinessLogicLayer
         IAuthLogic CreateAuthLogic();
         IAccessRightLogic CreateAccessRightLogic();
         IDataTransferLogic CreateDataTransferLogic();
+        IMediaItemLogic CreateMediaItemLogic();
     }
 }

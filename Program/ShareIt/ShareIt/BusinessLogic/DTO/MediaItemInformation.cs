@@ -11,7 +11,11 @@ namespace BusinessLogicLayer.DTO
     public class MediaItemInformation
     {
         [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
         public InformationType Type { get; set; }
+
         [DataMember]
         public string Data { get; set; }
     }

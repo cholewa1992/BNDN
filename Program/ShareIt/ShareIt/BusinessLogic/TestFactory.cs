@@ -28,5 +28,10 @@ namespace BusinessLogicLayer
         {
             return new DataTransferLogicStub();
         }
+
+        public IMediaItemLogic CreateMediaItemLogic()
+        {
+            return new MediaItemLogicStub();
+        }
     }
 }

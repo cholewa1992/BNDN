@@ -17,6 +17,6 @@ namespace BusinessLogicLayer.DTO
         public string FileExtension { get; set; }
 
         [DataMember]
-        public IList<MediaItemInformation> Information { get; set; } 
+        public IEnumerable<MediaItemInformation> Information { get; set; } 
     }
 }

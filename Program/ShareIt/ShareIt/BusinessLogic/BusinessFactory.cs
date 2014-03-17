@@ -27,5 +27,10 @@ namespace BusinessLogicLayer
         {
             throw new NotImplementedException();
         }
+
+        public IMediaItemLogic CreateMediaItemLogic()
+        {
+            return new MediaItemLogic();
+        }
     }
 }
