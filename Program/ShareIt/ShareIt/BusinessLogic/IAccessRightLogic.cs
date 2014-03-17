@@ -13,7 +13,8 @@ namespace BusinessLogicLayer
         bool Upload(User u, MediaItem m, Client c);
         bool MakeAdmin(User newAdmin);
         bool DeleteAccessRight(AccessRight ar);
-        List<AccessRight> GetAccessRightInfo(User u);
+        List<AccessRight> GetPurchaseHistory(User u);
+        List<AccessRight> GetUploadHistory(User u);
         bool EditExpiration(AccessRight oldAR, AccessRight newAR);
     }
 }
