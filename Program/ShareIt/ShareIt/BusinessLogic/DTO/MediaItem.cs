@@ -11,6 +11,9 @@ namespace BusinessLogicLayer.DTO
         public int Id { get; set; }
 
         [DataMember]
+        public MediaItemType Type { get; set; }
+
+        [DataMember]
         public string FileExtension { get; set; }
 
         [DataMember]

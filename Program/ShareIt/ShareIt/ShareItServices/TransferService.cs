@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
+using BusinessLogicLayer.DTO;
 using ShareItServices.MessageContracts;
 
 namespace ShareItServices
@@ -14,14 +16,14 @@ namespace ShareItServices
     /// </summary>
     public class TransferService : ITransferService
     {
-        private IBusinessLogicFactory _factory;
+        private readonly IBusinessLogicFactory _factory;
         /// <summary>
         /// Construct a TransferService which uses the default business logic factory.
         /// This constructor is called by WCF.
         /// </summary>
         public TransferService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicFacade.GetTestFactory();
         }
         /// <summary>
         /// Construct a TransferService object which uses a specified IBusinessLogicFactory.
@@ -39,10 +41,19 @@ namespace ShareItServices
         /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
         public MediaTransferMessage DownloadMedia(DownloadRequest request)
         {
-            throw new NotImplementedException();
-            var result = new MediaTransferMessage();
-            var outStream = _factory.CreateDataTransferLogic()
-                .GetMediaFileStream(request.Client, request.User, request.MediaId);
+            string fileExtension;
+            Stream stream = _factory.CreateDataTransferLogic()
+                .GetMediaFileStream(request.Client, request.User, request.MediaId, out fileExtension);
+
+            return new MediaTransferMessage()
+            {
+                FileByteStream = stream,
+                FileByteStreamLength = stream.Length,
+                Information = new MediaItem()
+                {
+                    FileExtension = fileExtension
+                }
+            };
             
         }
 
@@ -52,7 +63,11 @@ namespace ShareItServices
         /// <param name="media">The MediaTransferMessage containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
         public UploadStatusMessage UploadMedia(UploadRequest media)
         {
-            throw new NotImplementedException();
+            var result = _factory.CreateDataTransferLogic().SaveMedia(media.Information, media.FileByteStream);
+            return new UploadStatusMessage
+            {
+                UploadSucceeded = result
+            };
         }
     }
 }

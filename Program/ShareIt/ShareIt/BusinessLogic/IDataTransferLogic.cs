@@ -10,6 +10,7 @@ namespace BusinessLogicLayer
 {
     public interface IDataTransferLogic
     {
-        FileStream GetMediaFileStream(Client client, User user, int id);
+        Stream GetMediaFileStream(Client client, User user, int id, out string fileExtension);
+        bool SaveMedia(MediaItem media, Stream stream);
     }
 }

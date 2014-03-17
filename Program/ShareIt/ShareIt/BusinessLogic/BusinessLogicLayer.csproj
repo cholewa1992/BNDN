@@ -90,6 +90,7 @@
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\InformationType.cs" />
     <Compile Include="DTO\MediaItemInformation.cs" />
+    <Compile Include="DTO\MediaItemType.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
     <Compile Include="DTO\MediaItem.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stub\AccessRightLogicStub.cs" />
     <Compile Include="Stub\AuthLogicStub.cs" />
+    <Compile Include="Stub\DataTransferLogicStub.cs" />
     <Compile Include="TestFactory.cs" />
     <Compile Include="DataTransferLogic.cs" />
     <Compile Include="UserLogic.cs" />
