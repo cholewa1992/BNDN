@@ -59,9 +59,7 @@ namespace ShareItServices
 
             try
             {
-                //DO SHIT!
-
-                return true;
+                return _factory.CreateAccessRightLogic().MakeAdmin(newAdmin);
             }
             catch (Exception e)
             {
@@ -94,9 +92,7 @@ namespace ShareItServices
 
             try
             {
-                //DO SHIT!
-
-                return true;
+                return _factory.CreateAccessRightLogic().DeleteAccessRight(ar);
             }
             catch (Exception e)
             {
@@ -105,12 +101,46 @@ namespace ShareItServices
         }
 
         /// <summary>
-        /// Returns a list of MediaItems that a given User has purchased or uploaded
+        /// Returns a list of MediaItems that a given User has purchased (AccessRights with type buyer)
+        /// </summary>
+        /// <param name="requestingUser">The User performing the request</param>
+        /// <param name="targetUser">The user whose AccessRights will be returned</param>
+        /// <param name="c">The client from which the request originated</param>
+        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
+        public List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, Client c)
+        {
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            if (requestingUser != targetUser &&
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, c))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
+            try
+            {
+                return _factory.CreateAccessRightLogic().GetPurchaseHistory(targetUser);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of MediaItems that a given User has uploaded (AccessRights with type owner)
         /// </summary>
         /// <param name="u">The user whose AccessRights will be returned</param>
         /// <param name="c">The client from which the request originated</param>
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        public List<AccessRight> GetInfo(User u, Client c)
+        public List<AccessRight> GetUploadHistory(User u, Client c)
         {
             if (!_factory.CreateAuthLogic().CheckClientPassword(c))
             {
@@ -121,9 +151,7 @@ namespace ShareItServices
 
             try
             {
-                //DO SHIT!
-
-                return null;
+                return _factory.CreateAccessRightLogic().GetUploadHistory(u);
             }
             catch (Exception e)
             {
@@ -165,9 +193,7 @@ namespace ShareItServices
 
             try
             {
-                //DO SHIT!
-
-                return true;
+                return _factory.CreateAccessRightLogic().EditExpiration(oldAR, newAR);
             }
             catch (Exception e)
             {
