@@ -13,9 +13,17 @@ namespace BusinessLogicLayer.DTO
         [EnumMember]Title=1,
         [EnumMember]Description, 
         [EnumMember]Price,
+        [EnumMember]Picture,
+        [EnumMember]KeywordTag,
         [EnumMember]Genre,
+        [EnumMember]TrackLength,
         [EnumMember]Runtime,
         [EnumMember]NumberOfPage,
-        [EnumMember]TrackLength,
+        [EnumMember]Author,
+        [EnumMember]Director,
+        [EnumMember]Artist,
+        [EnumMember]CastMember,
+        [EnumMember]ReleaseDate,
+        [EnumMember]Language
     }
 }
