@@ -40,6 +40,10 @@ namespace ShareItServices
         public MediaTransferMessage DownloadMedia(DownloadRequest request)
         {
             throw new NotImplementedException();
+            var result = new MediaTransferMessage();
+            var outStream = _factory.CreateDataTransferLogic()
+                .GetMediaFileStream(request.Client, request.User, request.MediaId);
+            
         }
 
         /// <summary>
