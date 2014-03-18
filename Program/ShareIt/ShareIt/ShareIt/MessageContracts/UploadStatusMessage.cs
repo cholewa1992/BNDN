@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShareItServices.MessageContracts
+namespace ShareIt.MessageContracts
 {
     [MessageContract]
     public class UploadStatusMessage

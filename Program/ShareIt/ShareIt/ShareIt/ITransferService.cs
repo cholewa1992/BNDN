@@ -4,14 +4,30 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using ShareIt.MessageContracts;
 
 namespace ShareIt
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "ITransferService" in both code and config file together.
+    /// <summary>
+    /// A service for transfering media.
+    /// </summary>
     [ServiceContract]
     public interface ITransferService
     {
+        /// <summary>
+        /// Download a media.
+        /// </summary>
+        /// <param name="request">The message contract specifying which media to download.</param>
+        /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
         [OperationContract]
-        void DoWork();
+        MediaTransferMessage DownloadMedia(DownloadRequest request);
+
+        /// <summary>
+        /// Upload a media.
+        /// </summary>
+        /// <param name="media">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <returns>An UploadStatusMessage specifying wether the upload succeeded or not.</returns>
+        [OperationContract]
+        UploadStatusMessage UploadMedia(UploadRequest media);
     }
 }

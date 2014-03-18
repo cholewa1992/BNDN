@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 
-namespace ShareItServices.MessageContracts
+namespace ShareIt.MessageContracts
 {
     /// <summary>
     /// The message contract for requesting a download.
