@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using BusinessLogicLayer.DTO;
 
 namespace ShareIt
 {
@@ -12,6 +13,9 @@ namespace ShareIt
     public interface IAuthService
     {
         [OperationContract]
-        void DoWork();
+        bool ValidateUser(User user, string clientToken);
+
+        [OperationContract]
+        bool CheckClientExists(Client client);
     }
 }

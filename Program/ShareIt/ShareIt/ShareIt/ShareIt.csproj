@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="AccessRightService.svc" />
     <Content Include="AuthService.svc" />
+    <Content Include="MediaItemService.svc" />
     <Content Include="TransferService.svc" />
     <Content Include="UserService.svc" />
     <Content Include="Web.config" />
@@ -74,8 +75,12 @@
     </Compile>
     <Compile Include="IAccessRightService.cs" />
     <Compile Include="IAuthService.cs" />
+    <Compile Include="IMediaItemService.cs" />
     <Compile Include="ITransferService.cs" />
     <Compile Include="IUserService.cs" />
+    <Compile Include="MediaItemService.svc.cs">
+      <DependentUpon>MediaItemService.svc</DependentUpon>
+    </Compile>
     <Compile Include="MessageContracts\DownloadRequest.cs" />
     <Compile Include="MessageContracts\MediaTransferMessage.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />

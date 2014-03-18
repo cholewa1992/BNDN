@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
@@ -41,16 +42,19 @@ namespace ShareItServices
         /// <param name="clientToken">Token used to validate the client</param>
         public bool CreateAccount(User user, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateUserLogic().CreateAccount(user, clientToken);
+            }
+            catch (InvalidCredentialException)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            try
+            catch (ArgumentException)
             {
-                return _factory.CreateUserLogic().CreateAccount(user);
+                return true;
             }
             catch (Exception e)
             {
@@ -67,25 +71,21 @@ namespace ShareItServices
         /// <returns></returns>
         public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateUserLogic().GetAccountInformation(requestingUser, targetUser, clientToken);
+            }
+            catch (InvalidCredentialException)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
-                (requestingUser.Username != targetUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+            catch (UnauthorizedAccessException)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateUserLogic().GetAccountInformation(targetUser);
             }
             catch (Exception e)
             {
@@ -101,25 +101,21 @@ namespace ShareItServices
         /// <param name="clientToken">Token used to validate the client</param>
         public bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateUserLogic().UpdateAccountInformation(requestingUser, newUser, clientToken);
+            }
+            catch (InvalidCredentialException)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
-                (requestingUser.Username != newUser.Username)) && 
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+            catch (UnauthorizedAccessException)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateUserLogic().UpdateAccountInformation(newUser);
             }
             catch (Exception e)
             {
