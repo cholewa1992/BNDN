@@ -23,6 +23,7 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken);
 
@@ -35,6 +36,7 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool Delete(User admin, AccessRight ar, string clientToken);
 
@@ -48,6 +50,7 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool EditExpiration(User u, AccessRight newAR, string clientToken);
     }

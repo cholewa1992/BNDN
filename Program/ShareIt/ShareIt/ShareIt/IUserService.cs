@@ -19,6 +19,7 @@ namespace ShareIt
         /// <param name="user">The user to be created</param>
         /// <param name="clientToken"></param>
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool CreateAccount(User user, string clientToken);
 
@@ -43,6 +44,7 @@ namespace ShareIt
         /// <param name="clientToken">Token used to validate the client</param>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken);
     }
