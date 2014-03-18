@@ -6,16 +6,16 @@ using BusinessLogicLayer.DTO;
 namespace ShareIt.MessageContracts
 {
     /// <summary>
-    /// The message contract for transfering Media.
+    /// The message contract for the response to a DownloadRequest
     /// </summary>
     [MessageContract]
-    public class MediaTransferMessage : IDisposable
+    public class DownloadResponse : IDisposable
     {
         /// <summary>
-        /// The Information about the media being transfered.
+        /// The file extension of the media being downloaded.
         /// </summary>
-        [MessageHeader(MustUnderstand = true)]
-        public MediaItem Information;
+        [MessageHeader]
+        public string FileExtension { get; set; }
         /// <summary>
         /// The length of the FileByteStream
         /// </summary>

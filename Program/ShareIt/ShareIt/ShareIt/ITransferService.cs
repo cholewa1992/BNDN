@@ -20,7 +20,7 @@ namespace ShareIt
         /// <param name="request">The message contract specifying which media to download.</param>
         /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
         [OperationContract]
-        MediaTransferMessage DownloadMedia(DownloadRequest request);
+        DownloadResponse DownloadMedia(DownloadRequest request);
 
         /// <summary>
         /// Upload a media.

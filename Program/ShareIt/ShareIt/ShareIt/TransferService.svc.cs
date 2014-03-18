@@ -39,20 +39,17 @@ namespace ShareIt
         /// </summary>
         /// <param name="request">The message contract specifying which media to download.</param>
         /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
-        public MediaTransferMessage DownloadMedia(DownloadRequest request)
+        public DownloadResponse DownloadMedia(DownloadRequest request)
         {
             string fileExtension;
             Stream stream = _factory.CreateDataTransferLogic()
                 .GetMediaFileStream(request.Client, request.User, request.MediaId, out fileExtension);
 
-            return new MediaTransferMessage()
+            return new DownloadResponse()
             {
                 FileByteStream = stream,
                 FileByteStreamLength = stream.Length,
-                Information = new MediaItem()
-                {
-                    FileExtension = fileExtension
-                }
+                FileExtension = fileExtension
             };
 
         }

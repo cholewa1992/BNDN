@@ -13,11 +13,11 @@ namespace BusinessLogicLayer.Stub
         public Stream GetMediaFileStream(Client client, User user, int id, out string fileExtension)
         {
             var stream = new MemoryStream();
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write("This is a test stream. If you can read this text you have succesfully consumed the stream.");
-            }
+            var writer = new StreamWriter(stream);
+            writer.Write("This is a test stream. If you can read this text you have succesfully consumed the stream.");
+            writer.Flush();
             fileExtension = ".txt";
+            stream.Position = 0;
             return stream;
         }
 

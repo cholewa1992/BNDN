@@ -82,7 +82,7 @@
       <DependentUpon>MediaItemService.svc</DependentUpon>
     </Compile>
     <Compile Include="MessageContracts\DownloadRequest.cs" />
-    <Compile Include="MessageContracts\MediaTransferMessage.cs" />
+    <Compile Include="MessageContracts\DownloadResponse.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />
     <Compile Include="MessageContracts\UploadStatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
