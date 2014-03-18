@@ -27,7 +27,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool IsUserAdminOnClient(User user, Client client)
+        public bool IsUserAdminOnClient(User user, string clientToken)
         {
             throw new System.NotImplementedException();
         }

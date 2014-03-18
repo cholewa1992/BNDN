@@ -143,7 +143,7 @@ namespace ShareItServices
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
         public List<AccessRight> GetUploadHistory(User u, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
