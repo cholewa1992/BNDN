@@ -10,9 +10,9 @@ namespace BusinessLogicLayer
     public class AuthLogic: IAuthLogic
     {
 
-        public bool CheckUserAccess(User user, MediaItem mediaItem, IStorageBridge storage)
+        public bool CheckUserAccess(int userId, int mediaItemId, IStorageBridge storage)
         {
-            return storage.Get<AcessRight>().Any((a) => a.EntityId == mediaItem.Id && a.UserId == user.Id);
+            return storage.Get<AcessRight>().Any((a) => a.EntityId == mediaItemId && a.UserId == userId);
         }
 
         public bool CheckClientAccess(Client client, MediaItem mediaItem, IStorageBridge storage)
@@ -20,24 +20,36 @@ namespace BusinessLogicLayer
             throw new System.NotImplementedException();
         }
 
+        public bool CheckClientToken(string clientToken)
+        {
+            throw new NotImplementedException();
+        }
 
-        public bool CheckClientPassword(string clientToken, IStorageBridge storage)
+
+        public bool CheckClientToken(string clientToken, IStorageBridge storage)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
 
             return storage.Get<DataAccessLayer.Client>().Any((c) => c.Token == clientToken);
 
-            return true;
+
         }
 
         public bool IsUserAdminOnClient(User user, string clientToken, IStorageBridge storage)
         {
-            throw new System.NotImplementedException();
+            return storage.Get<ClientAdmin>().Any(ca => ca.UserId == user.Id && ca.Client.Token == clientToken);
         }
 
         public bool CheckUserExists(User user)
         {
-            throw new NotImplementedException();
+            bool result;
+
+            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            {
+                result = storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
+            }
+
+            return result;
         }
 
 
@@ -46,22 +58,24 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Password));
 
-            // TODO check with DAL
-
-            return true;
+            return storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
         }
         
         public bool CheckClientExists(Client client)
         {
-            using (var db = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            bool result;
+
+            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
             {
-                
+                result = storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
             }
+
+            return result;
         }
 
         public bool CheckClientExists(Client client, IStorageBridge storage)
         {
-            throw new NotImplementedException();
+            return storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
         }
     }
 }
