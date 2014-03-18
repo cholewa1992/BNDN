@@ -9,8 +9,8 @@ namespace BusinessLogicLayer
 {
     public interface IUserLogic
     {
-        void CreateAccount(User user);
+        bool CreateAccount(User user);
         User GetAccountInformation(int id);
-        void UpdateAccountInformation(User user);
+        bool UpdateAccountInformation(User user);
     }
 }

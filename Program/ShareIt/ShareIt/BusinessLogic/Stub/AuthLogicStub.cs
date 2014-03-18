@@ -40,9 +40,9 @@ namespace BusinessLogicLayer.Stub
         /// Always true
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="client"></param>
+        /// <param name="clientToken"></param>
         /// <returns></returns>
-        public bool IsUserAdminOnClient(User user, Client client)
+        public bool IsUserAdminOnClient(User user, string clientToken)
         {
             return true;
         }

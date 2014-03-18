@@ -11,7 +11,7 @@ namespace BusinessLogicLayer
 {
     class UserLogic : IUserLogic
     {
-        public void CreateAccount(User user)
+        public bool CreateAccount(User user)
         {
 
             // Check if the user is already stored in the DB
@@ -42,7 +42,8 @@ namespace BusinessLogicLayer
             {
                 throw new Exception("The account was not created");
             }
-            
+
+            return true;
         }
 
         public User GetAccountInformation(int id)
@@ -61,7 +62,7 @@ namespace BusinessLogicLayer
             return user;
         }
 
-        public void UpdateAccountInformation(User user)
+        public bool UpdateAccountInformation(User user)
         {
             // Get the account from db
 
@@ -78,6 +79,7 @@ namespace BusinessLogicLayer
                throw new Exception("The account was not updated");
             }
 
+            return true;
         }
     }
 }

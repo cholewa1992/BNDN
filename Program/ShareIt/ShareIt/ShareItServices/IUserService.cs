@@ -16,23 +16,26 @@ namespace ShareItServices
         /// Creates an account
         /// </summary>
         /// <param name="user">The user to be created</param>
+        /// <param name="clientToken"></param>
         [OperationContract]
-        void CreateAccount(User user);
+        bool CreateAccount(User user, string clientToken);
 
         /// <summary>
         /// Returns account information
         /// </summary>
         /// <param name="id">The id of the user of which you want to fetch account information</param>
+        /// <param name="clientToken"></param>
         /// <returns></returns>
         [OperationContract]
-        User GetAccountInformation(int id);
+        User GetAccountInformation(int id, string clientToken);
 
         /// <summary>
         /// Update a user account
         /// </summary>
-        /// <param name="user">The user to be updated</param>
+        /// <param name="newUser">The user to be updated</param>
+        /// <param name="requestingUser">The user performing the request</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         [OperationContract]
-        void UpdateAccounInformation(User user);
+        bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken);
     }
-
 }

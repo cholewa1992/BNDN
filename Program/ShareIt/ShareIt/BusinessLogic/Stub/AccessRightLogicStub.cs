@@ -36,7 +36,7 @@ namespace BusinessLogicLayer.Stub
             return new List<AccessRight>();
         }
 
-        public bool EditExpiration(AccessRight oldAR, AccessRight newAR)
+        public bool EditExpiration(AccessRight newAR)
         {
             return true;
         }

@@ -15,6 +15,6 @@ namespace BusinessLogicLayer
         bool DeleteAccessRight(AccessRight ar);
         List<AccessRight> GetPurchaseHistory(User u);
         List<AccessRight> GetUploadHistory(User u);
-        bool EditExpiration(AccessRight oldAR, AccessRight newAR);
+        bool EditExpiration(AccessRight newAR);
     }
 }

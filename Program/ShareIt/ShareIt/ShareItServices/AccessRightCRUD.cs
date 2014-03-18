@@ -40,18 +40,18 @@ namespace ShareItServices
         /// </summary>
         /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
         /// <param name="newAdmin">The user who is the subject of the upgrade</param>
-        /// <param name="c">The client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool MakeAdmin(User oldAdmin, User newAdmin, Client c)
+        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
 
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, c))
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, clientToken))
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
@@ -73,18 +73,18 @@ namespace ShareItServices
         /// </summary>
         /// <param name="admin">The admin trying to delete an AccessRight</param>
         /// <param name="ar">The AccessRight to be deleted</param>
-        /// <param name="c">The client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Delete(User admin, AccessRight ar, Client c)
+        public bool Delete(User admin, AccessRight ar, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
 
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, c))
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, clientToken))
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
@@ -106,11 +106,11 @@ namespace ShareItServices
         /// </summary>
         /// <param name="requestingUser">The User performing the request</param>
         /// <param name="targetUser">The user whose AccessRights will be returned</param>
-        /// <param name="c">The client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        public List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, Client c)
+        public List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -118,7 +118,7 @@ namespace ShareItServices
             }
 
             if (requestingUser != targetUser &&
-                !_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, c))
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken))
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
@@ -139,11 +139,11 @@ namespace ShareItServices
         /// Returns a list of MediaItems that a given User has uploaded (AccessRights with type owner)
         /// </summary>
         /// <param name="u">The user whose AccessRights will be returned</param>
-        /// <param name="c">The client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        public List<AccessRight> GetUploadHistory(User u, Client c)
+        public List<AccessRight> GetUploadHistory(User u, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -164,13 +164,12 @@ namespace ShareItServices
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
         /// <param name="u">The User performing the request</param>
-        /// <param name="oldAR">The AccessRight to be edited</param>
         /// <param name="newAR">The AccessRight containing the new information</param>
-        /// <param name="c">The client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool EditExpiration(User u, AccessRight oldAR, AccessRight newAR, Client c)
+        public bool EditExpiration(User u, AccessRight newAR, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -184,8 +183,8 @@ namespace ShareItServices
                 throw new FaultException<UnauthorizedUser>(fault);
             }
 
-            if (!_factory.CreateAuthLogic().CheckUserAccess(oldAR.User, oldAR.MediaItem) && 
-                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, c))
+            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.User, newAR.MediaItem) &&
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken))
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
@@ -194,7 +193,7 @@ namespace ShareItServices
 
             try
             {
-                return _factory.CreateAccessRightLogic().EditExpiration(oldAR, newAR);
+                return _factory.CreateAccessRightLogic().EditExpiration(newAR);
             }
             catch (Exception e)
             {

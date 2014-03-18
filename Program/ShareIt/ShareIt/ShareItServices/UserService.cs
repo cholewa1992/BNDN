@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareItServices
 {
@@ -37,28 +38,83 @@ namespace ShareItServices
         /// Creates an account
         /// </summary>
         /// <param name="user">The user to be created</param>
-        public void CreateAccount(User user)
+        /// <param name="clientToken">Token used to validate the client</param>
+        public bool CreateAccount(User user, string clientToken)
         {
-            _factory.CreateUserLogic().CreateAccount(user);
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            try
+            {
+                return _factory.CreateUserLogic().CreateAccount(user);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
         /// <summary>
         /// Returns account information
         /// </summary>
         /// <param name="id">The id of the user of which you want to fetch account information</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns></returns>
-        public User GetAccountInformation(int id)
+        public User GetAccountInformation(int id, string clientToken)
         {
-            return _factory.CreateUserLogic().GetAccountInformation(id);
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            try
+            {
+                return _factory.CreateUserLogic().GetAccountInformation(id);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
         /// <summary>
         /// Update a user account
         /// </summary>
-        /// <param name="user">The user to be updated</param>
-        public void UpdateAccounInformation(User user)
+        /// <param name="newUser">The user to be updated</param>
+        /// <param name="requestingUser">The user performing the request</param>
+        /// <param name="clientToken">Token used to validate the client</param>
+        public bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken)
         {
-            _factory.CreateUserLogic().UpdateAccountInformation(user);
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+
+            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+                (requestingUser.Username != newUser.Username)) && 
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
+            try
+            {
+                return _factory.CreateUserLogic().UpdateAccountInformation(newUser);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
     }
 }
