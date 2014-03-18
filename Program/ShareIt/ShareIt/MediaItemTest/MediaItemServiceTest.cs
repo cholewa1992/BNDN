@@ -22,7 +22,7 @@ namespace MediaItemTest
         public void TestGetMediaItemValidId_InformationCount()
         {
             var mediaItem = _mediaItemService.GetMediaItemInformation(1, "token");
-            Assert.AreEqual(2, mediaItem.Information.Count());
+            Assert.AreEqual(5, mediaItem.Information.Count());
         }
 
         [TestMethod]

@@ -22,6 +22,7 @@ namespace ShareIt
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
         [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
     }
