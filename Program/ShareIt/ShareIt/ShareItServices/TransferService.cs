@@ -43,7 +43,7 @@ namespace ShareItServices
         {
             string fileExtension;
             Stream stream = _factory.CreateDataTransferLogic()
-                .GetMediaFileStream(request.Client, request.User, request.MediaId, out fileExtension);
+                .GetMediaStream(request.Client, request.User, request.MediaId, out fileExtension);
 
             return new MediaTransferMessage()
             {

@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.Stub
 {
     class DataTransferLogicStub : IDataTransferLogic
     {
-        public Stream GetMediaFileStream(Client client, User user, int id, out string fileExtension)
+        public Stream GetMediaStream(string clientToken, User user, int id, out string fileExtension)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -21,9 +21,10 @@ namespace BusinessLogicLayer.Stub
             return stream;
         }
 
-        public bool SaveMedia(MediaItem media, Stream stream)
+        public bool SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
         {
             return true;
         }
+
     }
 }

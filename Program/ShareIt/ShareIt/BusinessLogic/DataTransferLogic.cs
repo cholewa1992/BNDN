@@ -12,7 +12,7 @@ namespace BusinessLogicLayer
 {
     class DataTransferLogic : IDataTransferLogic
     {
-        public Stream GetMediaFileStream(Client client, User user, int id, out string fileExtension)
+        public Stream GetMediaStream(string clientToken, User user, int id, out string fileExtension)
         {
             throw new NotImplementedException();
             //using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))

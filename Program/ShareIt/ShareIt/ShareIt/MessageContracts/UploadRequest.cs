@@ -14,12 +14,17 @@ namespace ShareIt.MessageContracts
         /// The client which issued the upload request.
         /// </summary>
         [MessageHeader(MustUnderstand = true)]
-        public Client Client { get; set; }
+        public string ClientToken { get; set; }
         /// <summary>
-        /// The information about the media to be uploaded.
+        /// The meta data about the media to be uploaded.
         /// </summary>
         [MessageHeader]
-        public MediaItem Information { get; set; }
+        public MediaItem MetaData { get; set; }
+        /// <summary>
+        /// The User who owns the media being uploaded.
+        /// </summary>
+        [MessageHeader]
+        public User Owner { get; set; }
         /// <summary>
         /// The length of the FileByteStream
         /// </summary>

@@ -28,6 +28,6 @@ namespace ShareIt.MessageContracts
         /// The client from which the request is send.
         /// </summary>
         [MessageBodyMember(Order = 3)]
-        public Client Client { get; set; }
+        public string ClientToken { get; set; }
     }
 }

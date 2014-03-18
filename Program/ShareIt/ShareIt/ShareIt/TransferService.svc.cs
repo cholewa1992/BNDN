@@ -37,13 +37,13 @@ namespace ShareIt
         /// <summary>
         /// Download a media.
         /// </summary>
-        /// <param name="request">The message contract specifying which media to download.</param>
-        /// <returns>A MediaTransferMessage containing information about the media and a stream for downloading it.</returns>
+        /// <param name="request">The DownloadRequest specifying which media to download.</param>
+        /// <returns>A DownloadResponse containing the file extension of the media and a stream for downloading it.</returns>
         public DownloadResponse DownloadMedia(DownloadRequest request)
         {
             string fileExtension;
             Stream stream = _factory.CreateDataTransferLogic()
-                .GetMediaFileStream(request.Client, request.User, request.MediaId, out fileExtension);
+                .GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
 
             return new DownloadResponse()
             {
@@ -57,10 +57,11 @@ namespace ShareIt
         /// <summary>
         /// Upload a media.
         /// </summary>
-        /// <param name="media">The MediaTransferMessage containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <param name="media">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <returns>An UploadStatusMessage containing information about wether the upload succeeded or not.</returns>
         public UploadStatusMessage UploadMedia(UploadRequest media)
         {
-            var result = _factory.CreateDataTransferLogic().SaveMedia(media.Information, media.FileByteStream);
+            var result = _factory.CreateDataTransferLogic().SaveMedia(media.ClientToken,media.Owner, media.MetaData, media.FileByteStream);
             return new UploadStatusMessage
             {
                 UploadSucceeded = result
