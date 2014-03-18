@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Authentication;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.FaultDataContracts;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer.Stub
 {
@@ -41,12 +42,12 @@ namespace BusinessLogicLayer.Stub
 
         public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new InvalidCredentialException();
             }
 
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, clientToken))
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -56,12 +57,12 @@ namespace BusinessLogicLayer.Stub
 
         public bool DeleteAccessRight(User admin, AccessRight ar, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new InvalidCredentialException();
             }
 
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, clientToken))
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -81,7 +82,7 @@ namespace BusinessLogicLayer.Stub
 
         public bool EditExpiration(User u, AccessRight newAR, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new InvalidCredentialException();
             }
@@ -91,8 +92,8 @@ namespace BusinessLogicLayer.Stub
                 throw new UnauthorizedAccessException();
             }
 
-            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.UserId, newAR.MediaItemId) &&
-                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken))
+            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.UserId, newAR.MediaItemId, new StorageBridge(new EfStorageConnection<BNDNEntities>())) &&
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>())))
             {
                 throw new UnauthorizedAccessException();
             }

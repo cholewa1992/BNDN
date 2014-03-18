@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer.Stub
 {
@@ -36,7 +37,7 @@ namespace BusinessLogicLayer.Stub
         public bool CreateAccount(User user, string clientToken)
         {
 
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
             {
                 throw new InvalidCredentialException();
             }
@@ -75,14 +76,14 @@ namespace BusinessLogicLayer.Stub
 
         public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
             {
                 throw new InvalidCredentialException();
             }
 
             if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
                 (requestingUser.Username != targetUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>()))))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -92,14 +93,14 @@ namespace BusinessLogicLayer.Stub
 
         public bool UpdateAccountInformation(User requestingUser, User newUser, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
             {
                 throw new InvalidCredentialException();
             }
 
             if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
                 (requestingUser.Username != newUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>()))))
             {
                 throw new UnauthorizedAccessException();
             }

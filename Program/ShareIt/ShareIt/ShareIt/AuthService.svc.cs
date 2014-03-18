@@ -72,7 +72,7 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAuthLogic().CheckClientPassword(null);
+                return _factory.CreateAuthLogic().CheckClientExists(client);
             }
             catch (Exception e)
             {
