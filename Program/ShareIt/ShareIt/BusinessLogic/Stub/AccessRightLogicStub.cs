@@ -91,7 +91,7 @@ namespace BusinessLogicLayer.Stub
                 throw new UnauthorizedAccessException();
             }
 
-            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.User, newAR.MediaItem) &&
+            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.UserId, newAR.MediaItemId) &&
                 !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken))
             {
                 throw new UnauthorizedAccessException();

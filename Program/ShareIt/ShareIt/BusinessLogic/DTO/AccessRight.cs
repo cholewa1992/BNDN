@@ -7,10 +7,10 @@ namespace BusinessLogicLayer.DTO
     public class AccessRight
     {
         [DataMember]
-        public User User { get; set; }
+        public int UserId { get; set; }
 
         [DataMember]
-        public MediaItem MediaItem { get; set; }
+        public int MediaItemId { get; set; }
 
         [DataMember]
         public DateTime Expiration { get; set; }

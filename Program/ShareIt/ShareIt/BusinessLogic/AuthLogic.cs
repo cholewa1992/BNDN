@@ -8,7 +8,7 @@ namespace BusinessLogicLayer
 {
     public class AuthLogic: IAuthLogic
     {
-        public bool CheckUserAccess(User user, MediaItem mediaItem)
+        public bool CheckUserAccess(int userId, int mediaItemId)
         {
             throw new System.NotImplementedException();
         }
