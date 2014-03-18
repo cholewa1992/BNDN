@@ -23,7 +23,7 @@ namespace ShareIt
         /// </summary>
         public UserService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicFacade.GetTestFactory();
         }
 
         /// <summary>
@@ -53,9 +53,11 @@ namespace ShareIt
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ae)
             {
-                return true;
+                var fault = new Argument();
+                fault.Message = ae.Message;
+                throw new FaultException<Argument>(fault);
             }
             catch (Exception e)
             {

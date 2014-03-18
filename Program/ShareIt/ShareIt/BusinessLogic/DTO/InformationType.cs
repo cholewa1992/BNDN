@@ -18,13 +18,12 @@ namespace BusinessLogicLayer.DTO
         [EnumMember]Genre,
         [EnumMember]TrackLength,
         [EnumMember]Runtime,
-        [EnumMember]NumberOfPage,
+        [EnumMember]NumberOfPages,
         [EnumMember]Author,
         [EnumMember]Director,
         [EnumMember]Artist,
         [EnumMember]CastMember,
         [EnumMember]ReleaseDate,
-        [EnumMember]Language,
-        [EnumMember]Category //Maybe they mean Genre (talk to SMU)
+        [EnumMember]Language
     }
 }

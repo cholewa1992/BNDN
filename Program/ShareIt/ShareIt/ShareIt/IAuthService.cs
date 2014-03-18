@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
+using System.Web.Services;
+using System.Web.Services.Description;
 using BusinessLogicLayer.DTO;
 
 namespace ShareIt
@@ -12,6 +15,7 @@ namespace ShareIt
     [ServiceContract]
     public interface IAuthService
     {
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool ValidateUser(User user, string clientToken);
 

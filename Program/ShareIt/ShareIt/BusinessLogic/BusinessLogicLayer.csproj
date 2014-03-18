@@ -112,7 +112,7 @@
     <Compile Include="Stub\MediaItemLogicStub.cs" />
     <Compile Include="TestFactory.cs" />
     <Compile Include="DataTransferLogic.cs" />
-    <Compile Include="UserLogic.cs" />
+    <Compile Include="Stub\UserLogicStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
