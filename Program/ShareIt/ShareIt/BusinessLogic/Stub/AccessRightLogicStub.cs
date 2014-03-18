@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.Stub
         /// </summary>
         public AccessRightLogicStub()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicFacade.GetTestFactory();
         }
         /// <summary>
         /// Construct a AccessRightLogicStub object which uses a specified IBusinessLogicFactory.
