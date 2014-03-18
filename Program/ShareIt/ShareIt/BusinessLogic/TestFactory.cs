@@ -21,7 +21,7 @@ namespace BusinessLogicLayer
 
         public IAccessRightLogic CreateAccessRightLogic()
         {
-            throw new NotImplementedException();
+            return new AccessRightLogicStub();
         }
 
         public IDataTransferLogic CreateDataTransferLogic()
