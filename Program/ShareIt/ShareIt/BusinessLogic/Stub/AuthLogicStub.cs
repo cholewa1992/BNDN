@@ -1,4 +1,6 @@
 ﻿using BusinessLogicLayer.DTO;
+using DataAccessLayer;
+using Client = BusinessLogicLayer.DTO.Client;
 
 namespace BusinessLogicLayer.Stub
 {
@@ -47,12 +49,47 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
+        public bool CheckUserAccess(User user, MediaItem mediaItem, IStorageBridge storage)
+        {
+            return true;
+        }
+
+        public bool CheckClientAccess(Client client, MediaItem mediaItem, IStorageBridge storage)
+        {
+            return true;
+        }
+
+        public bool CheckClientPassword(string clientToken, IStorageBridge storage)
+        {
+            return true;
+        }
+
+        public bool IsUserAdminOnClient(User user, string clientToken, IStorageBridge storage)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Always true
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         public bool CheckUserExists(User user)
+        {
+            return true;
+        }
+
+        public bool CheckUserExists(User user, IStorageBridge storage)
+        {
+            return true;
+        }
+
+        public bool CheckClientExists(Client client)
+        {
+            return true;
+        }
+
+        public bool CheckClientExists(Client client, IStorageBridge storage)
         {
             return true;
         }
