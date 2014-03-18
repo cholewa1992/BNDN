@@ -22,7 +22,7 @@ namespace ShareItServices
         /// </summary>
         public MediaItemService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicFacade.GetTestFactory(); //Remember to change this
         }
 
         /// <summary>
@@ -39,12 +39,13 @@ namespace ShareItServices
         /// Get a list of media item information about a given media item.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A list of MediaItemInformation</returns>
-        public MediaItem GetMediaItemInformation(int mediaItemId)
+        public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
         {
             try
             {
-                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId);
+                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, clientToken);
             }
             catch (Exception e)
             {
