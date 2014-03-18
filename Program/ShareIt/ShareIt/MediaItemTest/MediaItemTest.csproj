@@ -58,9 +58,9 @@
       <Project>{B53B3D0D-6DC0-46D1-A4A7-52DE953B0A46}</Project>
       <Name>BusinessLogicLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShareItServices\ShareItServices.csproj">
-      <Project>{15B3E0D2-6217-493A-A690-158C497F5318}</Project>
-      <Name>ShareItServices</Name>
+    <ProjectReference Include="..\ShareIt\ShareIt.csproj">
+      <Project>{3ec8bf9d-e9df-4785-b61a-01969e3026be}</Project>
+      <Name>ShareIt</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
