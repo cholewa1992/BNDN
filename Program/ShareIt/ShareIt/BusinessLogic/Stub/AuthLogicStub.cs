@@ -29,9 +29,9 @@ namespace BusinessLogicLayer.Stub
         /// <summary>
         /// Always true
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="clientToken"></param>
         /// <returns></returns>
-        public bool CheckClientPassword(Client client)
+        public bool CheckClientPassword(string clientToken)
         {
             return true;
         }

@@ -21,12 +21,17 @@ namespace BusinessLogicLayer
 
         public IAccessRightLogic CreateAccessRightLogic()
         {
-            throw new NotImplementedException();
+            return new AccessRightLogicStub();
         }
 
         public IDataTransferLogic CreateDataTransferLogic()
         {
             return new DataTransferLogicStub();
+        }
+
+        public IMediaItemLogic CreateMediaItemLogic()
+        {
+            return new MediaItemLogicStub();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -43,7 +44,7 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(User oldAdmin, User newAdmin, Client c)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -76,7 +77,7 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool Delete(User admin, AccessRight ar, Client c)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -109,7 +110,7 @@ namespace ShareItServices
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
         public List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, Client c)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -142,7 +143,7 @@ namespace ShareItServices
         /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
         public List<AccessRight> GetUploadHistory(User u, Client c)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
@@ -169,7 +170,7 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool EditExpiration(User u, AccessRight oldAR, AccessRight newAR, Client c)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(c))
+            if (!_factory.CreateAuthLogic().CheckClientPassword(null))
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";

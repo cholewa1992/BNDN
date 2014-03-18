@@ -17,10 +17,10 @@ namespace ShareItServices
     public class AuthService : IAuthService
     {
 
-        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetTestFactory();
 
 
-#region constructors
+        #region constructors
 
         /// <summary>
         /// Default constructor initialized by WCF
@@ -29,7 +29,7 @@ namespace ShareItServices
 
 
         /// <summary>
-        /// Constructor with injection
+        /// Constructor with injection for testing
         /// </summary>
         /// <param name="factory">Business logic factory to use</param>
         public AuthService(IBusinessLogicFactory factory)
@@ -37,21 +37,22 @@ namespace ShareItServices
             _factory = factory;
         }
 
-#endregion
-
-        
+        #endregion
 
 
-#region methods
+
+
+        #region methods
 
         /// <summary>
-        /// Validates whether a user exists in the system
+        /// Validates whether a user exists with the system
         /// </summary>
         /// <param name="user">A user to check</param>
-        /// <returns></returns>
-        public bool ValidateUser(User user)
+        /// <param name="clientToken">The token to varify the client asking</param>
+        /// <returns>A boolean result</returns>
+        public bool ValidateUser(User user, string clientToken)
         {
-            
+
             try
             {
                 return _factory.CreateAuthLogic().CheckUserExists(user);
@@ -63,16 +64,17 @@ namespace ShareItServices
 
         }
 
+
         /// <summary>
-        /// Validates whether a client exists in the system
+        /// Validates whether a client exists with the system
         /// </summary>
         /// <param name="client">A client to check</param>
-        /// <returns></returns>
-        public bool CheckClientPassword(Client client)
+        /// <returns>A boolean result</returns>
+        public bool CheckClientExists(Client client)
         {
             try
             {
-                return _factory.CreateAuthLogic().CheckClientPassword(client);
+                return _factory.CreateAuthLogic().CheckClientPassword(null);
             }
             catch (Exception e)
             {
@@ -81,8 +83,8 @@ namespace ShareItServices
 
         }
 
-#endregion
+        #endregion
 
-        
+
     }
 }
