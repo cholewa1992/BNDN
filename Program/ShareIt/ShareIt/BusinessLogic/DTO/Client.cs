@@ -9,6 +9,6 @@ namespace BusinessLogicLayer.DTO
         public string Name { get; set; }
 
         [DataMember]
-        public string Password { get; set; }
+        public string Token { get; set; }
     }
 }
