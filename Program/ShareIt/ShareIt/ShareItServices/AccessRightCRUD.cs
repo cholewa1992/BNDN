@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
@@ -44,23 +45,21 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateAccessRightLogic().MakeAdmin(oldAdmin, newAdmin, clientToken);
+            }
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, clientToken))
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateAccessRightLogic().MakeAdmin(newAdmin);
             }
             catch (Exception e)
             {
@@ -77,23 +76,21 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool Delete(User admin, AccessRight ar, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateAccessRightLogic().DeleteAccessRight(admin, ar, clientToken);
+            }
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, clientToken))
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateAccessRightLogic().DeleteAccessRight(ar);
             }
             catch (Exception e)
             {
@@ -110,31 +107,21 @@ namespace ShareItServices
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool EditExpiration(User u, AccessRight newAR, string clientToken)
         {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            try
+            {
+                return _factory.CreateAccessRightLogic().EditExpiration(u, newAR, clientToken);
+            }
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-
-            if (!_factory.CreateAuthLogic().CheckUserExists(u))
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.User, newAR.MediaItem) &&
-                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken))
-            {
-                var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateAccessRightLogic().EditExpiration(newAR);
             }
             catch (Exception e)
             {

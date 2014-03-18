@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,8 +12,34 @@ namespace BusinessLogicLayer
 {
     class UserLogic : IUserLogic
     {
-        public bool CreateAccount(User user)
+        private IBusinessLogicFactory _factory;
+
+        /// <summary>
+        /// Construct a UserLogic which uses the default business logic factory.
+        /// This constructor is called by WCF.
+        /// </summary>
+        public UserLogic()
         {
+            _factory = BusinessLogicFacade.GetBusinessFactory();
+        }
+
+        /// <summary>
+        /// Construct a UserLogic object which uses a specified IBusinessLogicFactory.
+        /// Should be used for test purposes.
+        /// </summary>
+        /// <param name="factory">The IBusinessLogicFactory which the UserService should use for its logic.</param>
+        public UserLogic(IBusinessLogicFactory factory)
+        {
+            _factory = factory;
+        }
+
+        public bool CreateAccount(User user, string clientToken)
+        {
+
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
 
             // Check if the user is already stored in the DB
 
@@ -46,27 +73,42 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public User GetAccountInformation(User user)
+        public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
         {
-            try
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
-               user = new User(); // Get the user from the id
+                throw new InvalidCredentialException();
             }
-            catch (Exception)
+
+            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+                (requestingUser.Username != targetUser.Username)) &&
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
             {
-                throw new Exception("The requested accountinformation can not be displayed");
+                throw new UnauthorizedAccessException();
             }
             
-            return user;
+            return targetUser;
         }
 
-        public bool UpdateAccountInformation(User user)
+        public bool UpdateAccountInformation(User requestingUser, User newUser, string clientToken)
         {
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+                (requestingUser.Username != newUser.Username)) &&
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             // Get the account from db
 
             User oldAccount;
 
-            oldAccount = user;
+            oldAccount = requestingUser;
 
             try
             {

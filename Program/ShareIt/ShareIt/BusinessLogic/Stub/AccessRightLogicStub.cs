@@ -1,11 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace BusinessLogicLayer.Stub
 {
     public class AccessRightLogicStub : IAccessRightLogic
     {
+
+        private IBusinessLogicFactory _factory;
+
+        /// <summary>
+        /// Construct a AccessRightLogicStub which uses the default business logic factory.
+        /// This constructor is called by WCF.
+        /// </summary>
+        public AccessRightLogicStub()
+        {
+            _factory = BusinessLogicFacade.GetBusinessFactory();
+        }
+        /// <summary>
+        /// Construct a AccessRightLogicStub object which uses a specified IBusinessLogicFactory.
+        /// Should be used for test purposes.
+        /// </summary>
+        /// <param name="factory">The IBusinessLogicFactory which the TransferService should use for its logic.</param>
+        public AccessRightLogicStub(IBusinessLogicFactory factory)
+        {
+            _factory = factory;
+        }
+
         public bool Purchase(User u, MediaItem m, Client c, DateTime expiration)
         {
             return true;
@@ -16,13 +39,33 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
-        public bool MakeAdmin(User newAdmin)
+        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
         {
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(oldAdmin, clientToken))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             return true;
         }
 
-        public bool DeleteAccessRight(AccessRight ar)
+        public bool DeleteAccessRight(User admin, AccessRight ar, string clientToken)
         {
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            if (!_factory.CreateAuthLogic().IsUserAdminOnClient(admin, clientToken))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             return true;
         }
 
@@ -36,8 +79,24 @@ namespace BusinessLogicLayer.Stub
             return new List<AccessRight>();
         }
 
-        public bool EditExpiration(AccessRight newAR)
+        public bool EditExpiration(User u, AccessRight newAR, string clientToken)
         {
+            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            if (!_factory.CreateAuthLogic().CheckUserExists(u))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            if (!_factory.CreateAuthLogic().CheckUserAccess(newAR.User, newAR.MediaItem) &&
+                !_factory.CreateAuthLogic().IsUserAdminOnClient(u, clientToken))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             return true;
         }
     }
