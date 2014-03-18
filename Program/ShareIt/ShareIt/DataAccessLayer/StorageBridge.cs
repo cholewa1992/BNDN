@@ -9,7 +9,7 @@ namespace DataAccessLayer
     /// <author>
     /// Jacob Cholewa (jbec@itu.dk)
     /// </author>
-    public class StorageBridge : IDisposable
+    public class StorageBridge : IDisposable, IStorageBridge
     {
         private readonly IStorageConnection _storageConnection;
 

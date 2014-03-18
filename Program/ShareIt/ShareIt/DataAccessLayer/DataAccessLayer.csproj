@@ -60,6 +60,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\InternalDbException.cs" />
+    <Compile Include="IStorageBridge.cs" />
     <Compile Include="StorageBridge.cs" />
     <Compile Include="Exceptions\ChangesWasNotSavedException.cs" />
     <Compile Include="EfStorageConnection.cs" />
