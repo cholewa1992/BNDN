@@ -14,20 +14,38 @@ namespace BusinessLogicLayer.Stub
         /// <returns>A MediaItem with all its information</returns>
         public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
         {
-            var mii1 = new MediaItemInformation
-            {
-                Id = 1,
-                Type = InformationType.Title,
-                Data = "Some stub title"
+            var list = new List<MediaItemInformation> {
+                new MediaItemInformation
+                {
+                    Id = 1,
+                    Type = InformationType.Title,
+                    Data = "Harry Potter And The Chamber Of Secrets"
+                },
+                new MediaItemInformation
+                {
+                    Id = 1,
+                    Type = InformationType.Price,
+                    Data = "6.64"
+                },
+                new MediaItemInformation
+                {
+                    Id = 1,
+                    Type = InformationType.NumberOfPages,
+                    Data = "341"
+                },
+                new MediaItemInformation
+                {
+                    Id = 1,
+                    Type = InformationType.Genre,
+                    Data = "Fantasy"
+                },
+                new MediaItemInformation
+                {
+                    Id = 1,
+                    Type = InformationType.Author,
+                    Data = "J.K. Rowling"
+                }
             };
-            var mii2 = new MediaItemInformation
-            {
-                Id = 2,
-                Type = InformationType.Price,
-                Data = "10.0"
-            };
-
-            var list = new List<MediaItemInformation> {mii1, mii2};
 
             var item = new MediaItem {Id = 1, Type = MediaItemType.Book, FileExtension = ".pdf", Information = list};
 
