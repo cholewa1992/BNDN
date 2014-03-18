@@ -102,65 +102,6 @@ namespace ShareItServices
         }
 
         /// <summary>
-        /// Returns a list of MediaItems that a given User has purchased (AccessRights with type buyer)
-        /// </summary>
-        /// <param name="requestingUser">The User performing the request</param>
-        /// <param name="targetUser">The user whose AccessRights will be returned</param>
-        /// <param name="clientToken">Token used to validate the client</param>
-        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        public List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, string clientToken)
-        {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
-            {
-                var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedClient>(fault);
-            }
-
-            if (requestingUser != targetUser &&
-                !_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken))
-            {
-                var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedUser>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateAccessRightLogic().GetPurchaseHistory(targetUser);
-            }
-            catch (Exception e)
-            {
-                throw new FaultException(new FaultReason(e.Message));
-            }
-        }
-
-        /// <summary>
-        /// Returns a list of MediaItems that a given User has uploaded (AccessRights with type owner)
-        /// </summary>
-        /// <param name="u">The user whose AccessRights will be returned</param>
-        /// <param name="clientToken">Token used to validate the client</param>
-        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        public List<AccessRight> GetUploadHistory(User u, string clientToken)
-        {
-            if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
-            {
-                var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedClient>(fault);
-            }
-
-            try
-            {
-                return _factory.CreateAccessRightLogic().GetUploadHistory(u);
-            }
-            catch (Exception e)
-            {
-                throw new FaultException(new FaultReason(e.Message));
-            }
-        }
-
-        /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
         /// <param name="u">The User performing the request</param>

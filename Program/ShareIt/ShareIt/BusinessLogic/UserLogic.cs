@@ -46,10 +46,8 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public User GetAccountInformation(int id)
+        public User GetAccountInformation(User user)
         {
-            User user;
-
             try
             {
                user = new User(); // Get the user from the id

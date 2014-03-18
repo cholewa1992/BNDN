@@ -39,28 +39,6 @@ namespace ShareItServices
         bool Delete(User admin, AccessRight ar, string clientToken);
 
         /// <summary>
-        /// Returns a list of MediaItems that a given User has purchased (AccessRights with type buyer)
-        /// </summary>
-        /// <param name="requestingUser">The User performing the request</param>
-        /// <param name="targetUser">The user whose AccessRights will be returned</param>
-        /// <param name="clientToken">The client from which the request originated</param>
-        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        [FaultContract(typeof(UnauthorizedUser))]
-        [FaultContract(typeof(UnauthorizedClient))]
-        [OperationContract]
-        List<AccessRight> GetPurchaseHistory(User requestingUser, User targetUser, string clientToken);
-
-        /// <summary>
-        /// Returns a list of MediaItems that a given User has uploaded (AccessRights with type owner)
-        /// </summary>
-        /// <param name="u">The user whose AccessRights will be returned</param>
-        /// <param name="clientToken">The client from which the request originated</param>
-        /// <returns>A list of access rights if the request succeeds. Otherwise it returns a fault.</returns>
-        [FaultContract(typeof(UnauthorizedClient))]
-        [OperationContract]
-        List<AccessRight> GetUploadHistory(User u, string clientToken);
-
-        /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
         /// <param name="u">The User performing the request</param>

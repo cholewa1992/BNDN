@@ -61,10 +61,11 @@ namespace ShareItServices
         /// <summary>
         /// Returns account information
         /// </summary>
-        /// <param name="id">The id of the user of which you want to fetch account information</param>
+        /// <param name="requestingUser">The user performing the request</param>
+        /// <param name="targetUser">The user of which you want to fetch account information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns></returns>
-        public User GetAccountInformation(int id, string clientToken)
+        public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
         {
             if (!_factory.CreateAuthLogic().CheckClientPassword(clientToken))
             {
@@ -73,9 +74,18 @@ namespace ShareItServices
                 throw new FaultException<UnauthorizedClient>(fault);
             }
 
+            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+                (requestingUser.Username != targetUser.Username)) &&
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+
             try
             {
-                return _factory.CreateUserLogic().GetAccountInformation(id);
+                return _factory.CreateUserLogic().GetAccountInformation(targetUser);
             }
             catch (Exception e)
             {

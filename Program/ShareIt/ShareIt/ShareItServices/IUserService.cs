@@ -23,11 +23,12 @@ namespace ShareItServices
         /// <summary>
         /// Returns account information
         /// </summary>
-        /// <param name="id">The id of the user of which you want to fetch account information</param>
-        /// <param name="clientToken"></param>
+        /// <param name="requestingUser">The user performing the request</param>
+        /// <param name="targetUser">The user of which you want to fetch account information</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns></returns>
         [OperationContract]
-        User GetAccountInformation(int id, string clientToken);
+        User GetAccountInformation(User requestingUser, User targetUser, string clientToken);
 
         /// <summary>
         /// Update a user account
