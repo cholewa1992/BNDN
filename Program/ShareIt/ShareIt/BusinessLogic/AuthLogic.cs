@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer;
+using Client = BusinessLogicLayer.DTO.Client;
 
 namespace BusinessLogicLayer
 {
@@ -19,10 +21,9 @@ namespace BusinessLogicLayer
 
         public bool CheckClientPassword(string clientToken)
         {
-            //Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Name));
-            //Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
 
-            // TODO check with DAL
+           
 
             return true;
         }
