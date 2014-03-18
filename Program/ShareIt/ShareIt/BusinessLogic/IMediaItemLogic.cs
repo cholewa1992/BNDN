@@ -9,6 +9,12 @@ namespace BusinessLogicLayer
 {
     public interface IMediaItemLogic
     {
-        MediaItem GetMediaItemInformation(int mediaItemId);
+        /// <summary>
+        /// Returns a media item with a collection of media item information
+        /// </summary>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="clientToken">Token used to verify the client</param>
+        /// <returns>A MediaItem with all its information</returns>
+        MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
     }
 }

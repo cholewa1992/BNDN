@@ -17,7 +17,7 @@ namespace AuthTest
         [TestMethod]
         public void TestValidateUser()
         {
-            var r = _authService.ValidateUser(new User());
+            var r = _authService.ValidateUser(new User(), "token");
             Assert.AreEqual(true, r);
         }
 

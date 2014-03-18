@@ -18,9 +18,10 @@ namespace ShareItServices
         /// Get a media item including all of its information.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
         [OperationContract]
-        MediaItem GetMediaItemInformation(int mediaItemId);
+        MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
     }
 }
 
