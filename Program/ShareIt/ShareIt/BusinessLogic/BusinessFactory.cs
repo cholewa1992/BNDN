@@ -10,7 +10,7 @@ namespace BusinessLogicLayer
     {
         public IUserLogic CreateUserLogic()
         {
-            return new UserLogic();
+            throw new NotImplementedException();
         }
 
         public IAuthLogic CreateAuthLogic()
