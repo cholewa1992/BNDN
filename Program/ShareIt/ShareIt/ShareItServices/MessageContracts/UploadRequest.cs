@@ -11,6 +11,7 @@ namespace ShareItServices.MessageContracts
     /// <summary>
     /// The message contract used when requesting to upload media to the server.
     /// </summary>
+    [MessageContract]
     public class UploadRequest : MediaTransferMessage
     {
         /// <summary>

@@ -48,14 +48,12 @@
     <Compile Include="AuthService.cs" />
     <Compile Include="IAccessRightCRUD.cs" />
     <Compile Include="IAuthService.cs" />
-    <Compile Include="IService1.cs" />
     <Compile Include="ITransferService.cs" />
     <Compile Include="MessageContracts\DownloadRequest.cs" />
     <Compile Include="MessageContracts\MediaTransferMessage.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />
     <Compile Include="MessageContracts\UploadStatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service1.cs" />
     <Compile Include="TransferService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="IUserService.cs" />
