@@ -67,6 +67,7 @@
     <Compile Include="AuthService.cs" />
     <Compile Include="IAccessRightCRUD.cs" />
     <Compile Include="IAuthService.cs" />
+    <Compile Include="IService2.cs" />
     <Compile Include="ITransferService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="MessageContracts\DownloadRequest.cs" />
