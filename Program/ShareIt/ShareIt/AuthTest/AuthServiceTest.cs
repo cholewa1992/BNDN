@@ -24,7 +24,7 @@ namespace AuthTest
         [TestMethod]
         public void TestCheckClientPassword()
         {
-            var r = _authService.CheckClientPassword(new Client());
+            var r = _authService.CheckClientExists(new Client());
             Assert.AreEqual(true, r);
         }
     }

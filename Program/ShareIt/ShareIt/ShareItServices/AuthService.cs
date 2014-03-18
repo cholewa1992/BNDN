@@ -48,8 +48,9 @@ namespace ShareItServices
         /// Validates whether a user exists with the system
         /// </summary>
         /// <param name="user">A user to check</param>
+        /// <param name="clientToken">The token to varify the client asking</param>
         /// <returns>A boolean result</returns>
-        public bool ValidateUser(User user)
+        public bool ValidateUser(User user, string clientToken)
         {
 
             try
@@ -63,12 +64,13 @@ namespace ShareItServices
 
         }
 
+
         /// <summary>
         /// Validates whether a client exists with the system
         /// </summary>
         /// <param name="client">A client to check</param>
         /// <returns>A boolean result</returns>
-        public bool CheckClientPassword(Client client)
+        public bool CheckClientExists(Client client)
         {
             try
             {

@@ -15,10 +15,10 @@ namespace ShareItServices
     {
 
         [OperationContract]
-        bool ValidateUser(User user);
+        bool ValidateUser(User user, string clientToken);
 
         [OperationContract]
-        bool CheckClientPassword(Client client);
+        bool CheckClientExists(Client client);
 
     }
 }
