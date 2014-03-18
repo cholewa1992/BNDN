@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using ShareIt;
 
 namespace ShareIt
@@ -48,11 +49,11 @@ namespace ShareIt
             {
                 return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, clientToken);
             } 
-            /*catch (ArgumentException ae)
+            catch (ArgumentException ae)
             {
                 var fault = new Argument {Message = ae.Message};
-                throw new FaulException<Argument>(fault);
-            }*/
+                throw new FaultException<Argument>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
