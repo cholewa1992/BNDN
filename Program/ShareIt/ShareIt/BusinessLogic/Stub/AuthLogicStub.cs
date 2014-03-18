@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
-        public bool CheckUserAccess(User user, MediaItem mediaItem, IStorageBridge storage)
+        public bool CheckUserAccess(int userId, int mediaItemId, IStorageBridge storage)
         {
             return true;
         }
@@ -59,7 +59,12 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
-        public bool CheckClientPassword(string clientToken, IStorageBridge storage)
+        public bool CheckClientToken(string clientToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CheckClientToken(string clientToken, IStorageBridge storage)
         {
             return true;
         }

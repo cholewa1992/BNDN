@@ -6,12 +6,13 @@ namespace BusinessLogicLayer
 {
     public interface IAuthLogic
     {
-        bool CheckUserAccess(User user, MediaItem mediaItem, IStorageBridge storage);
+        bool CheckUserAccess(int userId, int mediaItemId, IStorageBridge storage);
 
 
         bool CheckClientAccess(Client client, MediaItem mediaItem, IStorageBridge storage);
 
-        bool CheckClientPassword(string clientToken, IStorageBridge storage);
+        bool CheckClientToken(string clientToken);
+        bool CheckClientToken(string clientToken, IStorageBridge storage);
 
         bool IsUserAdminOnClient(User user, string clientToken, IStorageBridge storage);
 
