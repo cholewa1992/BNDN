@@ -7,10 +7,10 @@ namespace BusinessLogicLayer.Stub
         /// <summary>
         /// Always true
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="mediaItem"></param>
+        /// <param name="userId"></param>
+        /// <param name="mediaItemId"></param>
         /// <returns></returns>
-        public bool CheckUserAccess(User user, MediaItem mediaItem)
+        public bool CheckUserAccess(int userId, int mediaItemId)
         {
             return true;
         }
