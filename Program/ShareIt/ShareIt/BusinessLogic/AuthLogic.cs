@@ -17,10 +17,10 @@ namespace BusinessLogicLayer
         }
 
 
-        public bool CheckClientPassword(Client client)
+        public bool CheckClientPassword(string clientToken)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Name));
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Password));
+            //Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Name));
+            //Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Password));
 
             // TODO check with DAL
 

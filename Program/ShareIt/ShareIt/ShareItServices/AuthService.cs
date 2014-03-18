@@ -74,7 +74,7 @@ namespace ShareItServices
         {
             try
             {
-                return _factory.CreateAuthLogic().CheckClientPassword(client);
+                return _factory.CreateAuthLogic().CheckClientPassword(null);
             }
             catch (Exception e)
             {
