@@ -20,7 +20,7 @@ namespace ShareItServices
         private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetTestFactory();
 
 
-#region constructors
+        #region constructors
 
         /// <summary>
         /// Default constructor initialized by WCF
@@ -37,12 +37,12 @@ namespace ShareItServices
             _factory = factory;
         }
 
-#endregion
-
-        
+        #endregion
 
 
-#region methods
+
+
+        #region methods
 
         /// <summary>
         /// Validates whether a user exists with the system
@@ -51,7 +51,7 @@ namespace ShareItServices
         /// <returns>A boolean result</returns>
         public bool ValidateUser(User user)
         {
-            
+
             try
             {
                 return _factory.CreateAuthLogic().CheckUserExists(user);
@@ -81,8 +81,8 @@ namespace ShareItServices
 
         }
 
-#endregion
+        #endregion
 
-        
+
     }
 }
