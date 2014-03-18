@@ -61,7 +61,9 @@
     <Compile Include="AuthService.cs" />
     <Compile Include="IAccessRightCRUD.cs" />
     <Compile Include="IAuthService.cs" />
+    <Compile Include="IMediaItemService.cs" />
     <Compile Include="ITransferService.cs" />
+    <Compile Include="MediaItemService.cs" />
     <Compile Include="MessageContracts\DownloadRequest.cs" />
     <Compile Include="MessageContracts\MediaTransferMessage.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />
