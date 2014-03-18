@@ -31,6 +31,7 @@ namespace ShareIt
         /// <returns></returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         User GetAccountInformation(User requestingUser, User targetUser, string clientToken);
 

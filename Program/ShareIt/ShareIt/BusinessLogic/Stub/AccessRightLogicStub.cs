@@ -29,12 +29,12 @@ namespace BusinessLogicLayer.Stub
             _factory = factory;
         }
 
-        public bool Purchase(User u, MediaItem m, Client c, DateTime expiration)
+        public bool Purchase(User u, MediaItem m, DateTime expiration)
         {
             return true;
         }
 
-        public bool Upload(User u, MediaItem m, Client c)
+        public bool Upload(User u, MediaItem m)
         {
             return true;
         }
