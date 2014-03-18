@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
 {
@@ -20,6 +21,7 @@ namespace ShareIt
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
+        [FaultContract(typeof(Argument))]
         [OperationContract]
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
     }
