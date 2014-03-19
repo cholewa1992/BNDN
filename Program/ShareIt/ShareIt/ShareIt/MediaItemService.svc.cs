@@ -59,5 +59,25 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey)
+        {
+            if (from > to)
+            {
+                throw new FaultException<Argument>(new Argument()
+                {
+                    Message = "\"from\" must be less than or equal to \"to\""
+                });
+            }
+
+            try
+            {
+                return _factory.CreateMediaItemLogic().FindMediaItemRange(from, to, searchKey);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
@@ -16,5 +17,7 @@ namespace BusinessLogicLayer
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
+
+        List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey);
     }
 }

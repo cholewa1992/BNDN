@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
@@ -24,5 +25,10 @@ namespace BusinessLogicLayer
                 //throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
             throw new NotImplementedException();
         }
+
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey)
+        {
+            throw new NotImplementedException();
+        } 
     }
 }
