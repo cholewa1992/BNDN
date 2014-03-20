@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
@@ -15,7 +16,7 @@ namespace BusinessLogicLayer
 
         public IAuthLogic CreateAuthLogic()
         {
-            return new AuthLogic();
+            return new AuthLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
 
         public IAccessRightLogic CreateAccessRightLogic()

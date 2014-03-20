@@ -83,7 +83,7 @@ namespace BusinessLogicLayer.Stub
 
             if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
                 (requestingUser.Username != targetUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>()))))
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -100,7 +100,7 @@ namespace BusinessLogicLayer.Stub
 
             if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
                 (requestingUser.Username != newUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken, new StorageBridge(new EfStorageConnection<BNDNEntities>()))))
+                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
