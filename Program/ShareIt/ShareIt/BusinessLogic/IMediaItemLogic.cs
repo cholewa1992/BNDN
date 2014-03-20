@@ -18,6 +18,6 @@ namespace BusinessLogicLayer
         /// <returns>A MediaItem with all its information</returns>
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
 
-        List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey);
+        List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? type, string searchKey, string clientToken);
     }
 }
