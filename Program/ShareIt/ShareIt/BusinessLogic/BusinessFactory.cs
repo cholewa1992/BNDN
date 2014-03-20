@@ -11,7 +11,7 @@ namespace BusinessLogicLayer
     {
         public IUserLogic CreateUserLogic()
         {
-            throw new NotImplementedException();
+            return new UserLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
 
         public IAuthLogic CreateAuthLogic()
