@@ -10,6 +10,13 @@ namespace BusinessLogicLayer
 {
     class MediaItemLogic : IMediaItemLogic
     {
+        private IStorageBridge _storage;
+
+        public MediaItemLogic(IStorageBridge storage)
+        {
+            _storage = storage;
+        }
+
         /// <summary>
         /// Returns a media item with a collection of media item information
         /// </summary>
@@ -26,7 +33,7 @@ namespace BusinessLogicLayer
             throw new NotImplementedException();
         }
 
-        public List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
             if (from > to)
             {
@@ -35,63 +42,47 @@ namespace BusinessLogicLayer
                 to = temp;
             }
 
-            var lists = new List<List<MediaItem>>();
+            var result = new Dictionary<MediaItemType, List<MediaItem>>();
 
             bool isAllMediaTypes = mediaType.Equals(null);
 
-            //Maps the media type to the index in "lists"
-            var mediaTypeMapping = new Dictionary<int, int>();
-
-            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            using (_storage)
             {
-                if (isAllMediaTypes)
-                {
-                    //foreach media item type add a new list to lists
-                    int i = 0;
-                    foreach (var type in storage.Get<EntityType>())
-                    {
-                        mediaTypeMapping.Add(type.Id, i);
-                        lists.Add(new List<MediaItem>());
-                        i++;
-                    }
-                }
-                else
-                {
-                    //A specific type. Only one list is needed
-                    lists.Add(new List<MediaItem>());
-                }
-
                 if (isAllMediaTypes)
                 {
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & all media types
                     {
-                        var groups = storage.Get<Entity>().GroupBy((a) => a.TypeId).Skip(from).Take(to);
+                        var groups = _storage.Get<Entity>().
+                            GroupBy((a) => a.TypeId).
+                            Skip(from).
+                            Take(to-from);
                         foreach (var group in groups)
                         {
+                            var list = new List<MediaItem>();
                             foreach (var item in group)
                             {
-                                lists[mediaTypeMapping[(int)@group.Key]].Add(
-                                    GetMediaItemInformation(item.Id, "token")
-                                );
+                                list.Add(GetMediaItemInformation(item.Id, "token"));
                             }
+                            result.Add((MediaItemType) group.Key, list);
                         }
                     }
                     else //Searchkey & all media types
                     {
-                        var typeGroups = (from itemGroup in
-                                              (from e in storage.Get<Entity>()
-                                               join ei in storage.Get<EntityInfo>() on e.Id equals ei.EntityId
-                                               where ei.Data.Contains(searchKey)
-                                               group e by e.Id)
-                                          group itemGroup by itemGroup.First().EntityType.Id).
-                                          Skip(from).Take(to);
+                        var typeGroups = (_storage.Get<EntityInfo>().
+                                Where(info => info.Data.Contains(searchKey)).
+                                GroupBy(info => info.EntityId).
+                                OrderBy(group => group.Count())).
+                            GroupBy(d => d.FirstOrDefault().Entity.TypeId).
+                            Skip(from).Take(to - from);
 
-                        foreach (var typeGroup in typeGroups)
+                        foreach (var type in typeGroups)
                         {
-                            foreach (var item in typeGroup)
+                            var list = new List<MediaItem>();
+                            foreach (var item in type)
                             {
-                                GetMediaItemInformation(item.Key, "token");
+                                list.Add(GetMediaItemInformation(item.Key, "token"));
                             }
+                            result.Add((MediaItemType) type.Key, list);
                         }
                     }
                 }
@@ -99,30 +90,38 @@ namespace BusinessLogicLayer
                 {
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & specific media type
                     {
-                        var mediaItems = storage.Get<Entity>().
-                            Where(a => a.EntityType.Id == (int)mediaType).Skip(from).Take(to);
+                        var mediaItems = _storage.Get<Entity>().
+                            Where(item => item.TypeId == (int)mediaType).
+                            Skip(from).
+                            Take(to-from);
+
+                        var list = new List<MediaItem>();
                         foreach (var mediaItem in mediaItems)
                         {
-                            lists[0].Add(
-                                GetMediaItemInformation(mediaItem.Id, "token")
-                            );
+                            list.Add(GetMediaItemInformation(mediaItem.Id, "token"));
                         }
+                        result.Add((MediaItemType) mediaType, list);
                     }
                     else //Searchkey & specific media type
                     {
-                        var mediaItems = (from e in storage.Get<Entity>()
-                                          join ei in storage.Get<EntityInfo>() on e.Id equals ei.EntityId
-                                          where ei.Data.Contains(searchKey) && e.EntityType.Id == (int)mediaType
-                                          select e).Skip(from).Take(to);
+                        var mediaItems = _storage.Get<EntityInfo>().
+                                Where(info => info.Data.Contains(searchKey)
+                                && info.Entity.TypeId == (int) mediaType).
+                                GroupBy(info => info.EntityId).
+                                OrderBy(group => group.Count()).
+                                Skip(from).
+                                Take(to - from);
 
+                        var list = new List<MediaItem>();
                         foreach (var mediaItem in mediaItems)
                         {
-                            lists[0].Add(GetMediaItemInformation(mediaItem.Id, "token"));
+                            list.Add(GetMediaItemInformation(mediaItem.Key, "token"));
                         }
+                        result.Add((MediaItemType) mediaType, list);
                     }
                 }
             }
-            return lists;
+            return result;
         } 
     }
 }

@@ -31,7 +31,7 @@ namespace BusinessLogicLayer
 
         public IMediaItemLogic CreateMediaItemLogic()
         {
-            return new MediaItemLogic();
+            return new MediaItemLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
     }
 }
