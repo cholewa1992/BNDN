@@ -26,7 +26,7 @@ namespace BusinessLogicLayer
 
         public IDataTransferLogic CreateDataTransferLogic()
         {
-            throw new NotImplementedException();
+            return new DataTransferLogic(new FileStorage(), new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
 
         public IMediaItemLogic CreateMediaItemLogic()

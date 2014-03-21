@@ -21,13 +21,13 @@ namespace BusinessLogicLayer
         Stream GetMediaStream(string clientToken, User user, int mediaId, out string fileExtension);
 
         /// <summary>
-        /// Save 
+        /// Save the data and metadata of a MediaItem.
         /// </summary>
-        /// <param name="clientToken"></param>
-        /// <param name="owner"></param>
-        /// <param name="media"></param>
-        /// <param name="stream"></param>
-        /// <returns></returns>
+        /// <param name="clientToken">The client token of the client from which the request originates.</param>
+        /// <param name="owner">The User who is requesting to save the media.</param>
+        /// <param name="media">The MediaItem object containing the metadata.</param>
+        /// <param name="stream">The stream of data which is to be saved.</param>
+        /// <returns>The Id which the MediaItem has been assigned by the system.s</returns>
         int SaveMedia(string clientToken,User owner, MediaItem media, Stream stream);
     }
 }
