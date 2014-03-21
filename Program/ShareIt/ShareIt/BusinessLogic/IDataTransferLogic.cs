@@ -28,6 +28,6 @@ namespace BusinessLogicLayer
         /// <param name="media"></param>
         /// <param name="stream"></param>
         /// <returns></returns>
-        bool SaveMedia(string clientToken,User owner, MediaItem media, Stream stream);
+        int SaveMedia(string clientToken,User owner, MediaItem media, Stream stream);
     }
 }

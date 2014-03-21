@@ -64,7 +64,7 @@ namespace ShareIt
             var result = _factory.CreateDataTransferLogic().SaveMedia(media.ClientToken,media.Owner, media.MetaData, media.FileByteStream);
             return new UploadStatusMessage
             {
-                UploadSucceeded = result
+                UploadSucceeded = result > 0  
             };
         }
     }

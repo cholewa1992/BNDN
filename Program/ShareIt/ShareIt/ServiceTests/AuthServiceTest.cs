@@ -1,12 +1,9 @@
-﻿using System;
-using System.Net;
-using System.Runtime.InteropServices;
-using BusinessLogicLayer;
+﻿using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ShareItServices;
+using ShareIt;
 
-namespace AuthTest
+namespace ServiceTests
 {
     [TestClass]
     public class AuthServiceTest
@@ -18,14 +15,14 @@ namespace AuthTest
         public void TestValidateUser()
         {
             var r = _authService.ValidateUser(new User(), "token");
-            Assert.AreEqual(true, r);
+            Assert.AreEqual<bool>(true, r);
         }
 
         [TestMethod]
         public void TestCheckClientPassword()
         {
             var r = _authService.CheckClientExists(new Client());
-            Assert.AreEqual(true, r);
+            Assert.AreEqual<bool>(true, r);
         }
     }
 }

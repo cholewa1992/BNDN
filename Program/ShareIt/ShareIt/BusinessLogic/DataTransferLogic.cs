@@ -21,7 +21,7 @@ namespace BusinessLogicLayer
             //}
         }
 
-        public bool SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
+        public int SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
         {
             throw new NotImplementedException();
         }

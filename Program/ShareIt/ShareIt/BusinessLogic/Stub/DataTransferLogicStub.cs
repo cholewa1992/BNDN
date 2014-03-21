@@ -21,9 +21,9 @@ namespace BusinessLogicLayer.Stub
             return stream;
         }
 
-        public bool SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
+        public int SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
         {
-            return true;
+            return -1;
         }
 
     }
