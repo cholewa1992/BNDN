@@ -33,8 +33,37 @@ namespace BusinessLogicLayer
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds a specific range of media items of a specific media type matching the search keyword.
+        /// The media type and the search keyword are optional.
+        /// 
+        /// E.g. FindMediaItemRange(1, 3, MediaItemType.Book, "money", "token") finds the first 3 books
+        /// with some information that contains "money".
+        /// 
+        /// And FindMediaItemRange(1, 3, null, null, "token") finds the first 3 media items per media type.
+        /// </summary>
+        /// <param name="from">Where the range must begin. Must be > 0</param>
+        /// <param name="to">Where the range must end. Must be > 0</param>
+        /// <param name="mediaType">The type of the media item. E.g. MediaItemType.Book for books</param>
+        /// <param name="searchKey">The search keyword. This will be matched against all information about all media items</param>
+        /// <param name="clientToken">The token used to verify the client</param>
+        /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
+        /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
         public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
+            AuthLogic auth = new AuthLogic(_storage);
+            bool clientBool = auth.CheckClientToken(clientToken); //MUST RETURN INT NOT BOOL
+            int clientId = 0; //auth.CheckClientToken(clientToken);
+
+            if (from < 1 || to < 1)
+            {
+                throw new ArgumentException("Both \"from\" and \"to\" must be greater than 1");
+            }
+
+            from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
+
             if (from > to)
             {
                 int temp = from;
@@ -53,6 +82,7 @@ namespace BusinessLogicLayer
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & all media types
                     {
                         var groups = _storage.Get<Entity>().
+                            Where(item => item.ClientId == clientId).
                             GroupBy((a) => a.TypeId).
                             Skip(from).
                             Take(to-from);
@@ -69,7 +99,7 @@ namespace BusinessLogicLayer
                     else //Searchkey & all media types
                     {
                         var typeGroups = (_storage.Get<EntityInfo>().
-                                Where(info => info.Data.Contains(searchKey)).
+                                Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
                                 GroupBy(info => info.EntityId).
                                 OrderBy(group => group.Count())).
                             GroupBy(d => d.FirstOrDefault().Entity.TypeId).
@@ -91,7 +121,7 @@ namespace BusinessLogicLayer
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & specific media type
                     {
                         var mediaItems = _storage.Get<Entity>().
-                            Where(item => item.TypeId == (int)mediaType).
+                            Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId).
                             Skip(from).
                             Take(to-from);
 
@@ -106,7 +136,8 @@ namespace BusinessLogicLayer
                     {
                         var mediaItems = _storage.Get<EntityInfo>().
                                 Where(info => info.Data.Contains(searchKey)
-                                && info.Entity.TypeId == (int) mediaType).
+                                && info.Entity.TypeId == (int) mediaType
+                                && info.Entity.ClientId == clientId).
                                 GroupBy(info => info.EntityId).
                                 OrderBy(group => group.Count()).
                                 Skip(from).
