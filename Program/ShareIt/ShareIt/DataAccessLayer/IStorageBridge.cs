@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace DataAccessLayer
 {
-    public interface IStorageBridge
+    public interface IStorageBridge : IDisposable
     {
         /// <summary>
         /// Fetches a single entity from the storage

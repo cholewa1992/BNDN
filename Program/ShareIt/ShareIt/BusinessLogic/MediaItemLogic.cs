@@ -10,6 +10,13 @@ namespace BusinessLogicLayer
 {
     class MediaItemLogic : IMediaItemLogic
     {
+        private IStorageBridge _storage;
+
+        public MediaItemLogic(IStorageBridge storage)
+        {
+            _storage = storage;
+        }
+
         /// <summary>
         /// Returns a media item with a collection of media item information
         /// </summary>
@@ -39,13 +46,13 @@ namespace BusinessLogicLayer
 
             bool isAllMediaTypes = mediaType.Equals(null);
 
-            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            using (_storage)
             {
                 if (isAllMediaTypes)
                 {
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & all media types
                     {
-                        var groups = storage.Get<Entity>().
+                        var groups = _storage.Get<Entity>().
                             GroupBy((a) => a.TypeId).
                             Skip(from).
                             Take(to-from);
@@ -61,7 +68,7 @@ namespace BusinessLogicLayer
                     }
                     else //Searchkey & all media types
                     {
-                        var typeGroups = (storage.Get<EntityInfo>().
+                        var typeGroups = (_storage.Get<EntityInfo>().
                                 Where(info => info.Data.Contains(searchKey)).
                                 GroupBy(info => info.EntityId).
                                 OrderBy(group => group.Count())).
@@ -83,7 +90,7 @@ namespace BusinessLogicLayer
                 {
                     if (string.IsNullOrEmpty(searchKey)) //No searchkey & specific media type
                     {
-                        var mediaItems = storage.Get<Entity>().
+                        var mediaItems = _storage.Get<Entity>().
                             Where(item => item.TypeId == (int)mediaType).
                             Skip(from).
                             Take(to-from);
@@ -97,7 +104,7 @@ namespace BusinessLogicLayer
                     }
                     else //Searchkey & specific media type
                     {
-                        var mediaItems = storage.Get<EntityInfo>().
+                        var mediaItems = _storage.Get<EntityInfo>().
                                 Where(info => info.Data.Contains(searchKey)
                                 && info.Entity.TypeId == (int) mediaType).
                                 GroupBy(info => info.EntityId).
