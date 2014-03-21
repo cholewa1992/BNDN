@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
@@ -10,12 +11,12 @@ namespace BusinessLogicLayer
     {
         public IUserLogic CreateUserLogic()
         {
-            throw new NotImplementedException();
+            return new UserLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
 
         public IAuthLogic CreateAuthLogic()
         {
-            return new AuthLogic();
+            return new AuthLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
         }
 
         public IAccessRightLogic CreateAccessRightLogic()

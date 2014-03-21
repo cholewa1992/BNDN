@@ -59,5 +59,38 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, string clientToken)
+        {
+            return FindMediaItemRange(from, to, null, null, clientToken);
+        }
+
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken)
+        {
+            return FindMediaItemRange(from, to, mediaType, null, clientToken);
+        }
+
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey, string clientToken)
+        {
+            return FindMediaItemRange(from, to, null, searchKey, clientToken);
+        }
+
+        public List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
+        {
+            try
+            {
+                return _factory.CreateMediaItemLogic().FindMediaItemRange(from, to, mediaType, searchKey, clientToken);
+            }
+            catch (ArgumentException ae)
+            {
+                throw new FaultException<Argument>(new Argument()
+                {
+                    Message = ae.Message
+                });
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
     }
 }

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BF40040E-2252-4C87-B4B5-83E5A73B1DE5}</ProjectGuid>
+    <ProjectGuid>{E374D7EA-6FC2-4A7E-B688-9B955E288293}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AuthTest</RootNamespace>
-    <AssemblyName>AuthTest</AssemblyName>
+    <RootNamespace>BusinessLayerTest</RootNamespace>
+    <AssemblyName>BusinessLayerTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,18 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AuthServiceTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthLogicTest.cs" />
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogicLayer.csproj">
-      <Project>{b53b3d0d-6dc0-46d1-a4a7-52de953b0a46}</Project>
+      <Project>{B53B3D0D-6DC0-46D1-A4A7-52DE953B0A46}</Project>
       <Name>BusinessLogicLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ShareItServices\ShareItServices.csproj">
-      <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
-      <Name>ShareItServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

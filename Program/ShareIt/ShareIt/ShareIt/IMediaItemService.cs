@@ -25,6 +25,28 @@ namespace ShareIt
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
+
+
+        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        List<List<MediaItem>> FindMediaItemRange(int from, int to);
+        
+        [FaultContract(typeof (Argument))]
+        [FaultContract(typeof (FaultException))]
+        [OperationContract]
+        List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType);
+
+        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey);
+
+        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey);
+
     }
 }
 

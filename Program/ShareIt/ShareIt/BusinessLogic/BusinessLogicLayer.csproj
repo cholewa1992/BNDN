@@ -113,6 +113,7 @@
     <Compile Include="TestFactory.cs" />
     <Compile Include="DataTransferLogic.cs" />
     <Compile Include="Stub\UserLogicStub.cs" />
+    <Compile Include="UserLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">

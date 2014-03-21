@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AuthTest
+namespace BusinessLayerTest
 {
     public class BaseTest
     {
