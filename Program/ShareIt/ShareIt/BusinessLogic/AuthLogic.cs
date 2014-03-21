@@ -95,5 +95,15 @@ namespace BusinessLogicLayer
 
             return result;
         }
+        /// <summary>
+        /// Check that a User is allowed to upload files to a particular client.
+        /// </summary>
+        /// <param name="user">The User to check for.</param>
+        /// <param name="clientToken">The Client Token to check for.</param>
+        /// <returns>True if the User is allowed to upload to the given client, otherwise false.</returns>
+        internal bool UserCanUpload(User user, string clientToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

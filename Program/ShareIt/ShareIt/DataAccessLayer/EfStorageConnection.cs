@@ -93,7 +93,7 @@ namespace DataAccessLayer
             catch (DbEntityValidationException e)
             {
                 Dispose();
-                throw new InternalDbException("The entities you tried to save violated a db contraint", e);
+                throw new InternalDbException("The entities you tried to save violated a db constraint", e);
             }
             catch (EntityException e)
             {
