@@ -30,22 +30,22 @@ namespace ShareIt
         [FaultContract(typeof(Argument))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        List<List<MediaItem>> FindMediaItemRange(int from, int to);
+        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string clientToken);
         
         [FaultContract(typeof (Argument))]
         [FaultContract(typeof (FaultException))]
         [OperationContract]
-        List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType);
+        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken);
 
         [FaultContract(typeof(Argument))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        List<List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey);
+        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey, string clientToken);
 
         [FaultContract(typeof(Argument))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        List<List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey);
+        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
 
     }
 }
