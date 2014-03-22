@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -108,8 +110,20 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException();
             }
 
-            // get the account
+            try
+            {
+                var userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUser.Id select u);
 
+                targetUser.Information = userInfos;
+
+
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("User could not be fetched");
+            }
+            
             return targetUser;
         }
 

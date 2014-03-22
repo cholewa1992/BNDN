@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BusinessLogicLayer.DTO
 {
@@ -14,5 +16,11 @@ namespace BusinessLogicLayer.DTO
 
         [DataMember]
         public string Password { get; set; }
+
+        [DataMember]
+        public IEnumerable<UserInformationType> Type { get; set; }
+
+        [DataMember]
+        public IEnumerable<UserInformation> Information { get; set; }
     }
 }

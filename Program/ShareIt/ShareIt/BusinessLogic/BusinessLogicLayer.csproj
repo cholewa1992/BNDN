@@ -93,6 +93,8 @@
     <Compile Include="DTO\InformationType.cs" />
     <Compile Include="DTO\MediaItemInformation.cs" />
     <Compile Include="DTO\MediaItemType.cs" />
+    <Compile Include="DTO\UserInformation.cs" />
+    <Compile Include="DTO\UserInformationType.cs" />
     <Compile Include="FaultDataContracts\Argument.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
