@@ -31,6 +31,7 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
+            // TODO use .single instead of .First
 
             //Find an accessright
             var ar = _storage.Get<AcessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
@@ -113,16 +114,6 @@ namespace BusinessLogicLayer
         }
 
 
-        /// <summary>
-        /// Check that a User is allowed to upload files to a particular client.
-        /// </summary>
-        /// <param name="user">The User to check for.</param>
-        /// <param name="clientToken">The Client Token to check for.</param>
-        /// <returns>True if the User is allowed to upload to the given client, otherwise false.</returns>
-        public bool UserCanUpload(User user, string clientToken)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Dispose()
         {
