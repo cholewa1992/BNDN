@@ -9,10 +9,10 @@ namespace DataAccessLayer
 {
     public class FileStorage : IFileStorage
     {
-        private const string UploadFolder = @"C:\Users\Jakob Merrild\Desktop\server" + @"files";
         public string SaveFile(Stream stream, int userId, int mediaId, string fileExtension)
         {
-            var directoryPath = Path.Combine(UploadFolder, "user_" + userId);
+            var apPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+            var directoryPath = Path.Combine(apPath,"files", "user_" + userId);
             var filePath = Path.Combine(directoryPath, mediaId + fileExtension);
             FileStream targetStream;
             if (!Directory.Exists(directoryPath))
