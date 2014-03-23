@@ -127,27 +127,25 @@ namespace BusinessLogicLayer
                 throw new Exception("The requested user could not be found");
             }
 
-                // Create a UserInformation in the user we want to return
-                targetUser = new User {Information = new List<UserInformation>()};
-                var informationList = new List<UserInformation>();
+            // Create a UserInformation in the user we want to return
+            targetUser = new User {Information = new List<UserInformation>()};
+            var informationList = new List<UserInformation>();
 
-                // Add UserInformation to the temporary list object
-                foreach (var userInfo in userInfos){
+            // Add UserInformation to the temporary list object
+            foreach (var userInfo in userInfos){
 
-                    informationList.Add(new UserInformation()
-                        {
-                            Type = (UserInformationType) userInfo.UserInfoType,
-                            Data = userInfo.Data
-                        }
-                    );
-                }
+                informationList.Add(new UserInformation()
+                    {
+                        Type = (UserInformationType) userInfo.UserInfoType,
+                        Data = userInfo.Data
+                    }
+                );
+            }
 
-                // Add all the UserInformation to targetUser and return it
-                targetUser.Information = informationList;
+            // Add all the UserInformation to targetUser and return it
+            targetUser.Information = informationList;
 
-                return targetUser;
-
-            
+            return targetUser;
         }
 
         public bool UpdateAccountInformation(User requestingUser, User userToUpdate, string clientToken)
