@@ -2,6 +2,6 @@
 {
     public enum AccessRightType
     {
-        Owner, Buyer
+        NoAccess, Owner, Buyer
     }
 }

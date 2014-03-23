@@ -7,10 +7,10 @@ using Client = BusinessLogicLayer.DTO.Client;
 
 namespace BusinessLogicLayer
 {
-    public class AuthLogic: IAuthLogic
+    public class AuthLogic: IAuthInternalLogic
     {
 
-        public IStorageBridge _storage;
+        private IStorageBridge _storage;
 
 
         public AuthLogic(IStorageBridge storage)
@@ -18,47 +18,63 @@ namespace BusinessLogicLayer
             _storage = storage;
         }
 
-
-        public bool CheckUserAccess(int userId, int mediaItemId)
+        /// <summary>
+        /// Checks whether a user has access
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="mediaItemId"></param>
+        /// <returns></returns>
+        public AccessRightType CheckUserAccess(int userId, int mediaItemId)
         {
             //Preconditions
             Contract.Requires<ArgumentNullException>(_storage != null);
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
-            
-            return _storage.Get<AcessRight>().Any((a) => a.EntityId == mediaItemId && a.UserId == userId);
-            
-        }
 
-        public bool CheckClientAccess(Client client, MediaItem mediaItem)
-        {
-            //Preconditions
-            Contract.Requires<ArgumentNullException>(_storage != null);
+            //Find an accessright
+            var ar = _storage.Get<AcessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
+                    .Select(a => a).First();
 
-            throw new System.NotImplementedException();
-        }
+            //Check if it's past expiration
+            if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
+                    throw new Exception();
 
+            //Pass the accessrighttype to enum
+            var art =
+                ParseEnum<AccessRightType>(
+                    _storage.Get<DataAccessLayer.AccessRightType>().Where(a => a.Id == ar.AccessRightTypeId)
+                        .Select(a => a.Name).First());
 
-        public bool CheckClientToken(string clientToken)
-        {
-            //Preconditions
-            Contract.Requires<ArgumentNullException>(_storage != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
-
-            return _storage.Get<DataAccessLayer.Client>().Any((c) => c.Token == clientToken);
-
+            return art;
 
         }
 
-        public bool IsUserAdminOnClient(User user, string clientToken)
+
+
+        public int CheckClientToken(string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentNullException>(_storage != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
-            Contract.Requires<ArgumentException>(user.Id > 0);
 
-            return _storage.Get<ClientAdmin>().Any(ca => ca.UserId == user.Id && ca.Client.Token == clientToken);
+            
+            //return client id or -1
+            return _storage.Get<DataAccessLayer.Client>()
+                    .Where((c) => c.Token == clientToken)
+                    .Select(c => c.Id)
+                    .FirstOrDefault(i => i == -1);
+
+        }
+
+        public bool IsUserAdminOnClient(int userId, string clientToken)
+        {
+            //Preconditions
+            Contract.Requires<ArgumentNullException>(_storage != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
+            Contract.Requires<ArgumentException>(userId > 0);
+
+            return _storage.Get<ClientAdmin>().Any(ca => ca.UserId == userId && ca.Client.Token == clientToken);
         }
 
         public bool CheckUserExists(User user)
@@ -95,15 +111,27 @@ namespace BusinessLogicLayer
 
             return result;
         }
+
+
         /// <summary>
         /// Check that a User is allowed to upload files to a particular client.
         /// </summary>
         /// <param name="user">The User to check for.</param>
         /// <param name="clientToken">The Client Token to check for.</param>
         /// <returns>True if the User is allowed to upload to the given client, otherwise false.</returns>
-        internal bool UserCanUpload(User user, string clientToken)
+        public bool UserCanUpload(User user, string clientToken)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _storage.Dispose();
+        }
+
+        private static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }
