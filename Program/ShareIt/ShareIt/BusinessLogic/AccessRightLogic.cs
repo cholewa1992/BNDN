@@ -202,23 +202,11 @@ namespace BusinessLogicLayer
 
         private List<AccessRight> mapAccessRights(IEnumerable<AcessRight> acessRights)
         {
-            var accessRights = new List<AccessRight>();
-
-            foreach (var aR in acessRights)
+            return acessRights.Select(aR => new AccessRight
             {
-                var tempAccessRight = new AccessRight
-                {
-                    Id = aR.Id,
-                    MediaItemId = aR.EntityId,
-                    AccessRightType = (AccessRightType) aR.AccessRightTypeId,
-                    Expiration = aR.Expiration,
-                    UserId = aR.UserId
-                };
-
-                accessRights.Add(tempAccessRight);
-            }
-
-            return accessRights;
-        } 
+                Id = aR.Id, MediaItemId = aR.EntityId, AccessRightType = 
+                (AccessRightType) aR.AccessRightTypeId, Expiration = aR.Expiration, UserId = aR.UserId
+            }).ToList();
+        }
     }
 }
