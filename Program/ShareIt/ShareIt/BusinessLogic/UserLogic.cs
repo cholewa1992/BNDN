@@ -40,7 +40,8 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             // Check if the clientToken is valid
-            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
+            AuthLogic authLogic = new AuthLogic(_storage);
+            if (authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
@@ -98,14 +99,15 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(targetUser != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
+            AuthLogic authLogic = new AuthLogic(_storage);
+            if (authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+            if ((!authLogic.CheckUserExists(requestingUser) &&
                 (requestingUser.Username != targetUser.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -155,14 +157,15 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(userToUpdate != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
+            AuthLogic authLogic = new AuthLogic(_storage);
+            if (authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!_factory.CreateAuthLogic().CheckUserExists(requestingUser) &&
+            if ((!authLogic.CheckUserExists(requestingUser) &&
                 (requestingUser.Username != userToUpdate.Username)) &&
-                (!_factory.CreateAuthLogic().IsUserAdminOnClient(requestingUser, clientToken)))
+                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }

@@ -33,8 +33,8 @@ namespace BusinessLogicLayer
             //Preconditions
             Contract.Requires<ArgumentException>(mediaItemId < 1);
             Contract.Requires<ArgumentNullException>(clientToken != null);
-
-            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
+            AuthLogic authLogic = new AuthLogic(_storage);
+            if (authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
@@ -91,8 +91,7 @@ namespace BusinessLogicLayer
         public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
             AuthLogic auth = new AuthLogic(_storage);
-            bool clientBool = auth.CheckClientToken(clientToken); //MUST RETURN INT NOT BOOL
-            int clientId = 0; //auth.CheckClientToken(clientToken);
+            int clientId = auth.CheckClientToken(clientToken);
 
             if (from < 1 || to < 1)
             {
