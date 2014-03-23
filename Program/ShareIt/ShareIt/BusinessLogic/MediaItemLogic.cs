@@ -98,16 +98,17 @@ namespace BusinessLogicLayer
             {
                 throw new ArgumentException("Both \"from\" and \"to\" must be greater than 1");
             }
-            from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
+            
             if (from > to)
             {
                 int temp = from;
                 from = to;
                 to = temp;
             }
+            from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
 
-            int rangeCap = 100;
-            if (to - from > rangeCap)
+            const int rangeCap = 100;
+            if (to - from >= rangeCap)
             {
                 throw new ArgumentException("The range is too big. The cap on the range is " + rangeCap + ".");
             }

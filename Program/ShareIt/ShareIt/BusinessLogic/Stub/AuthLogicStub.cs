@@ -6,24 +6,14 @@ namespace BusinessLogicLayer.Stub
 {
     public class AuthLogicStub: IAuthLogic
     {
-        public bool CheckUserAccess(int userId, int mediaItemId)
-        {
-            return true;
-        }
 
-        public bool CheckClientAccess(Client client, MediaItem mediaItem)
-        {
-            return true;
-        }
+        public IStorageBridge Storage;
+        public IDataTransferLogic Logic;
 
-        public bool CheckClientToken(string clientToken)
-        {
-            return true;
-        }
 
-        public bool IsUserAdminOnClient(User user, string clientToken)
+        public void Dispose()
         {
-            return true;
+            Storage.Dispose();
         }
 
         public bool CheckUserExists(User user)

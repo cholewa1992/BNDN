@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessRightType.cs" />
+    <Compile Include="AccessRightLogic.cs" />
     <Compile Include="AuthLogic.cs" />
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="BusinessLogicFacade.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="DTO\UserInformation.cs" />
     <Compile Include="DTO\UserInformationType.cs" />
     <Compile Include="FaultDataContracts\ArgumentFault.cs" />
+    <Compile Include="FaultDataContracts\MediaItemNotFound.cs" />
     <Compile Include="IAuthInternalLogic.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="IBusinessLogicFactory.cs" />
     <Compile Include="IDataTransferLogic.cs" />
     <Compile Include="IMediaItemLogic.cs" />
+    <Compile Include="IAccessRightInternalLogic.cs" />
     <Compile Include="IUserLogic.cs" />
     <Compile Include="MediaItemLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
