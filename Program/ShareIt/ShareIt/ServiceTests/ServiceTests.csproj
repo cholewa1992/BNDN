@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AuthServiceTest.cs" />
+    <Compile Include="MediaItemServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
