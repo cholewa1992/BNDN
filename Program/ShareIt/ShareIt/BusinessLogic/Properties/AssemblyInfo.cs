@@ -15,6 +15,8 @@ using System.Security.Cryptography.X509Certificates;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("BusinessLogicTests")]
+//Making internals visible to Moq.
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
