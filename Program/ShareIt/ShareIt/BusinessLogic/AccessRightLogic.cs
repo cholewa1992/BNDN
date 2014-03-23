@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
@@ -20,7 +21,8 @@ namespace BusinessLogicLayer
         /// Construct a AccessRightLogicStub object which uses a specified IBusinessLogicFactory.
         /// Should be used for test purposes.
         /// </summary>
-        /// <param name="factory">The IBusinessLogicFactory which the TransferService should use for its logic.</param>
+        /// <param name="authLogic"></param>
+        /// <param name="storage"></param>
         internal AccessRightLogic(IAuthInternalLogic authLogic, IStorageBridge storage)
         {
             _authLogic = authLogic;
@@ -31,22 +33,30 @@ namespace BusinessLogicLayer
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             if (_authLogic.CheckUserExists(u))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Invalid User credentials!");
             }
 
-            _storage.Get<Entity>(m.Id);
+            try
+            {
+                _storage.Get<Entity>(m.Id);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new InstanceNotFoundException("No Media Item with id "+ m.Id +"was found");
+            }
 
-            var newAccessRight = new AcessRight();
-
-            newAccessRight.Expiration = expiration;
-            newAccessRight.UserId = u.Id;
-            newAccessRight.EntityId = m.Id;
-            newAccessRight.AccessRightTypeId = (int)AccessRightType.Buyer; //CHECK THIS IS CORRECT!!
+            var newAccessRight = new AcessRight
+            {
+                Expiration = expiration,
+                UserId = u.Id,
+                EntityId = m.Id,
+                AccessRightTypeId = (int) AccessRightType.Buyer
+            };
 
             _storage.Add(newAccessRight);
 
@@ -57,17 +67,21 @@ namespace BusinessLogicLayer
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             if (_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
 
-            if (_authLogic.CheckUserExists(newAdmin))
+            try
             {
-                throw new UnauthorizedAccessException();
+                _storage.Get<UserAcc>(newAdmin.Id);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new InstanceNotFoundException("User not found.");
             }
 
             var newClientAdmin = new ClientAdmin();
@@ -84,12 +98,12 @@ namespace BusinessLogicLayer
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             if (_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
 
             _storage.Get<Entity>(ar.Id);
@@ -101,7 +115,11 @@ namespace BusinessLogicLayer
 
         public List<AccessRight> GetPurchaseHistory(User u)
         {
-            if (_authLogic.CheckUserExists(u))
+            try
+            {
+                _storage.Get<UserAcc>(u.Id);
+            }
+            catch (InvalidOperationException e)
             {
                 throw new ObjectNotFoundException("User not found.");
             }
@@ -117,7 +135,11 @@ namespace BusinessLogicLayer
 
         public List<AccessRight> GetUploadHistory(User u)
         {
-            if (_authLogic.CheckUserExists(u))
+            try
+            {
+                _storage.Get<UserAcc>(u.Id);
+            }
+            catch (InvalidOperationException e)
             {
                 throw new ObjectNotFoundException("User not found.");
             }
@@ -135,21 +157,39 @@ namespace BusinessLogicLayer
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             if (_authLogic.CheckUserExists(u))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
             }
 
             if (_authLogic.CheckUserAccess(newAR.UserId, newAR.MediaItemId) != AccessRightType.NoAccess &&
                 _authLogic.IsUserAdminOnClient(u.Id, clientToken))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
             }
 
+            try
+            {
+                _storage.Get<AcessRight>(newAR.Id);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new InstanceNotFoundException("No access right with id "+ newAR +"was found");
+            }
 
+            var newAcessRight = new AcessRight
+            {
+                Id = newAR.Id,
+                EntityId = newAR.MediaItemId,
+                AccessRightTypeId = (int) newAR.AccessRightType,
+                Expiration = newAR.Expiration,
+                UserId = newAR.UserId
+            };
+
+            _storage.Update<AcessRight>(newAcessRight);
 
             return true;
         }
@@ -162,22 +202,11 @@ namespace BusinessLogicLayer
 
         private List<AccessRight> mapAccessRights(IEnumerable<AcessRight> acessRights)
         {
-            var accessRights = new List<AccessRight>();
-
-            foreach (var aR in acessRights)
+            return acessRights.Select(aR => new AccessRight
             {
-                var tempAccessRight = new AccessRight();
-
-                tempAccessRight.Id = aR.Id;
-                tempAccessRight.MediaItemId = aR.EntityId;
-                tempAccessRight.AccessRightType = (AccessRightType)aR.AccessRightTypeId;
-                tempAccessRight.Expiration = aR.Expiration;
-                tempAccessRight.UserId = aR.UserId;
-
-                accessRights.Add(tempAccessRight);
-            }
-
-            return accessRights;
-        } 
+                Id = aR.Id, MediaItemId = aR.EntityId, AccessRightType = 
+                (AccessRightType) aR.AccessRightTypeId, Expiration = aR.Expiration, UserId = aR.UserId
+            }).ToList();
+        }
     }
 }

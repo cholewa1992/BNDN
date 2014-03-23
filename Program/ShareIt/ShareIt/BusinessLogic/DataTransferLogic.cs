@@ -43,6 +43,7 @@ namespace BusinessLogicLayer
             if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess)
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
                 {
+
                     Message = "User not allowed to download media with id: " + mediaId
                 });
             try
@@ -51,6 +52,7 @@ namespace BusinessLogicLayer
                 string filePath = entity.FilePath;
                 fileExtension = entity.EntityType.Extension;
                 result = _fileStorage.ReadFile(filePath);
+
             }
             catch (InvalidOperationException)
             {

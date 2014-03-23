@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Net;
 using System.Net.Mime;
 using System.Runtime.Serialization;
@@ -53,14 +54,20 @@ namespace ShareIt
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault);
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (InstanceNotFoundException e)
+            {
+                var fault = new MediaItemNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<MediaItemNotFound>(fault);
             }
             catch (Exception e)
             {
@@ -84,13 +91,13 @@ namespace ShareIt
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault);
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
             }
             catch (Exception e)
@@ -115,14 +122,20 @@ namespace ShareIt
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault);
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (InstanceNotFoundException e)
+            {
+                var fault = new AccessRightNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<AccessRightNotFound>(fault);
             }
             catch (Exception e)
             {
@@ -149,19 +162,19 @@ namespace ShareIt
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault);
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
+                fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
             }
-            catch (InvalidOperationException ioe)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound();
-                fault.Message = ioe.Message;
+                fault.Message = e.Message;
                 throw new FaultException<MediaItemNotFound>(fault);
             }
             catch (Exception e)
