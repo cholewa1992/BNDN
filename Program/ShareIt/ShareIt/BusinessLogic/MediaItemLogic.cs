@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
@@ -8,13 +10,16 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    class MediaItemLogic : IMediaItemLogic
+    public class MediaItemLogic : IMediaItemLogic
     {
         private IStorageBridge _storage;
+        private readonly IBusinessLogicFactory _factory;
 
         public MediaItemLogic(IStorageBridge storage)
         {
             _storage = storage;
+            _factory = BusinessLogicFacade.GetTestFactory();
+            //_factory = BusinessLogicFacade.GetBusinessFactory();
         }
 
         /// <summary>
@@ -25,12 +30,44 @@ namespace BusinessLogicLayer
         /// <returns>A MediaItem with all its information</returns>
         public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
         {
-            //check if mediaItemId exists - if true then
-                //get the MediaItem
-                //get all MediaItemInformation and add these to a list which is added to the MediaItem
-            //else 
-                //throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
-            throw new NotImplementedException();
+            //Preconditions
+            Contract.Requires<ArgumentException>(mediaItemId < 1);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+
+            if (!_factory.CreateAuthLogic().CheckClientToken(clientToken))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            Entity entity;
+
+            try
+            {
+                entity = (from m in _storage.Get<Entity>() where m.Id == mediaItemId select m).First();
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
+            }
+
+            var mediaItem = new MediaItem { Information = new List<MediaItemInformation>() };
+            var informationList = new List<MediaItemInformation>();
+
+            // Add UserInformation to the temporary list object
+            foreach (var e in entity.EntityInfo)
+            {
+
+                informationList.Add(new MediaItemInformation()
+                {
+                    Type = (InformationType) e.EntityInfoTypeId,
+                    Data = e.Data
+                });
+            }
+
+            // Add all the UserInformation to targetUser and return it
+            mediaItem.Information = informationList;
+
+            return mediaItem;
         }
 
         /// <summary>
