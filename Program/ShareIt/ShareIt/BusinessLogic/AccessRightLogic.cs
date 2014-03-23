@@ -20,7 +20,7 @@ namespace BusinessLogicLayer
         /// Should be used for test purposes.
         /// </summary>
         /// <param name="factory">The IBusinessLogicFactory which the TransferService should use for its logic.</param>
-        public AccessRightLogic(IAuthInternalLogic authLogic, IStorageBridge storage)
+        internal AccessRightLogic(IAuthInternalLogic authLogic, IStorageBridge storage)
         {
             _authLogic = authLogic;
             _storage = storage;
@@ -28,7 +28,7 @@ namespace BusinessLogicLayer
 
         public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken))
+            if (_authLogic.CheckClientToken(clientToken) > 0)
             {
                 throw new InvalidCredentialException();
             }
@@ -54,30 +54,44 @@ namespace BusinessLogicLayer
 
         public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken))
+            if (_authLogic.CheckClientToken(clientToken) > 0)
             {
                 throw new InvalidCredentialException();
             }
 
-            if (_authLogic.IsUserAdminOnClient(oldAdmin, clientToken))
+            if (_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
                 throw new UnauthorizedAccessException();
             }
+
+            if (_authLogic.CheckUserExists(newAdmin))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            var newClientAdmin = new ClientAdmin();
+
+            newClientAdmin.ClientId = _authLogic.CheckClientToken(clientToken);
+            newClientAdmin.UserId = newAdmin.Id;
+
+            _storage.Add(newClientAdmin);
 
             return true;
         }
 
         public bool DeleteAccessRight(User admin, AccessRight ar, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken))
+            if (_authLogic.CheckClientToken(clientToken) > 0)
             {
                 throw new InvalidCredentialException();
             }
 
-            if (_authLogic.IsUserAdminOnClient(admin, clientToken))
+            if (_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
             {
                 throw new UnauthorizedAccessException();
             }
+
+            _storage.Get<Entity>(ar.Id);
 
             return true;
         }
@@ -94,7 +108,7 @@ namespace BusinessLogicLayer
 
         public bool EditExpiration(User u, AccessRight newAR, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken))
+            if (_authLogic.CheckClientToken(clientToken) > 0)
             {
                 throw new InvalidCredentialException();
             }
@@ -104,8 +118,8 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException();
             }
 
-            if (_authLogic.CheckUserAccess(newAR.UserId, newAR.MediaItemId) &&
-                _authLogic.IsUserAdminOnClient(u, clientToken))
+            if (_authLogic.CheckUserAccess(newAR.UserId, newAR.MediaItemId) != AccessRightType.NoAccess &&
+                _authLogic.IsUserAdminOnClient(u.Id, clientToken))
             {
                 throw new UnauthorizedAccessException();
             }
