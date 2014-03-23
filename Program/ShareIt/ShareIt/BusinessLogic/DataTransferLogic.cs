@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Security.Authentication;
 using System.ServiceModel;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.FaultDataContracts;
@@ -13,15 +15,18 @@ namespace BusinessLogicLayer
     {
         private readonly IStorageBridge _dbStorage;
         private readonly IFileStorage _fileStorage;
+        private readonly IAuthInternalLogic _authLogic;
         /// <summary>
         /// Construct a new DataTransferLogic with a given IFileStorage and IStorageBridge.
         /// </summary>
         /// <param name="fileStorage">The IFileStorage that the DataTransferLogic should use.</param>
         /// <param name="dbStorage">The IStorageBridge that the DataTransferLogic should use.</param>
-        internal DataTransferLogic(IFileStorage fileStorage, IStorageBridge dbStorage)
+        /// <param name="authLogic">The IAuthInternalLogic that the DataTransferLogic should use.</param>
+        internal DataTransferLogic(IFileStorage fileStorage, IStorageBridge dbStorage, IAuthInternalLogic authLogic)
         {
             _fileStorage = fileStorage;
             _dbStorage = dbStorage;
+            _authLogic = authLogic;
         }
         /// <summary>
         /// Get a stream containing the data of a specific media item.
@@ -34,30 +39,26 @@ namespace BusinessLogicLayer
         public Stream GetMediaStream(string clientToken, User user, int mediaId, out string fileExtension)
         {
             Stream result;
-            using (_dbStorage)
+            ValidateCredentials(clientToken, user);
+            if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess)
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = "User not allowed to download media with id: " + mediaId
+                });
+            try
             {
-                //var authLogic = new AuthLogic(_dbStorage);
-                //if (!authLogic.CheckClientToken(clientToken))
-                //    throw new InvalidCredentialException("Client token not accepted.");
-                //if(!authLogic.CheckUserExists(user))
-                //    throw new InvalidCredentialException("User credentials not correct.");
-                //if(!authLogic.CheckUserAccess(user.Id, mediaId))
-                //    throw new UnauthorizedAccessException("User not allowed to download media with id: " + mediaId);
-                try
-                {
-                    var entity = _dbStorage.Get<Entity>().Single(e => e.Id == mediaId);
-                    string filePath = entity.FilePath;
-                    fileExtension = entity.EntityType.Extension;
-                    result = _fileStorage.ReadFile(filePath);
-                }
-                catch (InvalidOperationException)
-                {
-                    throw new FaultException<Argument>(new Argument
-                        {
-                            Message = "No Media found with id: " + mediaId
-                        });
-                }
+                var entity = _dbStorage.Get<Entity>().Single(e => e.Id == mediaId);
+                string filePath = entity.FilePath;
+                fileExtension = entity.EntityType.Extension;
+                result = _fileStorage.ReadFile(filePath);
             }
+            catch (InvalidOperationException)
+            {
+                throw new FaultException<ArgumentFault>(new ArgumentFault
+                    {
+                        Message = "No Media found with id: " + mediaId
+                    });
+            }          
             return result;
         }
         /// <summary>
@@ -75,31 +76,53 @@ namespace BusinessLogicLayer
             //Contract.Requires<ArgumentNullException>(media != null);
             //Contract.Requires<ArgumentNullException>(stream != null);
             //Contract.Requires<ArgumentException>(stream.CanRead);
-            int result;
-            using (_dbStorage)
+            var clientId = ValidateCredentials(clientToken, owner);
+            //if(!_authLogic.UserCanUpload(owner, clientToken))
+            //    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+            //        {
+            //            Message = "User not allowed to upload to client."
+            //        }
+            //        );
+            //Create new entity.
+            var entity = MapMediaItem(media, owner, clientId);
+
+            //Store entity and get the id the db assigned to it.
+            _dbStorage.Add(entity);
+            int result = entity.Id;
+            //Save the stream as a file using the id it was given.
+            try
             {
-                //var authLogic = new AuthLogic(_dbStorage);
-                //if (!authLogic.CheckClientToken(clientToken))
-                //    throw new InvalidCredentialException("Client token not accepted.");
-                //if(!authLogic.CheckUserExists(owner))
-                //    throw new InvalidCredentialException("User credentials not correct.");
-                //if(!authLogic.UserCanUpload(owner, clientToken))
-                //    throw new UnauthorizedAccessException("User not allowed to upload to client.");
-                var entity = MapMediaItem(media, owner);
-                foreach (var info in media.Information)
-                {
-                    entity.EntityInfo.Add(MapMediaItemInfo(info));
-                }
-                _dbStorage.Add(entity);
-                result = entity.Id;
                 var filePath = _fileStorage.SaveFile(stream, owner.Id, result, media.FileExtension);
                 entity.FilePath = filePath;
                 _dbStorage.Update(entity);
             }
+            //If something went wrong while saving the file, delete the entity from the db and return -1.
+            catch (IOException)
+            {
+                result = -1;
+                _dbStorage.Delete(entity);
+            }
             return result;
         }
+        /// <summary>
+        /// Dispose the IStorageBridge and IInternalAuthLogic which this DataTransferLogic uses.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_dbStorage != null)
+                _dbStorage.Dispose();
+            if (_authLogic != null)
+                _authLogic.Dispose();
+        }
 
-        private Entity MapMediaItem(MediaItem item, User owner)
+        /// <summary>
+        /// Map a data from a MediaItem into an Entity and set a User as having Owner AccessRight
+        /// </summary>
+        /// <param name="item">The MediaItem holding the information to map.</param>
+        /// <param name="owner">The User who should be set as Owner of the Entity.</param>
+        /// <param name="clientId"></param>
+        /// <returns>An Entity holding the information given by the MediaItem and User</returns>
+        private Entity MapMediaItem(MediaItem item, User owner, int clientId)
         {
             var result = new Entity
             {
@@ -108,18 +131,24 @@ namespace BusinessLogicLayer
                     Extension = item.FileExtension,
                     Id = (int)item.Type
                 },
-                AcessRight = new Collection<AcessRight>()
-                {
-                    new AcessRight()
-                    {
-                        UserId = owner.Id
-                    }
-                },
-                EntityInfo = new Collection<EntityInfo>(),
+                ClientId = clientId
             };
+            result.AcessRight.Add(new AcessRight
+            {
+                //TODO Add access right type.
+                UserId = owner.Id
+            });
+            foreach (var info in item.Information)
+            {
+                result.EntityInfo.Add(MapMediaItemInfo(info));
+            }
             return result;
         }
-
+        /// <summary>
+        /// Map a MediaItemInformation to an EntityInfo
+        /// </summary>
+        /// <param name="info">The MediaItemInformation to map.</param>
+        /// <returns>An EntityInfo holding the information from the MediaItemInformation.</returns>
         private EntityInfo MapMediaItemInfo(MediaItemInformation info)
         {
             return new EntityInfo
@@ -128,11 +157,28 @@ namespace BusinessLogicLayer
                 EntityInfoTypeId = (int)info.Type
             };
         }
-
-        public void Dispose()
+        /// <summary>
+        /// Validate credentials of a clientToken and User
+        /// </summary>
+        /// <param name="clientToken">The clientToken to validate.</param>
+        /// <param name="user">The User to validate.</param>
+        /// <returns>The id of the client if it was validated.</returns>
+        /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken was not accepted.</exception>
+        /// <exception cref="FaultException{UnauthorizedUser}">If the User was not accepted.</exception>
+        private int ValidateCredentials(string clientToken, User user)
         {
-            if(_dbStorage != null)
-                _dbStorage.Dispose();
+            var result = _authLogic.CheckClientToken(clientToken);
+            if (result == -1)
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient
+                {
+                    Message = "Client token not accepted."
+                });
+            if (!_authLogic.CheckUserExists(user))
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = "User credentials not accepted."
+                });
+            return result;
         }
     }
 }

@@ -26,7 +26,8 @@ namespace BusinessLogicLayer
 
         public IDataTransferLogic CreateDataTransferLogic()
         {
-            return new DataTransferLogic(new FileStorage(), new StorageBridge(new EfStorageConnection<BNDNEntities>()));
+            var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>());
+            return new DataTransferLogic(new FileStorage(), storage, new AuthLogic(storage));
         }
 
         public IMediaItemLogic CreateMediaItemLogic()
