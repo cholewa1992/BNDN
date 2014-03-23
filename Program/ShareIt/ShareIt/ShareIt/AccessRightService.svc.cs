@@ -129,5 +129,45 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+
+        /// <summary>
+        /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 
+        /// AccessRightType is buyer.
+        /// </summary>
+        /// <param name="u">The User performing the request</param>
+        /// <param name="m">The MediaItem the User is trying to purchase</param>
+        /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
+        /// Value is Null if it is a permanent purchase).</param>
+        /// <param name="clientToken">The client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
+        public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
+        {
+            try
+            {
+                return _factory.CreateAccessRightLogic().Purchase(u, m, expiration, clientToken);
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = "The Client is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = "The User is not authorized to perform this request.";
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                var fault = new MediaItemNotFound();
+                fault.Message = "Media Item not found.";
+                throw new FaultException<MediaItemNotFound>(fault);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
     }
 }
