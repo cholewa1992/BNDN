@@ -161,7 +161,7 @@ namespace ShareIt
             catch (InvalidOperationException ioe)
             {
                 var fault = new MediaItemNotFound();
-                fault.Message = "Media Item not found.";
+                fault.Message = ioe.Message;
                 throw new FaultException<MediaItemNotFound>(fault);
             }
             catch (Exception e)

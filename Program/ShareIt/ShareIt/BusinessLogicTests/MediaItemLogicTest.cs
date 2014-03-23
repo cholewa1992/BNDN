@@ -120,16 +120,8 @@ namespace BusinessLogicTests
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
-            List<MediaItem> bookList;
-            dictionary.TryGetValue(MediaItemType.Book, out bookList);
-            if (bookList != null)
-            {
-                Assert.AreEqual(to-(from-1), bookList.Count); //Assuming that the number of books exceed the range
-            }
-            else
-            {
-                Assert.Fail("The book list is empty. Should contain " + (to - (from - 1)) + " books.");
-            }
+            var bookList = dictionary[MediaItemType.Book];
+            Assert.AreEqual(to - (from - 1), bookList.Count);  //Assuming that the number of books exceed the range
         }
 
         [TestMethod]
@@ -138,16 +130,8 @@ namespace BusinessLogicTests
             const int from = 3;
             const int to = 1;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
-            List<MediaItem> bookList;
-            dictionary.TryGetValue(MediaItemType.Book, out bookList);
-            if (bookList != null)
-            {
-                Assert.AreEqual(from - (to - 1), bookList.Count); //Assuming that the number of books exceed the range
-            }
-            else
-            {
-                Assert.Fail("The book list is empty. Should contain " + (from - (to - 1)) + " books.");
-            }
+            var bookList = dictionary[MediaItemType.Book];
+            Assert.AreEqual(from - (to - 1), bookList.Count); //Assuming that the number of books exceed the range
         }
 
         [TestMethod]
@@ -228,16 +212,8 @@ namespace BusinessLogicTests
             const int to = 100;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
             const int numberOfBooks = 10; // Assuming we have exactly 10 books
-            List<MediaItem> bookList;
-            dictionary.TryGetValue(MediaItemType.Book, out bookList);
-            if (bookList != null)
-            {
-                Assert.AreEqual(numberOfBooks, bookList.Count); 
-            }
-            else
-            {
-                Assert.Fail("The book list is empty. Should contain " + numberOfBooks + " books.");
-            }
+            var bookList = dictionary[MediaItemType.Book];
+            Assert.AreEqual(numberOfBooks, bookList.Count); 
         }
 
         [TestMethod]
@@ -296,16 +272,8 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, null, "token");
             const int numberOfMovies = 10; //Assuming there are exactly 10 books
-            List<MediaItem> movieList;
-            dictionary.TryGetValue(MediaItemType.Book, out movieList);
-            if (movieList != null)
-            {
-                Assert.AreEqual(numberOfMovies, movieList.Count);
-            }
-            else
-            {
-                Assert.Fail("The movie list is empty. Should contain " + numberOfMovies + " books.");
-            }
+            var movieList = dictionary[MediaItemType.Movie];
+            Assert.AreEqual(numberOfMovies, movieList.Count);
         }
 
         [TestMethod]
@@ -315,16 +283,8 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, "love", "token");
             const int numberOfMoviesThatMatchesSearchKey = 2; //Assuming there are exactly 2 books matching "love"
-            List<MediaItem> movieList;
-            dictionary.TryGetValue(MediaItemType.Book, out movieList);
-            if (movieList != null)
-            {
-                Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
-            }
-            else
-            {
-                Assert.Fail("The movie list is empty. Should contain " + numberOfMoviesThatMatchesSearchKey + " books.");
-            }
+            var movieList = dictionary[MediaItemType.Movie];
+            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
         }
 
         [TestMethod]
@@ -334,16 +294,8 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, " ", "token");
             const int numberOfMoviesThatMatchesSearchKey = 8; //Assuming there are exactly 8 books matching " "
-            List<MediaItem> movieList;
-            dictionary.TryGetValue(MediaItemType.Book, out movieList);
-            if (movieList != null)
-            {
-                Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
-            }
-            else
-            {
-                Assert.Fail("The movie list is empty. Should contain " + numberOfMoviesThatMatchesSearchKey + " books.");
-            }
+            var movieList = dictionary[MediaItemType.Movie];
+            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
         }
     }
 }
