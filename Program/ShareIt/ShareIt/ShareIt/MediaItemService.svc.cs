@@ -51,8 +51,8 @@ namespace ShareIt
             } 
             catch (ArgumentException ae)
             {
-                var fault = new Argument {Message = ae.Message};
-                throw new FaultException<Argument>(fault);
+                var fault = new ArgumentFault {Message = ae.Message};
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {
@@ -134,8 +134,8 @@ namespace ShareIt
             }
             catch (ArgumentException ae)
             {
-                var fault = new Argument { Message = ae.Message };
-                throw new FaultException<Argument>(fault);
+                var fault = new ArgumentFault { Message = ae.Message };
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (InvalidOperationException ioe)
             {

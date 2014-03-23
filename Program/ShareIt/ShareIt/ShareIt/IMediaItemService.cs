@@ -21,7 +21,7 @@ namespace ShareIt
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
-        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
@@ -38,7 +38,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string clientToken);
@@ -55,7 +55,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        [FaultContract(typeof (Argument))]
+        [FaultContract(typeof (ArgumentFault))]
         [FaultContract(typeof (FaultException))]
         [OperationContract]
         Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken);
@@ -73,7 +73,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey, string clientToken);
@@ -92,7 +92,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        [FaultContract(typeof(Argument))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);

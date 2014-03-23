@@ -55,9 +55,9 @@ namespace ShareIt
             }
             catch (ArgumentException ae)
             {
-                var fault = new Argument();
+                var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<Argument>(fault);
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {
