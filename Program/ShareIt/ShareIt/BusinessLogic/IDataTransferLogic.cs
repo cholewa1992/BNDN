@@ -8,7 +8,7 @@ using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer
 {
-    public interface IDataTransferLogic
+    public interface IDataTransferLogic : IDisposable
     {
         /// <summary>
         /// Get a stream containing the data of a specific media item.

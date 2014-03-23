@@ -128,5 +128,11 @@ namespace BusinessLogicLayer
                 EntityInfoTypeId = (int)info.Type
             };
         }
+
+        public void Dispose()
+        {
+            if(_dbStorage != null)
+                _dbStorage.Dispose();
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace ShareIt
         /// </summary>
         public TransferService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicFacade.GetTestFactory();
         }
         /// <summary>
         /// Construct a TransferService object which uses a specified IBusinessLogicFactory.
@@ -42,8 +42,12 @@ namespace ShareIt
         public DownloadResponse DownloadMedia(DownloadRequest request)
         {
             string fileExtension;
-            Stream stream = _factory.CreateDataTransferLogic()
-                .GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
+            Stream stream;
+
+            using (var logic = _factory.CreateDataTransferLogic())
+            {
+               stream = logic.GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
+            }
 
             return new DownloadResponse()
             {
@@ -61,7 +65,11 @@ namespace ShareIt
         /// <returns>An UploadStatusMessage containing information about wether the upload succeeded or not.</returns>
         public UploadStatusMessage UploadMedia(UploadRequest media)
         {
-            var result = _factory.CreateDataTransferLogic().SaveMedia(media.ClientToken,media.Owner, media.MetaData, media.FileByteStream);
+            int result;
+            using (var logic = _factory.CreateDataTransferLogic())
+            {
+                result = logic.SaveMedia(media.ClientToken,media.Owner, media.MetaData, media.FileByteStream);
+            }
             return new UploadStatusMessage
             {
                 UploadSucceeded = result > 0  

@@ -26,5 +26,9 @@ namespace BusinessLogicLayer.Stub
             return -1;
         }
 
+        public void Dispose()
+        {
+            
+        }
     }
 }
