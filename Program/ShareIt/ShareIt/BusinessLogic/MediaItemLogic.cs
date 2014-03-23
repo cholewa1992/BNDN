@@ -90,28 +90,20 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
         public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
-            AuthLogic auth = new AuthLogic(_storage);
-            int clientId = auth.CheckClientToken(clientToken);
+            if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
+            from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
+            const int rangeCap = 100;
 
-            if (from < 1 || to < 1)
+            Contract.Requires<ArgumentException>(from < 1 || to < 1);
+            Contract.Requires<ArgumentException>(to - from >= rangeCap);
+
+            var authLogic = new AuthLogic(_storage);
+            int clientId = authLogic.CheckClientToken(clientToken);
+            if (clientId == -1)
             {
-                throw new ArgumentException("Both \"from\" and \"to\" must be greater than 1");
+                throw new InvalidCredentialException();
             }
             
-            if (from > to)
-            {
-                int temp = from;
-                from = to;
-                to = temp;
-            }
-            from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
-
-            const int rangeCap = 100;
-            if (to - from >= rangeCap)
-            {
-                throw new ArgumentException("The range is too big. The cap on the range is " + rangeCap + ".");
-            }
-
             var result = new Dictionary<MediaItemType, List<MediaItem>>();
 
             bool isAllMediaTypes = mediaType.Equals(null);
@@ -134,7 +126,14 @@ namespace BusinessLogicLayer
                             {
                                 list.Add(GetMediaItemInformation(item.Id, "token"));
                             }
-                            result.Add((MediaItemType) group.Key, list);
+                            if (@group.Key != null)
+                            {
+                                result.Add((MediaItemType) @group.Key, list);
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("MediaItemType was not recognized");
+                            }
                         }
                     }
                     else //Searchkey & all media types
@@ -153,7 +152,14 @@ namespace BusinessLogicLayer
                             {
                                 list.Add(GetMediaItemInformation(item.Key, "token"));
                             }
-                            result.Add((MediaItemType) type.Key, list);
+                            if (type.Key != null)
+                            {
+                                result.Add((MediaItemType) type.Key, list);
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("MediaItemType was not recognized");
+                            }
                         }
                     }
                 }
@@ -171,7 +177,14 @@ namespace BusinessLogicLayer
                         {
                             list.Add(GetMediaItemInformation(mediaItem.Id, "token"));
                         }
-                        result.Add((MediaItemType) mediaType, list);
+                        if (mediaType != null)
+                        {
+                            result.Add((MediaItemType) mediaType, list);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("MediaItemType was not recognized");
+                        }
                     }
                     else //Searchkey & specific media type
                     {
@@ -189,7 +202,14 @@ namespace BusinessLogicLayer
                         {
                             list.Add(GetMediaItemInformation(mediaItem.Key, "token"));
                         }
-                        result.Add((MediaItemType) mediaType, list);
+                        if (mediaType != null)
+                        {
+                            result.Add((MediaItemType) mediaType, list);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("MediaItemType was not recognized");
+                        }
                     }
                 }
             }

@@ -52,7 +52,7 @@ namespace BusinessLogicLayer
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new FaultException<Argument>(new Argument
+                    throw new FaultException<ArgumentFault>(new ArgumentFault
                         {
                             Message = "No Media found with id: " + mediaId
                         });
