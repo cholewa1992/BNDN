@@ -1,6 +1,7 @@
 ﻿using System;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShareIt;
 
@@ -214,5 +215,91 @@ namespace UserServiceTest
 
             
         }
+
+        [TestMethod]
+        public void GetAccountInformation_targetUserNotFound()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "Password";
+
+            _userLogic.CreateAccount(_testUser, "token");
+
+            _testUser.Id = 12;
+
+            try
+            {
+                _userLogic.GetAccountInformation(_testUser, _testUser, "token");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("The requested user could not be found", e.Message);
+            }
+
+            Assert.Fail("Expected Exception");
+        }
+
+        [TestMethod]
+        public void GetAccountInformation_ValidUserInformationReturned()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "Password";
+
+            _userLogic.CreateAccount(_testUser, "token");
+
+            User u = _userLogic.GetAccountInformation(_testUser, _testUser, "token");
+  
+            Assert.AreEqual(u.Username, "John44");
+            Assert.AreEqual(u.Password, "Password");
+        }
+
+        [TestMethod]
+        public void UpdateAccountInformation_UserNotFoundInDB()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "Password";
+
+            _userLogic.CreateAccount(_testUser, "token");
+
+            _testUser.Id = 12;
+
+            try
+            {
+                _userLogic.UpdateAccountInformation(_testUser, _testUser, "token");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("User to be updated was not found in the database", e.Message);
+            }
+
+            Assert.Fail("Expected Exception");
+        }
+
+        [TestMethod]
+        public void UpdateAccountInformation_UserUpdated()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "Password";
+
+            _userLogic.CreateAccount(_testUser, "token");
+
+            var shouldBeTrue = _userLogic.UpdateAccountInformation(_testUser, _testUser, "token");
+
+            Assert.AreEqual(shouldBeTrue, true);
+
+            // Alternative test if the user is in the testdb with the new data.
+        }
+
+        // CreateAccount_UserIsNull
+        // CreateAccount_ClientTokenIsNull
+        // CreateAccount_ClientTokenNotValid
+
+        // GetAccountInformation_RequstingUserIsNull
+        // GetAccountInformation_TargetUserIsNull
+        // GetAccountInformation_ClientTokenIsNotValid
+
+        // UpdateAccountInformation_RequstingUserIsNull
+        // UpdateAccountInformation_TargetUserIsNull
+        // UpdateAccountInformation_ClientTokenIsNotValid
+        
     }
 }

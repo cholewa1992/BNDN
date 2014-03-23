@@ -58,6 +58,10 @@
       <Project>{b53b3d0d-6dc0-46d1-a4a7-52de953b0a46}</Project>
       <Name>BusinessLogicLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{56A72400-3AA4-452C-B11C-E38B69455CDC}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShareIt\ShareIt.csproj">
       <Project>{3ec8bf9d-e9df-4785-b61a-01969e3026be}</Project>
       <Name>ShareIt</Name>
