@@ -100,5 +100,10 @@ namespace BusinessLogicLayer.Stub
 
             return true;
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

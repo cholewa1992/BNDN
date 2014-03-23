@@ -9,8 +9,6 @@ namespace BusinessLogicLayer
 {
     internal interface IAccessRightInternalLogic : IAccessRightLogic
     {
-        bool Purchase(User u, MediaItem m, DateTime expiration);
-        bool Upload(User u, MediaItem m);
         List<AccessRight> GetPurchaseHistory(User u);
         List<AccessRight> GetUploadHistory(User u);
     }
