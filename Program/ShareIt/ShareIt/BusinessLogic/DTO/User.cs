@@ -18,9 +18,6 @@ namespace BusinessLogicLayer.DTO
         public string Password { get; set; }
 
         [DataMember]
-        public IEnumerable<UserInformationType> Type { get; set; }
-
-        [DataMember]
         public IEnumerable<UserInformation> Information { get; set; }
     }
 }
