@@ -21,7 +21,6 @@ namespace DataAccessLayer
     
         public int Id { get; set; }
         public string Type { get; set; }
-        public string Extension { get; set; }
     
         public virtual ICollection<Entity> Entity { get; set; }
     }

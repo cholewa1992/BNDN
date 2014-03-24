@@ -4,72 +4,70 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BNDNModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="BNDNModelStoreContainer">
-          <EntitySet Name="AccessRightType" EntityType="BNDNModel.Store.AccessRightType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcessRight" EntityType="BNDNModel.Store.AcessRight" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Client" EntityType="BNDNModel.Store.Client" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ClientAdmin" EntityType="BNDNModel.Store.ClientAdmin" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Entity" EntityType="BNDNModel.Store.Entity" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EntityInfo" EntityType="BNDNModel.Store.EntityInfo" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EntityInfoType" EntityType="BNDNModel.Store.EntityInfoType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EntityType" EntityType="BNDNModel.Store.EntityType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserAcc" EntityType="BNDNModel.Store.UserAcc" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserInfo" EntityType="BNDNModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserInfoType" EntityType="BNDNModel.Store.UserInfoType" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__AcessRigh__Acces__30F848ED" Association="BNDNModel.Store.FK__AcessRigh__Acces__30F848ED">
+      <Schema Namespace="RentIt08Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="RentIt08ModelStoreContainer">
+          <EntitySet Name="AccessRight" EntityType="RentIt08Model.Store.AccessRight" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AccessRightType" EntityType="RentIt08Model.Store.AccessRightType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Client" EntityType="RentIt08Model.Store.Client" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ClientAdmin" EntityType="RentIt08Model.Store.ClientAdmin" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Entity" EntityType="RentIt08Model.Store.Entity" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EntityExtesion" EntityType="RentIt08Model.Store.EntityExtesion" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EntityInfo" EntityType="RentIt08Model.Store.EntityInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EntityInfoType" EntityType="RentIt08Model.Store.EntityInfoType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EntityType" EntityType="RentIt08Model.Store.EntityType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserAcc" EntityType="RentIt08Model.Store.UserAcc" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInfo" EntityType="RentIt08Model.Store.UserInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInfoType" EntityType="RentIt08Model.Store.UserInfoType" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__AccessRig__Acces__793DFFAF" Association="RentIt08Model.Store.FK__AccessRig__Acces__793DFFAF">
             <End Role="AccessRightType" EntitySet="AccessRightType" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__AcessRigh__Entit__2F10007B" Association="BNDNModel.Store.FK__AcessRigh__Entit__2F10007B">
+          <AssociationSet Name="FK__AccessRig__Entit__7755B73D" Association="RentIt08Model.Store.FK__AccessRig__Entit__7755B73D">
             <End Role="Entity" EntitySet="Entity" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__AcessRigh__UserI__300424B4" Association="BNDNModel.Store.FK__AcessRigh__UserI__300424B4">
+          <AssociationSet Name="FK__AccessRig__UserI__7849DB76" Association="RentIt08Model.Store.FK__AccessRig__UserI__7849DB76">
             <End Role="UserAcc" EntitySet="UserAcc" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__ClientAdm__Clien__33D4B598" Association="BNDNModel.Store.FK__ClientAdm__Clien__33D4B598">
+          <AssociationSet Name="FK__ClientAdm__Clien__7C1A6C5A" Association="RentIt08Model.Store.FK__ClientAdm__Clien__7C1A6C5A">
             <End Role="Client" EntitySet="Client" />
             <End Role="ClientAdmin" EntitySet="ClientAdmin" />
           </AssociationSet>
-          <AssociationSet Name="FK__ClientAdm__UserI__34C8D9D1" Association="BNDNModel.Store.FK__ClientAdm__UserI__34C8D9D1">
+          <AssociationSet Name="FK__ClientAdm__UserI__7D0E9093" Association="RentIt08Model.Store.FK__ClientAdm__UserI__7D0E9093">
             <End Role="UserAcc" EntitySet="UserAcc" />
             <End Role="ClientAdmin" EntitySet="ClientAdmin" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entity__ClientId__1B0907CE" Association="BNDNModel.Store.FK__Entity__ClientId__1B0907CE">
+          <AssociationSet Name="FK__Entity__ClientId__625A9A57" Association="RentIt08Model.Store.FK__Entity__ClientId__625A9A57">
             <End Role="Client" EntitySet="Client" />
             <End Role="Entity" EntitySet="Entity" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entity__TypeId__1BFD2C07" Association="BNDNModel.Store.FK__Entity__TypeId__1BFD2C07">
+          <AssociationSet Name="FK__Entity__Extensio__6442E2C9" Association="RentIt08Model.Store.FK__Entity__Extensio__6442E2C9">
+            <End Role="EntityExtesion" EntitySet="EntityExtesion" />
+            <End Role="Entity" EntitySet="Entity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entity__TypeId__634EBE90" Association="RentIt08Model.Store.FK__Entity__TypeId__634EBE90">
             <End Role="EntityType" EntitySet="EntityType" />
             <End Role="Entity" EntitySet="Entity" />
           </AssociationSet>
-          <AssociationSet Name="FK__EntityInf__Entit__1ED998B2" Association="BNDNModel.Store.FK__EntityInf__Entit__1ED998B2">
+          <AssociationSet Name="FK__EntityInf__Entit__671F4F74" Association="RentIt08Model.Store.FK__EntityInf__Entit__671F4F74">
             <End Role="Entity" EntitySet="Entity" />
             <End Role="EntityInfo" EntitySet="EntityInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__EntityInf__Entit__1FCDBCEB" Association="BNDNModel.Store.FK__EntityInf__Entit__1FCDBCEB">
+          <AssociationSet Name="FK__EntityInf__Entit__681373AD" Association="RentIt08Model.Store.FK__EntityInf__Entit__681373AD">
             <End Role="EntityInfoType" EntitySet="EntityInfoType" />
             <End Role="EntityInfo" EntitySet="EntityInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserInfo__UserId__286302EC" Association="BNDNModel.Store.FK__UserInfo__UserId__286302EC">
+          <AssociationSet Name="FK__UserInfo__UserId__70A8B9AE" Association="RentIt08Model.Store.FK__UserInfo__UserId__70A8B9AE">
             <End Role="UserAcc" EntitySet="UserAcc" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserInfo__UserIn__29572725" Association="BNDNModel.Store.FK__UserInfo__UserIn__29572725">
+          <AssociationSet Name="FK__UserInfo__UserIn__719CDDE7" Association="RentIt08Model.Store.FK__UserInfo__UserIn__719CDDE7">
             <End Role="UserInfoType" EntitySet="UserInfoType" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AccessRightType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="AcessRight">
+        <EntityType Name="AccessRight">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -78,6 +76,13 @@
           <Property Name="EntityId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="AccessRightTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccessRightType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -103,6 +108,14 @@
           <Property Name="FilePath" Type="varchar" Nullable="false" MaxLength="256" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="TypeId" Type="int" />
+          <Property Name="ExtensionId" Type="int" />
+        </EntityType>
+        <EntityType Name="EntityExtesion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Extension" Type="varchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <EntityType Name="EntityInfo">
           <Key>
@@ -126,7 +139,6 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="varchar" Nullable="false" MaxLength="256" />
-          <Property Name="Extension" Type="varchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <EntityType Name="UserAcc">
           <Key>
@@ -152,53 +164,53 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="varchar" Nullable="false" MaxLength="256" />
         </EntityType>
-        <Association Name="FK__AcessRigh__Acces__30F848ED">
-          <End Role="AccessRightType" Type="BNDNModel.Store.AccessRightType" Multiplicity="1">
+        <Association Name="FK__AccessRig__Acces__793DFFAF">
+          <End Role="AccessRightType" Type="RentIt08Model.Store.AccessRightType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.Store.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.Store.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccessRightType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="AccessRightTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AcessRigh__Entit__2F10007B">
-          <End Role="Entity" Type="BNDNModel.Store.Entity" Multiplicity="1">
+        <Association Name="FK__AccessRig__Entit__7755B73D">
+          <End Role="Entity" Type="RentIt08Model.Store.Entity" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.Store.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.Store.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Entity">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="EntityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AcessRigh__UserI__300424B4">
-          <End Role="UserAcc" Type="BNDNModel.Store.UserAcc" Multiplicity="1">
+        <Association Name="FK__AccessRig__UserI__7849DB76">
+          <End Role="UserAcc" Type="RentIt08Model.Store.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.Store.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.Store.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ClientAdm__Clien__33D4B598">
-          <End Role="Client" Type="BNDNModel.Store.Client" Multiplicity="1">
+        <Association Name="FK__ClientAdm__Clien__7C1A6C5A">
+          <End Role="Client" Type="RentIt08Model.Store.Client" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="ClientAdmin" Type="BNDNModel.Store.ClientAdmin" Multiplicity="*" />
+          <End Role="ClientAdmin" Type="RentIt08Model.Store.ClientAdmin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -208,11 +220,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ClientAdm__UserI__34C8D9D1">
-          <End Role="UserAcc" Type="BNDNModel.Store.UserAcc" Multiplicity="1">
+        <Association Name="FK__ClientAdm__UserI__7D0E9093">
+          <End Role="UserAcc" Type="RentIt08Model.Store.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="ClientAdmin" Type="BNDNModel.Store.ClientAdmin" Multiplicity="*" />
+          <End Role="ClientAdmin" Type="RentIt08Model.Store.ClientAdmin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
@@ -222,11 +234,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entity__ClientId__1B0907CE">
-          <End Role="Client" Type="BNDNModel.Store.Client" Multiplicity="1">
+        <Association Name="FK__Entity__ClientId__625A9A57">
+          <End Role="Client" Type="RentIt08Model.Store.Client" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Entity" Type="BNDNModel.Store.Entity" Multiplicity="*" />
+          <End Role="Entity" Type="RentIt08Model.Store.Entity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -236,9 +248,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entity__TypeId__1BFD2C07">
-          <End Role="EntityType" Type="BNDNModel.Store.EntityType" Multiplicity="0..1" />
-          <End Role="Entity" Type="BNDNModel.Store.Entity" Multiplicity="*" />
+        <Association Name="FK__Entity__Extensio__6442E2C9">
+          <End Role="EntityExtesion" Type="RentIt08Model.Store.EntityExtesion" Multiplicity="0..1" />
+          <End Role="Entity" Type="RentIt08Model.Store.Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityExtesion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="ExtensionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entity__TypeId__634EBE90">
+          <End Role="EntityType" Type="RentIt08Model.Store.EntityType" Multiplicity="0..1" />
+          <End Role="Entity" Type="RentIt08Model.Store.Entity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EntityType">
               <PropertyRef Name="Id" />
@@ -248,11 +272,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EntityInf__Entit__1ED998B2">
-          <End Role="Entity" Type="BNDNModel.Store.Entity" Multiplicity="1">
+        <Association Name="FK__EntityInf__Entit__671F4F74">
+          <End Role="Entity" Type="RentIt08Model.Store.Entity" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EntityInfo" Type="BNDNModel.Store.EntityInfo" Multiplicity="*" />
+          <End Role="EntityInfo" Type="RentIt08Model.Store.EntityInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Entity">
               <PropertyRef Name="Id" />
@@ -262,11 +286,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EntityInf__Entit__1FCDBCEB">
-          <End Role="EntityInfoType" Type="BNDNModel.Store.EntityInfoType" Multiplicity="1">
+        <Association Name="FK__EntityInf__Entit__681373AD">
+          <End Role="EntityInfoType" Type="RentIt08Model.Store.EntityInfoType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EntityInfo" Type="BNDNModel.Store.EntityInfo" Multiplicity="*" />
+          <End Role="EntityInfo" Type="RentIt08Model.Store.EntityInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EntityInfoType">
               <PropertyRef Name="Id" />
@@ -276,11 +300,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserInfo__UserId__286302EC">
-          <End Role="UserAcc" Type="BNDNModel.Store.UserAcc" Multiplicity="1">
+        <Association Name="FK__UserInfo__UserId__70A8B9AE">
+          <End Role="UserAcc" Type="RentIt08Model.Store.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserInfo" Type="BNDNModel.Store.UserInfo" Multiplicity="*" />
+          <End Role="UserInfo" Type="RentIt08Model.Store.UserInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
@@ -290,11 +314,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserInfo__UserIn__29572725">
-          <End Role="UserInfoType" Type="BNDNModel.Store.UserInfoType" Multiplicity="1">
+        <Association Name="FK__UserInfo__UserIn__719CDDE7">
+          <End Role="UserInfoType" Type="RentIt08Model.Store.UserInfoType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserInfo" Type="BNDNModel.Store.UserInfo" Multiplicity="*" />
+          <End Role="UserInfo" Type="RentIt08Model.Store.UserInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserInfoType">
               <PropertyRef Name="Id" />
@@ -308,73 +332,70 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BNDNModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="BNDNEntities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="AccessRightType" EntityType="BNDNModel.AccessRightType" />
-          <EntitySet Name="AcessRight" EntityType="BNDNModel.AcessRight" />
-          <EntitySet Name="Client" EntityType="BNDNModel.Client" />
-          <EntitySet Name="ClientAdmin" EntityType="BNDNModel.ClientAdmin" />
-          <EntitySet Name="Entity" EntityType="BNDNModel.Entity" />
-          <EntitySet Name="EntityInfo" EntityType="BNDNModel.EntityInfo" />
-          <EntitySet Name="EntityInfoType" EntityType="BNDNModel.EntityInfoType" />
-          <EntitySet Name="EntityType" EntityType="BNDNModel.EntityType" />
-          <EntitySet Name="UserAcc" EntityType="BNDNModel.UserAcc" />
-          <EntitySet Name="UserInfo" EntityType="BNDNModel.UserInfo" />
-          <EntitySet Name="UserInfoType" EntityType="BNDNModel.UserInfoType" />
-          <AssociationSet Name="FK__AcessRigh__Acces__30F848ED" Association="BNDNModel.FK__AcessRigh__Acces__30F848ED">
+      <Schema Namespace="RentIt08Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RentIt08Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="AccessRight" EntityType="RentIt08Model.AccessRight" />
+          <EntitySet Name="AccessRightType" EntityType="RentIt08Model.AccessRightType" />
+          <EntitySet Name="Client" EntityType="RentIt08Model.Client" />
+          <EntitySet Name="ClientAdmin" EntityType="RentIt08Model.ClientAdmin" />
+          <EntitySet Name="Entity" EntityType="RentIt08Model.Entity" />
+          <EntitySet Name="EntityExtesion" EntityType="RentIt08Model.EntityExtesion" />
+          <EntitySet Name="EntityInfo" EntityType="RentIt08Model.EntityInfo" />
+          <EntitySet Name="EntityInfoType" EntityType="RentIt08Model.EntityInfoType" />
+          <EntitySet Name="EntityType" EntityType="RentIt08Model.EntityType" />
+          <EntitySet Name="UserAcc" EntityType="RentIt08Model.UserAcc" />
+          <EntitySet Name="UserInfo" EntityType="RentIt08Model.UserInfo" />
+          <EntitySet Name="UserInfoType" EntityType="RentIt08Model.UserInfoType" />
+          <AssociationSet Name="FK__AccessRig__Acces__793DFFAF" Association="RentIt08Model.FK__AccessRig__Acces__793DFFAF">
             <End Role="AccessRightType" EntitySet="AccessRightType" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__AcessRigh__Entit__2F10007B" Association="BNDNModel.FK__AcessRigh__Entit__2F10007B">
+          <AssociationSet Name="FK__AccessRig__Entit__7755B73D" Association="RentIt08Model.FK__AccessRig__Entit__7755B73D">
             <End Role="Entity" EntitySet="Entity" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__AcessRigh__UserI__300424B4" Association="BNDNModel.FK__AcessRigh__UserI__300424B4">
+          <AssociationSet Name="FK__AccessRig__UserI__7849DB76" Association="RentIt08Model.FK__AccessRig__UserI__7849DB76">
             <End Role="UserAcc" EntitySet="UserAcc" />
-            <End Role="AcessRight" EntitySet="AcessRight" />
+            <End Role="AccessRight" EntitySet="AccessRight" />
           </AssociationSet>
-          <AssociationSet Name="FK__ClientAdm__Clien__33D4B598" Association="BNDNModel.FK__ClientAdm__Clien__33D4B598">
+          <AssociationSet Name="FK__ClientAdm__Clien__7C1A6C5A" Association="RentIt08Model.FK__ClientAdm__Clien__7C1A6C5A">
             <End Role="Client" EntitySet="Client" />
             <End Role="ClientAdmin" EntitySet="ClientAdmin" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entity__ClientId__1B0907CE" Association="BNDNModel.FK__Entity__ClientId__1B0907CE">
+          <AssociationSet Name="FK__Entity__ClientId__625A9A57" Association="RentIt08Model.FK__Entity__ClientId__625A9A57">
             <End Role="Client" EntitySet="Client" />
             <End Role="Entity" EntitySet="Entity" />
           </AssociationSet>
-          <AssociationSet Name="FK__ClientAdm__UserI__34C8D9D1" Association="BNDNModel.FK__ClientAdm__UserI__34C8D9D1">
+          <AssociationSet Name="FK__ClientAdm__UserI__7D0E9093" Association="RentIt08Model.FK__ClientAdm__UserI__7D0E9093">
             <End Role="UserAcc" EntitySet="UserAcc" />
             <End Role="ClientAdmin" EntitySet="ClientAdmin" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entity__TypeId__1BFD2C07" Association="BNDNModel.FK__Entity__TypeId__1BFD2C07">
+          <AssociationSet Name="FK__Entity__Extensio__6442E2C9" Association="RentIt08Model.FK__Entity__Extensio__6442E2C9">
+            <End Role="EntityExtesion" EntitySet="EntityExtesion" />
+            <End Role="Entity" EntitySet="Entity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entity__TypeId__634EBE90" Association="RentIt08Model.FK__Entity__TypeId__634EBE90">
             <End Role="EntityType" EntitySet="EntityType" />
             <End Role="Entity" EntitySet="Entity" />
           </AssociationSet>
-          <AssociationSet Name="FK__EntityInf__Entit__1ED998B2" Association="BNDNModel.FK__EntityInf__Entit__1ED998B2">
+          <AssociationSet Name="FK__EntityInf__Entit__671F4F74" Association="RentIt08Model.FK__EntityInf__Entit__671F4F74">
             <End Role="Entity" EntitySet="Entity" />
             <End Role="EntityInfo" EntitySet="EntityInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__EntityInf__Entit__1FCDBCEB" Association="BNDNModel.FK__EntityInf__Entit__1FCDBCEB">
+          <AssociationSet Name="FK__EntityInf__Entit__681373AD" Association="RentIt08Model.FK__EntityInf__Entit__681373AD">
             <End Role="EntityInfoType" EntitySet="EntityInfoType" />
             <End Role="EntityInfo" EntitySet="EntityInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserInfo__UserId__286302EC" Association="BNDNModel.FK__UserInfo__UserId__286302EC">
+          <AssociationSet Name="FK__UserInfo__UserId__70A8B9AE" Association="RentIt08Model.FK__UserInfo__UserId__70A8B9AE">
             <End Role="UserAcc" EntitySet="UserAcc" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserInfo__UserIn__29572725" Association="BNDNModel.FK__UserInfo__UserIn__29572725">
+          <AssociationSet Name="FK__UserInfo__UserIn__719CDDE7" Association="RentIt08Model.FK__UserInfo__UserIn__719CDDE7">
             <End Role="UserInfoType" EntitySet="UserInfoType" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AccessRightType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="AcessRight" Relationship="BNDNModel.FK__AcessRigh__Acces__30F848ED" FromRole="AccessRightType" ToRole="AcessRight" />
-        </EntityType>
-        <EntityType Name="AcessRight">
+        <EntityType Name="AccessRight">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -383,9 +404,17 @@
           <Property Name="EntityId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="AccessRightTypeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AccessRightType" Relationship="BNDNModel.FK__AcessRigh__Acces__30F848ED" FromRole="AcessRight" ToRole="AccessRightType" />
-          <NavigationProperty Name="Entity" Relationship="BNDNModel.FK__AcessRigh__Entit__2F10007B" FromRole="AcessRight" ToRole="Entity" />
-          <NavigationProperty Name="UserAcc" Relationship="BNDNModel.FK__AcessRigh__UserI__300424B4" FromRole="AcessRight" ToRole="UserAcc" />
+          <NavigationProperty Name="AccessRightType" Relationship="RentIt08Model.FK__AccessRig__Acces__793DFFAF" FromRole="AccessRight" ToRole="AccessRightType" />
+          <NavigationProperty Name="Entity" Relationship="RentIt08Model.FK__AccessRig__Entit__7755B73D" FromRole="AccessRight" ToRole="Entity" />
+          <NavigationProperty Name="UserAcc" Relationship="RentIt08Model.FK__AccessRig__UserI__7849DB76" FromRole="AccessRight" ToRole="UserAcc" />
+        </EntityType>
+        <EntityType Name="AccessRightType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AccessRight" Relationship="RentIt08Model.FK__AccessRig__Acces__793DFFAF" FromRole="AccessRightType" ToRole="AccessRight" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -394,8 +423,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
           <Property Name="Token" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="ClientAdmin" Relationship="BNDNModel.FK__ClientAdm__Clien__33D4B598" FromRole="Client" ToRole="ClientAdmin" />
-          <NavigationProperty Name="Entity" Relationship="BNDNModel.FK__Entity__ClientId__1B0907CE" FromRole="Client" ToRole="Entity" />
+          <NavigationProperty Name="ClientAdmin" Relationship="RentIt08Model.FK__ClientAdm__Clien__7C1A6C5A" FromRole="Client" ToRole="ClientAdmin" />
+          <NavigationProperty Name="Entity" Relationship="RentIt08Model.FK__Entity__ClientId__625A9A57" FromRole="Client" ToRole="Entity" />
         </EntityType>
         <EntityType Name="ClientAdmin">
           <Key>
@@ -404,8 +433,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Client" Relationship="BNDNModel.FK__ClientAdm__Clien__33D4B598" FromRole="ClientAdmin" ToRole="Client" />
-          <NavigationProperty Name="UserAcc" Relationship="BNDNModel.FK__ClientAdm__UserI__34C8D9D1" FromRole="ClientAdmin" ToRole="UserAcc" />
+          <NavigationProperty Name="Client" Relationship="RentIt08Model.FK__ClientAdm__Clien__7C1A6C5A" FromRole="ClientAdmin" ToRole="Client" />
+          <NavigationProperty Name="UserAcc" Relationship="RentIt08Model.FK__ClientAdm__UserI__7D0E9093" FromRole="ClientAdmin" ToRole="UserAcc" />
         </EntityType>
         <EntityType Name="Entity">
           <Key>
@@ -415,10 +444,20 @@
           <Property Name="FilePath" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="TypeId" Type="Int32" />
-          <NavigationProperty Name="AcessRight" Relationship="BNDNModel.FK__AcessRigh__Entit__2F10007B" FromRole="Entity" ToRole="AcessRight" />
-          <NavigationProperty Name="Client" Relationship="BNDNModel.FK__Entity__ClientId__1B0907CE" FromRole="Entity" ToRole="Client" />
-          <NavigationProperty Name="EntityType" Relationship="BNDNModel.FK__Entity__TypeId__1BFD2C07" FromRole="Entity" ToRole="EntityType" />
-          <NavigationProperty Name="EntityInfo" Relationship="BNDNModel.FK__EntityInf__Entit__1ED998B2" FromRole="Entity" ToRole="EntityInfo" />
+          <Property Name="ExtensionId" Type="Int32" />
+          <NavigationProperty Name="AccessRight" Relationship="RentIt08Model.FK__AccessRig__Entit__7755B73D" FromRole="Entity" ToRole="AccessRight" />
+          <NavigationProperty Name="Client" Relationship="RentIt08Model.FK__Entity__ClientId__625A9A57" FromRole="Entity" ToRole="Client" />
+          <NavigationProperty Name="EntityExtesion" Relationship="RentIt08Model.FK__Entity__Extensio__6442E2C9" FromRole="Entity" ToRole="EntityExtesion" />
+          <NavigationProperty Name="EntityType" Relationship="RentIt08Model.FK__Entity__TypeId__634EBE90" FromRole="Entity" ToRole="EntityType" />
+          <NavigationProperty Name="EntityInfo" Relationship="RentIt08Model.FK__EntityInf__Entit__671F4F74" FromRole="Entity" ToRole="EntityInfo" />
+        </EntityType>
+        <EntityType Name="EntityExtesion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Extension" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Entity" Relationship="RentIt08Model.FK__Entity__Extensio__6442E2C9" FromRole="EntityExtesion" ToRole="Entity" />
         </EntityType>
         <EntityType Name="EntityInfo">
           <Key>
@@ -428,8 +467,8 @@
           <Property Name="EntityId" Type="Int32" Nullable="false" />
           <Property Name="EntityInfoTypeId" Type="Int32" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Entity" Relationship="BNDNModel.FK__EntityInf__Entit__1ED998B2" FromRole="EntityInfo" ToRole="Entity" />
-          <NavigationProperty Name="EntityInfoType" Relationship="BNDNModel.FK__EntityInf__Entit__1FCDBCEB" FromRole="EntityInfo" ToRole="EntityInfoType" />
+          <NavigationProperty Name="Entity" Relationship="RentIt08Model.FK__EntityInf__Entit__671F4F74" FromRole="EntityInfo" ToRole="Entity" />
+          <NavigationProperty Name="EntityInfoType" Relationship="RentIt08Model.FK__EntityInf__Entit__681373AD" FromRole="EntityInfo" ToRole="EntityInfoType" />
         </EntityType>
         <EntityType Name="EntityInfoType">
           <Key>
@@ -437,7 +476,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="EntityInfo" Relationship="BNDNModel.FK__EntityInf__Entit__1FCDBCEB" FromRole="EntityInfoType" ToRole="EntityInfo" />
+          <NavigationProperty Name="EntityInfo" Relationship="RentIt08Model.FK__EntityInf__Entit__681373AD" FromRole="EntityInfoType" ToRole="EntityInfo" />
         </EntityType>
         <EntityType Name="EntityType">
           <Key>
@@ -445,8 +484,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <Property Name="Extension" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Entity" Relationship="BNDNModel.FK__Entity__TypeId__1BFD2C07" FromRole="EntityType" ToRole="Entity" />
+          <NavigationProperty Name="Entity" Relationship="RentIt08Model.FK__Entity__TypeId__634EBE90" FromRole="EntityType" ToRole="Entity" />
         </EntityType>
         <EntityType Name="UserAcc">
           <Key>
@@ -455,9 +493,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="AcessRight" Relationship="BNDNModel.FK__AcessRigh__UserI__300424B4" FromRole="UserAcc" ToRole="AcessRight" />
-          <NavigationProperty Name="ClientAdmin" Relationship="BNDNModel.FK__ClientAdm__UserI__34C8D9D1" FromRole="UserAcc" ToRole="ClientAdmin" />
-          <NavigationProperty Name="UserInfo" Relationship="BNDNModel.FK__UserInfo__UserId__286302EC" FromRole="UserAcc" ToRole="UserInfo" />
+          <NavigationProperty Name="AccessRight" Relationship="RentIt08Model.FK__AccessRig__UserI__7849DB76" FromRole="UserAcc" ToRole="AccessRight" />
+          <NavigationProperty Name="ClientAdmin" Relationship="RentIt08Model.FK__ClientAdm__UserI__7D0E9093" FromRole="UserAcc" ToRole="ClientAdmin" />
+          <NavigationProperty Name="UserInfo" Relationship="RentIt08Model.FK__UserInfo__UserId__70A8B9AE" FromRole="UserAcc" ToRole="UserInfo" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -467,8 +505,8 @@
           <Property Name="Data" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="UserInfoType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UserAcc" Relationship="BNDNModel.FK__UserInfo__UserId__286302EC" FromRole="UserInfo" ToRole="UserAcc" />
-          <NavigationProperty Name="UserInfoType1" Relationship="BNDNModel.FK__UserInfo__UserIn__29572725" FromRole="UserInfo" ToRole="UserInfoType" />
+          <NavigationProperty Name="UserAcc" Relationship="RentIt08Model.FK__UserInfo__UserId__70A8B9AE" FromRole="UserInfo" ToRole="UserAcc" />
+          <NavigationProperty Name="UserInfoType1" Relationship="RentIt08Model.FK__UserInfo__UserIn__719CDDE7" FromRole="UserInfo" ToRole="UserInfoType" />
         </EntityType>
         <EntityType Name="UserInfoType">
           <Key>
@@ -476,55 +514,55 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="UserInfo" Relationship="BNDNModel.FK__UserInfo__UserIn__29572725" FromRole="UserInfoType" ToRole="UserInfo" />
+          <NavigationProperty Name="UserInfo" Relationship="RentIt08Model.FK__UserInfo__UserIn__719CDDE7" FromRole="UserInfoType" ToRole="UserInfo" />
         </EntityType>
-        <Association Name="FK__AcessRigh__Acces__30F848ED">
-          <End Role="AccessRightType" Type="BNDNModel.AccessRightType" Multiplicity="1">
+        <Association Name="FK__AccessRig__Acces__793DFFAF">
+          <End Role="AccessRightType" Type="RentIt08Model.AccessRightType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccessRightType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="AccessRightTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AcessRigh__Entit__2F10007B">
-          <End Role="Entity" Type="BNDNModel.Entity" Multiplicity="1">
+        <Association Name="FK__AccessRig__Entit__7755B73D">
+          <End Role="Entity" Type="RentIt08Model.Entity" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Entity">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="EntityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AcessRigh__UserI__300424B4">
-          <End Role="UserAcc" Type="BNDNModel.UserAcc" Multiplicity="1">
+        <Association Name="FK__AccessRig__UserI__7849DB76">
+          <End Role="UserAcc" Type="RentIt08Model.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AcessRight" Type="BNDNModel.AcessRight" Multiplicity="*" />
+          <End Role="AccessRight" Type="RentIt08Model.AccessRight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AcessRight">
+            <Dependent Role="AccessRight">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ClientAdm__Clien__33D4B598">
-          <End Role="Client" Type="BNDNModel.Client" Multiplicity="1">
+        <Association Name="FK__ClientAdm__Clien__7C1A6C5A">
+          <End Role="Client" Type="RentIt08Model.Client" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="ClientAdmin" Type="BNDNModel.ClientAdmin" Multiplicity="*" />
+          <End Role="ClientAdmin" Type="RentIt08Model.ClientAdmin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -534,11 +572,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entity__ClientId__1B0907CE">
-          <End Role="Client" Type="BNDNModel.Client" Multiplicity="1">
+        <Association Name="FK__Entity__ClientId__625A9A57">
+          <End Role="Client" Type="RentIt08Model.Client" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Entity" Type="BNDNModel.Entity" Multiplicity="*" />
+          <End Role="Entity" Type="RentIt08Model.Entity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -548,11 +586,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ClientAdm__UserI__34C8D9D1">
-          <End Role="UserAcc" Type="BNDNModel.UserAcc" Multiplicity="1">
+        <Association Name="FK__ClientAdm__UserI__7D0E9093">
+          <End Role="UserAcc" Type="RentIt08Model.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="ClientAdmin" Type="BNDNModel.ClientAdmin" Multiplicity="*" />
+          <End Role="ClientAdmin" Type="RentIt08Model.ClientAdmin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
@@ -562,9 +600,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entity__TypeId__1BFD2C07">
-          <End Role="EntityType" Type="BNDNModel.EntityType" Multiplicity="0..1" />
-          <End Role="Entity" Type="BNDNModel.Entity" Multiplicity="*" />
+        <Association Name="FK__Entity__Extensio__6442E2C9">
+          <End Role="EntityExtesion" Type="RentIt08Model.EntityExtesion" Multiplicity="0..1" />
+          <End Role="Entity" Type="RentIt08Model.Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityExtesion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="ExtensionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entity__TypeId__634EBE90">
+          <End Role="EntityType" Type="RentIt08Model.EntityType" Multiplicity="0..1" />
+          <End Role="Entity" Type="RentIt08Model.Entity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EntityType">
               <PropertyRef Name="Id" />
@@ -574,11 +624,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EntityInf__Entit__1ED998B2">
-          <End Role="Entity" Type="BNDNModel.Entity" Multiplicity="1">
+        <Association Name="FK__EntityInf__Entit__671F4F74">
+          <End Role="Entity" Type="RentIt08Model.Entity" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EntityInfo" Type="BNDNModel.EntityInfo" Multiplicity="*" />
+          <End Role="EntityInfo" Type="RentIt08Model.EntityInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Entity">
               <PropertyRef Name="Id" />
@@ -588,11 +638,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EntityInf__Entit__1FCDBCEB">
-          <End Role="EntityInfoType" Type="BNDNModel.EntityInfoType" Multiplicity="1">
+        <Association Name="FK__EntityInf__Entit__681373AD">
+          <End Role="EntityInfoType" Type="RentIt08Model.EntityInfoType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EntityInfo" Type="BNDNModel.EntityInfo" Multiplicity="*" />
+          <End Role="EntityInfo" Type="RentIt08Model.EntityInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EntityInfoType">
               <PropertyRef Name="Id" />
@@ -602,11 +652,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserInfo__UserId__286302EC">
-          <End Role="UserAcc" Type="BNDNModel.UserAcc" Multiplicity="1">
+        <Association Name="FK__UserInfo__UserId__70A8B9AE">
+          <End Role="UserAcc" Type="RentIt08Model.UserAcc" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserInfo" Type="BNDNModel.UserInfo" Multiplicity="*" />
+          <End Role="UserInfo" Type="RentIt08Model.UserInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAcc">
               <PropertyRef Name="Id" />
@@ -616,11 +666,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserInfo__UserIn__29572725">
-          <End Role="UserInfoType" Type="BNDNModel.UserInfoType" Multiplicity="1">
+        <Association Name="FK__UserInfo__UserIn__719CDDE7">
+          <End Role="UserInfoType" Type="RentIt08Model.UserInfoType" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserInfo" Type="BNDNModel.UserInfo" Multiplicity="*" />
+          <End Role="UserInfo" Type="RentIt08Model.UserInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserInfoType">
               <PropertyRef Name="Id" />
@@ -635,18 +685,10 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BNDNModelStoreContainer" CdmEntityContainer="BNDNEntities">
-          <EntitySetMapping Name="AccessRightType">
-            <EntityTypeMapping TypeName="BNDNModel.AccessRightType">
-              <MappingFragment StoreEntitySet="AccessRightType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AcessRight">
-            <EntityTypeMapping TypeName="BNDNModel.AcessRight">
-              <MappingFragment StoreEntitySet="AcessRight">
+        <EntityContainerMapping StorageEntityContainer="RentIt08ModelStoreContainer" CdmEntityContainer="RentIt08Entities">
+          <EntitySetMapping Name="AccessRight">
+            <EntityTypeMapping TypeName="RentIt08Model.AccessRight">
+              <MappingFragment StoreEntitySet="AccessRight">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Expiration" ColumnName="Expiration" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
@@ -655,8 +697,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AccessRightType">
+            <EntityTypeMapping TypeName="RentIt08Model.AccessRightType">
+              <MappingFragment StoreEntitySet="AccessRightType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="BNDNModel.Client">
+            <EntityTypeMapping TypeName="RentIt08Model.Client">
               <MappingFragment StoreEntitySet="Client">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -665,7 +715,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientAdmin">
-            <EntityTypeMapping TypeName="BNDNModel.ClientAdmin">
+            <EntityTypeMapping TypeName="RentIt08Model.ClientAdmin">
               <MappingFragment StoreEntitySet="ClientAdmin">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
@@ -674,17 +724,26 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Entity">
-            <EntityTypeMapping TypeName="BNDNModel.Entity">
+            <EntityTypeMapping TypeName="RentIt08Model.Entity">
               <MappingFragment StoreEntitySet="Entity">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="ExtensionId" ColumnName="ExtensionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityExtesion">
+            <EntityTypeMapping TypeName="RentIt08Model.EntityExtesion">
+              <MappingFragment StoreEntitySet="EntityExtesion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EntityInfo">
-            <EntityTypeMapping TypeName="BNDNModel.EntityInfo">
+            <EntityTypeMapping TypeName="RentIt08Model.EntityInfo">
               <MappingFragment StoreEntitySet="EntityInfo">
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
@@ -694,7 +753,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EntityInfoType">
-            <EntityTypeMapping TypeName="BNDNModel.EntityInfoType">
+            <EntityTypeMapping TypeName="RentIt08Model.EntityInfoType">
               <MappingFragment StoreEntitySet="EntityInfoType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -702,16 +761,15 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EntityType">
-            <EntityTypeMapping TypeName="BNDNModel.EntityType">
+            <EntityTypeMapping TypeName="RentIt08Model.EntityType">
               <MappingFragment StoreEntitySet="EntityType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAcc">
-            <EntityTypeMapping TypeName="BNDNModel.UserAcc">
+            <EntityTypeMapping TypeName="RentIt08Model.UserAcc">
               <MappingFragment StoreEntitySet="UserAcc">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -720,7 +778,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserInfo">
-            <EntityTypeMapping TypeName="BNDNModel.UserInfo">
+            <EntityTypeMapping TypeName="RentIt08Model.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
@@ -730,7 +788,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserInfoType">
-            <EntityTypeMapping TypeName="BNDNModel.UserInfoType">
+            <EntityTypeMapping TypeName="RentIt08Model.UserInfoType">
               <MappingFragment StoreEntitySet="UserInfoType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />

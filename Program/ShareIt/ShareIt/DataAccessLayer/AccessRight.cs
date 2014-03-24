@@ -11,8 +11,8 @@ namespace DataAccessLayer
 {
     using System;
     using System.Collections.Generic;
-
-    public partial class AcessRight : IEntityDto
+    
+    public partial class AccessRight : IEntityDto
     {
         public int Id { get; set; }
         public Nullable<System.DateTime> Expiration { get; set; }

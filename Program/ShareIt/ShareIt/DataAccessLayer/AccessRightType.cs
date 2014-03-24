@@ -11,17 +11,17 @@ namespace DataAccessLayer
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class AccessRightType : IEntityDto
     {
         public AccessRightType()
         {
-            this.AcessRight = new HashSet<AcessRight>();
+            this.AccessRight = new HashSet<AccessRight>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<AcessRight> AcessRight { get; set; }
+        public virtual ICollection<AccessRight> AccessRight { get; set; }
     }
 }

@@ -92,7 +92,6 @@ namespace DataAccessLayer
             }
             catch (DbEntityValidationException e)
             {
-                Dispose();
                 throw new InternalDbException("The entities you tried to save violated a db constraint", e);
             }
             catch (EntityException e)
@@ -103,9 +102,12 @@ namespace DataAccessLayer
             {
                 throw new InternalDbException("The entity tried updated is not in the database", e);
             }
+            catch (DbUpdateException e)
+            {
+                throw new InternalDbException("The data cound not be added to the database. Is it unique?", e);
+            }
             catch (Exception e)
             {
-                Dispose();
                 throw new InternalDbException("The data was not saved due to an unexpected error", e);
             }
         }

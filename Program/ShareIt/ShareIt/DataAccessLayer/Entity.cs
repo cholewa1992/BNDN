@@ -16,7 +16,7 @@ namespace DataAccessLayer
     {
         public Entity()
         {
-            this.AcessRight = new HashSet<AcessRight>();
+            this.AccessRight = new HashSet<AccessRight>();
             this.EntityInfo = new HashSet<EntityInfo>();
         }
     
@@ -24,9 +24,11 @@ namespace DataAccessLayer
         public string FilePath { get; set; }
         public int ClientId { get; set; }
         public Nullable<int> TypeId { get; set; }
+        public Nullable<int> ExtensionId { get; set; }
     
-        public virtual ICollection<AcessRight> AcessRight { get; set; }
+        public virtual ICollection<AccessRight> AccessRight { get; set; }
         public virtual Client Client { get; set; }
+        public virtual EntityExtesion EntityExtesion { get; set; }
         public virtual EntityType EntityType { get; set; }
         public virtual ICollection<EntityInfo> EntityInfo { get; set; }
     }

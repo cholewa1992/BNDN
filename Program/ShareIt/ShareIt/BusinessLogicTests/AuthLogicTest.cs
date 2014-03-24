@@ -10,7 +10,7 @@ namespace BusinessLogicTests
     public class AuthLogicTest: BaseTest
     {
 
-        IAuthInternalLogic al = new AuthLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
+        IAuthInternalLogic al = new AuthLogic(new StorageBridge(new EfStorageConnection<RentIt08Entities>()));
 
         [TestMethod]
         public void TestMethod1()

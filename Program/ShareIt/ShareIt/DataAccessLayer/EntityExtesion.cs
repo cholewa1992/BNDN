@@ -12,21 +12,16 @@ namespace DataAccessLayer
     using System;
     using System.Collections.Generic;
 
-    public partial class UserAcc : IEntityDto
+    public partial class EntityExtesion : IEntityDto
     {
-        public UserAcc()
+        public EntityExtesion()
         {
-            this.AccessRight = new HashSet<AccessRight>();
-            this.ClientAdmin = new HashSet<ClientAdmin>();
-            this.UserInfo = new HashSet<UserInfo>();
+            this.Entity = new HashSet<Entity>();
         }
     
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Extension { get; set; }
     
-        public virtual ICollection<AccessRight> AccessRight { get; set; }
-        public virtual ICollection<ClientAdmin> ClientAdmin { get; set; }
-        public virtual ICollection<UserInfo> UserInfo { get; set; }
+        public virtual ICollection<Entity> Entity { get; set; }
     }
 }

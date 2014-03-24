@@ -13,10 +13,10 @@ namespace DataAccessLayer
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BNDNEntities : DbContext, IDbContext
+    public partial class RentIt08Entities : DbContext, IDbContext
     {
-        public BNDNEntities()
-            : base("name=BNDNEntities")
+        public RentIt08Entities()
+            : base("name=RentIt08Entities")
         {
         }
     
@@ -25,18 +25,18 @@ namespace DataAccessLayer
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<AccessRight> AccessRight { get; set; }
         public DbSet<AccessRightType> AccessRightType { get; set; }
-        public DbSet<AcessRight> AcessRight { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<ClientAdmin> ClientAdmin { get; set; }
         public DbSet<Entity> Entity { get; set; }
+        public DbSet<EntityExtesion> EntityExtesion { get; set; }
         public DbSet<EntityInfo> EntityInfo { get; set; }
         public DbSet<EntityInfoType> EntityInfoType { get; set; }
         public DbSet<EntityType> EntityType { get; set; }
         public DbSet<UserAcc> UserAcc { get; set; }
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<UserInfoType> UserInfoType { get; set; }
-
         public new IDbSet<T> Set<T>() where T : class
         {
             return base.Set<T>();
