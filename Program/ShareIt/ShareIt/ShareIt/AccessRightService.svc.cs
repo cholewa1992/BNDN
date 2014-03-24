@@ -82,7 +82,7 @@ namespace ShareIt
         /// <param name="ar">The AccessRight to be deleted</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Delete(User admin, AccessRight ar, string clientToken)
+        public bool Delete(User admin, AccessRightDTO ar, string clientToken)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ShareIt
         /// <param name="newAR">The AccessRight containing the new information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool EditExpiration(User u, AccessRight newAR, string clientToken)
+        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
         {
             try
             {

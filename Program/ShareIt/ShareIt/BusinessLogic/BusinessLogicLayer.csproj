@@ -90,7 +90,7 @@
     <Compile Include="AuthLogic.cs" />
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="BusinessLogicFacade.cs" />
-    <Compile Include="DTO\AccessRight.cs" />
+    <Compile Include="DTO\AccessRightDTO.cs" />
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\InformationType.cs" />
     <Compile Include="DTO\MediaItemInformation.cs" />

@@ -135,7 +135,7 @@ namespace BusinessLogicLayer
                 },
                 ClientId = clientId
             };
-            result.AcessRight.Add(new AcessRight
+            result.AccessRight.Add(new AccessRight
             {
                 //TODO Add access right type.
                 UserId = owner.Id

@@ -33,22 +33,22 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, AccessRight ar, string clientToken)
+        public bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken)
         {
             return true;
         }
 
-        public List<AccessRight> GetPurchaseHistory(User u)
+        public List<AccessRightDTO> GetPurchaseHistory(User u)
         {
-            return new List<AccessRight>();
+            return new List<AccessRightDTO>();
         }
 
-        public List<AccessRight> GetUploadHistory(User u)
+        public List<AccessRightDTO> GetUploadHistory(User u)
         {
-            return new List<AccessRight>();
+            return new List<AccessRightDTO>();
         }
 
-        public bool EditExpiration(User u, AccessRight newAR, string clientToken)
+        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
         {
             return true;
         }

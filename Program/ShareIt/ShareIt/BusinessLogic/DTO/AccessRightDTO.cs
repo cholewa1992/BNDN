@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public class AccessRight
+    public class AccessRightDTO
     {
         [DataMember]
         public int Id { get; set; }

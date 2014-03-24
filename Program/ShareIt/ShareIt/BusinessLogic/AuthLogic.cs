@@ -34,7 +34,7 @@ namespace BusinessLogicLayer
             // TODO use .single instead of .First
 
             //Find an accessright
-            var ar = _storage.Get<AcessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
+            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
                     .Select(a => a).First();
 
             //Check if it's past expiration
@@ -87,7 +87,7 @@ namespace BusinessLogicLayer
 
             bool result;
 
-            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
             {
                 result = storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
             }
@@ -105,7 +105,7 @@ namespace BusinessLogicLayer
 
             bool result;
 
-            using (var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>()))
+            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
             {
                 result = storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
             }

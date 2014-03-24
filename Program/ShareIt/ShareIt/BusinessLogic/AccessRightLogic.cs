@@ -50,7 +50,7 @@ namespace BusinessLogicLayer
                 throw new InstanceNotFoundException("No Media Item with id "+ m.Id +"was found");
             }
 
-            var newAccessRight = new AcessRight
+            var newAccessRight = new AccessRight
             {
                 Expiration = expiration,
                 UserId = u.Id,
@@ -94,7 +94,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, AccessRight ar, string clientToken)
+        public bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -108,12 +108,12 @@ namespace BusinessLogicLayer
 
             _storage.Get<Entity>(ar.Id);
 
-            _storage.Delete<AcessRight>(ar.Id);
+            _storage.Delete<AccessRight>(ar.Id);
 
             return true;
         }
 
-        public List<AccessRight> GetPurchaseHistory(User u)
+        public List<AccessRightDTO> GetPurchaseHistory(User u)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace BusinessLogicLayer
                 throw new ObjectNotFoundException("User not found.");
             }
 
-            var acessRights = _storage.Get<AcessRight>()
+            var acessRights = _storage.Get<AccessRight>()
                 .Where(x => x.UserId == u.Id &&
                 x.AccessRightTypeId == (int)AccessRightType.Buyer);
 
@@ -133,7 +133,7 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public List<AccessRight> GetUploadHistory(User u)
+        public List<AccessRightDTO> GetUploadHistory(User u)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace BusinessLogicLayer
                 throw new ObjectNotFoundException("User not found.");
             }
 
-            var acessRights = _storage.Get<AcessRight>()
+            var acessRights = _storage.Get<AccessRight>()
                 .Where(x => x.UserId == u.Id &&
                 x.AccessRightTypeId == (int)AccessRightType.Owner);
 
@@ -153,7 +153,7 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public bool EditExpiration(User u, AccessRight newAR, string clientToken)
+        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -173,14 +173,14 @@ namespace BusinessLogicLayer
 
             try
             {
-                _storage.Get<AcessRight>(newAR.Id);
+                _storage.Get<AccessRight>(newAR.Id);
             }
             catch (InvalidOperationException e)
             {
                 throw new InstanceNotFoundException("No access right with id "+ newAR +"was found");
             }
 
-            var newAcessRight = new AcessRight
+            var newAccessRight = new AccessRight
             {
                 Id = newAR.Id,
                 EntityId = newAR.MediaItemId,
@@ -189,7 +189,7 @@ namespace BusinessLogicLayer
                 UserId = newAR.UserId
             };
 
-            _storage.Update<AcessRight>(newAcessRight);
+            _storage.Update<AccessRight>(newAccessRight);
 
             return true;
         }
@@ -200,9 +200,9 @@ namespace BusinessLogicLayer
             _authLogic.Dispose();
         }
 
-        private List<AccessRight> mapAccessRights(IEnumerable<AcessRight> acessRights)
+        private List<AccessRightDTO> mapAccessRights(IEnumerable<AccessRight> acessRights)
         {
-            return acessRights.Select(aR => new AccessRight
+            return acessRights.Select(aR => new AccessRightDTO
             {
                 Id = aR.Id, MediaItemId = aR.EntityId, AccessRightType = 
                 (AccessRightType) aR.AccessRightTypeId, Expiration = aR.Expiration, UserId = aR.UserId

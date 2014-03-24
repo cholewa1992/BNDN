@@ -11,7 +11,7 @@ namespace BusinessLogicLayer
     {
         bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken);
         bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken);
-        bool DeleteAccessRight(User admin, AccessRight ar, string clientToken);
-        bool EditExpiration(User u, AccessRight newAR, string clientToken);
+        bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken);
+        bool EditExpiration(User u, AccessRightDTO newAR, string clientToken);
     }
 }

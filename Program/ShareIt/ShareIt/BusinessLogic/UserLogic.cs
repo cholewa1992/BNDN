@@ -77,7 +77,7 @@ namespace BusinessLogicLayer
                 {
                     Username = user.Username,
                     Password = user.Password,
-                    AcessRight = new Collection<AcessRight>(),
+                    AccessRight = new Collection<AccessRight>(),
                     UserInfo = new Collection<UserInfo>(),
                     ClientAdmin = new Collection<ClientAdmin>()
                 };
@@ -189,7 +189,7 @@ namespace BusinessLogicLayer
                     Id = userToUpdate.Id,
                     Username = userToUpdate.Username,
                     Password = userToUpdate.Password,
-                    AcessRight = currentUserAcc.AcessRight,
+                    AccessRight = currentUserAcc.AccessRight,
                     UserInfo = currentUserAcc.UserInfo,
                     ClientAdmin = currentUserAcc.ClientAdmin
                 };

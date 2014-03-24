@@ -38,7 +38,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Delete(User admin, AccessRight ar, string clientToken);
+        bool Delete(User admin, AccessRightDTO ar, string clientToken);
 
         /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
@@ -52,7 +52,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool EditExpiration(User u, AccessRight newAR, string clientToken);
+        bool EditExpiration(User u, AccessRightDTO newAR, string clientToken);
 
         /// <summary>
         /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 

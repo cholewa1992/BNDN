@@ -11,12 +11,12 @@ namespace BusinessLogicLayer
     {
         public IUserLogic CreateUserLogic()
         {
-            return new UserLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
+            return new UserLogic(new StorageBridge(new EfStorageConnection<RentIt08Entities>()));
         }
 
         public IAuthLogic CreateAuthLogic()
         {
-            return new AuthLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
+            return new AuthLogic(new StorageBridge(new EfStorageConnection<RentIt08Entities>()));
         }
 
         public IAccessRightLogic CreateAccessRightLogic()
@@ -26,13 +26,13 @@ namespace BusinessLogicLayer
 
         public IDataTransferLogic CreateDataTransferLogic()
         {
-            var storage = new StorageBridge(new EfStorageConnection<BNDNEntities>());
+            var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>());
             return new DataTransferLogic(new FileStorage(), storage, new AuthLogic(storage));
         }
 
         public IMediaItemLogic CreateMediaItemLogic()
         {
-            return new MediaItemLogic(new StorageBridge(new EfStorageConnection<BNDNEntities>()));
+            return new MediaItemLogic(new StorageBridge(new EfStorageConnection<RentIt08Entities>()));
         }
     }
 }
