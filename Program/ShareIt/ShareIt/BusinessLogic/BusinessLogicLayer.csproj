@@ -90,6 +90,8 @@
     <Compile Include="AuthLogic.cs" />
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="BusinessLogicFacade.cs" />
+    <Compile Include="DataMappers\IMediaItemMapper.cs" />
+    <Compile Include="DataMappers\MediaItemMapper.cs" />
     <Compile Include="DTO\AccessRightDTO.cs" />
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\InformationType.cs" />

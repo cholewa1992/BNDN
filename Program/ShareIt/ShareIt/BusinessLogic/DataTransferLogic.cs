@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Authentication;
 using System.ServiceModel;
+using BusinessLogicLayer.DataMappers;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
@@ -16,6 +17,7 @@ namespace BusinessLogicLayer
         private readonly IStorageBridge _dbStorage;
         private readonly IFileStorage _fileStorage;
         private readonly IAuthInternalLogic _authLogic;
+        public IMediaItemMapper MediaItemMapper { get; set; }
         /// <summary>
         /// Construct a new DataTransferLogic with a given IFileStorage and IStorageBridge.
         /// </summary>
@@ -27,6 +29,7 @@ namespace BusinessLogicLayer
             _fileStorage = fileStorage;
             _dbStorage = dbStorage;
             _authLogic = authLogic;
+            MediaItemMapper = new MediaItemMapper();
         }
         /// <summary>
         /// Get a stream containing the data of a specific media item.
@@ -38,21 +41,23 @@ namespace BusinessLogicLayer
         /// <returns>A Stream containing the data of the media item requested.</returns>
         public Stream GetMediaStream(string clientToken, User user, int mediaId, out string fileExtension)
         {
+            if (clientToken == null) throw new ArgumentNullException("clientToken");
+            if (user == null) throw new ArgumentNullException("user");
+
             Stream result;
-            ValidateCredentials(clientToken, user);
+            ValidateClientToken(clientToken);
+            user.Id = ValidateUser(user);
             if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess)
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
                 {
-
                     Message = "User not allowed to download media with id: " + mediaId
                 });
             try
             {
                 var entity = _dbStorage.Get<Entity>().Single(e => e.Id == mediaId);
                 string filePath = entity.FilePath;
-                fileExtension = entity.EntityType.Extension;
+                fileExtension = Path.GetExtension(filePath);
                 result = _fileStorage.ReadFile(filePath);
-
             }
             catch (InvalidOperationException)
             {
@@ -73,12 +78,17 @@ namespace BusinessLogicLayer
         /// <returns>The Id which the MediaItem has been assigned by the system.s</returns>
         public int SaveMedia(string clientToken, User owner, MediaItem media, Stream stream)
         {
-            //Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(clientToken));
-            //Contract.Requires<ArgumentNullException>(owner != null);
-            //Contract.Requires<ArgumentNullException>(media != null);
-            //Contract.Requires<ArgumentNullException>(stream != null);
-            //Contract.Requires<ArgumentException>(stream.CanRead);
-            var clientId = ValidateCredentials(clientToken, owner);
+            if (clientToken == null) throw new ArgumentNullException("clientToken");
+            if (owner == null) throw new ArgumentNullException("owner");
+            if (media == null) throw new ArgumentNullException("media");
+            if (stream == null) throw new ArgumentNullException("stream");
+            if(!stream.CanRead) throw new ArgumentException("Must be able to read stream.", "stream");
+            if(string.IsNullOrWhiteSpace(owner.Password) || string.IsNullOrWhiteSpace(owner.Username))
+                throw new ArgumentException("Must have both password and username values.", "owner");
+            if(media.FileExtension == null)
+                throw new ArgumentException("Must have file extension value.", "media");
+            var clientId = ValidateClientToken(clientToken);
+            owner.Id = ValidateUser(owner);
             //if(!_authLogic.UserCanUpload(owner, clientToken))
             //    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
             //        {
@@ -86,7 +96,13 @@ namespace BusinessLogicLayer
             //        }
             //        );
             //Create new entity.
-            var entity = MapMediaItem(media, owner, clientId);
+            var entity = MediaItemMapper.MapToEntity(media);
+            entity.ClientId = clientId;
+            entity.AccessRight.Add(new AccessRight
+            {
+                Id = (int)AccessRightType.Owner,
+                UserId = owner.Id
+            });
 
             //Store entity and get the id the db assigned to it.
             _dbStorage.Add(entity);
@@ -118,56 +134,12 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
-        /// Map a data from a MediaItem into an Entity and set a User as having Owner AccessRight
-        /// </summary>
-        /// <param name="item">The MediaItem holding the information to map.</param>
-        /// <param name="owner">The User who should be set as Owner of the Entity.</param>
-        /// <param name="clientId"></param>
-        /// <returns>An Entity holding the information given by the MediaItem and User</returns>
-        private Entity MapMediaItem(MediaItem item, User owner, int clientId)
-        {
-            var result = new Entity
-            {
-                EntityType = new EntityType
-                {
-                    Extension = item.FileExtension,
-                    Id = (int)item.Type
-                },
-                ClientId = clientId
-            };
-            result.AccessRight.Add(new AccessRight
-            {
-                //TODO Add access right type.
-                UserId = owner.Id
-            });
-            foreach (var info in item.Information)
-            {
-                result.EntityInfo.Add(MapMediaItemInfo(info));
-            }
-            return result;
-        }
-        /// <summary>
-        /// Map a MediaItemInformation to an EntityInfo
-        /// </summary>
-        /// <param name="info">The MediaItemInformation to map.</param>
-        /// <returns>An EntityInfo holding the information from the MediaItemInformation.</returns>
-        private EntityInfo MapMediaItemInfo(MediaItemInformation info)
-        {
-            return new EntityInfo
-            {
-                Data = info.Data,
-                EntityInfoTypeId = (int)info.Type
-            };
-        }
-        /// <summary>
-        /// Validate credentials of a clientToken and User
+        /// Validate credentials of a clientToken
         /// </summary>
         /// <param name="clientToken">The clientToken to validate.</param>
-        /// <param name="user">The User to validate.</param>
         /// <returns>The id of the client if it was validated.</returns>
         /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken was not accepted.</exception>
-        /// <exception cref="FaultException{UnauthorizedUser}">If the User was not accepted.</exception>
-        private int ValidateCredentials(string clientToken, User user)
+        private int ValidateClientToken(string clientToken)
         {
             var result = _authLogic.CheckClientToken(clientToken);
             if (result == -1)
@@ -175,12 +147,23 @@ namespace BusinessLogicLayer
                 {
                     Message = "Client token not accepted."
                 });
+            return result;
+        }
+        /// <summary>
+        /// Validate credentials of a user.
+        /// </summary>
+        /// <param name="user">The user whose credentials are to be validated.</param>
+        /// <returns>The id of the user if his credentials are validated.</returns>
+        /// <exception cref="FaultException{UnauthorizedUser}">If the user's credentials aren't validated.</exception>
+        private int ValidateUser(User user)
+        {
             if (!_authLogic.CheckUserExists(user))
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
                 {
                     Message = "User credentials not accepted."
                 });
-            return result;
+            //TODO Get userId from AuthLogic.
+            return 1;
         }
     }
 }
