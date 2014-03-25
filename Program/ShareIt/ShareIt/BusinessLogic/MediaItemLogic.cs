@@ -88,7 +88,7 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
-        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int @from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
             from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)

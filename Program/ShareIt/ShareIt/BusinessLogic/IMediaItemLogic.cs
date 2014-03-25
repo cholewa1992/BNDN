@@ -35,6 +35,6 @@ namespace BusinessLogicLayer
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
-        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int @from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
     }
 }
