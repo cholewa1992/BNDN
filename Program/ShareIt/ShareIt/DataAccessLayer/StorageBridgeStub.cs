@@ -21,32 +21,32 @@ namespace DataAccessLayer
 
         public TEntity Get<TEntity>(int id) where TEntity : class, IEntityDto
         {
-            return null;
+            return Get<TEntity>().Single(t => t.Id == id);
         }
 
         public IQueryable<TEntity> Get<TEntity>() where TEntity : class, IEntityDto
         {
-            return null;
+            return _storageStub.OfType<TEntity>().AsQueryable();
         }
 
         public void Add<TEntity>(TEntity entity) where TEntity : class, IEntityDto
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Update<TEntity>(TEntity entity) where TEntity : class, IEntityDto
         {
-            throw new System.NotImplementedException();
+           
         }
 
         public void Delete<TEntity>(TEntity entity) where TEntity : class, IEntityDto
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Delete<TEntity>(int id) where TEntity : class, IEntityDto
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
