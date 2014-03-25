@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public class MediaItemInformation
+    public class MediaItemInformationDTO
     {
         [DataMember]
         public int Id { get; set; }
 
         [DataMember]
-        public InformationType Type { get; set; }
+        public InformationTypeDTO Type { get; set; }
 
         [DataMember]
         public string Data { get; set; }

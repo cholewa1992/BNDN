@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public enum InformationType
+    public enum InformationTypeDTO
     {
         [EnumMember]Title=1,
         [EnumMember]Description, 
