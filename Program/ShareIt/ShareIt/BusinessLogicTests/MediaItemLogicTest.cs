@@ -14,7 +14,7 @@ namespace BusinessLogicTests
     [TestClass]
     public class MediaItemLogicTest
     {
-        private readonly MediaItemLogic _mediaItemLogic = new MediaItemLogic(null);//(IStorageBridge);
+        private readonly MediaItemLogic _mediaItemLogic = new MediaItemLogic(null, null);//(IStorageBridge);
         
         [TestInitialize]
         public void Initialize()
@@ -46,6 +46,7 @@ namespace BusinessLogicTests
             };
         }
 
+        #region GetMediaItemInformation
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
@@ -113,29 +114,32 @@ namespace BusinessLogicTests
             Assert.AreEqual(list[0], InformationType.Language);
             Assert.AreEqual(list[1], InformationType.Price);
         }
+        #endregion
+
+        #region FindMediaItemRange
 
         [TestMethod]
-        private void FindMediaItemRange_FromLessThanTo_ItemCount()
+        public void FindMediaItemRange_FromLessThanTo_ItemCount()
         {
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
             var bookList = dictionary[MediaItemType.Book];
-            Assert.AreEqual(to - (from - 1), bookList.Count);  //Assuming that the number of books exceed the range
+            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count);  //Assuming that the number of books exceed the range
         }
 
         [TestMethod]
-        private void FindMediaItemRange_FromGreaterThanTo()
+        public void FindMediaItemRange_FromGreaterThanTo()
         {
             const int from = 3;
             const int to = 1;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
             var bookList = dictionary[MediaItemType.Book];
-            Assert.AreEqual(from - (to - 1), bookList.Count); //Assuming that the number of books exceed the range
+            Assert.AreEqual(from - (to - 1), bookList.MediaItemList.Count); //Assuming that the number of books exceed the range
         }
 
         [TestMethod]
-        private void FindMediaItemRange_ToIsNull()
+        public void FindMediaItemRange_ToIsNull()
         {
             try
             {
@@ -155,7 +159,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_FromIsNull()
+        public void FindMediaItemRange_FromIsNull()
         {
             try
             {
@@ -175,7 +179,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_FromAndToAreNull()
+        public void FindMediaItemRange_FromAndToAreNull()
         {
             try
             {
@@ -195,7 +199,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_FromExceedsNumberOfElements_ListCount()
+        public void FindMediaItemRange_FromExceedsNumberOfElements_ListCount()
         {
             const int from = 1000000;
             const int to = 1000003;
@@ -206,18 +210,18 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_ToExceedsNumberOfElements_ItemCount()
+        public void FindMediaItemRange_ToExceedsNumberOfElements_ItemCount()
         {
             const int from = 1;
             const int to = 100;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
             const int numberOfBooks = 10; // Assuming we have exactly 10 books
             var bookList = dictionary[MediaItemType.Book];
-            Assert.AreEqual(numberOfBooks, bookList.Count); 
+            Assert.AreEqual(numberOfBooks, bookList.MediaItemList.Count); 
         }
 
         [TestMethod]
-        private void FindMediaItemRange_RangeTooBig()
+        public void FindMediaItemRange_RangeTooBig()
         {
             try
             {
@@ -238,7 +242,7 @@ namespace BusinessLogicTests
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        private void FindMediaItemRange_ClientTokenNull()
+        public void FindMediaItemRange_ClientTokenNull()
         {
             const int from = 1;
             const int to = 10;
@@ -247,7 +251,7 @@ namespace BusinessLogicTests
 
         [ExpectedException(typeof(Exception))] //TODO Update exception type when CheckClientToken is done
         [TestMethod]
-        private void FindMediaItemRange_ClientTokenInvalid()
+        public void FindMediaItemRange_ClientTokenInvalid()
         {
             const int from = 1;
             const int to = 10;
@@ -255,7 +259,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_MediaItemTypeAndSearchKeyAreNull()
+        public void FindMediaItemRange_MediaItemTypeAndSearchKeyAreNull()
         {
             const int from = 1;
             const int to = 3;
@@ -266,36 +270,37 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        private void FindMediaItemRange_ValidMediaItemTypeSearchKeyIsNull()
+        public void FindMediaItemRange_ValidMediaItemTypeSearchKeyIsNull()
         {
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, null, "token");
             const int numberOfMovies = 10; //Assuming there are exactly 10 books
             var movieList = dictionary[MediaItemType.Movie];
-            Assert.AreEqual(numberOfMovies, movieList.Count);
+            Assert.AreEqual(numberOfMovies, movieList.MediaItemList.Count);
         }
 
         [TestMethod]
-        private void FindMediaItemRange_ValidMediaItemTypeValidSearchKey()
+        public void FindMediaItemRange_ValidMediaItemTypeValidSearchKey()
         {
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, "love", "token");
             const int numberOfMoviesThatMatchesSearchKey = 2; //Assuming there are exactly 2 books matching "love"
             var movieList = dictionary[MediaItemType.Movie];
-            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
+            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
         }
 
         [TestMethod]
-        private void FindMediaItemRange_SearchKeyIsWhiteSpace()
+        public void FindMediaItemRange_SearchKeyIsWhiteSpace()
         {
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, " ", "token");
             const int numberOfMoviesThatMatchesSearchKey = 8; //Assuming there are exactly 8 books matching " "
             var movieList = dictionary[MediaItemType.Movie];
-            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
+            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
         }
+        #endregion
     }
 }

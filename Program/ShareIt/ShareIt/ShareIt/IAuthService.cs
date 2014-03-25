@@ -15,10 +15,22 @@ namespace ShareIt
     [ServiceContract]
     public interface IAuthService
     {
+
+        /// <summary>
+        /// Validates whether a user exists with the system
+        /// </summary>
+        /// <param name="user">A user to check</param>
+        /// <param name="clientToken">The token to varify the client asking</param>
+        /// <returns>A boolean result</returns>
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool ValidateUser(User user, string clientToken);
 
+        /// <summary>
+        /// Validates whether a client exists with the system
+        /// </summary>
+        /// <param name="client">A client to check</param>
+        /// <returns>A boolean result</returns>
         [OperationContract]
         bool CheckClientExists(Client client);
     }

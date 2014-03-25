@@ -96,6 +96,7 @@
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\InformationType.cs" />
     <Compile Include="DTO\MediaItemInformation.cs" />
+    <Compile Include="DTO\MediaItemSearchResultDTO.cs" />
     <Compile Include="DTO\MediaItemType.cs" />
     <Compile Include="DTO\UserInformation.cs" />
     <Compile Include="DTO\UserInformationType.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="IAuthLogic.cs" />
     <Compile Include="IBusinessLogicFactory.cs" />
     <Compile Include="IDataTransferLogic.cs" />
+    <Compile Include="IMediaItemInternalLogic.cs" />
     <Compile Include="IMediaItemLogic.cs" />
     <Compile Include="IAccessRightInternalLogic.cs" />
     <Compile Include="IUserLogic.cs" />

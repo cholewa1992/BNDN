@@ -19,11 +19,11 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
-        /// Checks whether a user has access
+        /// Checks whether a user has access to a given mediaItem
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="mediaItemId"></param>
-        /// <returns></returns>
+        /// <param name="userId">User to check</param>
+        /// <param name="mediaItemId">MediaItem to check</param>
+        /// <returns>an Enum representation of the access right</returns>
         public AccessRightType CheckUserAccess(int userId, int mediaItemId)
         {
             //Preconditions
@@ -52,7 +52,11 @@ namespace BusinessLogicLayer
         }
 
 
-
+        /// <summary>
+        /// Checks whether a clienttoken exists with the system
+        /// </summary>
+        /// <param name="clientToken"></param>
+        /// <returns>return client id if it exists or -1</returns>
         public int CheckClientToken(string clientToken)
         {
             //Preconditions
@@ -68,6 +72,12 @@ namespace BusinessLogicLayer
 
         }
 
+        /// <summary>
+        /// Checks whether a user is an admin on a given client
+        /// </summary>
+        /// <param name="userId">User to check</param>
+        /// <param name="clientToken">Client to check</param>
+        /// <returns>a bool of whether the user is admin on the given client</returns>
         public bool IsUserAdminOnClient(int userId, string clientToken)
         {
             //Preconditions
@@ -78,6 +88,11 @@ namespace BusinessLogicLayer
             return _storage.Get<ClientAdmin>().Any(ca => ca.UserId == userId && ca.Client.Token == clientToken);
         }
 
+        /// <summary>
+        /// Checks whether a user object containing Username and Password exists with the system
+        /// </summary>
+        /// <param name="user">Object checked for Username and Password</param>
+        /// <returns>userid if any found, or -1</returns>
         public bool CheckUserExists(User user)
         {
             //Preconditions
@@ -95,7 +110,11 @@ namespace BusinessLogicLayer
             return result;
         }
 
-
+        /// <summary>
+        /// Checks whether a client with given Name and Token exists with the system
+        /// </summary>
+        /// <param name="client">Client with Name and Token to be checked</param>
+        /// <returns>a bool of whether the client exists with the system</returns>
         public bool CheckClientExists(Client client)
         {
             //Preconditions

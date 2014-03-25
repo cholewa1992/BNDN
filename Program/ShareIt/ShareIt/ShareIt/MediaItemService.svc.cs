@@ -72,7 +72,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, string clientToken)
         {
             return FindMediaItemRange(from, to, null, null, clientToken);
         }
@@ -89,7 +89,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken)
         {
             return FindMediaItemRange(from, to, mediaType, null, clientToken);
         }
@@ -107,7 +107,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, string searchKey, string clientToken)
         {
             return FindMediaItemRange(from, to, null, searchKey, clientToken);
         }
@@ -126,7 +126,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
             try
             {
