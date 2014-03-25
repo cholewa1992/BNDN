@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ShareIt.MessageContracts
 {
+    /// <summary>
+    /// A message contract specifying what the response to an UploadRequest should look like.
+    /// </summary>
     [MessageContract]
     public class UploadResponse
     {
