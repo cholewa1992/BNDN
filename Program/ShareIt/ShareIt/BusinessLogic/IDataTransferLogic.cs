@@ -18,7 +18,7 @@ namespace BusinessLogicLayer
         /// <param name="mediaId">The id of the Media whose data is requested.</param>
         /// <param name="fileExtension">A string for holding the file extension of the media file.</param>
         /// <returns>A Stream containing the data of the media item requested.</returns>
-        Stream GetMediaStream(string clientToken, User user, int mediaId, out string fileExtension);
+        Stream GetMediaStream(string clientToken, UserDTO user, int mediaId, out string fileExtension);
 
         /// <summary>
         /// Save the data and metadata of a MediaItem.
@@ -28,6 +28,6 @@ namespace BusinessLogicLayer
         /// <param name="media">The MediaItem object containing the metadata.</param>
         /// <param name="stream">The stream of data which is to be saved.</param>
         /// <returns>The Id which the MediaItem has been assigned by the system.s</returns>
-        int SaveMedia(string clientToken,User owner, MediaItem media, Stream stream);
+        int SaveMedia(string clientToken,UserDTO owner, MediaItemDTO media, Stream stream);
     }
 }

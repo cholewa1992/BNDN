@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.DTO
     public class MediaItemSearchResultDTO
     {
         [DataMember] 
-        public List<MediaItem> MediaItemList { get; set; }
+        public List<MediaItemDTO> MediaItemList { get; set; }
 
         [DataMember]
         public int NumberOfSearchResults { get; set; }

@@ -27,12 +27,12 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(mediaItemId < 1);
             Contract.Requires<ArgumentNullException>(clientToken != null);
-            
+
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
@@ -49,16 +49,16 @@ namespace BusinessLogicLayer
                 throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
             }
 
-            var mediaItem = new MediaItem { Information = new List<MediaItemInformation>() };
-            var informationList = new List<MediaItemInformation>();
+            var mediaItem = new MediaItemDTO { Information = new List<MediaItemInformationDTO>() };
+            var informationList = new List<MediaItemInformationDTO>();
 
             // Add UserInformation to the temporary list object
             foreach (var e in entity.EntityInfo)
             {
 
-                informationList.Add(new MediaItemInformation()
+                informationList.Add(new MediaItemInformationDTO()
                 {
-                    Type = (InformationType) e.EntityInfoTypeId,
+                    Type = (InformationTypeDTO)e.EntityInfoTypeId,
                     Data = e.Data
                 });
             }
@@ -87,13 +87,15 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
-        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
+            Contract.Requires<ArgumentException>(from < 1 || to < 1);
+
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
 
-            Contract.Requires<ArgumentException>(from < 1 || to < 1);
-            Contract.Requires<ArgumentException>(to - from >= rangeCap);
+            
+            //Contract.Requires<ArgumentException>(to - from >= rangeCap);
 
             from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
 
@@ -103,7 +105,7 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException();
             }
 
-            var result = new Dictionary<MediaItemType, MediaItemSearchResultDTO>();
+            var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
 
             bool isAllMediaTypes = mediaType.Equals(null);
             bool isSearchKeyNullOrEmpty = string.IsNullOrEmpty(searchKey);
@@ -122,7 +124,7 @@ namespace BusinessLogicLayer
                     groups = groups.Skip(from).Take(to - from);
                     foreach (var group in groups)
                     {
-                        var list = new List<MediaItem>();
+                        var list = new List<MediaItemDTO>();
                         foreach (var item in group)
                         {
                             list.Add(GetMediaItemInformation(item.Id, "token"));
@@ -130,7 +132,7 @@ namespace BusinessLogicLayer
                         if (@group.Key != null)
                         {
                             mediaItemSearchResultDTO.MediaItemList = list;
-                            result.Add((MediaItemType) @group.Key, mediaItemSearchResultDTO);
+                            result.Add((MediaItemTypeDTO)@group.Key, mediaItemSearchResultDTO);
                         }
                         else
                         {
@@ -155,7 +157,7 @@ namespace BusinessLogicLayer
                         mediaItemSearchResultDTO.NumberOfSearchResults = type.Count();
                         var typeRange = type.Skip(from).Take(to - from);
 
-                        var list = new List<MediaItem>();
+                        var list = new List<MediaItemDTO>();
                         foreach (var item in typeRange)
                         {
                             list.Add(GetMediaItemInformation(item.Key, "token"));
@@ -163,7 +165,7 @@ namespace BusinessLogicLayer
                         if (type.Key != null)
                         {
                             mediaItemSearchResultDTO.MediaItemList = list;
-                            result.Add((MediaItemType)type.Key, mediaItemSearchResultDTO);
+                            result.Add((MediaItemTypeDTO)type.Key, mediaItemSearchResultDTO);
                         }
                         else
                         {
@@ -173,21 +175,21 @@ namespace BusinessLogicLayer
                 }
             }
                 #endregion
-            
+
             else //A specific media type
             {
                 #region A specific media type
                 if (isSearchKeyNullOrEmpty) //No searchkey & specific media type
                 {
                     var mediaItems = _storage.Get<Entity>().
-                        Where(item => item.TypeId == (int) mediaType && item.ClientId == clientId);
-                        
+                        Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId);
+
                     var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
                     mediaItemSearchResultDTO.NumberOfSearchResults = mediaItems.Count();
 
-                    mediaItems = mediaItems.Skip(from).Take(to-from);
+                    mediaItems = mediaItems.Skip(from).Take(to - from);
 
-                    var list = new List<MediaItem>();
+                    var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItems)
                     {
                         list.Add(GetMediaItemInformation(mediaItem.Id, "token"));
@@ -195,7 +197,7 @@ namespace BusinessLogicLayer
                     if (mediaType != null)
                     {
                         mediaItemSearchResultDTO.MediaItemList = list;
-                        result.Add((MediaItemType)mediaType, mediaItemSearchResultDTO);
+                        result.Add((MediaItemTypeDTO)mediaType, mediaItemSearchResultDTO);
                     }
                     else
                     {
@@ -203,23 +205,23 @@ namespace BusinessLogicLayer
                     }
                 }
                 #endregion
-            
+
                 #region Searchkey & specific media type
                 else //Searchkey & specific media type
                 {
                     var mediaItems = _storage.Get<EntityInfo>().
                         Where(info => info.Data.Contains(searchKey)
-                                        && info.Entity.TypeId == (int) mediaType
+                                        && info.Entity.TypeId == (int)mediaType
                                         && info.Entity.ClientId == clientId).
                         GroupBy(info => info.EntityId).
                         OrderBy(group => group.Count());
-                        
+
                     var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
                     mediaItemSearchResultDTO.NumberOfSearchResults = mediaItems.Count();
-                        
+
                     var mediaItemRange = mediaItems.Skip(from).Take(to - from);
 
-                    var list = new List<MediaItem>();
+                    var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItemRange)
                     {
                         list.Add(GetMediaItemInformation(mediaItem.Key, "token"));
@@ -227,7 +229,7 @@ namespace BusinessLogicLayer
                     if (mediaType != null)
                     {
                         mediaItemSearchResultDTO.MediaItemList = list;
-                        result.Add((MediaItemType)mediaType, mediaItemSearchResultDTO);
+                        result.Add((MediaItemTypeDTO)mediaType, mediaItemSearchResultDTO);
                     }
                     else
                     {

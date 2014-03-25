@@ -14,17 +14,17 @@ namespace BusinessLogicLayer.Stub
     class UserLogicStub : IUserLogic
     {
 
-        public bool CreateAccount(User user, string clientToken)
+        public bool CreateAccount(UserDTO user, string clientToken)
         {
             return true;
         }
 
-        public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
         {
             return targetUser;
         }
 
-        public bool UpdateAccountInformation(User requestingUser, User newUser, string clientToken)
+        public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO newUser, string clientToken)
         {
             return true;
         }

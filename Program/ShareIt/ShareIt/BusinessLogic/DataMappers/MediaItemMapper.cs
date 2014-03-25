@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.DataMappers
         /// </summary>
         /// <param name="item">The MediaItem holding the information to map.</param>
         /// <returns>An Entity holding the information given by the MediaItem</returns>
-        public Entity MapToEntity(MediaItem item)
+        public Entity MapToEntity(MediaItemDTO item)
         {
             var result = new Entity
             {
@@ -28,7 +28,7 @@ namespace BusinessLogicLayer.DataMappers
         /// </summary>
         /// <param name="info">The MediaItemInformation to map.</param>
         /// <returns>An EntityInfo holding the information from the MediaItemInformation.</returns>
-        private EntityInfo MapMediaItemInfo(MediaItemInformation info)
+        private EntityInfo MapMediaItemInfo(MediaItemInformationDTO info)
         {
             return new EntityInfo
             {

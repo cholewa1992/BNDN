@@ -33,7 +33,7 @@ namespace BusinessLogicLayer
         /// <param name="user">The user to be created</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>Boolean value depending on the result</returns>
-        public bool CreateAccount(User user, string clientToken)
+        public bool CreateAccount(UserDTO user, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentNullException>(user != null);
@@ -91,7 +91,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
         {
 
             //Preconditions
@@ -130,15 +130,15 @@ namespace BusinessLogicLayer
             }
 
             // Create a UserInformation in the user we want to return
-            targetUser = new User {Information = new List<UserInformation>()};
-            var informationList = new List<UserInformation>();
+            targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
+            var informationList = new List<UserInformationDTO>();
 
             // Add UserInformation to the temporary list object
             foreach (var userInfo in userInfos){
 
-                informationList.Add(new UserInformation()
+                informationList.Add(new UserInformationDTO()
                     {
-                        Type = (UserInformationType) userInfo.UserInfoType,
+                        Type = (UserInformationTypeDTO) userInfo.UserInfoType,
                         Data = userInfo.Data
                     }
                 );
@@ -150,7 +150,7 @@ namespace BusinessLogicLayer
             return targetUser;
         }
 
-        public bool UpdateAccountInformation(User requestingUser, User userToUpdate, string clientToken)
+        public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO userToUpdate, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentNullException>(requestingUser != null);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="AccessRightType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NoAccess" />
+      <xs:enumeration value="Owner" />
+      <xs:enumeration value="Buyer" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="AccessRightType" nillable="true" type="tns:AccessRightType" />
+</xs:schema>

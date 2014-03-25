@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:1266/MediaItemService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
+  <xs:import schemaLocation="http://localhost:1266/MediaItemService.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="GetMediaItemInformation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="mediaItemId" type="xs:int" />
+        <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMediaItemInformationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="GetMediaItemInformationResult" nillable="true" type="q1:MediaItemDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMediaItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:int" />
+        <xs:element minOccurs="0" name="to" type="xs:int" />
+        <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMediaItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetMediaItemsResult" nillable="true" type="q2:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMediaItemsByType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:int" />
+        <xs:element minOccurs="0" name="to" type="xs:int" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="mediaType" type="q3:MediaItemTypeDTO" />
+        <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMediaItemsByTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetMediaItemsByTypeResult" nillable="true" type="q4:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchMediaItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:int" />
+        <xs:element minOccurs="0" name="to" type="xs:int" />
+        <xs:element minOccurs="0" name="searchKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchMediaItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SearchMediaItemsResult" nillable="true" type="q5:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchMediaItemsByType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" type="xs:int" />
+        <xs:element minOccurs="0" name="to" type="xs:int" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="mediaType" nillable="true" type="q6:MediaItemTypeDTO" />
+        <xs:element minOccurs="0" name="searchKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchMediaItemsByTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SearchMediaItemsByTypeResult" nillable="true" type="q7:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

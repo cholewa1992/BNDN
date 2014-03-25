@@ -1,6 +1,6 @@
 ﻿using BusinessLogicLayer.DTO;
 using DataAccessLayer;
-using Client = BusinessLogicLayer.DTO.Client;
+using Client = BusinessLogicLayer.DTO.ClientDTO;
 
 namespace BusinessLogicLayer.Stub
 {
@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Stub
             Storage.Dispose();
         }
 
-        public bool CheckUserExists(User user)
+        public bool CheckUserExists(UserDTO user)
         {
             return true;
         }

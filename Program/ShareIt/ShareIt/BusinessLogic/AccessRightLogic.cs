@@ -29,14 +29,14 @@ namespace BusinessLogicLayer
             _storage = storage;
         }
 
-        public bool Purchase(User user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken) > 0)
+            if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.CheckUserExists(user))
+            if (!_authLogic.CheckUserExists(user))
             {
                 throw new UnauthorizedAccessException("Invalid User credentials!");
             }
@@ -63,14 +63,14 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool MakeAdmin(User oldAdmin, int newAdminId, string clientToken)
+        public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken) > 0)
+            if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
+            if (!_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
                 throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
@@ -94,14 +94,14 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, int accessRightId, string clientToken)
+        public bool DeleteAccessRight(UserDTO admin, int accessRightId, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken) > 0)
+            if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
+            if (!_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
             {
                 throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
@@ -153,20 +153,20 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
+        public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
-            if (_authLogic.CheckClientToken(clientToken) > 0)
+            if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.CheckUserExists(u))
+            if (!_authLogic.CheckUserExists(u))
             {
                 throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
             }
 
             if (_authLogic.CheckUserAccess(newAR.UserId, newAR.MediaItemId) != AccessRightType.NoAccess &&
-                _authLogic.IsUserAdminOnClient(u.Id, clientToken))
+                !_authLogic.IsUserAdminOnClient(u.Id, clientToken))
             {
                 throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
             }
