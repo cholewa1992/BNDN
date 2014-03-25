@@ -41,7 +41,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="user">The user to be created</param>
         /// <param name="clientToken">Token used to validate the client</param>
-        public bool CreateAccount(User user, string clientToken)
+        public bool CreateAccount(UserDTO user, string clientToken)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ShareIt
         /// <param name="targetUser">The user of which you want to fetch account information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns></returns>
-        public User GetAccountInformation(User requestingUser, User targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace ShareIt
         /// <param name="newUser">The user to be updated</param>
         /// <param name="requestingUser">The user performing the request</param>
         /// <param name="clientToken">Token used to validate the client</param>
-        public bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken)
+        public bool UpdateAccounInformation(UserDTO requestingUser, UserDTO newUser, string clientToken)
         {
             try
             {

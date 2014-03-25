@@ -12,12 +12,12 @@ namespace UserServiceTest
     {
 
         readonly UserLogic _userLogic = new UserLogic(IStorageBridge);
-        private User _testUser;
+        private UserDTO _testUser;
 
         [TestInitialize]
         public void Initialize()
         {
-            _testUser = new User {Id = 1};
+            _testUser = new UserDTO {Id = 1};
         }
         
         [TestMethod]
@@ -154,7 +154,7 @@ namespace UserServiceTest
 
             _userLogic.CreateAccount(_testUser, "token");
 
-            var anotherUser = new User()
+            var anotherUser = new UserDTO()
             {
                 Id = 2,
                 Username = "John44",
@@ -182,7 +182,7 @@ namespace UserServiceTest
 
             _userLogic.CreateAccount(_testUser, "token");
 
-            var anotherUser = new User()
+            var anotherUser = new UserDTO()
             {
                 Id = 2,
                 Username = "john44",
@@ -246,7 +246,7 @@ namespace UserServiceTest
 
             _userLogic.CreateAccount(_testUser, "token");
 
-            User u = _userLogic.GetAccountInformation(_testUser, _testUser, "token");
+            UserDTO u = _userLogic.GetAccountInformation(_testUser, _testUser, "token");
   
             Assert.AreEqual(u.Username, "John44");
             Assert.AreEqual(u.Password, "Password");

@@ -22,7 +22,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool CreateAccount(User user, string clientToken);
+        bool CreateAccount(UserDTO user, string clientToken);
 
         /// <summary>
         /// Returns account information
@@ -35,7 +35,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        User GetAccountInformation(User requestingUser, User targetUser, string clientToken);
+        UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken);
 
         /// <summary>
         /// Update a user account
@@ -47,6 +47,6 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool UpdateAccounInformation(User requestingUser, User newUser, string clientToken);
+        bool UpdateAccounInformation(UserDTO requestingUser, UserDTO newUser, string clientToken);
     }
 }

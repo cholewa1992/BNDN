@@ -10,8 +10,8 @@ namespace BusinessLogicLayer
     public interface IUserLogic
     {
         
-        bool CreateAccount(User user, string clientToken);
-        User GetAccountInformation(User requestingUser, User targetUser, string clientToken);
-        bool UpdateAccountInformation(User requestingUser, User newUser, string clientToken);
+        bool CreateAccount(UserDTO user, string clientToken);
+        UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken);
+        bool UpdateAccountInformation(UserDTO requestingUser, UserDTO newUser, string clientToken);
     }
 }

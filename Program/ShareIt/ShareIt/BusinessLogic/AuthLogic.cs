@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
-using Client = BusinessLogicLayer.DTO.Client;
+using Client = BusinessLogicLayer.DTO.ClientDTO;
 
 namespace BusinessLogicLayer
 {
@@ -13,8 +13,10 @@ namespace BusinessLogicLayer
         private IStorageBridge _storage;
 
 
-        public AuthLogic(IStorageBridge storage)
+        internal AuthLogic(IStorageBridge storage)
         {
+            Contract.Requires<ArgumentNullException>(storage != null);
+
             _storage = storage;
         }
 
@@ -27,7 +29,6 @@ namespace BusinessLogicLayer
         public AccessRightType CheckUserAccess(int userId, int mediaItemId)
         {
             //Preconditions
-            Contract.Requires<ArgumentNullException>(_storage != null);
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
@@ -60,7 +61,6 @@ namespace BusinessLogicLayer
         public int CheckClientToken(string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentNullException>(_storage != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
 
             
@@ -93,7 +93,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="user">Object checked for Username and Password</param>
         /// <returns>userid if any found, or -1</returns>
-        public bool CheckUserExists(User user)
+        public bool CheckUserExists(UserDTO user)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
@@ -132,6 +132,12 @@ namespace BusinessLogicLayer
             return result;
         }
 
+
+        [ContractInvariantMethod]
+        private void InvariantCheck()
+        {
+            Contract.Invariant(_storage != null);
+        }
 
 
         public void Dispose()

@@ -5,23 +5,23 @@ using System.Security.AccessControl;
 namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public class MediaItem
+    public class MediaItemDTO
     {
         [DataMember]
         public int Id { get; set; }
 
         [DataMember]
-        public MediaItemType Type { get; set; }
+        public MediaItemTypeDTO Type { get; set; }
 
         [DataMember]
         public string FileExtension { get; set; }
 
         [DataMember]
-        public IEnumerable<MediaItemInformation> Information { get; set; }
+        public IEnumerable<MediaItemInformationDTO> Information { get; set; }
 
-        public MediaItem()
+        public MediaItemDTO()
         {
-            Information = new List<MediaItemInformation>();
+            Information = new List<MediaItemInformationDTO>();
         }
     }
 }

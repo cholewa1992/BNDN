@@ -93,13 +93,13 @@
     <Compile Include="DataMappers\IMediaItemMapper.cs" />
     <Compile Include="DataMappers\MediaItemMapper.cs" />
     <Compile Include="DTO\AccessRightDTO.cs" />
-    <Compile Include="DTO\Client.cs" />
-    <Compile Include="DTO\InformationType.cs" />
-    <Compile Include="DTO\MediaItemInformation.cs" />
+    <Compile Include="DTO\ClientDTO.cs" />
+    <Compile Include="DTO\InformationTypeDTO.cs" />
+    <Compile Include="DTO\MediaItemInformationDTO.cs" />
+    <Compile Include="DTO\MediaItemTypeDTO.cs" />
+    <Compile Include="DTO\UserInformationDTO.cs" />
+    <Compile Include="DTO\UserInformationTypeDTO.cs" />
     <Compile Include="DTO\MediaItemSearchResultDTO.cs" />
-    <Compile Include="DTO\MediaItemType.cs" />
-    <Compile Include="DTO\UserInformation.cs" />
-    <Compile Include="DTO\UserInformationType.cs" />
     <Compile Include="FaultDataContracts\ArgumentFault.cs" />
     <Compile Include="FaultDataContracts\MediaItemNotFound.cs" />
     <Compile Include="FaultDataContracts\AccessRightNotFound.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
     <Compile Include="DTO\MediaItem.cs" />
+    <Compile Include="DTO\MediaItemDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="IAccessRightLogic.cs" />
     <Compile Include="IAuthLogic.cs" />

@@ -3,7 +3,7 @@
 namespace BusinessLogicLayer.DTO
 {
     [DataContract]
-    public class Client
+    public class ClientDTO
     {
         [DataMember]
         public string Name { get; set; }

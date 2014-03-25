@@ -43,7 +43,7 @@ namespace ShareIt
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A list of MediaItemInformation</returns>
-        public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken)
         {
             return SearchMediaItemsByType(from, to, null, null, clientToken);
         }
@@ -89,7 +89,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, MediaItemType mediaType, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, MediaItemTypeDTO mediaType, string clientToken)
         {
             return SearchMediaItemsByType(from, to, mediaType, null, clientToken);
         }
@@ -107,7 +107,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken)
         {
             return SearchMediaItemsByType(from, to, null, searchKey, clientToken);
         }
@@ -126,11 +126,11 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
             try
             {
-                return _factory.CreateMediaItemLogic().FindMediaItemRange(from, to, mediaType, searchKey, clientToken);
+                return _factory.CreateMediaItemLogic().FindMediaItemRange(@from, to, mediaType, searchKey, clientToken);
             }
             catch (ArgumentException ae)
             {
