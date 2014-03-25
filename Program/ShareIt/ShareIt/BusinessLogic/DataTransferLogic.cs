@@ -106,21 +106,21 @@ namespace BusinessLogicLayer
 
             //Store entity and get the id the db assigned to it.
             _dbStorage.Add(entity);
-            int result = entity.Id;
+            int mediaId = entity.Id;
             //Save the stream as a file using the id it was given.
             try
             {
-                var filePath = _fileStorage.SaveFile(stream, owner.Id, result, media.FileExtension);
+                var filePath = _fileStorage.SaveFile(stream, owner.Id, mediaId, media.FileExtension);
                 entity.FilePath = filePath;
                 _dbStorage.Update(entity);
             }
             //If something went wrong while saving the file, delete the entity from the db and return -1.
             catch (IOException)
             {
-                result = -1;
+                mediaId = -1;
                 _dbStorage.Delete(entity);
             }
-            return result;
+            return mediaId;
         }
         /// <summary>
         /// Dispose the IStorageBridge and IInternalAuthLogic which this DataTransferLogic uses.

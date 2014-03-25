@@ -9,6 +9,14 @@ namespace DataAccessLayer
 {
     public class FileStorage : IFileStorage
     {
+        /// <summary>
+        /// Save a stream to the disk as a file.
+        /// </summary>
+        /// <param name="stream">The stream to save as a file.</param>
+        /// <param name="userId">The id of the user who uploaded the file.</param>
+        /// <param name="mediaId">The id of the file's meta data.</param>
+        /// <param name="fileExtension">The extension of the file.</param>
+        /// <returns>The path to where the file was saved on the disk.</returns>
         public string SaveFile(Stream stream, int userId, int mediaId, string fileExtension)
         {
             var apPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;

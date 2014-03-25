@@ -24,7 +24,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken);
+        MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items.
@@ -41,7 +41,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type.
@@ -58,7 +58,7 @@ namespace ShareIt
         [FaultContract(typeof (ArgumentFault))]
         [FaultContract(typeof (FaultException))]
         [OperationContract]
-        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO mediaType, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, MediaItemType mediaType, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items matching the search keyword.
@@ -76,7 +76,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, string searchKey, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
@@ -95,7 +95,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
 
     }
 }

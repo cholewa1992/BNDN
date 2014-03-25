@@ -43,7 +43,7 @@ namespace ShareIt
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A list of MediaItemInformation</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
         {
             try
             {
@@ -72,9 +72,9 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken)
         {
-            return FindMediaItemRange(from, to, null, null, clientToken);
+            return SearchMediaItemsByType(from, to, null, null, clientToken);
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO mediaType, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, MediaItemType mediaType, string clientToken)
         {
-            return FindMediaItemRange(from, to, mediaType, null, clientToken);
+            return SearchMediaItemsByType(from, to, mediaType, null, clientToken);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, string searchKey, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken)
         {
-            return FindMediaItemRange(from, to, null, searchKey, clientToken);
+            return SearchMediaItemsByType(from, to, null, searchKey, clientToken);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace ShareIt
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="FaultException&lt;Argument&gt;">Thrown when from or to is &lt; 1</exception>
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
-        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken)
         {
             try
             {
