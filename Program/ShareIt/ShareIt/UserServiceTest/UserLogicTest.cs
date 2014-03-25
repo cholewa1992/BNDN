@@ -11,7 +11,7 @@ namespace UserServiceTest
     public class UserLogicTest
     {
 
-        readonly UserLogic _userLogic = new UserLogic(IStorageBridge);
+        readonly UserLogic _userLogic; //= new UserLogic(IStorageBridge);
         private UserDTO _testUser;
 
         [TestInitialize]

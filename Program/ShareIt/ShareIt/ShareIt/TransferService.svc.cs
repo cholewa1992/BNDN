@@ -61,18 +61,18 @@ namespace ShareIt
         /// <summary>
         /// Upload a media.
         /// </summary>
-        /// <param name="media">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <param name="request">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
         /// <returns>An UploadStatusMessage containing information about wether the upload succeeded or not.</returns>
-        public UploadStatusMessage UploadMedia(UploadRequest media)
+        public UploadResponse UploadMedia(UploadRequest request)
         {
             int result;
             using (var logic = _factory.CreateDataTransferLogic())
             {
-                result = logic.SaveMedia(media.ClientToken,media.Owner, media.MetaData, media.FileByteStream);
+                result = logic.SaveMedia(request.ClientToken,request.Owner, request.MetaData, request.FileByteStream);
             }
-            return new UploadStatusMessage
+            return new UploadResponse
             {
-                UploadSucceeded = result > 0  
+                AssignedMediaItemId = result  
             };
         }
     }

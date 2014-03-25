@@ -25,9 +25,9 @@ namespace ShareIt
         /// <summary>
         /// Upload a media.
         /// </summary>
-        /// <param name="media">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
+        /// <param name="request">The UploadRequest containing information about the media being uploaded aswell as a stream which is used for the transfer.</param>
         /// <returns>An UploadStatusMessage specifying wether the upload succeeded or not.</returns>
         [OperationContract]
-        UploadStatusMessage UploadMedia(UploadRequest media);
+        UploadResponse UploadMedia(UploadRequest request);
     }
 }

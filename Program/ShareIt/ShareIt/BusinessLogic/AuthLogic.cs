@@ -81,7 +81,6 @@ namespace BusinessLogicLayer
         public bool IsUserAdminOnClient(int userId, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentNullException>(_storage != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
             Contract.Requires<ArgumentException>(userId > 0);
 
