@@ -41,7 +41,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type.
@@ -58,7 +58,7 @@ namespace ShareIt
         [FaultContract(typeof (ArgumentFault))]
         [FaultContract(typeof (FaultException))]
         [OperationContract]
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType mediaType, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items matching the search keyword.
@@ -76,7 +76,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, string searchKey, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, string searchKey, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
@@ -95,7 +95,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
 
     }
 }

@@ -59,10 +59,15 @@ namespace BusinessLogicLayer.Stub
             return item;
         }
 
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType,
+        public Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType? mediaType,
             string searchKey, string clientToken)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

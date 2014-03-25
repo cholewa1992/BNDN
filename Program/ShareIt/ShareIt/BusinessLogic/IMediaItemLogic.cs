@@ -8,7 +8,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public interface IMediaItemLogic
+    public interface IMediaItemLogic : IDisposable
     {
         /// <summary>
         /// Returns a media item with a collection of media item information
@@ -35,6 +35,6 @@ namespace BusinessLogicLayer
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemType, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
     }
 }
