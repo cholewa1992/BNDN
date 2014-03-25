@@ -15,14 +15,9 @@ namespace BusinessLogicTests
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual(-1, al.CheckClientToken("testToken"));
+            
         }
 
-        //[TestMethod]
-        //public void EmptyClientToken()
-        //{
-        //    Throws<Argu>(() => al.CheckClientToken(""));
-        //    Assert.AreEqual(-1, al.CheckClientToken("testToken"));
-        //}
+        
     }
 }
