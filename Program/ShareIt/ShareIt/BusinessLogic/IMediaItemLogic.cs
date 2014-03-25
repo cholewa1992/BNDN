@@ -16,7 +16,7 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        MediaItem GetMediaItemInformation(int mediaItemId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
@@ -35,6 +35,6 @@ namespace BusinessLogicLayer
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
-        Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
     }
 }

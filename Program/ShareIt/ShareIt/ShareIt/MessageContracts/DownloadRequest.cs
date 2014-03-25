@@ -18,7 +18,7 @@ namespace ShareIt.MessageContracts
         /// The user requesting the download.
         /// </summary>
         [MessageBodyMember(Order = 1)]
-        public User User { get; set; }
+        public UserDTO User { get; set; }
         /// <summary>
         /// The Id of the media which the user wishes to download.
         /// </summary>

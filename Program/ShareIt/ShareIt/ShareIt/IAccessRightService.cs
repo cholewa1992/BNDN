@@ -25,7 +25,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken);
+        bool MakeAdmin(UserDTO oldAdmin, UserDTO newAdmin, string clientToken);
 
         /// <summary>
         /// Deletes an AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
@@ -38,7 +38,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Delete(User admin, AccessRightDTO ar, string clientToken);
+        bool Delete(UserDTO admin, AccessRightDTO ar, string clientToken);
 
         /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
@@ -52,7 +52,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool EditExpiration(User u, AccessRightDTO newAR, string clientToken);
+        bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken);
 
         /// <summary>
         /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 
@@ -68,6 +68,6 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken);
+        bool Purchase(UserDTO u, MediaItemDTO m, DateTime expiration, string clientToken);
     }
 }

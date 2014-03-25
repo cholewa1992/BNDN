@@ -10,6 +10,6 @@ namespace BusinessLogicLayer.DataMappers
 {
     internal interface IMediaItemMapper
     {
-        Entity MapToEntity(MediaItem mediaItem);
+        Entity MapToEntity(MediaItemDTO mediaItem);
     }
 }

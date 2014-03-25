@@ -9,9 +9,9 @@ namespace BusinessLogicLayer
 {
     public interface IAccessRightLogic : IDisposable
     {
-        bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken);
-        bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken);
-        bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken);
-        bool EditExpiration(User u, AccessRightDTO newAR, string clientToken);
+        bool Purchase(UserDTO u, MediaItemDTO m, DateTime expiration, string clientToken);
+        bool MakeAdmin(UserDTO oldAdmin, UserDTO newAdmin, string clientToken);
+        bool DeleteAccessRight(UserDTO admin, AccessRightDTO ar, string clientToken);
+        bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken);
     }
 }

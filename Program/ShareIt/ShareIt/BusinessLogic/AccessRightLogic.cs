@@ -29,7 +29,7 @@ namespace BusinessLogicLayer
             _storage = storage;
         }
 
-        public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO u, MediaItemDTO m, DateTime expiration, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -63,7 +63,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
+        public bool MakeAdmin(UserDTO oldAdmin, UserDTO newAdmin, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -94,7 +94,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken)
+        public bool DeleteAccessRight(UserDTO admin, AccessRightDTO ar, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -113,7 +113,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public List<AccessRightDTO> GetPurchaseHistory(User u)
+        public List<AccessRightDTO> GetPurchaseHistory(UserDTO u)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public List<AccessRightDTO> GetUploadHistory(User u)
+        public List<AccessRightDTO> GetUploadHistory(UserDTO u)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
+        public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {

@@ -14,11 +14,11 @@ namespace BusinessLogicTests
         public void TestMapToEntityMapsCorrectNumberOfInformation()
         {
             var target = new MediaItemMapper();
-            var input = new MediaItem()
+            var input = new MediaItemDTO()
             {
-                Information = new MediaItemInformation[]
+                Information = new MediaItemInformationDTO[]
                 {
-                    new MediaItemInformation(), new MediaItemInformation(), new MediaItemInformation()
+                    new MediaItemInformationDTO(), new MediaItemInformationDTO(), new MediaItemInformationDTO()
                 }
             };
 
@@ -30,9 +30,9 @@ namespace BusinessLogicTests
         public void TestMapToEntityMapsMediaItemTypeCorrectly()
         {
             var target = new MediaItemMapper();
-            var input = new MediaItem()
+            var input = new MediaItemDTO()
             {
-                Type = MediaItemType.Book
+                Type = MediaItemTypeDTO.Book
             };
             var output = target.MapToEntity(input);
             Assert.AreEqual(2, output.TypeId);
@@ -42,14 +42,14 @@ namespace BusinessLogicTests
         public void TestMapToEntityMapsDataInInformationCorrectly()
         {
             var target = new MediaItemMapper();
-            var input = new MediaItem()
+            var input = new MediaItemDTO()
             {
-                Information = new List<MediaItemInformation>()
+                Information = new List<MediaItemInformationDTO>()
                 {
-                    new MediaItemInformation()
+                    new MediaItemInformationDTO()
                     {
                         Data = "data",
-                        Type = InformationType.Title
+                        Type = InformationTypeDTO.Title
                     }
                 }
             };

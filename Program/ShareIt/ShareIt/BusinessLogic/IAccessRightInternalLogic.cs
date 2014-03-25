@@ -9,7 +9,7 @@ namespace BusinessLogicLayer
 {
     internal interface IAccessRightInternalLogic : IAccessRightLogic
     {
-        List<AccessRightDTO> GetPurchaseHistory(User u);
-        List<AccessRightDTO> GetUploadHistory(User u);
+        List<AccessRightDTO> GetPurchaseHistory(UserDTO u);
+        List<AccessRightDTO> GetUploadHistory(UserDTO u);
     }
 }

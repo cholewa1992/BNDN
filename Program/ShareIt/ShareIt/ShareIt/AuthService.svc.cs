@@ -48,7 +48,7 @@ namespace ShareIt
         /// <param name="user">A user to check</param>
         /// <param name="clientToken">The token to varify the client asking</param>
         /// <returns>A boolean result</returns>
-        public bool ValidateUser(User user, string clientToken)
+        public bool ValidateUser(UserDTO user, string clientToken)
         {
 
             try
@@ -68,7 +68,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="client">A client to check</param>
         /// <returns>A boolean result</returns>
-        public bool CheckClientExists(Client client)
+        public bool CheckClientExists(ClientDTO client)
         {
             try
             {

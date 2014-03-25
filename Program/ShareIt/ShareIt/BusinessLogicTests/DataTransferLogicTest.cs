@@ -34,11 +34,11 @@ namespace BusinessLogicTests
             //setup checkUserExists.
             authMoq.Setup(
                 foo =>
-                    foo.CheckUserExists(It.Is<User>(u => u.Password == "testPassword" && u.Username == "testUserName")))
+                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
                 .Returns(true);
             authMoq.Setup(
                 foo =>
-                    foo.CheckUserExists(It.Is<User>(u => u.Password != "testPassword" && u.Username == "testUserName")))
+                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
                 .Returns(false);
             //setup checkUserAccess
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
@@ -70,7 +70,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsExceptionWhenClientTokenNotAuthorized()
         {
             var logic = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            logic.SaveMedia("Notvalid", new User(){Password = "something", Username = "something"}, new MediaItem(){FileExtension = "something"}, new MemoryStream());
+            logic.SaveMedia("Notvalid", new UserDTO(){Password = "something", Username = "something"}, new MediaItemDTO(){FileExtension = "something"}, new MemoryStream());
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsExceptionWhenUserCredentialsNotAuthorized()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("testClient", new User {Username = "Notvalid", Password = "NotValid"}, new MediaItem(){FileExtension = "something"},
+            target.SaveMedia("testClient", new UserDTO {Username = "Notvalid", Password = "NotValid"}, new MediaItemDTO(){FileExtension = "something"},
                 new MemoryStream());
         }
 
@@ -87,7 +87,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsNullExceptionWhenClientTokenIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia(null, new User(), new MediaItem(), new MemoryStream());
+            target.SaveMedia(null, new UserDTO(), new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsNullExceptionWhenUserIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", null, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", null, new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsNullExceptionWhenMediaItemIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User(), null, new MemoryStream());
+            target.SaveMedia("token", new UserDTO(), null, new MemoryStream());
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsNullExceptionWhenStreamIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User(), new MediaItem(), null);
+            target.SaveMedia("token", new UserDTO(), new MediaItemDTO(), null);
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsArgumentExceptionWhenUsernameIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User{Username = null, Password = "NotValid"}, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO{Username = null, Password = "NotValid"}, new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsArgumentExceptionWhenUserNameIsEmpty()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User { Username = "", Password = "NotValid" }, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO { Username = "", Password = "NotValid" }, new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -135,7 +135,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsArgumentExceptionWhenUserNameIsWhitespace()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User { Username = "     ", Password = "NotValid" }, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO { Username = "     ", Password = "NotValid" }, new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -143,14 +143,14 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsArgumentExceptionWhenUserPasswordIsNull()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User { Username = "NotValid", Password = null }, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO { Username = "NotValid", Password = null }, new MediaItemDTO(), new MemoryStream());
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestSaveMediaThrowsArgumentExceptionWhenUserPasswordIsEmpty()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User { Username = "NotValid", Password = "" }, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO { Username = "NotValid", Password = "" }, new MediaItemDTO(), new MemoryStream());
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace BusinessLogicTests
         public void TestSaveMediaThrowsArgumentExceptionWhenUserPasswordIsWhitespace()
         {
             var target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
-            target.SaveMedia("token", new User { Username = "NotValid", Password = "     " }, new MediaItem(), new MemoryStream());
+            target.SaveMedia("token", new UserDTO { Username = "NotValid", Password = "     " }, new MediaItemDTO(), new MemoryStream());
         }
 
         #endregion

@@ -45,7 +45,7 @@ namespace ShareIt
         /// <param name="newAdmin">The user who is the subject of the upgrade</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
+        public bool MakeAdmin(UserDTO oldAdmin, UserDTO newAdmin, string clientToken)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace ShareIt
         /// <param name="ar">The AccessRight to be deleted</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Delete(User admin, AccessRightDTO ar, string clientToken)
+        public bool Delete(UserDTO admin, AccessRightDTO ar, string clientToken)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ShareIt
         /// <param name="newAR">The AccessRight containing the new information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
+        public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace ShareIt
         /// Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO u, MediaItemDTO m, DateTime expiration, string clientToken)
         {
             try
             {

@@ -19,12 +19,12 @@ namespace ShareIt.MessageContracts
         /// The meta data about the media to be uploaded.
         /// </summary>
         [MessageHeader]
-        public MediaItem MetaData { get; set; }
+        public MediaItemDTO MetaData { get; set; }
         /// <summary>
         /// The User who owns the media being uploaded.
         /// </summary>
         [MessageHeader]
-        public User Owner { get; set; }
+        public UserDTO Owner { get; set; }
         /// <summary>
         /// The length of the FileByteStream
         /// </summary>

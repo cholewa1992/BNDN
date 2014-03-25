@@ -14,14 +14,14 @@ namespace ServiceTests
         [TestMethod]
         public void TestValidateUser()
         {
-            var r = _authService.ValidateUser(new User(), "token");
+            var r = _authService.ValidateUser(new UserDTO(), "token");
             Assert.AreEqual<bool>(true, r);
         }
 
         [TestMethod]
         public void TestCheckClientPassword()
         {
-            var r = _authService.CheckClientExists(new Client());
+            var r = _authService.CheckClientExists(new ClientDTO());
             Assert.AreEqual<bool>(true, r);
         }
     }

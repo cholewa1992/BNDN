@@ -19,47 +19,47 @@ namespace BusinessLogicLayer.Stub
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItem GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
         {
-            var list = new List<MediaItemInformation> {
-                new MediaItemInformation
+            var list = new List<MediaItemInformationDTO> {
+                new MediaItemInformationDTO
                 {
                     Id = 1,
-                    Type = InformationType.Title,
+                    Type = InformationTypeDTO.Title,
                     Data = "Harry Potter And The Chamber Of Secrets"
                 },
-                new MediaItemInformation
+                new MediaItemInformationDTO
                 {
                     Id = 1,
-                    Type = InformationType.Price,
+                    Type = InformationTypeDTO.Price,
                     Data = "6.64"
                 },
-                new MediaItemInformation
+                new MediaItemInformationDTO
                 {
                     Id = 1,
-                    Type = InformationType.NumberOfPages,
+                    Type = InformationTypeDTO.NumberOfPages,
                     Data = "341"
                 },
-                new MediaItemInformation
+                new MediaItemInformationDTO
                 {
                     Id = 1,
-                    Type = InformationType.Genre,
+                    Type = InformationTypeDTO.Genre,
                     Data = "Fantasy"
                 },
-                new MediaItemInformation
+                new MediaItemInformationDTO
                 {
                     Id = 1,
-                    Type = InformationType.Author,
+                    Type = InformationTypeDTO.Author,
                     Data = "J.K. Rowling"
                 }
             };
 
-            var item = new MediaItem {Id = 1, Type = MediaItemType.Book, FileExtension = ".pdf", Information = list};
+            var item = new MediaItemDTO {Id = 1, Type = MediaItemTypeDTO.Book, FileExtension = ".pdf", Information = list};
 
             return item;
         }
 
-        public Dictionary<MediaItemType, List<MediaItem>> FindMediaItemRange(int from, int to, MediaItemType? mediaType,
+        public Dictionary<MediaItemTypeDTO, List<MediaItemDTO>> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType,
             string searchKey, string clientToken)
         {
             throw new NotImplementedException();

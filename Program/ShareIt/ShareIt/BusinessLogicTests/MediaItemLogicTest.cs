@@ -19,30 +19,30 @@ namespace BusinessLogicTests
         [TestInitialize]
         public void Initialize()
         {
-            var info1 = new MediaItemInformation()
+            var info1 = new MediaItemInformationDTO()
             {
                 Id = 1,
                 Data = "Dansk",
-                Type = InformationType.Language
+                Type = InformationTypeDTO.Language
             };
 
-            var info2 = new MediaItemInformation()
+            var info2 = new MediaItemInformationDTO()
             {
                 Id = 1,
                 Data = "20",
-                Type = InformationType.Price
+                Type = InformationTypeDTO.Price
             };
 
-            var infoList = new List<MediaItemInformation>();
+            var infoList = new List<MediaItemInformationDTO>();
             infoList.Add(info1);
             infoList.Add(info2);
 
-            MediaItem _mediaItem = new MediaItem()
+            MediaItemDTO _mediaItem = new MediaItemDTO()
             {
                 FileExtension = ".avi",
                 Id = 1,
                 Information = infoList,
-                Type = MediaItemType.Movie
+                Type = MediaItemTypeDTO.Movie
             };
         }
 
@@ -72,7 +72,7 @@ namespace BusinessLogicTests
         {
             var mediaItemId = 1;
 
-            MediaItem m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
+            MediaItemDTO m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
 
             Assert.AreEqual(m.Id, mediaItemId);
 
@@ -83,7 +83,7 @@ namespace BusinessLogicTests
         {
             var mediaItemId = 1;
 
-            MediaItem m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
+            MediaItemDTO m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
 
             var list = new List<String>();
 
@@ -101,17 +101,17 @@ namespace BusinessLogicTests
         {
             var mediaItemId = 1;
 
-            MediaItem m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
+            MediaItemDTO m = _mediaItemLogic.GetMediaItemInformation(mediaItemId, "token");
 
-            var list = new List<InformationType>();
+            var list = new List<InformationTypeDTO>();
 
             foreach (var info in m.Information)
             {
                 list.Add(info.Type);
             }
 
-            Assert.AreEqual(list[0], InformationType.Language);
-            Assert.AreEqual(list[1], InformationType.Price);
+            Assert.AreEqual(list[0], InformationTypeDTO.Language);
+            Assert.AreEqual(list[1], InformationTypeDTO.Price);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace BusinessLogicTests
             const int from = 1;
             const int to = 3;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
-            var bookList = dictionary[MediaItemType.Book];
+            var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(to - (from - 1), bookList.Count);  //Assuming that the number of books exceed the range
         }
 
@@ -130,7 +130,7 @@ namespace BusinessLogicTests
             const int from = 3;
             const int to = 1;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
-            var bookList = dictionary[MediaItemType.Book];
+            var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(from - (to - 1), bookList.Count); //Assuming that the number of books exceed the range
         }
 
@@ -212,7 +212,7 @@ namespace BusinessLogicTests
             const int to = 100;
             var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, null, null, "token");
             const int numberOfBooks = 10; // Assuming we have exactly 10 books
-            var bookList = dictionary[MediaItemType.Book];
+            var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(numberOfBooks, bookList.Count); 
         }
 
@@ -270,9 +270,9 @@ namespace BusinessLogicTests
         {
             const int from = 1;
             const int to = 3;
-            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, null, "token");
+            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, null, "token");
             const int numberOfMovies = 10; //Assuming there are exactly 10 books
-            var movieList = dictionary[MediaItemType.Movie];
+            var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMovies, movieList.Count);
         }
 
@@ -281,9 +281,9 @@ namespace BusinessLogicTests
         {
             const int from = 1;
             const int to = 3;
-            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, "love", "token");
+            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "love", "token");
             const int numberOfMoviesThatMatchesSearchKey = 2; //Assuming there are exactly 2 books matching "love"
-            var movieList = dictionary[MediaItemType.Movie];
+            var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
         }
 
@@ -292,9 +292,9 @@ namespace BusinessLogicTests
         {
             const int from = 1;
             const int to = 3;
-            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemType.Movie, " ", "token");
+            var dictionary = _mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, " ", "token");
             const int numberOfMoviesThatMatchesSearchKey = 8; //Assuming there are exactly 8 books matching " "
-            var movieList = dictionary[MediaItemType.Movie];
+            var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.Count);
         }
     }
