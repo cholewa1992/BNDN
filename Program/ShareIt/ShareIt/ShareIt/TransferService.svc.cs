@@ -72,7 +72,7 @@ namespace ShareIt
             }
             return new UploadResponse
             {
-                AssignedMediaItemId = result > 0  
+                AssignedMediaItemId = result  
             };
         }
     }
