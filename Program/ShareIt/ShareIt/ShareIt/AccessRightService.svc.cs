@@ -45,7 +45,7 @@ namespace ShareIt
         /// <param name="newAdminId">The id of the user who is the subject of the upgrade</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool MakeAdmin(User oldAdmin, int newAdminId, string clientToken)
+        public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace ShareIt
         /// <param name="accessRightId">The id of the AccessRight to be deleted</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Delete(User admin, int accessRightId, string clientToken)
+        public bool Delete(UserDTO admin, int accessRightId, string clientToken)
         {
             try
             {
@@ -109,15 +109,15 @@ namespace ShareIt
         /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
-        /// <param name="u">The User performing the request</param>
-        /// <param name="newAR">The AccessRight containing the new information</param>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="newAccessRight">The AccessRight containing the new information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
+        public bool EditExpiration(UserDTO user, AccessRightDTO newAccessRight, string clientToken)
         {
             try
             {
-                return _factory.CreateAccessRightLogic().EditExpiration(u, newAR, clientToken);
+                return _factory.CreateAccessRightLogic().EditExpiration(user, newAccessRight, clientToken);
             }
             catch (InvalidCredentialException e)
             {
@@ -153,7 +153,7 @@ namespace ShareIt
         /// Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Purchase(User user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
         {
             try
             {

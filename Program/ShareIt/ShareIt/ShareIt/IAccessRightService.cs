@@ -25,7 +25,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool MakeAdmin(User oldAdmin, int newAdminId, string clientToken);
+        bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken);
 
         /// <summary>
         /// Deletes an AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
@@ -38,21 +38,20 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Delete(User admin, int accessRightId, string clientToken);
+        bool Delete(UserDTO admin, int accessRightId, string clientToken);
 
         /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
-        /// <param name="u">The User performing the request</param>
-        /// <param name="oldAR">The AccessRight to be edited</param>
-        /// <param name="newAR">The AccessRight containing the new information</param>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="newAccessRight">The AccessRight containing the new information</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool EditExpiration(User u, AccessRightDTO newAR, string clientToken);
+        bool EditExpiration(UserDTO user, AccessRightDTO newAccessRight, string clientToken);
 
         /// <summary>
         /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 
@@ -68,6 +67,6 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Purchase(User user, int mediaItemId, DateTime expiration, string clientToken);
+        bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken);
     }
 }

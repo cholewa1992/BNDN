@@ -23,32 +23,32 @@ namespace BusinessLogicLayer.Stub
 
         }
 
-        public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO u, int mediaItemId, DateTime expiration, string clientToken)
         {
             return true;
         }
 
-        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
+        public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken)
+        public bool DeleteAccessRight(UserDTO admin, int accessRightId, string clientToken)
         {
             return true;
         }
 
-        public List<AccessRightDTO> GetPurchaseHistory(User u)
+        public List<AccessRightDTO> GetPurchaseHistory(int userId)
         {
             return new List<AccessRightDTO>();
         }
 
-        public List<AccessRightDTO> GetUploadHistory(User u)
+        public List<AccessRightDTO> GetUploadHistory(int userId)
         {
             return new List<AccessRightDTO>();
         }
 
-        public bool EditExpiration(User u, AccessRightDTO newAR, string clientToken)
+        public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
             return true;
         }

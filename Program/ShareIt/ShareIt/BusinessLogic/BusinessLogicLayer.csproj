@@ -107,7 +107,7 @@
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />
     <Compile Include="DTO\MediaItem.cs" />
-    <Compile Include="DTO\User.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="IAccessRightLogic.cs" />
     <Compile Include="IAuthLogic.cs" />
     <Compile Include="IBusinessLogicFactory.cs" />
