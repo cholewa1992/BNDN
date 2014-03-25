@@ -29,32 +29,32 @@ namespace BusinessLogicLayer
             _storage = storage;
         }
 
-        public bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken)
+        public bool Purchase(User user, int mediaItemId, DateTime expiration, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.CheckUserExists(u))
+            if (_authLogic.CheckUserExists(user))
             {
                 throw new UnauthorizedAccessException("Invalid User credentials!");
             }
 
             try
             {
-                _storage.Get<Entity>(m.Id);
+                _storage.Get<Entity>(mediaItemId);
             }
             catch (InvalidOperationException e)
             {
-                throw new InstanceNotFoundException("No Media Item with id "+ m.Id +"was found");
+                throw new InstanceNotFoundException("No Media Item with id "+ mediaItemId +"was found");
             }
 
             var newAccessRight = new AccessRight
             {
                 Expiration = expiration,
-                UserId = u.Id,
-                EntityId = m.Id,
+                UserId = user.Id,
+                EntityId = mediaItemId,
                 AccessRightTypeId = (int) AccessRightType.Buyer
             };
 
@@ -63,7 +63,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken)
+        public bool MakeAdmin(User oldAdmin, int newAdminId, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -77,7 +77,7 @@ namespace BusinessLogicLayer
 
             try
             {
-                _storage.Get<UserAcc>(newAdmin.Id);
+                _storage.Get<UserAcc>(newAdminId);
             }
             catch (InvalidOperationException e)
             {
@@ -87,14 +87,14 @@ namespace BusinessLogicLayer
             var newClientAdmin = new ClientAdmin();
 
             newClientAdmin.ClientId = _authLogic.CheckClientToken(clientToken);
-            newClientAdmin.UserId = newAdmin.Id;
+            newClientAdmin.UserId = newAdminId;
 
             _storage.Add(newClientAdmin);
 
             return true;
         }
 
-        public bool DeleteAccessRight(User admin, AccessRightDTO ar, string clientToken)
+        public bool DeleteAccessRight(User admin, int accessRightId, string clientToken)
         {
             if (_authLogic.CheckClientToken(clientToken) > 0)
             {
@@ -106,18 +106,18 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
 
-            _storage.Get<Entity>(ar.Id);
+            _storage.Get<Entity>(accessRightId);
 
-            _storage.Delete<AccessRight>(ar.Id);
+            _storage.Delete<AccessRight>(accessRightId);
 
             return true;
         }
 
-        public List<AccessRightDTO> GetPurchaseHistory(User u)
+        public List<AccessRightDTO> GetPurchaseHistory(int userId)
         {
             try
             {
-                _storage.Get<UserAcc>(u.Id);
+                _storage.Get<UserAcc>(userId);
             }
             catch (InvalidOperationException e)
             {
@@ -125,7 +125,7 @@ namespace BusinessLogicLayer
             }
 
             var acessRights = _storage.Get<AccessRight>()
-                .Where(x => x.UserId == u.Id &&
+                .Where(x => x.UserId == userId &&
                 x.AccessRightTypeId == (int)AccessRightType.Buyer);
 
             var accessRights = mapAccessRights(acessRights);
@@ -133,11 +133,11 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public List<AccessRightDTO> GetUploadHistory(User u)
+        public List<AccessRightDTO> GetUploadHistory(int userId)
         {
             try
             {
-                _storage.Get<UserAcc>(u.Id);
+                _storage.Get<UserAcc>(userId);
             }
             catch (InvalidOperationException e)
             {
@@ -145,7 +145,7 @@ namespace BusinessLogicLayer
             }
 
             var acessRights = _storage.Get<AccessRight>()
-                .Where(x => x.UserId == u.Id &&
+                .Where(x => x.UserId == userId &&
                 x.AccessRightTypeId == (int)AccessRightType.Owner);
 
             var accessRights = mapAccessRights(acessRights);

@@ -18,27 +18,27 @@ namespace ShareIt
         /// Gives a new user admin rights
         /// </summary>
         /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
-        /// <param name="newAdmin">The user who is the subject of the upgrade</param>
+        /// <param name="newAdminId">The user who is the subject of the upgrade</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool MakeAdmin(User oldAdmin, User newAdmin, string clientToken);
+        bool MakeAdmin(User oldAdmin, int newAdminId, string clientToken);
 
         /// <summary>
         /// Deletes an AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
         /// </summary>
         /// <param name="admin">The admin trying to delete an AccessRight</param>
-        /// <param name="ar">The AccessRight to be deleted</param>
+        /// <param name="accessRightId">The id of the AccessRight to be deleted</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Delete(User admin, AccessRightDTO ar, string clientToken);
+        bool Delete(User admin, int accessRightId, string clientToken);
 
         /// <summary>
         /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
@@ -58,8 +58,8 @@ namespace ShareIt
         /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 
         /// AccessRightType is buyer.
         /// </summary>
-        /// <param name="u">The User performing the request</param>
-        /// <param name="m">The MediaItem the User is trying to purchase</param>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
         /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
         /// Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
@@ -68,6 +68,6 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Purchase(User u, MediaItem m, DateTime expiration, string clientToken);
+        bool Purchase(User user, int mediaItemId, DateTime expiration, string clientToken);
     }
 }
