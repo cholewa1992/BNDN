@@ -89,11 +89,13 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
         public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
+            Contract.Requires<ArgumentException>(from < 1 || to < 1);
+
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
 
-            Contract.Requires<ArgumentException>(from < 1 || to < 1);
-            Contract.Requires<ArgumentException>(to - from >= rangeCap);
+            
+            //Contract.Requires<ArgumentException>(to - from >= rangeCap);
 
             from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
 
