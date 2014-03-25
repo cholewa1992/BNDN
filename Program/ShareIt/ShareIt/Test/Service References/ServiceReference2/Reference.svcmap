@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2aaec997-6a35-44cc-af29-8527a2da1942" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:1266/MediaItemService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MediaItemService.xsd" MetadataType="Schema" ID="9dc9065d-0571-49e5-a6ea-94a8f02a4719" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd4" />
+    <MetadataFile FileName="MediaItemService1.xsd" MetadataType="Schema" ID="5344ec7d-0a65-4a59-803f-06a71b72bdc1" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd3" />
+    <MetadataFile FileName="MediaItemService2.xsd" MetadataType="Schema" ID="a4ac0d59-4ba9-4822-a935-f0d496b4953f" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd6" />
+    <MetadataFile FileName="MediaItemService3.xsd" MetadataType="Schema" ID="63a0eba9-89d9-44ac-914f-987fa03d0098" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd5" />
+    <MetadataFile FileName="MediaItemService.wsdl" MetadataType="Wsdl" ID="32184ef4-189e-49ef-bfbe-6232ee403749" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?wsdl" />
+    <MetadataFile FileName="MediaItemService4.xsd" MetadataType="Schema" ID="f985af34-3c86-4279-8601-7914b82054d3" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd2" />
+    <MetadataFile FileName="MediaItemService.disco" MetadataType="Disco" ID="aa58e727-3a8f-45a0-9b87-1159d33ed16e" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?disco" />
+    <MetadataFile FileName="MediaItemService5.xsd" MetadataType="Schema" ID="e075970a-0038-410f-8f56-967c76515b26" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd1" />
+    <MetadataFile FileName="MediaItemService6.xsd" MetadataType="Schema" ID="8f3e1f1c-93f6-4bdb-9b6a-35f378dc583e" SourceId="1" SourceUrl="http://localhost:1266/MediaItemService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
