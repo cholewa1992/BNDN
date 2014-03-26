@@ -20,7 +20,8 @@ namespace BusinessLogicTests
     {
         private IAuthInternalLogic _authLogic;
         private IStorageBridge _dbStorage;
-        
+
+        #region Setup
         [TestInitialize]
         public void Initialize()
         {
@@ -138,16 +139,9 @@ namespace BusinessLogicTests
             return new HashSet<Entity>{book1, book2, book3, book4, music1, music2, music3, movie1, movie2, movie3, movie4, movie5};
         }
 
+        #endregion
 
-        /*[TestCleanup]
-        public void TearDown()
-        {
-            using (var db = new RentIt08Entities())
-            {
-                db.Database.ExecuteSqlCommand("DELETE FROM UserAcc;");
-            }
-        }*/
-
+        #region GetMediaItemInformation
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
@@ -156,7 +150,7 @@ namespace BusinessLogicTests
             try
             {
                 var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                mediaItemLogic.GetMediaItemInformation(mediaItemId, "testClient");
+                mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
                 Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
@@ -177,7 +171,7 @@ namespace BusinessLogicTests
             
             var mediaItemId = 1;
 
-            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, "testClient");
+            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
 
             Assert.AreEqual(m.Id, mediaItemId);
 
@@ -189,7 +183,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             var mediaItemId = 1;
 
-            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, "testClient");
+            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
 
             var list = new List<String>();
 
@@ -208,7 +202,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             var mediaItemId = 1;
 
-            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, "testClient");
+            MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
 
             var list = new List<InformationTypeDTO>();
 
@@ -220,7 +214,9 @@ namespace BusinessLogicTests
             Assert.AreEqual(list[0], InformationTypeDTO.Language);
             Assert.AreEqual(list[1], InformationTypeDTO.Price);
         }
+        #endregion
 
+        #region FindMediaItemRange
         [TestMethod]
         public void FindMediaItemRange_FromLessThanTo_ItemCount()
         {
@@ -442,5 +438,6 @@ namespace BusinessLogicTests
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
         }
+        #endregion
     }
 }

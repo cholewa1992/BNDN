@@ -24,6 +24,7 @@ namespace BusinessLogicLayer.DTO
         [EnumMember]Artist,
         [EnumMember]CastMember,
         [EnumMember]ReleaseDate,
-        [EnumMember]Language
+        [EnumMember]Language, 
+        [EnumMember]ExpirationDate
     }
 }
