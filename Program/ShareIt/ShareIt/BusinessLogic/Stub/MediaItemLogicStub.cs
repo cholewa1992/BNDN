@@ -26,29 +26,29 @@ namespace BusinessLogicLayer.Stub
                 {
                     Id = 1,
                     Type = InformationTypeDTO.Title,
-                    Data = "Harry Potter And The Chamber Of Secrets"
+                    Data = "Harry Potter And The Chamber Of Secrets",
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 2,
                     Type = InformationTypeDTO.Price,
                     Data = "6.64"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 3,
                     Type = InformationTypeDTO.NumberOfPages,
                     Data = "341"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 4,
                     Type = InformationTypeDTO.Genre,
                     Data = "Fantasy"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 5,
                     Type = InformationTypeDTO.Author,
                     Data = "J.K. Rowling"
                 }
@@ -72,25 +72,25 @@ namespace BusinessLogicLayer.Stub
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 2,
                     Type = InformationTypeDTO.Price,
                     Data = "6.64"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 3,
                     Type = InformationTypeDTO.NumberOfPages,
                     Data = "341"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 4,
                     Type = InformationTypeDTO.Genre,
                     Data = "Fantasy"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 1,
+                    Id = 5,
                     Type = InformationTypeDTO.Author,
                     Data = "J.K. Rowling"
                 }
@@ -100,19 +100,19 @@ namespace BusinessLogicLayer.Stub
             var list2 = new List<MediaItemInformationDTO> {
                 new MediaItemInformationDTO
                 {
-                    Id = 2,
+                    Id = 6,
                     Type = InformationTypeDTO.Title,
                     Data = "The Lost Symbol"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 2,
+                    Id = 7,
                     Type = InformationTypeDTO.Price,
                     Data = "9.43"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 2,
+                    Id = 8,
                     Type = InformationTypeDTO.Author,
                     Data = "Dan Brown"
                 }
@@ -130,19 +130,19 @@ namespace BusinessLogicLayer.Stub
             {
                 new MediaItemInformationDTO
                 {
-                    Id = 3,
+                    Id = 9,
                     Type = InformationTypeDTO.Artist,
                     Data = "Pharrell Williams"
                 }, 
                 new MediaItemInformationDTO
                 {
-                    Id = 3,
+                    Id = 10,
                     Type = InformationTypeDTO.Title,
                     Data = "Happy"
                 }, 
                 new MediaItemInformationDTO
                 {
-                    Id = 3,
+                    Id = 11,
                     Type = InformationTypeDTO.TrackLength,
                     Data = "4:08"
                 }
@@ -165,25 +165,25 @@ namespace BusinessLogicLayer.Stub
             {
                 new MediaItemInformationDTO
                 {
-                    Id = 4,
+                    Id = 12,
                     Type = InformationTypeDTO.Director,
                     Data = "Quentin Tarantino"
                 }, 
                 new MediaItemInformationDTO
                 {
-                    Id = 4,
+                    Id = 13,
                     Type = InformationTypeDTO.Title,
                     Data = "Django Unchained"
                 }, 
                 new MediaItemInformationDTO
                 {
-                    Id = 4,
+                    Id = 14,
                     Type = InformationTypeDTO.Runtime,
                     Data = "165 minutes"
                 },
                 new MediaItemInformationDTO
                 {
-                    Id = 4,
+                    Id = 15,
                     Type = InformationTypeDTO.ReleaseDate,
                     Data = "25.12.2012"
                 }

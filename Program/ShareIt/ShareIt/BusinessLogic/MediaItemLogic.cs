@@ -29,9 +29,11 @@ namespace BusinessLogicLayer
         /// <returns>A MediaItem with all its information</returns>
         public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
         {
-            //Preconditions
-            Contract.Requires<ArgumentException>(mediaItemId < 1);
-            Contract.Requires<ArgumentNullException>(clientToken != null);
+            /*//Preconditions
+            Contract.Requires<ArgumentException>(!(mediaItemId < 1));
+            Contract.Requires<ArgumentNullException>(clientToken != null);*/
+            if(mediaItemId < 1) { throw new ArgumentException(); }
+            if(string.IsNullOrEmpty(clientToken)) { throw new ArgumentException(); } 
 
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
@@ -89,13 +91,14 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
         public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
-            Contract.Requires<ArgumentException>(from < 1 || to < 1);
+            if(from < 1 || to < 1) { throw new ArgumentException("\"from\" and \"to\" must be >= 1");}
+            //Contract.Requires<ArgumentException>(!(from < 1 || to < 1));
 
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
 
-            
-            //Contract.Requires<ArgumentException>(to - from >= rangeCap);
+            if(to - from >= rangeCap) {throw new ArgumentException("The requested range exceeds the cap of " + rangeCap);}
+            //Contract.Requires<ArgumentException>(to - from < rangeCap);
 
             from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
 
@@ -119,20 +122,24 @@ namespace BusinessLogicLayer
                         Where(item => item.ClientId == clientId).
                         GroupBy((a) => a.TypeId);
 
-                    var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                    mediaItemSearchResultDTO.NumberOfSearchResults = groups.Count();
-                    groups = groups.Skip(from).Take(to - from);
+                    
                     foreach (var group in groups)
                     {
+                        var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
+                        mediaItemSearchResultDTO.NumberOfSearchResults = group.Count();
+                        var realGroup = group.Skip(from).Take(to - from);
                         var list = new List<MediaItemDTO>();
-                        foreach (var item in group)
+                        foreach (var item in realGroup)
                         {
-                            list.Add(GetMediaItemInformation(item.Id, "token"));
+                            list.Add(GetMediaItemInformation(item.Id, clientToken));
                         }
                         if (@group.Key != null)
                         {
-                            mediaItemSearchResultDTO.MediaItemList = list;
-                            result.Add((MediaItemTypeDTO)@group.Key, mediaItemSearchResultDTO);
+                            if (list.Count > 0)
+                            {
+                                mediaItemSearchResultDTO.MediaItemList = list;
+                                result.Add((MediaItemTypeDTO)@group.Key, mediaItemSearchResultDTO);
+                            }
                         }
                         else
                         {
@@ -160,12 +167,15 @@ namespace BusinessLogicLayer
                         var list = new List<MediaItemDTO>();
                         foreach (var item in typeRange)
                         {
-                            list.Add(GetMediaItemInformation(item.Key, "token"));
+                            list.Add(GetMediaItemInformation(item.Key, clientToken));
                         }
                         if (type.Key != null)
                         {
-                            mediaItemSearchResultDTO.MediaItemList = list;
-                            result.Add((MediaItemTypeDTO)type.Key, mediaItemSearchResultDTO);
+                            if (list.Count > 0)
+                            {
+                                mediaItemSearchResultDTO.MediaItemList = list;
+                                result.Add((MediaItemTypeDTO)type.Key, mediaItemSearchResultDTO);
+                            }
                         }
                         else
                         {
@@ -192,7 +202,7 @@ namespace BusinessLogicLayer
                     var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItems)
                     {
-                        list.Add(GetMediaItemInformation(mediaItem.Id, "token"));
+                        list.Add(GetMediaItemInformation(mediaItem.Id, clientToken));
                     }
                     if (mediaType != null)
                     {
@@ -224,7 +234,7 @@ namespace BusinessLogicLayer
                     var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItemRange)
                     {
-                        list.Add(GetMediaItemInformation(mediaItem.Key, "token"));
+                        list.Add(GetMediaItemInformation(mediaItem.Key, clientToken));
                     }
                     if (mediaType != null)
                     {
