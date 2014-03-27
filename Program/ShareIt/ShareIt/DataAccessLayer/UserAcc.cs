@@ -19,6 +19,7 @@ namespace DataAccessLayer
             this.AccessRight = new HashSet<AccessRight>();
             this.ClientAdmin = new HashSet<ClientAdmin>();
             this.UserInfo = new HashSet<UserInfo>();
+            this.Rating = new HashSet<Rating>();
         }
     
         public int Id { get; set; }
@@ -28,5 +29,6 @@ namespace DataAccessLayer
         public virtual ICollection<AccessRight> AccessRight { get; set; }
         public virtual ICollection<ClientAdmin> ClientAdmin { get; set; }
         public virtual ICollection<UserInfo> UserInfo { get; set; }
+        public virtual ICollection<Rating> Rating { get; set; }
     }
 }

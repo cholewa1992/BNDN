@@ -73,72 +73,72 @@ namespace BusinessLogicTests
         private HashSet<Entity> SetupMediaItems()
         {
             //Add some data
-            var book1 = new Entity { Id = 1, TypeId = (int)MediaItemTypeDTO.Book, ExtensionId = 1, ClientId = 1};
+            var book1 = new Entity { Id = 1, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1};
             book1.EntityInfo = new List<EntityInfo>
             {
                 new EntityInfo {EntityId = 1, Id = 1, EntityInfoTypeId = 1, Data = "Book1"},
                 new EntityInfo { EntityId = 1, Id = 2, EntityInfoTypeId = 2, Data = "Description1" }
             };
-            var book2 = new Entity { Id = 2, TypeId = (int)MediaItemTypeDTO.Book, ExtensionId = 1, ClientId = 1};
+            var book2 = new Entity { Id = 2, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1};
             book2.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 2, Id = 3, EntityInfoTypeId = 1, Data = "Book2"},
                 new EntityInfo { EntityId = 2, Id = 4, EntityInfoTypeId = 2, Data = "Description2" } 
             };
-            var book3 = new Entity { Id = 3, TypeId = (int)MediaItemTypeDTO.Book, ExtensionId = 1, ClientId = 1 };
+            var book3 = new Entity { Id = 3, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
             book3.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 3, Id = 5, EntityInfoTypeId = 1, Data = "Book3"},
                 new EntityInfo { EntityId = 3, Id = 6, EntityInfoTypeId = 2, Data = "Description3" } 
             };
-            var book4 = new Entity { Id = 4, TypeId = (int)MediaItemTypeDTO.Book, ExtensionId = 1, ClientId = 1 };
+            var book4 = new Entity { Id = 4, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
             book4.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 4, Id = 7, EntityInfoTypeId = 1, Data = "Book4"},
                 new EntityInfo { EntityId = 4, Id = 8, EntityInfoTypeId = 2, Data = "Description4" } 
             };
 
-            var music1 = new Entity { Id = 5, TypeId = (int)MediaItemTypeDTO.Music, ExtensionId = 2, ClientId = 1 };
+            var music1 = new Entity { Id = 5, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
             music1.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 5, Id = 9, EntityInfoTypeId = 1, Data = "Music1"},
                 new EntityInfo { EntityId = 5, Id = 10, EntityInfoTypeId = 2, Data = "Description5" },
                 new EntityInfo { EntityId = 5, Id = 11, EntityInfoTypeId = 12, Data = "Artist1" }
             };
-            var music2 = new Entity { Id = 6, TypeId = (int)MediaItemTypeDTO.Music, ExtensionId = 2, ClientId = 1 };
+            var music2 = new Entity { Id = 6, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
             music2.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 6, Id = 12, EntityInfoTypeId = 1, Data = "Music2"},
                 new EntityInfo {EntityId = 6, Id = 13, EntityInfoTypeId = 2, Data = "Description6"},
                 new EntityInfo {EntityId = 6, Id = 14, EntityInfoTypeId = 12, Data = "Artist2"}
             };
-            var music3 = new Entity { Id = 7, TypeId = (int)MediaItemTypeDTO.Music, ExtensionId = 2, ClientId = 1 };
+            var music3 = new Entity { Id = 7, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
             music3.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 7, Id = 15, EntityInfoTypeId = 1, Data = "Music3"},
                 new EntityInfo {EntityId = 7, Id = 16, EntityInfoTypeId = 2, Data = "Description7"},
                 new EntityInfo {EntityId = 7, Id = 17, EntityInfoTypeId = 12, Data = "Artist3"}
             };
 
-            var movie1 = new Entity { Id = 8, TypeId = (int)MediaItemTypeDTO.Movie, ExtensionId = 3, ClientId = 1 };
+            var movie1 = new Entity { Id = 8, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie1.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 8, Id = 18, EntityInfoTypeId = 1, Data = "Movie1"},
                 new EntityInfo {EntityId = 8, Id = 19, EntityInfoTypeId = 2, Data = "Description8"},
                 new EntityInfo {EntityId = 8, Id = 20, EntityInfoTypeId = 11, Data = "Director1"}
             };
-            var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ExtensionId = 3, ClientId = 1 };
+            var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie2.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 9, Id = 21, EntityInfoTypeId = 1, Data = "Movie2"},
                 new EntityInfo {EntityId = 9, Id = 22, EntityInfoTypeId = 2, Data = "Description9"},
                 new EntityInfo {EntityId = 9, Id = 23, EntityInfoTypeId = 11, Data = "Director2"}
             };
-            var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ExtensionId = 3, ClientId = 1 };
+            var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie3.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 10, Id = 24, EntityInfoTypeId = 1, Data = "Movie3"},
                 new EntityInfo {EntityId = 10, Id = 25, EntityInfoTypeId = 2, Data = "Description10"},
                 new EntityInfo {EntityId = 10, Id = 26, EntityInfoTypeId = 11, Data = "Director3"}
             };
-            var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ExtensionId = 3, ClientId = 1 };
+            var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie4.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 11, Id = 27, EntityInfoTypeId = 1, Data = "Movie4"},
                 new EntityInfo {EntityId = 11, Id = 28, EntityInfoTypeId = 2, Data = "Description11"},
                 new EntityInfo {EntityId = 11, Id = 29, EntityInfoTypeId = 11, Data = "Director 1"}
             };
-            var movie5 = new Entity { Id = 12, TypeId = (int)MediaItemTypeDTO.Movie, ExtensionId = 3, ClientId = 1 };
+            var movie5 = new Entity { Id = 12, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie5.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 12, Id = 30, EntityInfoTypeId = 1, Data = "Movie5"},
                 new EntityInfo {EntityId = 12, Id = 31, EntityInfoTypeId = 2, Data = "Description12"},

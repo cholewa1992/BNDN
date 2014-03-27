@@ -1,3 +1,7 @@
+USE [RentIt08]
+
+DROP TABLE [dbo].[Rating]
+GO
 DROP TABLE [dbo].[AccessRight]
 GO
 DROP TABLE [dbo].[AccessRightType]
@@ -13,8 +17,6 @@ GO
 DROP TABLE [dbo].[UserInfoType]
 GO
 DROP TABLE [dbo].[Entity]
-GO
-DROP TABLE [dbo].[EntityExtesion]
 GO
 DROP TABLE [dbo].[EntityType]
 GO
@@ -46,19 +48,11 @@ CREATE TABLE EntityType(
 
 GO 
 
-CREATE TABLE EntityExtesion(
-	Id Int IDENTITY Primary Key,
-	Extension varchar(256) NOT NULL UNIQUE
-);
-
-GO 
-
 CREATE TABLE Entity(
 	Id Int IDENTITY Primary Key,
 	FilePath varchar(256) NOT NULL,
 	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
-	TypeId Int REFERENCES EntityType(Id) ON DELETE SET NULL,
-	ExtensionId Int REFERENCES EntityExtesion(Id) ON DELETE SET NULL
+	TypeId Int REFERENCES EntityType(Id) ON DELETE SET NULL
 );
 
 GO
@@ -120,3 +114,10 @@ CREATE TABLE ClientAdmin(
 );
 
 GO
+
+CREATE TABLE Rating(
+	Id int IDENTITY Primary Key,
+	Value int NOT NULL,
+	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
+	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
+);
