@@ -12,14 +12,14 @@ namespace BusinessLogicLayer.Stub
 {
     public class MediaItemLogicStub : IMediaItemLogic
     {
-
         /// <summary>
         ///     Returns a stub media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
         {
             var list = new List<MediaItemInformationDTO> {
                 new MediaItemInformationDTO

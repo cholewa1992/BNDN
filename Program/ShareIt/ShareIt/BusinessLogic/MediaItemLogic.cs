@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +27,10 @@ namespace BusinessLogicLayer
         /// Returns a media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="userId"></param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
         {
             /*//Preconditions
             Contract.Requires<ArgumentException>(!(mediaItemId < 1));
@@ -51,7 +54,7 @@ namespace BusinessLogicLayer
                 throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
             }
 
-            var mediaItem = new MediaItemDTO { Information = new List<MediaItemInformationDTO>() };
+            var mediaItem = new MediaItemDTO { Id = entity.Id, Information = new List<MediaItemInformationDTO>() };
             var informationList = new List<MediaItemInformationDTO>();
 
             // Add UserInformation to the temporary list object
@@ -61,8 +64,24 @@ namespace BusinessLogicLayer
                 informationList.Add(new MediaItemInformationDTO()
                 {
                     Type = (InformationTypeDTO)e.EntityInfoTypeId,
-                    Data = e.Data
+                    Data = e.Data,
+                    Id = e.Id
                 });
+            }
+
+            if(userId != null) {
+                try
+                {
+                    informationList.Add(new MediaItemInformationDTO
+                    {
+                        Type = InformationTypeDTO.ExpirationDate,
+                        Data = _authLogic.GetExpirationDate((int) userId, mediaItem.Id).ToString(CultureInfo.CurrentCulture)
+                    });
+                }
+                catch (InstanceNotFoundException e)
+                {
+                    //No expiration date found. Don't do anything else than NOT adding the information
+                }
             }
 
             // Add all the UserInformation to targetUser and return it
@@ -131,7 +150,7 @@ namespace BusinessLogicLayer
                         var list = new List<MediaItemDTO>();
                         foreach (var item in realGroup)
                         {
-                            list.Add(GetMediaItemInformation(item.Id, clientToken));
+                            list.Add(GetMediaItemInformation(item.Id, null, clientToken));
                         }
                         if (@group.Key != null)
                         {
@@ -167,7 +186,7 @@ namespace BusinessLogicLayer
                         var list = new List<MediaItemDTO>();
                         foreach (var item in typeRange)
                         {
-                            list.Add(GetMediaItemInformation(item.Key, clientToken));
+                            list.Add(GetMediaItemInformation(item.Key, null, clientToken));
                         }
                         if (type.Key != null)
                         {
@@ -202,7 +221,7 @@ namespace BusinessLogicLayer
                     var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItems)
                     {
-                        list.Add(GetMediaItemInformation(mediaItem.Id, clientToken));
+                        list.Add(GetMediaItemInformation(mediaItem.Id, null, clientToken));
                     }
                     if (mediaType != null)
                     {
@@ -234,7 +253,7 @@ namespace BusinessLogicLayer
                     var list = new List<MediaItemDTO>();
                     foreach (var mediaItem in mediaItemRange)
                     {
-                        list.Add(GetMediaItemInformation(mediaItem.Key, clientToken));
+                        list.Add(GetMediaItemInformation(mediaItem.Key, null, clientToken));
                     }
                     if (mediaType != null)
                     {

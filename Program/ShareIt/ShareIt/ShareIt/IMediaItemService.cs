@@ -19,12 +19,13 @@ namespace ShareIt
         /// Get a media item including all of its information.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items.
