@@ -57,7 +57,16 @@ namespace BusinessLogicTests
             dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Verifiable();
             dbMoq.Setup(foo => foo.Update(It.IsAny<Entity>())).Verifiable();
             var mediaItems = SetupMediaItems();
-            dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable());
+            HashSet<EntityInfo> info = new HashSet<EntityInfo>();
+            foreach (var item in mediaItems)
+            {
+                foreach (var entityInfo in item.EntityInfo)
+                {
+                    info.Add(entityInfo);
+                }
+            }
+            dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
+            dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
             _dbStorage = dbMoq.Object;
         }
 

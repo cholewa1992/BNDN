@@ -132,15 +132,22 @@ namespace BusinessLogicLayer
             return result;
         }
 
+        /// <summary>
+        /// Gets an expiration date telling when the user who has bought the media item
+        /// no longer has access to said media item.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <returns>A DateTime telling when the access expires</returns>
+        /// <exception cref="InstanceNotFoundException">Thrown when the access right has already expired 
+        /// or when there is no access right and therefore no expiration date</exception>
         public DateTime GetExpirationDate(int userId, int mediaItemId)
         {
             //Preconditions
-            /*Contract.Requires<ArgumentException>(userId > 0);
-            Contract.Requires<ArgumentException>(mediaItemId > 0);*/
-            if(userId < 1) { throw new ArgumentException(); }
-            if(mediaItemId < 1) { throw new ArgumentException(); }
+            Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
             
-            //Find an accessright
+            //Find the accessright with the latest expiration (if any)
             var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId 
                 && a.AccessRightTypeId == (int) AccessRightType.Buyer).
                 OrderByDescending(a => a.Expiration).

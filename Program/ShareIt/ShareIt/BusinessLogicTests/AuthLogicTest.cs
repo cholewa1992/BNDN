@@ -88,17 +88,6 @@ namespace BusinessLogicTests
         #endregion
 
         #region GetExpirationDate
-        /* userId < 1
-         * mediaItemId < 1
-         * userId not found
-         * mediaItemId not found
-         * userId and mediaItemId exists but no access
-         * user is buyer
-         * user owns item
-         * expired item
-         * user is buyer but no expiration
-         * buyer with multiple ARs (only one is not expired) 
-         */
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -158,12 +147,24 @@ namespace BusinessLogicTests
             authLogic.GetExpirationDate(2, 1);
         }
 
-        [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
         public void GetExpirationDate_BuyerButExpired()
         {
-            var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(3, 2);
+            try
+            {
+                var authLogic = new AuthLogic(_dbStorage);
+                authLogic.GetExpirationDate(3, 2);
+                Assert.Fail("Expected InstanceNotFoundException");
+            }
+            catch (InstanceNotFoundException e)
+            {
+                Assert.AreEqual("The access right has expired", e.Message);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected InstanceNotFoundException but got " + e.GetType());
+            }
+            
         }
 
         [TestMethod]

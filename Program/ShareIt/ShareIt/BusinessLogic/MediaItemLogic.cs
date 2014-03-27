@@ -32,11 +32,9 @@ namespace BusinessLogicLayer
         /// <returns>A MediaItem with all its information</returns>
         public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
         {
-            /*//Preconditions
-            Contract.Requires<ArgumentException>(!(mediaItemId < 1));
-            Contract.Requires<ArgumentNullException>(clientToken != null);*/
-            if(mediaItemId < 1) { throw new ArgumentException(); }
-            if(string.IsNullOrEmpty(clientToken)) { throw new ArgumentException(); } 
+            //Preconditions
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
 
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
@@ -110,14 +108,13 @@ namespace BusinessLogicLayer
         /// <exception cref="ArgumentNullException">Thrown when the db context is null</exception>
         public Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken)
         {
-            if(from < 1 || to < 1) { throw new ArgumentException("\"from\" and \"to\" must be >= 1");}
-            //Contract.Requires<ArgumentException>(!(from < 1 || to < 1));
+            Contract.Requires<ArgumentException>(from > 0);
+            Contract.Requires<ArgumentException>(to > 0);
 
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
 
             if(to - from >= rangeCap) {throw new ArgumentException("The requested range exceeds the cap of " + rangeCap);}
-            //Contract.Requires<ArgumentException>(to - from < rangeCap);
 
             from--; //FindMEdiaItemRange(1,3,....) must find top 3. This means Skip(0).Take(3)
 
