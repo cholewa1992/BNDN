@@ -82,6 +82,20 @@ namespace BusinessLogicLayer
                 }
             }
 
+            try
+            {
+                var avgRating = GetAverageRating(mediaItemId);
+                informationList.Add(new MediaItemInformationDTO
+                {
+                    Type = InformationTypeDTO.AverageRating,
+                    Data = avgRating.ToString("#0.00")
+                });
+            }
+            catch (InstanceNotFoundException e)
+            {
+                //Do nothing - no avg rating found
+            }
+
             // Add all the UserInformation to targetUser and return it
             mediaItem.Information = informationList;
 
@@ -110,6 +124,8 @@ namespace BusinessLogicLayer
         {
             Contract.Requires<ArgumentException>(from > 0);
             Contract.Requires<ArgumentException>(to > 0);
+            Contract.Requires<ArgumentException>(from < int.MaxValue);
+            Contract.Requires<ArgumentException>(to < int.MaxValue);
 
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
@@ -267,6 +283,74 @@ namespace BusinessLogicLayer
             return result;
         }
 
+        /// <summary>
+        /// Associates a user with a media item and includes a value from 1-10 representing the rating.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="rating">The rating from 1-10</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        public void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken)
+        {
+            Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentException>(0 < rating && rating <= 10);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(userId < int.MaxValue);
+            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
+
+            //check if client has access
+            int clientId = _authLogic.CheckClientToken(clientToken);
+            if (clientId == -1)
+            {
+                throw new InvalidCredentialException();
+            }
+            
+            //check if the user has already rated this media item
+            var existing = _storage.Get<Rating>().Where(a => a.UserId == userId && a.EntityId == mediaItemId).Select(a => a).FirstOrDefault();
+            if (existing != null)
+            {
+                //Update
+                var updateRating = new Rating
+                {
+                    Id = existing.Id,
+                    UserId = existing.UserId,
+                    EntityId = existing.EntityId,
+                    Value = rating
+                };
+                _storage.Update(updateRating);
+            }
+            else
+            {
+                var newRating = new Rating
+                {
+                    UserId = userId,
+                    EntityId = mediaItemId,
+                    Value = rating
+                };
+                _storage.Add(newRating);
+            }
+
+        }
+
+        /// <summary>
+        /// Gets the average rating of a media item
+        /// </summary>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <returns>A double representing the average rating</returns>
+        /// <exception cref="InstanceNotFoundException">Thrown when the media item has not been rated</exception>
+        internal double GetAverageRating(int mediaItemId)
+        {
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
+
+            if (_storage.Get<Rating>().Any(a => a.EntityId == mediaItemId))
+            {
+                return _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId).Average(a => a.Value);
+            }
+            
+            throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
+        }
 
         public void Dispose()
         {

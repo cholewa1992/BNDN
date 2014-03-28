@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Authentication;
 using System.Text;
@@ -65,6 +66,8 @@ namespace BusinessLogicTests
                     info.Add(entityInfo);
                 }
             }
+            var ratings = SetupRatings();
+            dbMoq.Setup(foo => foo.Get<Rating>()).Returns(ratings.AsQueryable);
             dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
             _dbStorage = dbMoq.Object;
@@ -148,7 +151,16 @@ namespace BusinessLogicTests
             return new HashSet<Entity>{book1, book2, book3, book4, music1, music2, music3, movie1, movie2, movie3, movie4, movie5};
         }
 
-        #endregion
+        private HashSet<Rating> SetupRatings()
+        {
+            var r1 = new Rating { Id = 1, UserId = 1, EntityId = 1, Value = 10 };
+            var r2 = new Rating { Id = 2, UserId = 1, EntityId = 2, Value = 1 };
+            var r3 = new Rating { Id = 3, UserId = 2, EntityId = 1, Value = 7 };
+            var r4 = new Rating { Id = 4, UserId = 3, EntityId = 1, Value = 2 };
+            return new HashSet<Rating> {r1, r2, r3, r4};
+        }
+
+            #endregion
 
         #region GetMediaItemInformation
         [TestMethod]
@@ -446,6 +458,190 @@ namespace BusinessLogicTests
             const int numberOfMoviesThatMatchesSearchKey = 2; //Two movies match the search key " "
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
+        }
+        #endregion
+
+        #region RateMediaItem
+        /* RateMediaItem
+         * userId < 1
+         * userId > int.MaxValue
+         * mediaItemId < 1
+         * mediaItemId > int.MaxValue
+         * rating < 1
+         * rating > 10
+         * invalid clientToken
+         * user never rated media item before
+         * user already rated media item
+         * 
+         */
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_UserIdLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = -4;
+            const int mediaItemId = 1;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_UserIdExceedsMax()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = int.MaxValue;
+            const int mediaItemId = 1;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_MediaItemIdLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = -2;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_MediaItemIdExceedsMax()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = int.MaxValue;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_RatingLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = 1;
+            const int rating = -2;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void RateMediaItem_RatingGreaterThanTen()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = 1;
+            const int rating = 11;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(InvalidCredentialException))]
+        [TestMethod]
+        public void RateMediaItem_InvalidClientToken()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = 1;
+            const int rating = 8;
+            const string token = "invalidToken";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void RateMediaItem_ClientTokenIsNull()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = 1;
+            const int rating = 8;
+            const string token = null;
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [TestMethod]
+        public void RateMediaItem_ValidNewRating()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 2;
+            const int mediaItemId = 2;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
+        }
+
+        [TestMethod]
+        public void RateMediaItem_ValidUpdateRating()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 1;
+            const int mediaItemId = 2;
+            const int rating = 3; //User 1 rates media item 2 3 instead of 1
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
+        }
+
+        #endregion
+
+        #region GetAverageRating
+        /* GetAverageRating
+         * mediaItemId < 1
+         * mediaItemId > int.MaxValue
+         * no rating
+         * 1 rating
+         * 3 ratings
+         */
+
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void GetAverageRating_MediaItemIdLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetAverageRating(-2);
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void GetAverageRating_MediaItemIdExceedsMax()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetAverageRating(int.MaxValue);
+        }
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void GetAverageRating_MediaItemNotRated()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetAverageRating(3);
+        }
+        [TestMethod]
+        public void GetAverageRating_OneRating()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var actual = mediaItemLogic.GetAverageRating(2);
+            const double expected = 1.0;
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void GetAverageRating_MultipleRatings()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var actual = mediaItemLogic.GetAverageRating(1);
+            const double expected = 6.333333;
+            Assert.AreEqual(expected, actual, 0.01);
         }
         #endregion
     }

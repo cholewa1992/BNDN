@@ -8,6 +8,5 @@ namespace BusinessLogicLayer
 {
     internal interface IMediaItemInternalLogic : IMediaItemLogic
     {
-
     }
 }

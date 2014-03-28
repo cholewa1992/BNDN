@@ -36,6 +36,16 @@ namespace BusinessLogicLayer
         /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
         /// <exception cref="ArgumentException">Throw when "from" or "to" is &lt; 1</exception>
         /// <exception cref="InvalidOperationException">Thrown when the MediaItemType is not recognized</exception>
-        Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int @from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
+        Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> FindMediaItemRange(int @from, int to, MediaItemTypeDTO? mediaType, 
+            string searchKey, string clientToken);
+
+        /// <summary>
+        /// Associates a user with a media item and includes a value from 1-10 representing the rating.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="rating">The rating from 1-10</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
     }
 }
