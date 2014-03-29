@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
+using System.Runtime.Remoting.Messaging;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Client = BusinessLogicLayer.DTO.ClientDTO;
@@ -40,17 +41,18 @@ namespace BusinessLogicLayer
             var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
                 .Select(a => a).First();
 
-            //Check if it's past expiration
-            if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
-                throw new Exception();
 
-            //Pass the accessrighttype to enum
-            var art =
-                ParseEnum<AccessRightType>(
+            //Grant no access if the expiration is overdue
+            if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
+            {
+                return AccessRightType.NoAccess;
+            }
+
+            return ParseEnum<AccessRightType>(
                     _storage.Get<DataAccessLayer.AccessRightType>().Where(a => a.Id == ar.AccessRightTypeId)
                         .Select(a => a.Name).First());
 
-            return art;
+            
         }
         
         /// <summary>
@@ -64,12 +66,18 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
 
             
-            //return client id or -1
-            return _storage.Get<DataAccessLayer.Client>()
-                    .Where((c) => c.Token == clientToken)
-                    .Select(c => c.Id)
-                    .FirstOrDefault(i => i == -1);
+            //return client id or 0
+            int result = _storage.Get<DataAccessLayer.Client>()
+                .Where((c) => c.Token == clientToken)
+                .Select(c => c.Id).FirstOrDefault();
 
+            // TODO implement firstordefault instead of below
+            if (result == 0)
+            {
+                result = -1;
+            }
+
+            return result;
         }
 
         /// <summary>

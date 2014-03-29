@@ -1,26 +1,21 @@
-<<<<<<< HEAD
+
 ﻿using System;
 using System.Collections.Generic;
-=======
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Runtime.InteropServices;
->>>>>>> 3411647df7d474c800a6f7bf346f50cd74d57941
-using BusinessLayerTest;
+﻿using System.Linq;
+﻿using System.Management.Instrumentation;
+﻿using BusinessLayerTest;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+﻿using AccessRightType = DataAccessLayer.AccessRightType;
 
 namespace BusinessLogicTests
 {
     [TestClass]
     public class AuthLogicTest: BaseTest
     {
-<<<<<<< HEAD
 
 
         private IAuthInternalLogic al;
@@ -33,7 +28,7 @@ namespace BusinessLogicTests
              {
                  new Client()
                  {
-                     Id = 10,
+                     Id = 1,
                      Name = "testClient",
                      Token = "testToken"
                  },
@@ -52,12 +47,40 @@ namespace BusinessLogicTests
                  {
                      Username = "username2",
                      Password = "password2"
+                 },
+                 new AccessRight()
+                 {
+                     EntityId = 1,
+                     UserId = 1,
+                     Expiration = null,
+                     AccessRightTypeId = 1
+                 },
+                 new AccessRight()
+                 {
+                     EntityId = 2,
+                     UserId = 1,
+                     Expiration = new DateTime(2050,1,1),
+                     AccessRightTypeId = 1
+                 },
+                 new AccessRight()
+                 {
+                     EntityId = 3,
+                     UserId = 1,
+                     Expiration = new DateTime(2010,1,1),
+                     AccessRightTypeId = 1
+                 },
+                 new AccessRightType()
+                 {
+                     Id = 1,
+                     Name = "Owner"
                  }
              };
 
             var bridgeStub = new StorageBridgeStub(testData);
 
             al = new AuthLogic(bridgeStub);
+
+            Setup();
         }
 
         [TestMethod]
@@ -67,15 +90,40 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void testtest()
+        public void ClientTokenIsNotWithSystem()
         {
-            Assert.AreEqual(1,1);
+            Assert.AreEqual(-1, al.CheckClientToken("noToken"));
         }
-=======
+
+        [TestMethod]
+        public void CheckUserAccessIsOwnerWithNullExpiration()
+        {
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner,al.CheckUserAccess(1,1));
+        }
+
+        [TestMethod]
+        public void CheckUserAccessIsOwnerWithExpiration()
+        {
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 2));
+        }
+
+        [TestMethod]
+        public void CheckUserAccessIsDeniedBecauseExpired()
+        {
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.NoAccess, al.CheckUserAccess(1, 3));
+        }
+
+        [TestMethod]
+        public void CheckUserAccessIsOwnerWithNullExpiratio()
+        {
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 1));
+        }
+
+
+
         private IStorageBridge _dbStorage;
 
         #region Setup
-        [TestInitialize]
         public void Setup()
         {
             SetupDbStorageMock();
@@ -246,6 +294,5 @@ namespace BusinessLogicTests
         #endregion
 
 
->>>>>>> 3411647df7d474c800a6f7bf346f50cd74d57941
     }
 }
