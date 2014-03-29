@@ -15,7 +15,7 @@ namespace BusinessLogicLayer
 
         internal AuthLogic(IStorageBridge storage)
         {
-            Contract.Requires<ArgumentNullException>(storage != null);
+            Contract.Requires(storage != null);
 
             _storage = storage;
         }
