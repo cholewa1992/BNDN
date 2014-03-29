@@ -18,18 +18,18 @@ namespace DataAccessLayer
         {
             this.AccessRight = new HashSet<AccessRight>();
             this.EntityInfo = new HashSet<EntityInfo>();
+            this.Rating = new HashSet<Rating>();
         }
     
         public int Id { get; set; }
         public string FilePath { get; set; }
         public int ClientId { get; set; }
         public Nullable<int> TypeId { get; set; }
-        public Nullable<int> ExtensionId { get; set; }
     
         public virtual ICollection<AccessRight> AccessRight { get; set; }
         public virtual Client Client { get; set; }
-        public virtual EntityExtesion EntityExtesion { get; set; }
         public virtual EntityType EntityType { get; set; }
         public virtual ICollection<EntityInfo> EntityInfo { get; set; }
+        public virtual ICollection<Rating> Rating { get; set; }
     }
 }

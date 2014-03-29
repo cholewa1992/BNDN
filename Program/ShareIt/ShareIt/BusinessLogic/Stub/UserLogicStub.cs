@@ -19,9 +19,9 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
-        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken)
         {
-            return targetUser;
+            return new UserDTO();
         }
 
         public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO newUser, string clientToken)

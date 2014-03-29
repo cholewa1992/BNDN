@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.DTO;
+﻿using System;
+using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer
 {
@@ -9,6 +10,8 @@ namespace BusinessLogicLayer
         int CheckClientToken(string clientToken);
 
         bool IsUserAdminOnClient(int userId, string clientToken);
+
+        DateTime GetExpirationDate(int userId, int mediaItemId);
 
     }
 }

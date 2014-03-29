@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Management.Instrumentation;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Client = BusinessLogicLayer.DTO.ClientDTO;
@@ -15,7 +17,8 @@ namespace BusinessLogicLayer
 
         internal AuthLogic(IStorageBridge storage)
         {
-            Contract.Requires<ArgumentNullException>(storage != null);
+            //Contract.Requires<ArgumentNullException>(storage != null);
+            if(storage == null) {throw new ArgumentNullException(); }
 
             _storage = storage;
         }
@@ -36,11 +39,11 @@ namespace BusinessLogicLayer
 
             //Find an accessright
             var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
-                    .Select(a => a).First();
+                .Select(a => a).First();
 
             //Check if it's past expiration
             if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
-                    throw new Exception();
+                throw new Exception();
 
             //Pass the accessrighttype to enum
             var art =
@@ -49,10 +52,8 @@ namespace BusinessLogicLayer
                         .Select(a => a.Name).First());
 
             return art;
-
         }
-
-
+        
         /// <summary>
         /// Checks whether a clienttoken exists with the system
         /// </summary>
@@ -129,6 +130,42 @@ namespace BusinessLogicLayer
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets an expiration date telling when the user who has bought the media item
+        /// no longer has access to said media item.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <returns>A DateTime telling when the access expires</returns>
+        /// <exception cref="InstanceNotFoundException">Thrown when the access right has already expired 
+        /// or when there is no access right and therefore no expiration date</exception>
+        public DateTime GetExpirationDate(int userId, int mediaItemId)
+        {
+            //Preconditions
+            Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            
+            //Find the accessright with the latest expiration (if any)
+            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId 
+                && a.AccessRightTypeId == (int) AccessRightType.Buyer).
+                OrderByDescending(a => a.Expiration).
+                Select(a => a).FirstOrDefault();
+
+            if (ar != null)
+            {
+                if (ar.Expiration == null)
+                {
+                    return new DateTime(9999, 12, 31);
+                } else if (ar.Expiration < DateTime.Now)
+                {
+                    throw new InstanceNotFoundException("The access right has expired");
+                }
+                return (DateTime) ar.Expiration;
+            }
+
+            throw new InstanceNotFoundException("No expiration date was found");
         }
 
 

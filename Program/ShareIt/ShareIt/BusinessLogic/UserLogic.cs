@@ -91,12 +91,13 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken)
         {
 
             //Preconditions
             Contract.Requires<ArgumentNullException>(requestingUser != null);
-            Contract.Requires<ArgumentNullException>(targetUser != null);
+            Contract.Requires<ArgumentNullException>(requestingUser.Id != 0);
+            Contract.Requires<ArgumentNullException>(targetUserId != 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             AuthLogic authLogic = new AuthLogic(_storage);
@@ -106,23 +107,18 @@ namespace BusinessLogicLayer
             }
 
             if ((!authLogic.CheckUserExists(requestingUser) &&
-                (requestingUser.Username != targetUser.Username)) &&
+                (requestingUser.Id != targetUserId)) &&
                 (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
-
-            if (!_factory.CreateAuthLogic().CheckUserExists(targetUser))
-            {
-                throw new Exception("User does not exist");
-            }
-
+            
             IEnumerable<UserInfo> userInfos;
 
             try
             {
                 // Get the userinformation belonging to the user with the requested ID
-                userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUser.Id select u);
+                userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUserId select u);
             }
             catch (Exception e)
             {
@@ -130,7 +126,7 @@ namespace BusinessLogicLayer
             }
 
             // Create a UserInformation in the user we want to return
-            targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
+            var targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
             var informationList = new List<UserInformationDTO>();
 
             // Add UserInformation to the temporary list object

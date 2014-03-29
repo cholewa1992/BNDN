@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{56A72400-3AA4-452C-B11C-E38B69455CDC}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataAccessLayer</RootNamespace>
     <AssemblyName>DataAccessLayer</AssemblyName>
@@ -73,9 +73,6 @@
     <Compile Include="Entity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityExtesion.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityInfo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -104,7 +101,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Rating.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="StorageBridge.cs" />
     <Compile Include="Exceptions\ChangesWasNotSavedException.cs" />
     <Compile Include="EfStorageConnection.cs" />

@@ -12,16 +12,14 @@ namespace DataAccessLayer
     using System;
     using System.Collections.Generic;
 
-    public partial class EntityExtesion : IEntityDto
+    public partial class Rating : IEntityDto
     {
-        public EntityExtesion()
-        {
-            this.Entity = new HashSet<Entity>();
-        }
-    
         public int Id { get; set; }
-        public string Extension { get; set; }
+        public int Value { get; set; }
+        public int UserId { get; set; }
+        public int EntityId { get; set; }
     
-        public virtual ICollection<Entity> Entity { get; set; }
+        public virtual Entity Entity { get; set; }
+        public virtual UserAcc UserAcc { get; set; }
     }
 }
