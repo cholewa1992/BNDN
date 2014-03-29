@@ -38,9 +38,14 @@ namespace BusinessLogicLayer
             // TODO use .single instead of .First
 
             //Find an accessright
-            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
-                .Select(a => a).First();
+            var ar = _storage.Get<AccessRight>().SingleOrDefault(a => a.UserId == userId && a.EntityId == mediaItemId);
 
+
+            //Check if any result was found
+            if (ar == null)
+            {
+                return AccessRightType.NoAccess;
+            }
 
             //Grant no access if the expiration is overdue
             if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
@@ -99,22 +104,15 @@ namespace BusinessLogicLayer
         /// Checks whether a user object containing Username and Password exists with the system
         /// </summary>
         /// <param name="user">Object checked for Username and Password</param>
-        /// <returns>userid if any found, or -1</returns>
+        /// <returns>bool of whether given user exists with the system</returns>
         public bool CheckUserExists(UserDTO user)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Password));
 
-
-            bool result;
-
-            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
-            {
-                result = storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
-            }
-
-            return result;
+            return _storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
+            
         }
 
         /// <summary>
@@ -128,15 +126,8 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Name));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Token));
 
-
-            bool result;
-
-            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
-            {
-                result = storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
-            }
-
-            return result;
+            return _storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
+            
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace BusinessLogicTests
                  {
                      Id = 1,
                      Name = "testClient",
-                     Token = "testToken"
+                     Token = "testToken",
                  },
                  new Client()
                  {
@@ -41,7 +41,8 @@ namespace BusinessLogicTests
                  {
                      Id = 1,
                      Username = "username",
-                     Password = "password"
+                     Password = "password",
+                     
                  },
                  new UserAcc()
                  {
@@ -73,6 +74,14 @@ namespace BusinessLogicTests
                  {
                      Id = 1,
                      Name = "Owner"
+                 },
+                 new ClientAdmin()
+                 {
+                     UserId = 1,
+                     Client = new Client()
+                     {
+                         Token = "testToken2"
+                     }
                  }
              };
 
@@ -84,39 +93,129 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void ClientTokenIsWithSystem()
+        public void ClientTokenExistence_ValidToken_CorrespondingClientId()
         {
             Assert.AreEqual(1, al.CheckClientToken("testToken"));
         }
 
         [TestMethod]
-        public void ClientTokenIsNotWithSystem()
+        public void ClientTokenExistence_InvalidToken_DefaultInteger()
         {
             Assert.AreEqual(-1, al.CheckClientToken("noToken"));
         }
 
         [TestMethod]
-        public void CheckUserAccessIsOwnerWithNullExpiration()
+        public void UserAccessExistence_ValidIdsNullExpiration_Granted()
         {
             Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner,al.CheckUserAccess(1,1));
         }
 
         [TestMethod]
-        public void CheckUserAccessIsOwnerWithExpiration()
+        public void UserAccessExistence_ValidIdsFutureExpiration_Granted()
         {
             Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 2));
         }
 
         [TestMethod]
-        public void CheckUserAccessIsDeniedBecauseExpired()
+        public void UserAccessExistence_ValidIdsOverdueExpiration_NoAccess()
         {
             Assert.AreEqual(BusinessLogicLayer.AccessRightType.NoAccess, al.CheckUserAccess(1, 3));
         }
 
         [TestMethod]
-        public void CheckUserAccessIsOwnerWithNullExpiratio()
+        public void UserAccessExistence_InvalidIds_NoAccess()
         {
-            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 1));
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.NoAccess, al.CheckUserAccess(500, 500));
+        }
+
+        [TestMethod]
+        public void AdminOnClient_Exists_Granted()
+        {
+            Assert.AreEqual(true,al.IsUserAdminOnClient(1, "testToken2"));
+        }
+
+        [TestMethod]
+        public void AdminOnClient_NonExistant_Denied()
+        {
+            Assert.AreEqual(false, al.IsUserAdminOnClient(2, "testToken3"));
+        }
+
+        [TestMethod]
+        public void AdminOnClient_OnlyIdExists_Denied()
+        {
+            Assert.AreEqual(false, al.IsUserAdminOnClient(1, "testToken3"));
+        }
+
+        [TestMethod]
+        public void AdminOnClient_OnlyTokenExists_Denied()
+        {
+            Assert.AreEqual(false, al.IsUserAdminOnClient(2, "testToken2"));
+        }
+
+
+        [TestMethod]
+        public void UserExistence_PassedValidUsernamePassword_True()
+        {
+            Assert.AreEqual(true, al.CheckUserExists(new UserDTO(){Username = "username", Password = "password"}));
+        }
+
+        [TestMethod]
+        public void UserExistence_InvalidPassword_False()
+        {
+            Assert.AreEqual(false, al.CheckUserExists(new UserDTO() { Username = "username", Password = "InvalidPassword" }));
+        }
+
+        [TestMethod]
+        public void UserExistence_InvalidUsername_False()
+        {
+            Assert.AreEqual(false, al.CheckUserExists(new UserDTO() { Username = "InvalidUsername", Password = "password" }));
+        }
+
+        [TestMethod]
+        public void UserExistence_EmptyUsername_Exception()
+        {
+            Throws<ArgumentException>(() => al.CheckUserExists(new UserDTO() { Username = "", Password = "password" }),
+                "Precondition failed: !string.IsNullOrEmpty(user.Username)");
+        }
+
+        [TestMethod]
+        public void UserExistence_EmptyPassword_Exception()
+        {
+            Throws<ArgumentException>(() => al.CheckUserExists(new UserDTO() { Username = "username", Password = "" }),
+                "Precondition failed: !string.IsNullOrEmpty(user.Password)");
+        }
+
+
+        [TestMethod]
+        public void ClientExistence_ValidNameAndToken_True()
+        {
+            Assert.AreEqual(true, al.CheckClientExists(new ClientDTO(){Name = "testClient", Token = "testToken"}));
+        }
+
+        [TestMethod]
+        public void ClientExistence_InvalidName_False()
+        {
+            Assert.AreEqual(false, al.CheckClientExists(new ClientDTO() { Name = "InvalidTestClient", Token = "testToken" }));
+        }
+
+        [TestMethod]
+        public void ClientExistence_InvalidToken_False()
+        {
+            Assert.AreEqual(false, al.CheckClientExists(new ClientDTO() { Name = "testClient", Token = "InvalidTestToken" }));
+        }
+
+        [TestMethod]
+        public void ClientExistence_EmptyName_Exception()
+        {
+            Throws<ArgumentException>(() => al.CheckClientExists(new ClientDTO() { Name = "", Token = "testToken" }),
+                "Precondition failed: !string.IsNullOrEmpty(client.Name)");
+        }
+
+        [TestMethod]
+        public void ClientExistence_EmptyToken_Exception()
+        {
+            Throws<ArgumentException>(() => al.CheckClientExists(new ClientDTO() { Name = "testClient", Token = "" }),
+                "Precondition failed: !string.IsNullOrEmpty(client.Token)");
         }
 
 
