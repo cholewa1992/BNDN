@@ -30,13 +30,13 @@ namespace DataAccessLayer
         public DbSet<Client> Client { get; set; }
         public DbSet<ClientAdmin> ClientAdmin { get; set; }
         public DbSet<Entity> Entity { get; set; }
-        public DbSet<EntityExtesion> EntityExtesion { get; set; }
         public DbSet<EntityInfo> EntityInfo { get; set; }
         public DbSet<EntityInfoType> EntityInfoType { get; set; }
         public DbSet<EntityType> EntityType { get; set; }
         public DbSet<UserAcc> UserAcc { get; set; }
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<UserInfoType> UserInfoType { get; set; }
+        public DbSet<Rating> Rating { get; set; }
         public new IDbSet<T> Set<T>() where T : class
         {
             return base.Set<T>();

@@ -14,14 +14,14 @@ namespace ServiceTests
         [TestMethod]
         public void TestGetMediaItemValidId_FileExtension()
         {
-            var mediaItem = _mediaItemService.GetMediaItemInformation(1, "token");
+            var mediaItem = _mediaItemService.GetMediaItemInformation(1, null, "token");
             Assert.AreEqual(".pdf", mediaItem.FileExtension);
         }
 
         [TestMethod]
         public void TestGetMediaItemValidId_InformationCount()
         {
-            var mediaItem = _mediaItemService.GetMediaItemInformation(1, "token");
+            var mediaItem = _mediaItemService.GetMediaItemInformation(1, null, "token");
             Assert.AreEqual(5, mediaItem.Information.Count());
         }
 
@@ -30,7 +30,7 @@ namespace ServiceTests
         {
             try
             {
-                _mediaItemService.GetMediaItemInformation(999, "token");
+                _mediaItemService.GetMediaItemInformation(999, null, "token");
             }
             catch (ArgumentException e)
             {
@@ -38,5 +38,7 @@ namespace ServiceTests
             }
             Assert.Fail("Expected ArgumentException");
         }
+
+
     }
 }

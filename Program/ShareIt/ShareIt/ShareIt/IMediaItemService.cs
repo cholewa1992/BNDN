@@ -19,12 +19,13 @@ namespace ShareIt
         /// Get a media item including all of its information.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items.
@@ -97,6 +98,17 @@ namespace ShareIt
         [OperationContract]
         Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
 
+        /// <summary>
+        /// Associates a user with a media item and includes a value from 1-10 representing the rating.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="rating">The rating from 1-10</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
     }
 }
 

@@ -11,7 +11,7 @@ namespace BusinessLogicLayer
     {
         
         bool CreateAccount(UserDTO user, string clientToken);
-        UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken);
+        UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken);
         bool UpdateAccountInformation(UserDTO requestingUser, UserDTO newUser, string clientToken);
     }
 }
