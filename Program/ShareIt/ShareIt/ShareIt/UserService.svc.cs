@@ -23,7 +23,7 @@ namespace ShareIt
         /// </summary>
         public UserService()
         {
-            _factory = BusinessLogicFacade.GetTestFactory();
+            _factory = BusinessLogicFacade.GetBusinessFactory();
         }
 
         /// <summary>
