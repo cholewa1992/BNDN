@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
 
@@ -31,7 +32,7 @@ namespace DataAccessLayer
 
         public void Add<TEntity>(TEntity entity) where TEntity : class, IEntityDto
         {
-            
+            _storageStub.Add(entity);
         }
 
         public void Update<TEntity>(TEntity entity) where TEntity : class, IEntityDto
@@ -41,12 +42,11 @@ namespace DataAccessLayer
 
         public void Delete<TEntity>(TEntity entity) where TEntity : class, IEntityDto
         {
-            
+            _storageStub.Remove(entity);
         }
 
         public void Delete<TEntity>(int id) where TEntity : class, IEntityDto
         {
-            
         }
     }
 }

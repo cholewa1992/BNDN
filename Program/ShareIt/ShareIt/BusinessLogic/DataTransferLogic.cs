@@ -112,7 +112,7 @@ namespace BusinessLogicLayer
             //Save the stream as a file using the id it was given.
             try
             {
-                var filePath = _fileStorage.SaveFile(stream, owner.Id, mediaId, media.FileExtension);
+                var filePath = _fileStorage.SaveMedia(stream, owner.Id, mediaId, media.FileExtension);
                 entity.FilePath = filePath;
                 _dbStorage.Update(entity);
             }
@@ -125,20 +125,29 @@ namespace BusinessLogicLayer
             return mediaId;
         }
 
+        /// <summary>
+        /// Save a thumbnail and associate it with a media.
+        /// </summary>
+        /// <param name="clientToken">The client token of the client from which the request originates.</param>
+        /// <param name="owner">The user who attempts to add the thumbnail to the media.</param>
+        /// <param name="mediaId">The id of the media which the thumbnail should be associated with.</param>
+        /// <param name="fileExtension">The file extension of the thumbnail</param>
+        /// <param name="fileByteStream">The stream which contains the binary data of the thumbnail.</param>
+        /// <returns>A string containging the URL where the thumbnail can be accessed.</returns>
         public string SaveThumbnail(string clientToken, UserDTO owner, int mediaId,string fileExtension, Stream fileByteStream)
         {
             Contract.Requires<ArgumentNullException>(clientToken != null);
             Contract.Requires<ArgumentNullException>(owner != null);
             Contract.Requires<ArgumentException>(mediaId > 0);
             Contract.Requires<ArgumentNullException>(fileByteStream != null);
-            Contract.Requires<ArgumentException>(owner.Password != null);
-            Contract.Requires<ArgumentException>(owner.Username != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(owner.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(owner.Username));
 
             ValidateClientToken(clientToken);
             int userId = ValidateUser(owner);
             //Check media exists with given media id.
             if (_dbStorage.Get<Entity>().SingleOrDefault(x => x.Id == mediaId) == null)
-                throw new InvalidOperationException("No media with id: " + mediaId + "found.\n" +
+                throw new InvalidOperationException("No media with id: " + mediaId + " found.\n" +
                                                     "There must be a media which the thumbnail should be associated with.");
             //Check user has owner access to media.
             if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner)

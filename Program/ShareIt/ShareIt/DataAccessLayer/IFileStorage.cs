@@ -13,7 +13,7 @@ namespace DataAccessLayer
         /// <param name="mediaId">The Id which the information about the data has in the database.</param>
         /// <param name="fileExtension">The file extension which the data should be saved as.</param>
         /// <returns>A string containing the path where the file was saved.</returns>
-        string SaveFile(Stream stream, int userId, int mediaId, string fileExtension);
+        string SaveMedia(Stream stream, int userId, int mediaId, string fileExtension);
         /// <summary>
         /// Return a stream which contains the data of a file at a given path.
         /// </summary>

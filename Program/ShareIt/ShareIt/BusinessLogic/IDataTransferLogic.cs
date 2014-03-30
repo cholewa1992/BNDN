@@ -31,9 +31,14 @@ namespace BusinessLogicLayer
         int SaveMedia(string clientToken,UserDTO owner, MediaItemDTO media, Stream stream);
 
         /// <summary>
-        /// Save a thumbnail.
+        /// Save a thumbnail and associate it with a media.
         /// </summary>
-        /// <returns>A string containing the URL where the thumbnail can be found.</returns>
+        /// <param name="clientToken">The client token of the client from which the request originates.</param>
+        /// <param name="owner">The user who attempts to add the thumbnail to the media.</param>
+        /// <param name="mediaId">The id of the media which the thumbnail should be associated with.</param>
+        /// <param name="fileExtension">The file extension of the thumbnail</param>
+        /// <param name="fileByteStream">The stream which contains the binary data of the thumbnail.</param>
+        /// <returns>A string containging the URL where the thumbnail can be accessed.</returns>
         string SaveThumbnail(string clientToken, UserDTO owner, int mediaId,string fileExtension, Stream fileByteStream);
     }
 }

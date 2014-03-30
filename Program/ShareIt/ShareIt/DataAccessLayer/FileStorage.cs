@@ -10,7 +10,8 @@ namespace DataAccessLayer
     public class FileStorage : IFileStorage
     {
         private readonly string _physicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-        private readonly string _webPath = @"http://rentit.itu.dk/rentit08/";
+        private const string WebPath = @"http://rentit.itu.dk/rentit08/";
+
         /// <summary>
         /// Save a stream to the disk as a file.
         /// </summary>
@@ -19,7 +20,7 @@ namespace DataAccessLayer
         /// <param name="mediaId">The id of the file's meta data.</param>
         /// <param name="fileExtension">The extension of the file.</param>
         /// <returns>The path to where the file was saved on the disk.</returns>
-        public string SaveFile(Stream stream, int userId, int mediaId, string fileExtension)
+        public string SaveMedia(Stream stream, int userId, int mediaId, string fileExtension)
         {
             var directoryPath = Path.Combine(_physicalPath,"files", "user_" + userId);
             var filePath = Path.Combine(directoryPath, mediaId + fileExtension);
@@ -47,7 +48,7 @@ namespace DataAccessLayer
                 Directory.CreateDirectory(directoryPath);
 
             WriteStreamToDisk(filePath, fileByteStream);
-            return _webPath + "/img/" + thumbnailName;
+            return WebPath + "/img/" + thumbnailName;
         }
 
         /// <summary>
