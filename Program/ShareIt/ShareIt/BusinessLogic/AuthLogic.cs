@@ -116,6 +116,21 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
+        /// Checks whether a user object containing Username and Password exists with the system,
+        /// if a valid clientToken is provided
+        /// </summary>
+        /// <param name="user">User object to be checked</param>
+        /// <param name="clientToken">Requesters ClientToken</param>
+        /// <returns>bool of whether given user exists</returns>
+        public bool CheckUserExists(UserDTO user, string clientToken)
+        {
+            if (CheckClientToken(clientToken) == -1)
+                throw new UnauthorizedAccessException("Invalid ClientToken");
+
+            return CheckUserExists(user);
+        }
+
+        /// <summary>
         /// Checks whether a client with given Name and Token exists with the system
         /// </summary>
         /// <param name="client">Client with Name and Token to be checked</param>

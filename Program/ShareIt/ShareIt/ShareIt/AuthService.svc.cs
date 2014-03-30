@@ -15,7 +15,7 @@ namespace ShareIt
     /// </summary>
     public class AuthService : IAuthService
     {
-        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetTestFactory();
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
         #region constructors
@@ -53,7 +53,15 @@ namespace ShareIt
 
             try
             {
-                return _factory.CreateAuthLogic().CheckUserExists(user);
+
+                bool result;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.CheckUserExists(user, clientToken);
+                }
+
+                return result;
             }
             catch (Exception e)
             {
@@ -72,7 +80,14 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAuthLogic().CheckClientExists(client);
+                bool result;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.CheckClientExists(client);
+                }
+
+                return result;
             }
             catch (Exception e)
             {

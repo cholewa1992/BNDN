@@ -21,6 +21,11 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
+        public bool CheckUserExists(UserDTO user, string clientToken)
+        {
+            return true;
+        }
+
         public bool CheckClientExists(Client client)
         {
             return true;
