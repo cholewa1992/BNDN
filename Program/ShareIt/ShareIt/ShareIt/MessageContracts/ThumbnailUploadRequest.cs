@@ -1,14 +1,19 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Description;
+using System.Web;
 using BusinessLogicLayer.DTO;
 
 namespace ShareIt.MessageContracts
 {
     /// <summary>
-    /// The message contract used when requesting to upload media to the server.
+    /// A message contract for uploading a thumbnail.
     /// </summary>
     [MessageContract]
-    public class UploadRequest 
+    public class ThumbnailUploadRequest
     {
         /// <summary>
         /// The client which issued the upload request.
@@ -16,15 +21,20 @@ namespace ShareIt.MessageContracts
         [MessageHeader(MustUnderstand = true)]
         public string ClientToken { get; set; }
         /// <summary>
-        /// The meta data about the media to be uploaded.
+        /// The id of the media which the thumbnail should be associated with.
         /// </summary>
         [MessageHeader(MustUnderstand = true)]
-        public MediaItemDTO MetaData { get; set; }
+        public int MediaId { get; set; }
         /// <summary>
-        /// The User who owns the media being uploaded.
+        /// The User who owns the thumbnail being uploaded.
         /// </summary>
         [MessageHeader(MustUnderstand = true)]
         public UserDTO Owner { get; set; }
+        /// <summary>
+        /// The file extension of the thumbnail e.g. .jpg or .png
+        /// </summary>
+        [MessageHeader(MustUnderstand = true)]
+        public string FileExtension { get; set; }
         /// <summary>
         /// The length of the FileByteStream
         /// </summary>

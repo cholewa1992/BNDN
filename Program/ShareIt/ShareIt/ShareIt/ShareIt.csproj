@@ -131,6 +131,8 @@
     </Compile>
     <Compile Include="MessageContracts\DownloadRequest.cs" />
     <Compile Include="MessageContracts\DownloadResponse.cs" />
+    <Compile Include="MessageContracts\ThumbnailUploadRequest.cs" />
+    <Compile Include="MessageContracts\ThumbnailUploadResponse.cs" />
     <Compile Include="MessageContracts\UploadRequest.cs" />
     <Compile Include="MessageContracts\UploadResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

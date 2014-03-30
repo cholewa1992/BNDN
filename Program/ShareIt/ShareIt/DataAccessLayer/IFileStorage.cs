@@ -20,5 +20,14 @@ namespace DataAccessLayer
         /// <param name="filePath">The path where the file is located.</param>
         /// <returns>A Stream which contains the data of the file at the specified path.</returns>
         Stream ReadFile(string filePath);
+
+        /// <summary>
+        /// Save a stream as a thumbnail.
+        /// </summary>
+        /// <param name="fileByteStream">The stream to be saved.</param>
+        /// <param name="mediaId">The id of the media which the thumbnail should be associated with.</param>
+        /// <param name="fileExtension">The file extension of the thumbnail.</param>
+        /// <returns>A string containing the URL where the thumbnail can be found.</returns>
+        string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension);
     }
 }

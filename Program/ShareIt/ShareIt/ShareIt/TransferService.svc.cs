@@ -75,5 +75,18 @@ namespace ShareIt
                 AssignedMediaItemId = result  
             };
         }
+
+        public ThumbnailUploadResponse UploadThumbnail(ThumbnailUploadRequest request)
+        {
+            string result;
+            using (var logic = _factory.CreateDataTransferLogic())
+            {
+                result = logic.SaveThumbnail(request.ClientToken, request.Owner, request.MediaId,request.FileExtension, request.FileByteStream);
+            }
+            return new ThumbnailUploadResponse
+            {
+                ThumbnailURL = result
+            };
+        }
     }
 }

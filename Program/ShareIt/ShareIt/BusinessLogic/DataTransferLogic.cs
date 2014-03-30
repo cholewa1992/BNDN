@@ -3,7 +3,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Authentication;
+using System.Security.Policy;
 using System.ServiceModel;
 using BusinessLogicLayer.DataMappers;
 using BusinessLogicLayer.DTO;
@@ -122,6 +124,54 @@ namespace BusinessLogicLayer
             }
             return mediaId;
         }
+
+        public string SaveThumbnail(string clientToken, UserDTO owner, int mediaId,string fileExtension, Stream fileByteStream)
+        {
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentNullException>(owner != null);
+            Contract.Requires<ArgumentException>(mediaId > 0);
+            Contract.Requires<ArgumentNullException>(fileByteStream != null);
+            Contract.Requires<ArgumentException>(owner.Password != null);
+            Contract.Requires<ArgumentException>(owner.Username != null);
+
+            ValidateClientToken(clientToken);
+            int userId = ValidateUser(owner);
+            //Check media exists with given media id.
+            if (_dbStorage.Get<Entity>().SingleOrDefault(x => x.Id == mediaId) == null)
+                throw new InvalidOperationException("No media with id: " + mediaId + "found.\n" +
+                                                    "There must be a media which the thumbnail should be associated with.");
+            //Check user has owner access to media.
+            if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner)
+                throw new InvalidCredentialException("User must be owner of the media which he attempts to associate a thumbnail with.");
+            
+            //check no thumbnail already exists for given media.
+            var url =
+                _dbStorage.Get<EntityInfo>()
+                    .SingleOrDefault(
+                        x => x.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail && x.EntityId == mediaId);
+            if (url != null)
+                throw new InvalidOperationException("Media with id: "+ mediaId + " already has a thumbnail.\n" +
+                                                    "It can be found at: " + url.Data);
+            //Save thumbnail and return result.
+            string result;
+            try
+            {
+                result = _fileStorage.SaveThumbnail(fileByteStream, mediaId, fileExtension);
+                var entityInfo = new EntityInfo
+                {
+                    Data = result,
+                    EntityInfoTypeId = (int) InformationTypeDTO.Thumbnail,
+                    EntityId = mediaId
+                };
+                _dbStorage.Add(entityInfo);
+            }
+            catch (IOException)
+            {
+                result = null;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Dispose the IStorageBridge and IInternalAuthLogic which this DataTransferLogic uses.
         /// </summary>

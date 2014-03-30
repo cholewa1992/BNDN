@@ -29,5 +29,11 @@ namespace BusinessLogicLayer
         /// <param name="stream">The stream of data which is to be saved.</param>
         /// <returns>The Id which the MediaItem has been assigned by the system.s</returns>
         int SaveMedia(string clientToken,UserDTO owner, MediaItemDTO media, Stream stream);
+
+        /// <summary>
+        /// Save a thumbnail.
+        /// </summary>
+        /// <returns>A string containing the URL where the thumbnail can be found.</returns>
+        string SaveThumbnail(string clientToken, UserDTO owner, int mediaId,string fileExtension, Stream fileByteStream);
     }
 }
