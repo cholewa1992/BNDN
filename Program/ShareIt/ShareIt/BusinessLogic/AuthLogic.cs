@@ -18,7 +18,7 @@ namespace BusinessLogicLayer
 
         internal AuthLogic(IStorageBridge storage)
         {
-            Contract.Requires(storage != null);
+            Contract.Requires<ArgumentNullException>(storage != null);
 
             _storage = storage;
         }
@@ -181,12 +181,6 @@ namespace BusinessLogicLayer
             throw new InstanceNotFoundException("No expiration date was found");
         }
 
-
-        [ContractInvariantMethod]
-        private void InvariantCheck()
-        {
-            Contract.Invariant(_storage != null);
-        }
 
 
         public void Dispose()
