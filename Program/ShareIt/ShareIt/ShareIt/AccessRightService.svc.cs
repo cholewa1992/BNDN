@@ -26,7 +26,7 @@ namespace ShareIt
         /// </summary>
         public AccessRightService()
         {
-            _factory = BusinessLogicFacade.GetTestFactory();
+            _factory = BusinessLogicFacade.GetBusinessFactory();
         }
         /// <summary>
         /// Construct a AccessRightService object which uses a specified IBusinessLogicFactory.
