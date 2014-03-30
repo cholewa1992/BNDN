@@ -61,7 +61,7 @@ namespace BusinessLogicLayer
             {
                 throw new ArgumentException("Password must consist of between 1 and 50 characters");
             }
-            if (Regex.IsMatch(user.Username, "^[a-zA-Z0-9]+$*"))
+            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
             {
                 throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
             }
