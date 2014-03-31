@@ -24,7 +24,7 @@ namespace ShareIt
         /// <returns>A boolean result</returns>
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool ValidateUser(UserDTO user, string clientToken);
+        int ValidateUser(UserDTO user, string clientToken);
 
         /// <summary>
         /// Validates whether a client exists with the system
@@ -33,5 +33,8 @@ namespace ShareIt
         /// <returns>A boolean result</returns>
         [OperationContract]
         bool CheckClientExists(ClientDTO client);
+
+        [OperationContract]
+        bool IsUserAdminOnClient(UserDTO user, string clientToken);
     }
 }

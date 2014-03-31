@@ -13,5 +13,7 @@ namespace BusinessLogicLayer
 
         DateTime GetExpirationDate(int userId, int mediaItemId);
 
+        int CheckUserExists(UserDTO user);
+
     }
 }

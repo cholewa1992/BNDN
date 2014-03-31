@@ -41,7 +41,7 @@ namespace BusinessLogicTests
                  {
                      Id = 1,
                      Username = "username",
-                     Password = "password",
+                     Password = "password"
                      
                  },
                  new UserAcc()

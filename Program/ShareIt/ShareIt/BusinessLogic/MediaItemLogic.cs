@@ -152,6 +152,7 @@ namespace BusinessLogicLayer
                 {
                     var groups = _storage.Get<Entity>().
                         Where(item => item.ClientId == clientId).
+                        OrderBy(a => a.Id).
                         GroupBy((a) => a.TypeId);
 
                     
@@ -224,15 +225,16 @@ namespace BusinessLogicLayer
                 if (isSearchKeyNullOrEmpty) //No searchkey & specific media type
                 {
                     var mediaItems = _storage.Get<Entity>().
-                        Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId);
+                        Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId).
+                        OrderBy(a => a.Id);
 
                     var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
                     mediaItemSearchResultDTO.NumberOfSearchResults = mediaItems.Count();
 
-                    mediaItems = mediaItems.Skip(from).Take(to - from);
+                    var realMediaItems = mediaItems.Skip(from).Take(to - from);
 
                     var list = new List<MediaItemDTO>();
-                    foreach (var mediaItem in mediaItems)
+                    foreach (var mediaItem in realMediaItems)
                     {
                         list.Add(GetMediaItemInformation(mediaItem.Id, null, clientToken));
                     }

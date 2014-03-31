@@ -213,13 +213,15 @@ namespace BusinessLogicLayer
         /// <exception cref="FaultException{UnauthorizedUser}">If the user's credentials aren't validated.</exception>
         private int ValidateUser(UserDTO user)
         {
-            if (!_authLogic.CheckUserExists(user))
+            var result = _authLogic.CheckUserExists(user);
+
+            if (result == -1)
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
                 {
                     Message = "User credentials not accepted."
                 });
-            //TODO Get userId from AuthLogic.
-            return 1;
+
+            return result;
         }
     }
 }

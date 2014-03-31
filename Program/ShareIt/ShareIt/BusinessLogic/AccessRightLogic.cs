@@ -36,7 +36,7 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (!_authLogic.CheckUserExists(user))
+            if (_authLogic.CheckUserExists(user) == -1)
             {
                 throw new UnauthorizedAccessException("Invalid User credentials!");
             }
@@ -160,7 +160,7 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (!_authLogic.CheckUserExists(u))
+            if (_authLogic.CheckUserExists(u) == -1)
             {
                 throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
             }
