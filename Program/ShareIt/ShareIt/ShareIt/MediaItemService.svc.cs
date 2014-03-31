@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
@@ -135,12 +137,22 @@ namespace ShareIt
             }
             catch (ArgumentException ae)
             {
-                var fault = new ArgumentFault { Message = ae.Message };
+                var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault);
             }
-            catch (InvalidOperationException ioe)
+            catch (InvalidOperationException e)
             {
                 throw new FaultException(new FaultReason("Error when casting the MediaItemType"));
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient {Message = e.Message};
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (InstanceNotFoundException e)
+            {
+                //TODO create fitting faultdatacontract
+                throw new FaultException(new FaultReason(e.Message));
             }
             catch (Exception e)
             {

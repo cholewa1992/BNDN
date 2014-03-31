@@ -154,7 +154,6 @@ namespace BusinessLogicLayer
                         Where(item => item.ClientId == clientId).
                         OrderBy(a => a.Id).
                         GroupBy((a) => a.TypeId);
-
                     
                     foreach (var group in groups)
                     {
@@ -185,17 +184,27 @@ namespace BusinessLogicLayer
                 #region Searchkey & all media types
                 else //Searchkey & all media types
                 {
-                    var typeGroups = (_storage.Get<EntityInfo>().
+                    /*var typeGroups = (_storage.Get<EntityInfo>().
                         Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
                         GroupBy(info => info.EntityId).
                         OrderBy(group => group.Count())).
-                        GroupBy(d => d.FirstOrDefault().Entity.TypeId);
-
+                        GroupBy(d => d.FirstOrDefault().Entity.TypeId);*/
+                    /*var typeGroups = _storage.Get<EntityInfo>().
+                        Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
+                        GroupBy(info => info.EntityId).
+                        OrderBy(group => group.Count()).
+                        GroupBy(a => a.FirstOrDefault().Entity.TypeId).
+                        OrderBy(a => a.Key);*/
+                    var typeGroups = _storage.Get<EntityInfo>().
+                        Where(ei => ei.Data.Contains(searchKey) && ei.Entity.ClientId == clientId).
+                        GroupBy(ei => ei.Entity.TypeId);
+                    
                     foreach (var type in typeGroups)
                     {
                         var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                        mediaItemSearchResultDTO.NumberOfSearchResults = type.Count();
-                        var typeRange = type.Skip(from).Take(to - from);
+                        var mediaItemGroup = type.GroupBy(ei => ei.EntityId).OrderBy(group => group.Count());
+                        mediaItemSearchResultDTO.NumberOfSearchResults = mediaItemGroup.Count();
+                        var typeRange = mediaItemGroup.Skip(from).Take(to - from);
 
                         var list = new List<MediaItemDTO>();
                         foreach (var item in typeRange)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Text;
@@ -31,6 +32,14 @@ namespace BusinessLogicLayer
 
         public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(user != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
+            Contract.Requires<ArgumentException>(user.Id > 0);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
+            
             if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
@@ -65,6 +74,14 @@ namespace BusinessLogicLayer
 
         public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(oldAdmin != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Username));
+            Contract.Requires<ArgumentException>(oldAdmin.Id > 0);
+            Contract.Requires<ArgumentException>(newAdminId > 0);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
+
             if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
@@ -96,6 +113,14 @@ namespace BusinessLogicLayer
 
         public bool DeleteAccessRight(UserDTO admin, int accessRightId, string clientToken)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(admin != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(admin.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(admin.Username));
+            Contract.Requires<ArgumentException>(admin.Id > 0);
+            Contract.Requires<ArgumentException>(accessRightId > 0);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
+
             if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
@@ -115,6 +140,9 @@ namespace BusinessLogicLayer
 
         public List<AccessRightDTO> GetPurchaseHistory(int userId)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(userId > 0);
+
             try
             {
                 _storage.Get<UserAcc>(userId);
@@ -135,6 +163,9 @@ namespace BusinessLogicLayer
 
         public List<AccessRightDTO> GetUploadHistory(int userId)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(userId > 0);
+
             try
             {
                 _storage.Get<UserAcc>(userId);
@@ -155,6 +186,15 @@ namespace BusinessLogicLayer
 
         public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
+            //Preconditions
+            Contract.Requires<ArgumentException>(u != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(u.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(u.Username));
+            Contract.Requires<ArgumentException>(u.Id > 0);
+            Contract.Requires<ArgumentException>(newAR.Id > 0);
+            Contract.Requires<ArgumentException>(newAR.Expiration != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
+
             if (_authLogic.CheckClientToken(clientToken) < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
@@ -171,25 +211,31 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
             }
 
+            AccessRight oldAR = null;
+
             try
             {
-                _storage.Get<AccessRight>(newAR.Id);
+                oldAR =_storage.Get<AccessRight>(newAR.Id);
             }
             catch (InvalidOperationException e)
             {
                 throw new InstanceNotFoundException("No access right with id "+ newAR +"was found");
             }
 
-            var newAccessRight = new AccessRight
+            if (oldAR != null)
             {
-                Id = newAR.Id,
-                EntityId = newAR.MediaItemId,
-                AccessRightTypeId = (int) newAR.AccessRightType,
-                Expiration = newAR.Expiration,
-                UserId = newAR.UserId
-            };
+                var newAccessRight = new AccessRight
+                {
+                    Id = newAR.Id,
+                    EntityId = oldAR.EntityId,
+                    AccessRightTypeId = oldAR.AccessRightTypeId,
+                    Expiration = newAR.Expiration,
+                    UserId = oldAR.UserId
+                };
 
-            _storage.Update<AccessRight>(newAccessRight);
+                _storage.Update<AccessRight>(newAccessRight);
+            }
+            
 
             return true;
         }
