@@ -1,25 +1,60 @@
 ﻿using System;
+using System.Collections.Generic;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ShareIt;
+using Moq;
 
-namespace UserServiceTest
+namespace BusinessLogicTests
 {
     [TestClass]
     public class UserLogicTest
     {
-
-        readonly UserLogic _userLogic; //= new UserLogic(IStorageBridge);
+        private IAuthInternalLogic _authLogic;
+        private IStorageBridge _dbStorage;
+        private UserLogic _userLogic;
         private UserDTO _testUser;
 
         [TestInitialize]
         public void Initialize()
         {
-            _testUser = new UserDTO {Id = 1};
+            SetupAuthMock();
+            SetupDbStorageMock();
+            _userLogic = new UserLogic(_dbStorage, _authLogic);
+
+            _testUser = new UserDTO();
         }
-        
+
+        private void SetupAuthMock()
+        {
+            var authMoq = new MockRepository(MockBehavior.Default).Create<IAuthInternalLogic>();
+            //setup checkClientToken.
+            authMoq.Setup(foo => foo.CheckClientToken(It.Is<string>(s => s == "testClient"))).Returns(1);
+            authMoq.Setup(foo => foo.CheckClientToken(It.Is<string>(s => s != "testClient"))).Returns(-1);
+            //setup checkUserExists.
+            authMoq.Setup(
+                foo =>
+                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
+                .Returns(true);
+            authMoq.Setup(
+                foo =>
+                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
+                .Returns(false);
+            //setup checkUserAccess
+            authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
+            authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
+            _authLogic = authMoq.Object;
+        }
+
+        private void SetupDbStorageMock()
+        {
+            var dbMoq = new Mock<IStorageBridge>();
+            dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Verifiable();
+            dbMoq.Setup(foo => foo.Update(It.IsAny<Entity>())).Verifiable();
+            _dbStorage = dbMoq.Object;
+        }
+
         [TestMethod]
         public void CreateAccount_UsernameTooLong()
         {
@@ -28,14 +63,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Username must consist of between 1 and 20 characters", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -46,14 +83,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Username must consist of between 1 and 20 characters", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -64,14 +103,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Username must only consist of alphanumerical characters (a-zA-Z0-9)", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -82,14 +123,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Username must only consist of alphanumerical characters (a-zA-Z0-9)", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -100,14 +143,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Password must consist of between 1 and 50 characters", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -118,14 +163,16 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Password must consist of between 1 and 50 characters", ae.Message);
             }
-
-            Assert.Fail("Expected ArgumentException");
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");
+            }
         }
 
         [TestMethod]
@@ -136,14 +183,18 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(_testUser, "token");
+                _userLogic.CreateAccount(_testUser, "testClient");
             }
             catch (ArgumentException ae)
             {
                 Assert.AreEqual("Password must not contain any whitespace characters", ae.Message);
             }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected ArgumentException");    
+            }
 
-            Assert.Fail("Expected ArgumentException");
+            
         }
 
         [TestMethod]
@@ -152,7 +203,7 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Hello1234";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
             var anotherUser = new UserDTO()
             {
@@ -163,15 +214,12 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(anotherUser, "token");
+                _userLogic.CreateAccount(anotherUser, "testClient");
             }
             catch (Exception e)
             {
                 Assert.AreEqual("Username already in use", e.Message);
             }
-
-            Assert.Fail("Expected Exception");
-            
         }
 
         [TestMethod]
@@ -180,7 +228,7 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Hello1234";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
             var anotherUser = new UserDTO()
             {
@@ -191,14 +239,12 @@ namespace UserServiceTest
 
             try
             {
-                _userLogic.CreateAccount(anotherUser, "token");
+                _userLogic.CreateAccount(anotherUser, "testClient");
             }
             catch (Exception e)
             {
                 Assert.AreEqual("Username already in use", e.Message);
             }
-
-            Assert.Fail("Expected Exception");
         }
 
         [TestMethod]
@@ -207,35 +253,36 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Password";
 
-            var shouldBeTrue = _userLogic.CreateAccount(_testUser, "token");
+            var shouldBeTrue = _userLogic.CreateAccount(_testUser, "testClient");
 
             Assert.AreEqual(shouldBeTrue, true);
 
-            // Alternative test if the user is in the testdb
+            var dbResult = _dbStorage.Get<UserAcc>(_testUser.Id);
 
-            
+            Assert.AreEqual(dbResult.Username, _testUser.Username);
+            Assert.AreEqual(dbResult.Password, _testUser.Password);
+
         }
 
         [TestMethod]
         public void GetAccountInformation_targetUserNotFound()
         {
+            _testUser.Id = 1;
             _testUser.Username = "John44";
             _testUser.Password = "Password";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
             _testUser.Id = 12;
 
             try
             {
-                _userLogic.GetAccountInformation(_testUser, _testUser.Id, "token");
+                _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
             }
             catch (Exception e)
             {
                 Assert.AreEqual("The requested user could not be found", e.Message);
             }
-
-            Assert.Fail("Expected Exception");
         }
 
         [TestMethod]
@@ -244,10 +291,10 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Password";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
-            UserDTO u = _userLogic.GetAccountInformation(_testUser, _testUser.Id, "token");
-  
+            UserDTO u = _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
+
             Assert.AreEqual(u.Username, "John44");
             Assert.AreEqual(u.Password, "Password");
         }
@@ -258,20 +305,18 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Password";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
             _testUser.Id = 12;
 
             try
             {
-                _userLogic.UpdateAccountInformation(_testUser, _testUser, "token");
+                _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
             }
             catch (Exception e)
             {
                 Assert.AreEqual("User to be updated was not found in the database", e.Message);
             }
-
-            Assert.Fail("Expected Exception");
         }
 
         [TestMethod]
@@ -280,13 +325,19 @@ namespace UserServiceTest
             _testUser.Username = "John44";
             _testUser.Password = "Password";
 
-            _userLogic.CreateAccount(_testUser, "token");
+            _userLogic.CreateAccount(_testUser, "testClient");
 
-            var shouldBeTrue = _userLogic.UpdateAccountInformation(_testUser, _testUser, "token");
+            _testUser.Password = "NytPassword";
+
+            var shouldBeTrue = _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
 
             Assert.AreEqual(shouldBeTrue, true);
 
-            // Alternative test if the user is in the testdb with the new data.
+            var dbResult = _dbStorage.Get<UserAcc>(_testUser.Id);
+
+            Assert.AreEqual(dbResult.Username, _testUser.Username);
+            Assert.AreEqual(dbResult.Password, _testUser.Password);
+
         }
 
         // CreateAccount_UserIsNull
@@ -300,6 +351,6 @@ namespace UserServiceTest
         // UpdateAccountInformation_RequstingUserIsNull
         // UpdateAccountInformation_TargetUserIsNull
         // UpdateAccountInformation_ClientTokenIsNotValid
-        
+
     }
 }

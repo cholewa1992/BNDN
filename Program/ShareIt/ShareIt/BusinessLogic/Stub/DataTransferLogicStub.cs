@@ -26,6 +26,11 @@ namespace BusinessLogicLayer.Stub
             return -1;
         }
 
+        public string SaveThumbnail(string clientToken, UserDTO owner, int mediaId, string fileExtension, Stream fileByteStream)
+        {
+            return @"http://rentit.itu.dk/rentit08/img/question_mark.PNG";
+        }
+
         public void Dispose()
         {
             

@@ -10,6 +10,8 @@ namespace BusinessLogicLayer
         
         bool CheckUserExists(UserDTO user);
 
+        bool CheckUserExists(UserDTO user, string clientToken);
+
         bool CheckClientExists(Client client);
     }
 }

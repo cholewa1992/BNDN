@@ -3,7 +3,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Authentication;
+using System.Security.Policy;
 using System.ServiceModel;
 using BusinessLogicLayer.DataMappers;
 using BusinessLogicLayer.DTO;
@@ -110,7 +112,7 @@ namespace BusinessLogicLayer
             //Save the stream as a file using the id it was given.
             try
             {
-                var filePath = _fileStorage.SaveFile(stream, owner.Id, mediaId, media.FileExtension);
+                var filePath = _fileStorage.SaveMedia(stream, owner.Id, mediaId, media.FileExtension);
                 entity.FilePath = filePath;
                 _dbStorage.Update(entity);
             }
@@ -122,6 +124,63 @@ namespace BusinessLogicLayer
             }
             return mediaId;
         }
+
+        /// <summary>
+        /// Save a thumbnail and associate it with a media.
+        /// </summary>
+        /// <param name="clientToken">The client token of the client from which the request originates.</param>
+        /// <param name="owner">The user who attempts to add the thumbnail to the media.</param>
+        /// <param name="mediaId">The id of the media which the thumbnail should be associated with.</param>
+        /// <param name="fileExtension">The file extension of the thumbnail</param>
+        /// <param name="fileByteStream">The stream which contains the binary data of the thumbnail.</param>
+        /// <returns>A string containging the URL where the thumbnail can be accessed.</returns>
+        public string SaveThumbnail(string clientToken, UserDTO owner, int mediaId,string fileExtension, Stream fileByteStream)
+        {
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentNullException>(owner != null);
+            Contract.Requires<ArgumentException>(mediaId > 0);
+            Contract.Requires<ArgumentNullException>(fileByteStream != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(owner.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(owner.Username));
+
+            ValidateClientToken(clientToken);
+            int userId = ValidateUser(owner);
+            //Check media exists with given media id.
+            if (_dbStorage.Get<Entity>().SingleOrDefault(x => x.Id == mediaId) == null)
+                throw new InvalidOperationException("No media with id: " + mediaId + " found.\n" +
+                                                    "There must be a media which the thumbnail should be associated with.");
+            //Check user has owner access to media.
+            if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner)
+                throw new InvalidCredentialException("User must be owner of the media which he attempts to associate a thumbnail with.");
+            
+            //check no thumbnail already exists for given media.
+            var url =
+                _dbStorage.Get<EntityInfo>()
+                    .SingleOrDefault(
+                        x => x.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail && x.EntityId == mediaId);
+            if (url != null)
+                throw new InvalidOperationException("Media with id: "+ mediaId + " already has a thumbnail.\n" +
+                                                    "It can be found at: " + url.Data);
+            //Save thumbnail and return result.
+            string result;
+            try
+            {
+                result = _fileStorage.SaveThumbnail(fileByteStream, mediaId, fileExtension);
+                var entityInfo = new EntityInfo
+                {
+                    Data = result,
+                    EntityInfoTypeId = (int) InformationTypeDTO.Thumbnail,
+                    EntityId = mediaId
+                };
+                _dbStorage.Add(entityInfo);
+            }
+            catch (IOException)
+            {
+                result = null;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Dispose the IStorageBridge and IInternalAuthLogic which this DataTransferLogic uses.
         /// </summary>

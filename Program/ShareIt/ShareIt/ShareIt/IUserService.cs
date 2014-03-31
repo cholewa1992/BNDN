@@ -28,14 +28,14 @@ namespace ShareIt
         /// Returns account information
         /// </summary>
         /// <param name="requestingUser">The user performing the request</param>
-        /// <param name="targetUser">The user of which you want to fetch account information</param>
+        /// <param name="targetUserId">The id of the user of which you want to fetch account information</param>
         /// <param name="clientToken">Token used to validate the client</param>
         /// <returns></returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken);
+        UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken);
 
         /// <summary>
         /// Update a user account

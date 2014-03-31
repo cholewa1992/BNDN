@@ -24,7 +24,7 @@ namespace ShareIt
         /// </summary>
         public MediaItemService()
         {
-            _factory = BusinessLogicFacade.GetTestFactory(); //Remember to change this
+            _factory = BusinessLogicFacade.GetBusinessFactory(); //Remember to change this
         }
 
         /// <summary>

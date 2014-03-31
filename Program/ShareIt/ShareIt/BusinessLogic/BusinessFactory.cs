@@ -11,7 +11,8 @@ namespace BusinessLogicLayer
     {
         public IUserLogic CreateUserLogic()
         {
-            return new UserLogic(new StorageBridge(new EfStorageConnection<RentIt08Entities>()));
+            var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>());
+            return new UserLogic(storage, new AuthLogic(storage));
         }
 
         public IAuthLogic CreateAuthLogic()
