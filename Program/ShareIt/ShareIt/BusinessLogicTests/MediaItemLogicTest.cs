@@ -40,11 +40,11 @@ namespace BusinessLogicTests
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
-                .Returns(true);
+                .Returns(1);
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
-                .Returns(false);
+                .Returns(-1);
             //setup checkUserAccess
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
@@ -163,11 +163,11 @@ namespace BusinessLogicTests
             #endregion
 
         #region GetMediaItemInformation
+        //TODO Shouldn't be argumentexception
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
             const int mediaItemId = 202020;
-
             try
             {
                 var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
@@ -246,7 +246,7 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
             var bookList = dictionary[MediaItemTypeDTO.Book];
-            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count);
+            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count); //TODO Assuming only books? otherwise the first 3 hits wouldn't necessarily be books?
         }
 
         [TestMethod]
@@ -261,7 +261,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void FindMediaItemRange_ToIsNull()
+        public void FindMediaItemRange_ToIsZero()
         {
             try
             {
@@ -282,7 +282,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void FindMediaItemRange_FromIsNull()
+        public void FindMediaItemRange_FromIsZero()
         {
             try
             {
@@ -303,7 +303,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void FindMediaItemRange_FromAndToAreNull()
+        public void FindMediaItemRange_FromAndToAreNull() //TODO Redundant when you have already check seperately?
         {
             try
             {
@@ -368,7 +368,7 @@ namespace BusinessLogicTests
             }
         }
 
-        [ExpectedException(typeof(InvalidCredentialException))]
+        [ExpectedException(typeof(InvalidCredentialException))] //TODO Should be argument null exception
         [TestMethod]
         public void FindMediaItemRange_ClientTokenNull()
         {
@@ -489,7 +489,7 @@ namespace BusinessLogicTests
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void RateMediaItem_UserIdExceedsMax()
+        public void RateMediaItem_UserIdExceedsMax() //TODO Doesn't exceed max, it is exactly max.
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int userId = int.MaxValue;
@@ -513,7 +513,7 @@ namespace BusinessLogicTests
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void RateMediaItem_MediaItemIdExceedsMax()
+        public void RateMediaItem_MediaItemIdExceedsMax() //TODO doesn't exceed max, it is exactly max
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int userId = 1;
@@ -615,7 +615,7 @@ namespace BusinessLogicTests
         }
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void GetAverageRating_MediaItemIdExceedsMax()
+        public void GetAverageRating_MediaItemIdExceedsMax() //TODO doesn't exceed max, is exactly max
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.GetAverageRating(int.MaxValue);
