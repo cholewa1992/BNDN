@@ -49,7 +49,14 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAccessRightLogic().MakeAdmin(oldAdmin, newAdminId, clientToken);
+                bool result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.MakeAdmin(oldAdmin, newAdminId, clientToken);
+                }
+
+                return result;
             }
             catch (InvalidCredentialException e)
             {
@@ -69,6 +76,12 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<MediaItemNotFound>(fault);
             }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -86,7 +99,14 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAccessRightLogic().DeleteAccessRight(admin, accessRightId, clientToken);
+                bool result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.DeleteAccessRight(admin, accessRightId, clientToken);
+                }
+
+                return result;
             }
             catch (InvalidCredentialException e)
             {
@@ -99,6 +119,12 @@ namespace ShareIt
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {
@@ -117,7 +143,14 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAccessRightLogic().EditExpiration(user, newAccessRight, clientToken);
+                bool result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.EditExpiration(user, newAccessRight, clientToken);
+                }
+
+                return result;
             }
             catch (InvalidCredentialException e)
             {
@@ -136,6 +169,12 @@ namespace ShareIt
                 var fault = new AccessRightNotFound();
                 fault.Message = e.Message;
                 throw new FaultException<AccessRightNotFound>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {
@@ -157,7 +196,13 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAccessRightLogic().Purchase(user, mediaItemId, expiration, clientToken);
+                bool result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.Purchase(user, mediaItemId, expiration, clientToken);
+                }
+                return result;
             }
             catch (InvalidCredentialException e)
             {
@@ -176,6 +221,12 @@ namespace ShareIt
                 var fault = new MediaItemNotFound();
                 fault.Message = e.Message;
                 throw new FaultException<MediaItemNotFound>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {
