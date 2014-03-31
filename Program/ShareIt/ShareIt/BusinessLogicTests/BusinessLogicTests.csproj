@@ -101,6 +101,7 @@
     <Compile Include="DataTransferLogicTest.cs" />
     <Compile Include="AuthLogicTest.cs" />
     <Compile Include="MediaMapperTest.cs" />
+    <Compile Include="UserLogicTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogicLayer.csproj">
