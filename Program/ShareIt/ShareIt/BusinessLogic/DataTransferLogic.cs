@@ -46,7 +46,6 @@ namespace BusinessLogicLayer
             if (clientToken == null) throw new ArgumentNullException("clientToken");
             if (user == null) throw new ArgumentNullException("user");
 
-            Stream result;
             ValidateClientToken(clientToken);
             user.Id = ValidateUser(user);
             if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess)
@@ -54,20 +53,18 @@ namespace BusinessLogicLayer
                 {
                     Message = "User not allowed to download media with id: " + mediaId
                 });
-            try
-            {
-                var entity = _dbStorage.Get<Entity>().Single(e => e.Id == mediaId);
-                string filePath = entity.FilePath;
-                fileExtension = Path.GetExtension(filePath);
-                result = _fileStorage.ReadFile(filePath);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new FaultException<ArgumentFault>(new ArgumentFault
-                    {
-                        Message = "No Media found with id: " + mediaId
-                    });
-            }          
+
+            var entity = _dbStorage.Get<Entity>().SingleOrDefault(e => e.Id == mediaId);
+            if (entity == null)
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
+                {
+                    Message = "No media found with id: " + mediaId
+                });
+
+            string filePath = entity.FilePath;
+            fileExtension = Path.GetExtension(filePath);
+            Stream result = _fileStorage.ReadFile(filePath);
+                     
             return result;
         }
         /// <summary>
