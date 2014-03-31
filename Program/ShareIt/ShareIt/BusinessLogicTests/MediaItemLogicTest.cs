@@ -166,7 +166,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
-            const int mediaItemId = 2;
+            const int mediaItemId = 202020;
 
             try
             {
@@ -202,7 +202,7 @@ namespace BusinessLogicTests
         public void GetMediaItemInformation_CorrectInformationDataFetched()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItemId = 1;
+            var mediaItemId = 2;
 
             MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
 
@@ -213,8 +213,8 @@ namespace BusinessLogicTests
                 list.Add(info.Data);
             }
 
-            Assert.AreEqual(list[0], "Dansk");
-            Assert.AreEqual(list[1], "20");
+            Assert.AreEqual(list[0], "Book2");
+            Assert.AreEqual(list[1], "Description2");
         }
 
         [TestMethod]
@@ -232,8 +232,8 @@ namespace BusinessLogicTests
                 list.Add(info.Type);
             }
 
-            Assert.AreEqual(list[0], InformationTypeDTO.Language);
-            Assert.AreEqual(list[1], InformationTypeDTO.Price);
+            Assert.AreEqual(list[0], InformationTypeDTO.Title);
+            Assert.AreEqual(list[1], InformationTypeDTO.Description);
         }
         #endregion
 
