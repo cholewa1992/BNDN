@@ -13,6 +13,7 @@ namespace BusinessLogicLayer
     public class UserLogic : IUserLogic
     {
 
+        private readonly IAuthInternalLogic _authLogic;
         private readonly IBusinessLogicFactory _factory;
         private readonly IStorageBridge _storage;
 
@@ -20,11 +21,12 @@ namespace BusinessLogicLayer
         /// Construct a UserLogic which uses the default business logic factory.
         /// This constructor is called by WCF.
         /// </summary>
-        public UserLogic(IStorageBridge storage)
+        internal UserLogic(IStorageBridge storage, IAuthInternalLogic authLogic)
         {
             _storage = storage;
             _factory = BusinessLogicFacade.GetTestFactory();
             //_factory = BusinessLogicFacade.GetBusinessFactory();
+            _authLogic = authLogic;
         }
 
         /// <summary>
@@ -40,8 +42,7 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             // Check if the clientToken is valid
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
@@ -100,15 +101,14 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(targetUserId != 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!authLogic.CheckUserExists(requestingUser) &&
+            if ((!_authLogic.CheckUserExists(requestingUser) &&
                 (requestingUser.Id != targetUserId)) &&
-                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -153,15 +153,14 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(userToUpdate != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!authLogic.CheckUserExists(requestingUser) &&
+            if ((!_authLogic.CheckUserExists(requestingUser) &&
                 (requestingUser.Username != userToUpdate.Username)) &&
-                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
