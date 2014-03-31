@@ -106,7 +106,7 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException();
             }
 
-            if ((!_authLogic.CheckUserExists(requestingUser) &&
+            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
                 (requestingUser.Id != targetUserId)) &&
                 (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
@@ -158,7 +158,7 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException();
             }
 
-            if ((!_authLogic.CheckUserExists(requestingUser) &&
+            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
                 (requestingUser.Username != userToUpdate.Username)) &&
                 (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {

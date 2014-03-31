@@ -105,14 +105,24 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="user">Object checked for Username and Password</param>
         /// <returns>bool of whether given user exists with the system</returns>
-        public bool CheckUserExists(UserDTO user)
+        public int CheckUserExists(UserDTO user)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Password));
 
-            return _storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
-            
+
+            var result = _storage.Get<UserAcc>()
+                .Where(ua => ua.Username == user.Username && ua.Password == user.Password)
+                .Select(ua => ua.Id).FirstOrDefault();
+
+            if (result == 0)
+            {
+                result = -1;
+            }
+
+            return result;
+
         }
 
         /// <summary>
@@ -122,13 +132,23 @@ namespace BusinessLogicLayer
         /// <param name="user">User object to be checked</param>
         /// <param name="clientToken">Requesters ClientToken</param>
         /// <returns>bool of whether given user exists</returns>
-        public bool CheckUserExists(UserDTO user, string clientToken)
+        public int CheckUserExists(UserDTO user, string clientToken)
         {
             if (CheckClientToken(clientToken) == -1)
                 throw new UnauthorizedAccessException("Invalid ClientToken");
 
             return CheckUserExists(user);
         }
+
+
+        public bool IsUserAdminOnClient(UserDTO user, string clientToken)
+        {
+            return
+                _storage.Get<ClientAdmin>()
+                    .Any(ca => ca.Client.Token == clientToken && ca.UserAcc.Username == user.Username);
+        }
+
+        
 
         /// <summary>
         /// Checks whether a client with given Name and Token exists with the system

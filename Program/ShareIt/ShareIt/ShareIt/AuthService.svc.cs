@@ -48,13 +48,13 @@ namespace ShareIt
         /// <param name="user">A user to check</param>
         /// <param name="clientToken">The token to varify the client asking</param>
         /// <returns>A boolean result</returns>
-        public bool ValidateUser(UserDTO user, string clientToken)
+        public int ValidateUser(UserDTO user, string clientToken)
         {
 
             try
             {
 
-                bool result;
+                int result = -1;
 
                 using (var al = _factory.CreateAuthLogic())
                 {
@@ -94,6 +94,25 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
 
+        }
+
+        public bool IsUserAdminOnClient(UserDTO user, string clientToken)
+        {
+            try
+            {
+                bool result;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.IsUserAdminOnClient(user, clientToken);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
         #endregion
