@@ -36,11 +36,11 @@ namespace BusinessLogicTests
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
-                .Returns(true);
+                .Returns(1);
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
-                .Returns(false);
+                .Returns(-1);
             //setup checkUserAccess
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);

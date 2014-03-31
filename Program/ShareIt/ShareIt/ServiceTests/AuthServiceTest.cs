@@ -15,7 +15,7 @@ namespace ServiceTests
         public void TestValidateUser()
         {
             var r = _authService.ValidateUser(new UserDTO(), "token");
-            Assert.AreEqual<bool>(true, r);
+            Assert.AreEqual<int>(1, r);
         }
 
         [TestMethod]
