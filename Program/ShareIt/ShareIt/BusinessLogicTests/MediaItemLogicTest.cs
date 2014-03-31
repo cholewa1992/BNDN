@@ -260,67 +260,34 @@ namespace BusinessLogicTests
             Assert.AreEqual(from - (to - 1), bookList.MediaItemList.Count); //Assuming that the number of books exceed the range
         }
 
+        [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void FindMediaItemRange_ToIsNull()
         {
-            try
-            {
-                var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                const int from = 1;
-                const int to = 0;
-                mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
-                Assert.Fail("Expected ArgumentException");
-            }
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("\"from\" and \"to\" must be >= 1", e.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected ArgumentException");
-            }
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int from = 1;
+            const int to = 0;
+            mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
         }
 
+        [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void FindMediaItemRange_FromIsNull()
         {
-            try
-            {
-                var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                const int from = 0;
-                const int to = 3;
-                mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
-                Assert.Fail("Expected ArgumentException");
-            }
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("\"from\" and \"to\" must be >= 1", e.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected ArgumentException");
-            }
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int from = 0;
+            const int to = 3;
+            mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
         }
 
+        [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void FindMediaItemRange_FromAndToAreNull()
         {
-            try
-            {
-                var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                const int from = 0;
-                const int to = 0;
-                mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
-                Assert.Fail("Expected ArgumentException");
-            }
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("\"from\" and \"to\" must be >= 1", e.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected ArgumentException");
-            }
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int from = 0;
+            const int to = 0;
+            mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
         }
 
         [TestMethod]
