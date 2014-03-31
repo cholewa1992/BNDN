@@ -99,7 +99,7 @@ namespace BusinessLogicLayer
             entity.ClientId = clientId;
             entity.AccessRight.Add(new AccessRight
             {
-                Id = (int)AccessRightType.Owner,
+                AccessRightTypeId = (int)AccessRightType.Owner,
                 UserId = owner.Id
             });
 
