@@ -61,7 +61,7 @@ namespace BusinessLogicTests
                      EntityId = 2,
                      UserId = 1,
                      Expiration = new DateTime(2050,1,1),
-                     AccessRightTypeId = 1
+                     AccessRightTypeId = 2
                  },
                  new AccessRight()
                  {
@@ -70,10 +70,16 @@ namespace BusinessLogicTests
                      Expiration = new DateTime(2010,1,1),
                      AccessRightTypeId = 1
                  },
+                 
                  new AccessRightType()
                  {
                      Id = 1,
                      Name = "Owner"
+                 },
+                 new AccessRightType()
+                 {
+                     Id = 2,
+                     Name = "Buyer"
                  },
                  new ClientAdmin()
                  {
@@ -113,7 +119,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void UserAccessExistence_ValidIdsFutureExpiration_Granted()
         {
-            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 2));
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Buyer, al.CheckUserAccess(1, 2));
         }
 
         [TestMethod]
@@ -156,19 +162,19 @@ namespace BusinessLogicTests
         [TestMethod]
         public void UserExistence_PassedValidUsernamePassword_True()
         {
-            Assert.AreEqual(true, al.CheckUserExists(new UserDTO(){Username = "username", Password = "password"}));
+            Assert.AreEqual(1, al.CheckUserExists(new UserDTO(){Username = "username", Password = "password"}));
         }
 
         [TestMethod]
         public void UserExistence_InvalidPassword_False()
         {
-            Assert.AreEqual(false, al.CheckUserExists(new UserDTO() { Username = "username", Password = "InvalidPassword" }));
+            Assert.AreEqual(-1, al.CheckUserExists(new UserDTO() { Username = "username", Password = "InvalidPassword" }));
         }
 
         [TestMethod]
         public void UserExistence_InvalidUsername_False()
         {
-            Assert.AreEqual(false, al.CheckUserExists(new UserDTO() { Username = "InvalidUsername", Password = "password" }));
+            Assert.AreEqual(-1, al.CheckUserExists(new UserDTO() { Username = "InvalidUsername", Password = "password" }));
         }
 
         [TestMethod]
