@@ -2,11 +2,10 @@
 
 namespace BusinessLogicLayer
 {
-    [DataContract]
     public enum AccessRightType
     {
         NoAccess, 
-        [EnumMember]Owner, 
-        [EnumMember]Buyer
+        Owner, 
+        Buyer
     }
 }
