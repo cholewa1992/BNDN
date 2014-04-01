@@ -3,10 +3,12 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Authentication;
+using System.ServiceModel;
 using System.Text;
 using System.Collections.Generic;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -155,26 +157,14 @@ namespace BusinessLogicTests
             #endregion
 
         #region GetMediaItemInformation
-        //TODO Shouldn't be argumentexception
+        [ExpectedException(typeof(FaultException<MediaItemNotFound>))]
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
             const int mediaItemId = 202020;
-            try
-            {
-                var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
-                Assert.Fail("Expected ArgumentException");
-            }
-            catch (ArgumentException ae)
-            {
-                Assert.AreEqual("No media item with id " + mediaItemId + " exists in the database", ae.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected ArgumentException");
-            }
-            
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
+            Assert.Fail("Expected ArgumentException");   
         }
 
         [TestMethod]

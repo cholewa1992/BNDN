@@ -6,9 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Authentication;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
 namespace BusinessLogicLayer
@@ -50,7 +52,8 @@ namespace BusinessLogicLayer
             }
             catch (Exception e)
             {
-                throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound{
+                    Message = "No media item with id " + mediaItemId + " exists in the database"});
             }
 
             var mediaItem = new MediaItemDTO { Id = entity.Id, 
