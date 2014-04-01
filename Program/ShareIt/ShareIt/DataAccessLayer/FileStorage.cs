@@ -46,7 +46,9 @@ namespace DataAccessLayer
             var filePath = Path.Combine(directoryPath, thumbnailName);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
-
+            //Delete thumbnail if it already existed for the given mediaId
+            if(File.Exists(filePath))
+                File.Delete(filePath);
             WriteStreamToDisk(filePath, fileByteStream);
             return WebPath + "/img/" + thumbnailName;
         }
