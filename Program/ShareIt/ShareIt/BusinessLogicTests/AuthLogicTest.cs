@@ -113,7 +113,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void UserAccessExistence_ValidIdsNullExpiration_Granted()
         {
-            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner,al.CheckUserAccess(1,1));
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1,1));
         }
 
         [TestMethod]
@@ -123,9 +123,9 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void UserAccessExistence_ValidIdsOverdueExpiration_NoAccess()
+        public void UserAccessExistence_ValidOwnerOverdueExpiration_Granted()
         {
-            Assert.AreEqual(BusinessLogicLayer.AccessRightType.NoAccess, al.CheckUserAccess(1, 3));
+            Assert.AreEqual(BusinessLogicLayer.AccessRightType.Owner, al.CheckUserAccess(1, 3));
         }
 
         [TestMethod]
@@ -298,14 +298,14 @@ namespace BusinessLogicTests
         }
         #endregion
 
-        #region GetExpirationDate
+        #region GetBuyerExpirationDate
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void GetExpirationDate_InvalidUserId()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(0, 1);
+            authLogic.GetBuyerExpirationDate(0, 1);
         }
 
         [ExpectedException(typeof(ArgumentException))]
@@ -313,7 +313,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_InvalidMediaItemId()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(1, 0);
+            authLogic.GetBuyerExpirationDate(1, 0);
         }
 
         [ExpectedException(typeof(InstanceNotFoundException))]
@@ -321,7 +321,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_UserIdNotFound()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(999, 1);
+            authLogic.GetBuyerExpirationDate(999, 1);
 
         }
 
@@ -330,7 +330,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_MediaItemIdNotFound()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(1, 999);
+            authLogic.GetBuyerExpirationDate(1, 999);
         }
 
         [ExpectedException(typeof(InstanceNotFoundException))]
@@ -338,7 +338,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_NoAccessRight()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(1, 2);
+            authLogic.GetBuyerExpirationDate(1, 2);
         }
 
         [TestMethod]
@@ -346,7 +346,7 @@ namespace BusinessLogicTests
         {
             var authLogic = new AuthLogic(_dbStorage);
             var expectedExpiration = new DateTime(2015, 01, 01, 00, 00, 00);
-            var actualExpiration = authLogic.GetExpirationDate(2, 2);
+            var actualExpiration = authLogic.GetBuyerExpirationDate(2, 2);
             Assert.AreEqual(expectedExpiration, actualExpiration);
         }
 
@@ -355,14 +355,14 @@ namespace BusinessLogicTests
         public void GetExpirationDate_Owner()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            authLogic.GetExpirationDate(2, 1);
+            authLogic.GetBuyerExpirationDate(2, 1);
         }
 
         [TestMethod]
         public void GetExpirationDate_BuyerButExpired()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            var actualExpiration = authLogic.GetExpirationDate(3, 2);
+            var actualExpiration = authLogic.GetBuyerExpirationDate(3, 2);
             var expectedExpiration = new DateTime(2013, 12, 31, 00, 00, 00);
             Assert.AreEqual(expectedExpiration, actualExpiration); 
         }
@@ -371,7 +371,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_BuyerWithoutExpiration()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            var actualExpiration = authLogic.GetExpirationDate(3, 1);
+            var actualExpiration = authLogic.GetBuyerExpirationDate(3, 1);
             Assert.AreEqual(null, actualExpiration);
         }
 
@@ -379,7 +379,7 @@ namespace BusinessLogicTests
         public void GetExpirationDate_BuyerWithMultipleExpirations()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            var actualExpiration = authLogic.GetExpirationDate(1, 1);
+            var actualExpiration = authLogic.GetBuyerExpirationDate(1, 1);
             Assert.AreEqual(null, actualExpiration);
         }
 

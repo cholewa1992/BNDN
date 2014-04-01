@@ -78,7 +78,7 @@ namespace BusinessLogicLayer
             if(userId != null) {
                 try
                 {
-                    DateTime? date = _authLogic.GetExpirationDate((int) userId, mediaItem.Id);
+                    DateTime? date = _authLogic.GetBuyerExpirationDate((int) userId, mediaItem.Id);
                     if (date == null)
                     {
                         informationList.Add(new MediaItemInformationDTO
