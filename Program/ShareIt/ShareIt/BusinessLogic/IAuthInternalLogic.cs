@@ -11,7 +11,7 @@ namespace BusinessLogicLayer
 
         bool IsUserAdminOnClient(int userId, string clientToken);
 
-        DateTime? GetExpirationDate(int userId, int mediaItemId);
+        DateTime? GetBuyerExpirationDate(int userId, int mediaItemId);
 
         int CheckUserExists(UserDTO user);
 
