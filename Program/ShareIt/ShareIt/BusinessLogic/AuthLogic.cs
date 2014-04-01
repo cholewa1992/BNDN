@@ -35,6 +35,7 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
+
             // TODO use .single instead of .First
 
             //Find an accessright
@@ -201,7 +202,7 @@ namespace BusinessLogicLayer
             throw new InstanceNotFoundException("No expiration date was found");
         }
 
-
+        
 
         public void Dispose()
         {
