@@ -75,80 +75,72 @@ namespace BusinessLogicTests
 
         private HashSet<Entity> SetupMediaItems()
         {
-            //Add some data
-            var book1 = new Entity { Id = 1, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1};
-            book1.EntityInfo = new List<EntityInfo>
-            {
-                new EntityInfo {EntityId = 1, Id = 1, EntityInfoTypeId = 1, Data = "Book1"},
-                new EntityInfo { EntityId = 1, Id = 2, EntityInfoTypeId = 2, Data = "Description1" }
-            };
-            var book2 = new Entity { Id = 2, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1};
-            book2.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 2, Id = 3, EntityInfoTypeId = 1, Data = "Book2"},
-                new EntityInfo { EntityId = 2, Id = 4, EntityInfoTypeId = 2, Data = "Description2" } 
-            };
-            var book3 = new Entity { Id = 3, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
-            book3.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 3, Id = 5, EntityInfoTypeId = 1, Data = "Book3"},
-                new EntityInfo { EntityId = 3, Id = 6, EntityInfoTypeId = 2, Data = "Description3" } 
-            };
-            var book4 = new Entity { Id = 4, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
-            book4.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 4, Id = 7, EntityInfoTypeId = 1, Data = "Book4"},
-                new EntityInfo { EntityId = 4, Id = 8, EntityInfoTypeId = 2, Data = "Description4" } 
-            };
 
-            var music1 = new Entity { Id = 5, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
-            music1.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 5, Id = 9, EntityInfoTypeId = 1, Data = "Music1"},
-                new EntityInfo { EntityId = 5, Id = 10, EntityInfoTypeId = 2, Data = "Description5" },
-                new EntityInfo { EntityId = 5, Id = 11, EntityInfoTypeId = 12, Data = "Artist1" }
-            };
-            var music2 = new Entity { Id = 6, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
-            music2.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 6, Id = 12, EntityInfoTypeId = 1, Data = "Music2"},
-                new EntityInfo {EntityId = 6, Id = 13, EntityInfoTypeId = 2, Data = "Description6"},
-                new EntityInfo {EntityId = 6, Id = 14, EntityInfoTypeId = 12, Data = "Artist2"}
-            };
-            var music3 = new Entity { Id = 7, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
-            music3.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 7, Id = 15, EntityInfoTypeId = 1, Data = "Music3"},
-                new EntityInfo {EntityId = 7, Id = 16, EntityInfoTypeId = 2, Data = "Description7"},
-                new EntityInfo {EntityId = 7, Id = 17, EntityInfoTypeId = 12, Data = "Artist3"}
-            };
+            var set = new HashSet<Entity>();
+
+            var count = 0;
+
+            for (int i = 1; i <= 4; i++)
+            {
+                var book = new Entity { Id = i, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
+                book.EntityInfo = new List<EntityInfo>
+                {
+                    new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Book" + i, Entity = book},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + i, Entity = book}
+                };
+                set.Add(book);
+            }
+
+            for (int i = 1; i <= 3; i++)
+            {
+                var music = new Entity { Id = i, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
+                music.EntityInfo = new List<EntityInfo> 
+                {
+                    new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Music" + i, Entity = music},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + count, Entity = music},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 12, Data = "Artist" + i, Entity = music}
+                };
+                set.Add(music);
+            }
 
             var movie1 = new Entity { Id = 8, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie1.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 8, Id = 18, EntityInfoTypeId = 1, Data = "Movie1"},
-                new EntityInfo {EntityId = 8, Id = 19, EntityInfoTypeId = 2, Data = "Description8"},
-                new EntityInfo {EntityId = 8, Id = 20, EntityInfoTypeId = 11, Data = "Director1"}
+                new EntityInfo {EntityId = 8, Id = 18, EntityInfoTypeId = 1, Data = "Movie1", Entity = movie1},
+                new EntityInfo {EntityId = 8, Id = 19, EntityInfoTypeId = 2, Data = "Description8", Entity = movie1},
+                new EntityInfo {EntityId = 8, Id = 20, EntityInfoTypeId = 11, Data = "Director1", Entity = movie1}
             };
             var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie2.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 9, Id = 21, EntityInfoTypeId = 1, Data = "Movie2"},
-                new EntityInfo {EntityId = 9, Id = 22, EntityInfoTypeId = 2, Data = "Description9"},
-                new EntityInfo {EntityId = 9, Id = 23, EntityInfoTypeId = 11, Data = "Director2"}
+                new EntityInfo {EntityId = 9, Id = 21, EntityInfoTypeId = 1, Data = "Movie2", Entity = movie2},
+                new EntityInfo {EntityId = 9, Id = 22, EntityInfoTypeId = 2, Data = "Description9", Entity = movie2},
+                new EntityInfo {EntityId = 9, Id = 23, EntityInfoTypeId = 11, Data = "Director2", Entity = movie2}
             };
             var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie3.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 10, Id = 24, EntityInfoTypeId = 1, Data = "Movie3"},
-                new EntityInfo {EntityId = 10, Id = 25, EntityInfoTypeId = 2, Data = "Description10"},
-                new EntityInfo {EntityId = 10, Id = 26, EntityInfoTypeId = 11, Data = "Director3"}
+                new EntityInfo {EntityId = 10, Id = 24, EntityInfoTypeId = 1, Data = "Movie3", Entity = movie3},
+                new EntityInfo {EntityId = 10, Id = 25, EntityInfoTypeId = 2, Data = "Description10", Entity = movie3},
+                new EntityInfo {EntityId = 10, Id = 26, EntityInfoTypeId = 11, Data = "Director3", Entity = movie3}
             };
             var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie4.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 11, Id = 27, EntityInfoTypeId = 1, Data = "Movie4"},
-                new EntityInfo {EntityId = 11, Id = 28, EntityInfoTypeId = 2, Data = "Description11"},
-                new EntityInfo {EntityId = 11, Id = 29, EntityInfoTypeId = 11, Data = "Director 1"}
+                new EntityInfo {EntityId = 11, Id = 27, EntityInfoTypeId = 1, Data = "Movie4", Entity = movie4},
+                new EntityInfo {EntityId = 11, Id = 28, EntityInfoTypeId = 2, Data = "Description 11", Entity = movie4},
+                new EntityInfo {EntityId = 11, Id = 29, EntityInfoTypeId = 11, Data = "Director1", Entity = movie4}
             };
             var movie5 = new Entity { Id = 12, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             movie5.EntityInfo = new List<EntityInfo> {
-                new EntityInfo {EntityId = 12, Id = 30, EntityInfoTypeId = 1, Data = "Movie5"},
-                new EntityInfo {EntityId = 12, Id = 31, EntityInfoTypeId = 2, Data = "Description12"},
-                new EntityInfo {EntityId = 12, Id = 32, EntityInfoTypeId = 11, Data = "Director 2"}
+                new EntityInfo {EntityId = 12, Id = 30, EntityInfoTypeId = 1, Data = "Movie5", Entity = movie5},
+                new EntityInfo {EntityId = 12, Id = 31, EntityInfoTypeId = 2, Data = "Description 12", Entity = movie5},
+                new EntityInfo {EntityId = 12, Id = 32, EntityInfoTypeId = 11, Data = "Director2", Entity = movie5}
             };
 
-            return new HashSet<Entity>{book1, book2, book3, book4, music1, music2, music3, movie1, movie2, movie3, movie4, movie5};
+            set.Add(movie1);
+            set.Add(movie2);
+            set.Add(movie3);
+            set.Add(movie4);
+            set.Add(movie5);
+
+            return set;
         }
 
         private HashSet<Rating> SetupRatings()
@@ -244,7 +236,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count); //TODO Assuming only books? otherwise the first 3 hits wouldn't necessarily be books?
         }
@@ -255,7 +247,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 3;
             const int to = 1;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(from - (to - 1), bookList.MediaItemList.Count); //Assuming that the number of books exceed the range
         }
@@ -287,7 +279,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 0;
             const int to = 0;
-            mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
         }
 
         [TestMethod]
@@ -296,7 +288,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1000000;
             const int to = 1000003;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             const int numberOfMediaItemTypesWithOneMillionItems = 0; //Assuming that there is not 1000000 items of a specific type
             int numberOfKeyValuePairs = dictionary.Count;
             Assert.AreEqual(numberOfMediaItemTypesWithOneMillionItems, numberOfKeyValuePairs);
@@ -308,7 +300,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 100;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             const int numberOfBooks = 4; //Assuming we have exactly 4 books 
             var bookList = dictionary[MediaItemTypeDTO.Book];
             Assert.AreEqual(numberOfBooks, bookList.MediaItemList.Count); 
@@ -322,7 +314,7 @@ namespace BusinessLogicTests
                 var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
                 const int from = 1;
                 const int to = 101;
-                mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+                mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
                 Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException e)
@@ -342,7 +334,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 10;
-            mediaItemLogic.FindMediaItemRange(@from, to, null, null, null);
+            mediaItemLogic.FindMediaItemRange(from, to, null, null, null);
         }
 
         [ExpectedException(typeof(InvalidCredentialException))]
@@ -352,7 +344,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 10;
-            mediaItemLogic.FindMediaItemRange(@from, to, null, null, "invalidToken");
+            mediaItemLogic.FindMediaItemRange(from, to, null, null, "invalidToken");
         }
 
         [TestMethod]
@@ -361,7 +353,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             const int numberOfMediaItemTypes = 3; //Books, music, movies
             int numberOfKeyValuePairs = dictionary.Count;
             Assert.AreEqual(numberOfMediaItemTypes, numberOfKeyValuePairs); //Assuming that there is at least one media item per type
@@ -373,7 +365,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, MediaItemTypeDTO.Movie, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, null, "testClient");
             const int expectedNumberOfMovies = to - (from - 1); 
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(expectedNumberOfMovies, movieList.MediaItemList.Count);
@@ -385,7 +377,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, MediaItemTypeDTO.Movie, null, "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, null, "testClient");
             const int expectedNumberOfSearchResults = 5; 
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(expectedNumberOfSearchResults, movieList.NumberOfSearchResults);
@@ -397,8 +389,8 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, null, "Director1", "testClient");
-            const int expectedNumberOfMovies = to - (from - 1); 
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, "Director1", "testClient");
+            const int expectedNumberOfMovies = 2; //even though range is from 1-3 there are only 2 movies matching "Director1"
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(expectedNumberOfMovies, movieList.MediaItemList.Count);
         }
@@ -409,7 +401,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, MediaItemTypeDTO.Movie, "Director1", "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "Director1", "testClient");
             const int numberOfMoviesThatMatchesSearchKey = 2; 
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
@@ -421,7 +413,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(@from, to, MediaItemTypeDTO.Movie, " ", "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, " ", "testClient");
             const int numberOfMoviesThatMatchesSearchKey = 2; //Two movies match the search key " "
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
