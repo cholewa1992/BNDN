@@ -28,5 +28,32 @@ namespace BusinessLogicLayer.Stub
         {
             return true;
         }
+
+        public IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken)
+        {
+            return new List<UserDTO>()
+            {
+                new UserDTO()
+                {
+                    Id = 1,
+                    Username = "firstUser"
+                },
+                new UserDTO()
+                {
+                    Id = 2,
+                    Username = "secondUser"
+                }
+            };
+        }
+
+        public bool DeleteUser(UserDTO requestingUser, int userToBeDeletedId, string clientToken)
+        {
+            return true;
+        }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
