@@ -14,18 +14,14 @@ namespace BusinessLogicLayer
     {
 
         private readonly IAuthInternalLogic _authLogic;
-        private readonly IBusinessLogicFactory _factory;
         private readonly IStorageBridge _storage;
 
         /// <summary>
-        /// Construct a UserLogic which uses the default business logic factory.
-        /// This constructor is called by WCF.
+        /// Construct a UserLogic which is used by the default business logic factory.
         /// </summary>
         internal UserLogic(IStorageBridge storage, IAuthInternalLogic authLogic)
         {
             _storage = storage;
-            _factory = BusinessLogicFacade.GetTestFactory();
-            //_factory = BusinessLogicFacade.GetBusinessFactory();
             _authLogic = authLogic;
         }
 
@@ -58,18 +54,7 @@ namespace BusinessLogicLayer
             {
                 throw new ArgumentException("Username must consist of between 1 and 20 characters");
             }
-            if (user.Password.Length < 1 || user.Password.Length > 50)
-            {
-                throw new ArgumentException("Password must consist of between 1 and 50 characters");
-            }
-            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
-            {
-                throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
-            }
-            if (Regex.IsMatch(user.Password, "\\s"))
-            {
-                throw new ArgumentException("Password must not contain any whitespace characters");
-            }
+            ValidatePassword(user);
 
             // Attempt to create the user account
             try
@@ -152,6 +137,10 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(requestingUser != null);
             Contract.Requires<ArgumentNullException>(userToUpdate != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(userToUpdate.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(userToUpdate.Username));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Username));
 
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
@@ -169,7 +158,7 @@ namespace BusinessLogicLayer
 
             try
             {
-                 currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
+                 currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First(); //TODO should probably not be id
             }
             catch (Exception)
             {
@@ -179,16 +168,24 @@ namespace BusinessLogicLayer
             // Attempt to update the user account by inserting it with the same id
             try
             {
-                var userAcc = new UserAcc()
+                ValidatePassword(userToUpdate);
+                currentUserAcc.Password = userToUpdate.Password;
+                currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
                 {
-                    Id = userToUpdate.Id,
-                    Username = userToUpdate.Username,
-                    Password = userToUpdate.Password,
-                    AccessRight = currentUserAcc.AccessRight,
-                    UserInfo = currentUserAcc.UserInfo,
-                    ClientAdmin = currentUserAcc.ClientAdmin
-                };
-                _storage.Add<UserAcc>(userAcc);
+                    Data = x.Data,
+                    UserInfoType = (int) x.Type
+                }).ToList();
+                _storage.Update(currentUserAcc);
+                //var userAcc = new UserAcc()
+                //{
+                //    Id = userToUpdate.Id,
+                //    Username = userToUpdate.Username,
+                //    Password = userToUpdate.Password,
+                //    AccessRight = currentUserAcc.AccessRight,
+                //    UserInfo = currentUserAcc.UserInfo,
+                //    ClientAdmin = currentUserAcc.ClientAdmin
+                //};
+                //_storage.Add<UserAcc>(userAcc);
             }
             catch (Exception e)
             {
@@ -196,6 +193,28 @@ namespace BusinessLogicLayer
             }
 
             return true;
+        }
+        /// <summary>
+        /// Validate that the password of a UserDTO lives up to requirements.
+        /// Between 1 and 50 characters.
+        /// Only alphanumerical characters a-z + A-Z + 0-9
+        /// Must not contain any whitespace characters.
+        /// </summary>
+        /// <param name="user">The user whose password should be validated.</param>
+        private void ValidatePassword(UserDTO user)
+        {
+            if (user.Password.Length < 1 || user.Password.Length > 50)
+            {
+                throw new ArgumentException("Password must consist of between 1 and 50 characters");
+            }
+            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
+            {
+                throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
+            }
+            if (Regex.IsMatch(user.Password, "\\s"))
+            {
+                throw new ArgumentException("Password must not contain any whitespace characters");
+            }
         }
     }
 }
