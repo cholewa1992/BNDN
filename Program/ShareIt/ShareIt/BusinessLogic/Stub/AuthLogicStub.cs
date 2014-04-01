@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Stub
 
         public void Dispose()
         {
-            Storage.Dispose();
+
         }
 
         public bool CheckUserExists(UserDTO user)
