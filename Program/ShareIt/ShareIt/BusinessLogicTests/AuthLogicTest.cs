@@ -249,7 +249,7 @@ namespace BusinessLogicTests
             var ar1 = new AccessRight //User 1 has bought Entity 1
             {
                 Id = 1,
-                Expiration = new DateTime(2014, 12, 24, 23, 59, 59),
+                Expiration = null,
                 EntityId = 1, 
                 UserId = 1,
                 AccessRightTypeId = 2
@@ -361,39 +361,26 @@ namespace BusinessLogicTests
         [TestMethod]
         public void GetExpirationDate_BuyerButExpired()
         {
-            try
-            {
-                var authLogic = new AuthLogic(_dbStorage);
-                authLogic.GetExpirationDate(3, 2);
-                Assert.Fail("Expected InstanceNotFoundException");
-            }
-            catch (InstanceNotFoundException e)
-            {
-                Assert.AreEqual("The access right has expired", e.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected InstanceNotFoundException but got " + e.GetType());
-            }
-            
+            var authLogic = new AuthLogic(_dbStorage);
+            var actualExpiration = authLogic.GetExpirationDate(3, 2);
+            var expectedExpiration = new DateTime(2013, 12, 31, 00, 00, 00);
+            Assert.AreEqual(expectedExpiration, actualExpiration); 
         }
 
         [TestMethod]
         public void GetExpirationDate_BuyerWithoutExpiration()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            var expectedExpiration = new DateTime(9999, 12, 31);
             var actualExpiration = authLogic.GetExpirationDate(3, 1);
-            Assert.AreEqual(expectedExpiration, actualExpiration);
+            Assert.AreEqual(null, actualExpiration);
         }
 
         [TestMethod]
         public void GetExpirationDate_BuyerWithMultipleExpirations()
         {
             var authLogic = new AuthLogic(_dbStorage);
-            var expectedExpiration = new DateTime(2014, 12, 24, 23, 59, 59);
             var actualExpiration = authLogic.GetExpirationDate(1, 1);
-            Assert.AreEqual(expectedExpiration, actualExpiration);
+            Assert.AreEqual(null, actualExpiration);
         }
 
         #endregion

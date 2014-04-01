@@ -3,10 +3,12 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Authentication;
+using System.ServiceModel;
 using System.Text;
 using System.Collections.Generic;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -67,6 +69,8 @@ namespace BusinessLogicTests
                 }
             }
             var ratings = SetupRatings();
+            var users = SetupUsers();
+            dbMoq.Setup(foo => foo.Get<UserAcc>()).Returns(users.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Rating>()).Returns(ratings.AsQueryable);
             dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
@@ -152,29 +156,25 @@ namespace BusinessLogicTests
             return new HashSet<Rating> {r1, r2, r3, r4};
         }
 
+        private HashSet<UserAcc> SetupUsers()
+        {
+            var u1 = new UserAcc { Id = 1 };
+            var u2 = new UserAcc { Id = 2 };
+            var u3 = new UserAcc { Id = 3 };
+            return new HashSet<UserAcc> { u1, u2, u3 };
+        }
+
             #endregion
 
         #region GetMediaItemInformation
-        //TODO Shouldn't be argumentexception
+        [ExpectedException(typeof(FaultException<MediaItemNotFound>))]
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
             const int mediaItemId = 202020;
-            try
-            {
-                var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-                mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
-                Assert.Fail("Expected ArgumentException");
-            }
-            catch (ArgumentException ae)
-            {
-                Assert.AreEqual("No media item with id " + mediaItemId + " exists in the database", ae.Message);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Expected ArgumentException");
-            }
-            
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
+            Assert.Fail("Expected ArgumentException");   
         }
 
         [TestMethod]
@@ -238,7 +238,7 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             var bookList = dictionary[MediaItemTypeDTO.Book];
-            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count); //TODO Assuming only books? otherwise the first 3 hits wouldn't necessarily be books?
+            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count);
         }
 
         [TestMethod]
@@ -271,17 +271,7 @@ namespace BusinessLogicTests
             const int to = 3;
             mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
         }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void FindMediaItemRange_FromAndToAreNull() //TODO Redundant when you have already check seperately?
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int from = 0;
-            const int to = 0;
-            mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
-        }
-
+        
         [TestMethod]
         public void FindMediaItemRange_FromExceedsNumberOfElements_ListCount()
         {
@@ -327,7 +317,7 @@ namespace BusinessLogicTests
             }
         }
 
-        [ExpectedException(typeof(InvalidCredentialException))] //TODO Should be argument null exception
+        [ExpectedException(typeof(ArgumentNullException))] 
         [TestMethod]
         public void FindMediaItemRange_ClientTokenNull()
         {
@@ -421,18 +411,6 @@ namespace BusinessLogicTests
         #endregion
 
         #region RateMediaItem
-        /* RateMediaItem
-         * userId < 1
-         * userId > int.MaxValue
-         * mediaItemId < 1
-         * mediaItemId > int.MaxValue
-         * rating < 1
-         * rating > 10
-         * invalid clientToken
-         * user never rated media item before
-         * user already rated media item
-         * 
-         */
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -446,17 +424,6 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void RateMediaItem_UserIdExceedsMax() //TODO Doesn't exceed max, it is exactly max.
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = int.MaxValue;
-            const int mediaItemId = 1;
-            const int rating = 8;
-            const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-        }
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -470,17 +437,6 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void RateMediaItem_MediaItemIdExceedsMax() //TODO doesn't exceed max, it is exactly max
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
-            const int mediaItemId = int.MaxValue;
-            const int rating = 8;
-            const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-        }
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -542,6 +498,30 @@ namespace BusinessLogicTests
             //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
         }
 
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void RateMediaItem_UserIdNotFound()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 99; //Not existing
+            const int mediaItemId = 2;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void RateMediaItem_MediaItemIdNotFound()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 2;
+            const int mediaItemId = 99; //Not existing
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
         [TestMethod]
         public void RateMediaItem_ValidUpdateRating()
         {
@@ -557,13 +537,6 @@ namespace BusinessLogicTests
         #endregion
 
         #region GetAverageRating
-        /* GetAverageRating
-         * mediaItemId < 1
-         * mediaItemId > int.MaxValue
-         * no rating
-         * 1 rating
-         * 3 ratings
-         */
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -571,13 +544,6 @@ namespace BusinessLogicTests
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.GetAverageRating(-2);
-        }
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void GetAverageRating_MediaItemIdExceedsMax() //TODO doesn't exceed max, is exactly max
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.GetAverageRating(int.MaxValue);
         }
         [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]

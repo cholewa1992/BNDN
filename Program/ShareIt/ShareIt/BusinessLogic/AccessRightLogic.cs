@@ -30,7 +30,7 @@ namespace BusinessLogicLayer
             _storage = storage;
         }
 
-        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(user != null);
@@ -82,7 +82,9 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(newAdminId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
-            if (_authLogic.CheckClientToken(clientToken) < 0)
+
+            var clientId = _authLogic.CheckClientToken(clientToken);
+            if (clientId < 0)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
@@ -98,12 +100,16 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new InstanceNotFoundException("User not found.");
+                throw new InstanceNotFoundException("No user found with id: " + newAdminId);
             }
+
+            //return if already admin.
+            if (_authLogic.IsUserAdminOnClient(newAdminId, clientToken))
+                return true;
 
             var newClientAdmin = new ClientAdmin();
 
-            newClientAdmin.ClientId = _authLogic.CheckClientToken(clientToken);
+            newClientAdmin.ClientId = clientId;
             newClientAdmin.UserId = newAdminId;
 
             _storage.Add(newClientAdmin);
@@ -130,8 +136,8 @@ namespace BusinessLogicLayer
             {
                 throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
-
-            _storage.Get<Entity>(accessRightId);
+            //Check if accessRight exists
+            _storage.Get<AccessRight>(accessRightId);
 
             _storage.Delete<AccessRight>(accessRightId);
 
@@ -205,7 +211,7 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
             }
 
-            if (_authLogic.CheckUserAccess(newAR.UserId, newAR.MediaItemId) != AccessRightType.NoAccess &&
+            if (_authLogic.CheckUserAccess(u.Id, newAR.MediaItemId) != AccessRightType.NoAccess &&
                 !_authLogic.IsUserAdminOnClient(u.Id, clientToken))
             {
                 throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
@@ -224,19 +230,9 @@ namespace BusinessLogicLayer
 
             if (oldAR != null)
             {
-                var newAccessRight = new AccessRight
-                {
-                    Id = newAR.Id,
-                    EntityId = oldAR.EntityId,
-                    AccessRightTypeId = oldAR.AccessRightTypeId,
-                    Expiration = newAR.Expiration,
-                    UserId = oldAR.UserId
-                };
-
-                _storage.Update<AccessRight>(newAccessRight);
+                oldAR.Expiration = newAR.Expiration;
+                _storage.Update<AccessRight>(oldAR);
             }
-            
-
             return true;
         }
 
@@ -250,8 +246,10 @@ namespace BusinessLogicLayer
         {
             return acessRights.Select(aR => new AccessRightDTO
             {
-                Id = aR.Id, MediaItemId = aR.EntityId, AccessRightType = 
-                (AccessRightType) aR.AccessRightTypeId, Expiration = aR.Expiration, UserId = aR.UserId
+                Id = aR.Id, 
+                MediaItemId = aR.EntityId,
+                Expiration = aR.Expiration,
+                UserId = aR.UserId
             }).ToList();
         }
     }

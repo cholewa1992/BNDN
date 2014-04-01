@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.Stub
 
         }
 
-        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             return true;
         }

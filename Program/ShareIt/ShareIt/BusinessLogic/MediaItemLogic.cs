@@ -6,9 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Authentication;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
 namespace BusinessLogicLayer
@@ -50,7 +52,8 @@ namespace BusinessLogicLayer
             }
             catch (Exception e)
             {
-                throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound{
+                    Message = "No media item with id " + mediaItemId + " exists in the database"});
             }
 
             var mediaItem = new MediaItemDTO { Id = entity.Id, 
@@ -75,11 +78,23 @@ namespace BusinessLogicLayer
             if(userId != null) {
                 try
                 {
-                    informationList.Add(new MediaItemInformationDTO
+                    DateTime? date = _authLogic.GetExpirationDate((int) userId, mediaItem.Id);
+                    if (date == null)
                     {
-                        Type = InformationTypeDTO.ExpirationDate,
-                        Data = _authLogic.GetExpirationDate((int) userId, mediaItem.Id).ToString(CultureInfo.CurrentCulture)
-                    });
+                        informationList.Add(new MediaItemInformationDTO
+                        {
+                            Type = InformationTypeDTO.ExpirationDate,
+                            Data = null
+                        });
+                    }
+                    else
+                    {
+                        informationList.Add(new MediaItemInformationDTO
+                        {
+                            Type = InformationTypeDTO.ExpirationDate,
+                            Data = date.ToString()
+                        });
+                    }
                 }
                 catch (InstanceNotFoundException e)
                 {
@@ -129,8 +144,7 @@ namespace BusinessLogicLayer
         {
             Contract.Requires<ArgumentException>(from > 0);
             Contract.Requires<ArgumentException>(to > 0);
-            Contract.Requires<ArgumentException>(from < int.MaxValue);
-            Contract.Requires<ArgumentException>(to < int.MaxValue);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
 
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
@@ -189,17 +203,6 @@ namespace BusinessLogicLayer
                 #region Searchkey & all media types
                 else //Searchkey & all media types
                 {
-                    /*var typeGroups = (_storage.Get<EntityInfo>().
-                        Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
-                        GroupBy(info => info.EntityId).
-                        OrderBy(group => group.Count())).
-                        GroupBy(d => d.FirstOrDefault().Entity.TypeId);*/
-                    /*var typeGroups = _storage.Get<EntityInfo>().
-                        Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
-                        GroupBy(info => info.EntityId).
-                        OrderBy(group => group.Count()).
-                        GroupBy(a => a.FirstOrDefault().Entity.TypeId).
-                        OrderBy(a => a.Key);*/
                     var typeGroups = _storage.Get<EntityInfo>().
                         Where(ei => ei.Data.Contains(searchKey) && ei.Entity.ClientId == clientId).
                         GroupBy(ei => ei.Entity.TypeId);
@@ -312,8 +315,6 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(0 < rating && rating <= 10);
             Contract.Requires<ArgumentNullException>(clientToken != null);
-            Contract.Requires<ArgumentException>(userId < int.MaxValue);
-            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
 
             //check if client has access
             int clientId = _authLogic.CheckClientToken(clientToken);
@@ -321,7 +322,7 @@ namespace BusinessLogicLayer
             {
                 throw new InvalidCredentialException();
             }
-            
+
             //check if the user has already rated this media item
             var existing = _storage.Get<Rating>().Where(a => a.UserId == userId && a.EntityId == mediaItemId).Select(a => a).FirstOrDefault();
             if (existing != null)
@@ -338,13 +339,23 @@ namespace BusinessLogicLayer
             }
             else
             {
-                var newRating = new Rating
+                var validUser = _storage.Get<UserAcc>().Any(a => a.Id == userId);
+                var validMediaItem = _storage.Get<Entity>().Any(a => a.Id == mediaItemId);
+                if (validUser && validMediaItem)
                 {
-                    UserId = userId,
-                    EntityId = mediaItemId,
-                    Value = rating
-                };
-                _storage.Add(newRating);
+                    var newRating = new Rating
+                    {
+                        UserId = userId,
+                        EntityId = mediaItemId,
+                        Value = rating
+                    };
+                    _storage.Add(newRating);
+                }
+                else
+                {
+                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem);
+                }
+
             }
 
         }

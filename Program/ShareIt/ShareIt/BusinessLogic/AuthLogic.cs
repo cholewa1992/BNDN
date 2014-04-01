@@ -173,36 +173,35 @@ namespace BusinessLogicLayer
         /// <param name="userId">The id of the user</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <returns>A DateTime telling when the access expires</returns>
-        /// <exception cref="InstanceNotFoundException">Thrown when the access right has already expired 
-        /// or when there is no access right and therefore no expiration date</exception>
-        public DateTime GetExpirationDate(int userId, int mediaItemId)
+        /// <exception cref="InstanceNotFoundException">Thrown when there is no access right and therefore no expiration date</exception>
+        public DateTime? GetExpirationDate(int userId, int mediaItemId)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
-            
+
+            var arNoExpiration = _storage.Get<AccessRight>().
+                Any(a => a.UserId == userId && a.EntityId == mediaItemId
+                && a.AccessRightTypeId == (int) AccessRightType.Buyer && a.Expiration == null);
+            if (arNoExpiration)
+            {
+                return null;
+            }
+
             //Find the accessright with the latest expiration (if any)
-            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId 
-                && a.AccessRightTypeId == (int) AccessRightType.Buyer).
+            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId
+                && a.AccessRightTypeId == (int)AccessRightType.Buyer).
                 OrderByDescending(a => a.Expiration).
                 Select(a => a).FirstOrDefault();
 
             if (ar != null)
             {
-                if (ar.Expiration == null)
-                {
-                    return new DateTime(9999, 12, 31);
-                } else if (ar.Expiration < DateTime.Now)
-                {
-                    throw new InstanceNotFoundException("The access right has expired");
-                }
-                return (DateTime) ar.Expiration;
+                return ar.Expiration;
             }
 
             throw new InstanceNotFoundException("No expiration date was found");
         }
 
-        
 
         public void Dispose()
         {
