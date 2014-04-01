@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Authentication;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
@@ -17,8 +14,8 @@ namespace BusinessLogicLayer
 {
     class MediaItemLogic : IMediaItemInternalLogic
     {
-        private IStorageBridge _storage;
-        private IAuthInternalLogic _authLogic;
+        private readonly IStorageBridge _storage;
+        private readonly IAuthInternalLogic _authLogic;
 
         internal MediaItemLogic(IStorageBridge storage, IAuthInternalLogic authLogic)
         {
@@ -328,14 +325,8 @@ namespace BusinessLogicLayer
             if (existing != null)
             {
                 //Update
-                var updateRating = new Rating
-                {
-                    Id = existing.Id,
-                    UserId = existing.UserId,
-                    EntityId = existing.EntityId,
-                    Value = rating
-                };
-                _storage.Update(updateRating);
+                existing.Value = rating;
+                _storage.Update(existing);
             }
             else
             {
@@ -355,9 +346,7 @@ namespace BusinessLogicLayer
                 {
                     throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem);
                 }
-
             }
-
         }
 
         /// <summary>

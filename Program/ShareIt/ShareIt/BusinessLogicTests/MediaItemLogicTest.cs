@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Management.Instrumentation;
-using System.Runtime.InteropServices.ComTypes;
 using System.Security.Authentication;
 using System.ServiceModel;
-using System.Text;
 using System.Collections.Generic;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
@@ -57,10 +55,10 @@ namespace BusinessLogicTests
         private void SetupDbStorageMock()
         {
             var dbMoq = new Mock<IStorageBridge>();
-            dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Verifiable();
             dbMoq.Setup(foo => foo.Update(It.IsAny<Entity>())).Verifiable();
+
             var mediaItems = SetupMediaItems();
-            HashSet<EntityInfo> info = new HashSet<EntityInfo>();
+            var info = new HashSet<EntityInfo>(new EntityInfoEqualityComparer());
             foreach (var item in mediaItems)
             {
                 foreach (var entityInfo in item.EntityInfo)
@@ -74,13 +72,23 @@ namespace BusinessLogicTests
             dbMoq.Setup(foo => foo.Get<Rating>()).Returns(ratings.AsQueryable);
             dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
+
+            //Added methodes
+            dbMoq.Setup(foo => foo.Add(It.IsAny<UserAcc>())).Callback(new Action<UserAcc>((e) => users.Add(e))).Verifiable();
+            dbMoq.Setup(foo => foo.Add(It.IsAny<Rating>())).Callback(new Action<Rating>((e) => ratings.Add(e))).Verifiable();
+            dbMoq.Setup(foo => foo.Add(It.IsAny<EntityInfo>())).Callback(new Action<EntityInfo>((e) => info.Add(e))).Verifiable();
+            dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Callback(new Action<Entity>((e) => mediaItems.Add(e))).Verifiable();
+
+            //Update methodes
+            dbMoq.Setup(foo => foo.Update(It.IsAny<Rating>())).Callback(new Action<Rating>((e) => ratings.Add(e))).Verifiable();
+
             _dbStorage = dbMoq.Object;
         }
 
         private HashSet<Entity> SetupMediaItems()
         {
 
-            var set = new HashSet<Entity>();
+            var set = new HashSet<Entity>(new EntityEqualityComparer());
 
             var count = 0;
 
@@ -108,24 +116,28 @@ namespace BusinessLogicTests
             }
 
             var movie1 = new Entity { Id = 8, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+
             movie1.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 8, Id = 18, EntityInfoTypeId = 1, Data = "Movie1", Entity = movie1},
                 new EntityInfo {EntityId = 8, Id = 19, EntityInfoTypeId = 2, Data = "Description8", Entity = movie1},
                 new EntityInfo {EntityId = 8, Id = 20, EntityInfoTypeId = 11, Data = "Director1", Entity = movie1}
             };
-            var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            
             movie2.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 9, Id = 21, EntityInfoTypeId = 1, Data = "Movie2", Entity = movie2},
                 new EntityInfo {EntityId = 9, Id = 22, EntityInfoTypeId = 2, Data = "Description9", Entity = movie2},
                 new EntityInfo {EntityId = 9, Id = 23, EntityInfoTypeId = 11, Data = "Director2", Entity = movie2}
             };
-            var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            
             movie3.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 10, Id = 24, EntityInfoTypeId = 1, Data = "Movie3", Entity = movie3},
                 new EntityInfo {EntityId = 10, Id = 25, EntityInfoTypeId = 2, Data = "Description10", Entity = movie3},
                 new EntityInfo {EntityId = 10, Id = 26, EntityInfoTypeId = 11, Data = "Director3", Entity = movie3}
             };
-            var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            
             movie4.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 11, Id = 27, EntityInfoTypeId = 1, Data = "Movie4", Entity = movie4},
                 new EntityInfo {EntityId = 11, Id = 28, EntityInfoTypeId = 2, Data = "Description 11", Entity = movie4},
@@ -149,23 +161,28 @@ namespace BusinessLogicTests
 
         private HashSet<Rating> SetupRatings()
         {
-            var r1 = new Rating { Id = 1, UserId = 1, EntityId = 1, Value = 10 };
-            var r2 = new Rating { Id = 2, UserId = 1, EntityId = 2, Value = 1 };
-            var r3 = new Rating { Id = 3, UserId = 2, EntityId = 1, Value = 7 };
-            var r4 = new Rating { Id = 4, UserId = 3, EntityId = 1, Value = 2 };
-            return new HashSet<Rating> {r1, r2, r3, r4};
+
+           return new HashSet<Rating>(new RatingEqualityComparer())
+            {
+                new Rating { Id = 1, UserId = 1, EntityId = 1, Value = 10 },
+                new Rating { Id = 2, UserId = 1, EntityId = 2, Value = 1 },
+                new Rating { Id = 3, UserId = 2, EntityId = 1, Value = 7 },
+                new Rating { Id = 4, UserId = 3, EntityId = 1, Value = 2 }
+            };
         }
 
         private HashSet<UserAcc> SetupUsers()
         {
-            var u1 = new UserAcc { Id = 1 };
-            var u2 = new UserAcc { Id = 2 };
-            var u3 = new UserAcc { Id = 3 };
-            return new HashSet<UserAcc> { u1, u2, u3 };
+
+            return new HashSet<UserAcc>(new UserAccEqualityComparer())
+            {
+                new UserAcc {Id = 1},
+                new UserAcc {Id = 2},
+                new UserAcc {Id = 3},
+            };
         }
 
-            #endregion
-
+        #endregion
         #region GetMediaItemInformation
         [ExpectedException(typeof(FaultException<MediaItemNotFound>))]
         [TestMethod]
@@ -228,7 +245,6 @@ namespace BusinessLogicTests
             Assert.AreEqual(list[1], InformationTypeDTO.Description);
         }
         #endregion
-
         #region FindMediaItemRange
         [TestMethod]
         public void FindMediaItemRange_FromLessThanTo_ItemCount()
@@ -409,9 +425,7 @@ namespace BusinessLogicTests
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
         }
         #endregion
-
         #region RateMediaItem
-
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void RateMediaItem_UserIdLessThanOne()
@@ -489,13 +503,16 @@ namespace BusinessLogicTests
         [TestMethod]
         public void RateMediaItem_ValidNewRating()
         {
+            
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int userId = 2;
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-            //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
+            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == userId && t.EntityId == mediaItemId && t.Value == rating));
+
+
         }
 
         [ExpectedException(typeof(InstanceNotFoundException))]
@@ -530,12 +547,20 @@ namespace BusinessLogicTests
             const int mediaItemId = 2;
             const int rating = 3; //User 1 rates media item 2 3 instead of 1
             const string token = "testClient";
+            
+            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 1));
+            Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 3));
+            var count = _dbStorage.Get<Rating>().Count();
+
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-            //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
+
+            Assert.AreEqual(count, _dbStorage.Get<Rating>().Count());
+            Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 1));
+            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 3));
+
         }
 
         #endregion
-
         #region GetAverageRating
 
         [ExpectedException(typeof(ArgumentException))]
@@ -567,6 +592,56 @@ namespace BusinessLogicTests
             var actual = mediaItemLogic.GetAverageRating(1);
             const double expected = 6.333333;
             Assert.AreEqual(expected, actual, 0.01);
+        }
+        #endregion
+        #region EqualityCompares
+        public class RatingEqualityComparer : IEqualityComparer<Rating>
+        {
+            public bool Equals(Rating x, Rating y)
+            {
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(Rating obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
+        public class EntityEqualityComparer : IEqualityComparer<Entity>
+        {
+            public bool Equals(Entity x, Entity y)
+            {
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(Entity obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
+        public class EntityInfoEqualityComparer : IEqualityComparer<EntityInfo>
+        {
+            public bool Equals(EntityInfo x, EntityInfo y)
+            {
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(EntityInfo obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
+        public class UserAccEqualityComparer : IEqualityComparer<UserAcc>
+        {
+            public bool Equals(UserAcc x, UserAcc y)
+            {
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(UserAcc obj)
+            {
+                return obj.Id.GetHashCode();
+            }
         }
         #endregion
     }
