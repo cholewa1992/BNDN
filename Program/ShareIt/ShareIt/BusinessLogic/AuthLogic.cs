@@ -35,27 +35,31 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
-            // TODO use .single instead of .First
 
-            //Find an accessright
-            var ar = _storage.Get<AccessRight>().SingleOrDefault(a => a.UserId == userId && a.EntityId == mediaItemId);
+            if (_storage.Get<AccessRight>().Any(ac => ac.EntityId == mediaItemId && ac.UserId == userId && ac.AccessRightTypeId == (int)AccessRightType.Owner))
+            {
+                return AccessRightType.Owner;
+            }
 
 
-            //Check if any result was found
-            if (ar == null)
+            try
+            {
+                var expiration = GetBuyerExpirationDate(userId, mediaItemId);
+                if (expiration == null)
+                {
+                    return AccessRightType.Buyer;
+                }
+                if (expiration.Value.AddMinutes(15.0) >= DateTime.Now)
+                {
+                    return AccessRightType.Buyer;
+                }
+            }
+            catch (Exception)
             {
                 return AccessRightType.NoAccess;
             }
-
-            //Grant no access if the expiration is overdue
-            if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
-            {
-                return AccessRightType.NoAccess;
-            }
-
-            return ParseEnum<AccessRightType>(
-                    _storage.Get<DataAccessLayer.AccessRightType>().Where(a => a.Id == ar.AccessRightTypeId)
-                        .Select(a => a.Name).First());
+            
+            return AccessRightType.NoAccess;
 
             
         }
@@ -173,7 +177,7 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <returns>A DateTime telling when the access expires</returns>
         /// <exception cref="InstanceNotFoundException">Thrown when there is no access right and therefore no expiration date</exception>
-        public DateTime? GetExpirationDate(int userId, int mediaItemId)
+        public DateTime? GetBuyerExpirationDate(int userId, int mediaItemId)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
@@ -200,6 +204,7 @@ namespace BusinessLogicLayer
 
             throw new InstanceNotFoundException("No expiration date was found");
         }
+
 
         public void Dispose()
         {

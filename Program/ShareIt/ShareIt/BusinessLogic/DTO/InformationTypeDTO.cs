@@ -25,8 +25,8 @@ namespace BusinessLogicLayer.DTO
         [EnumMember]CastMember,
         [EnumMember]ReleaseDate,
         [EnumMember]Language, 
-        ExpirationDate,
-        AverageRating,
+        [EnumMember]ExpirationDate,
+        [EnumMember]AverageRating,
         [EnumMember]Thumbnail
     }
 }

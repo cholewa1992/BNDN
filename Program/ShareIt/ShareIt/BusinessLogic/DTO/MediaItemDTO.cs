@@ -18,6 +18,9 @@ namespace BusinessLogicLayer.DTO
 
         [DataMember]
         public IEnumerable<MediaItemInformationDTO> Information { get; set; }
+        
+        [DataMember(IsRequired = false)]
+        public UserDTO Owner { get; set; }
 
         public MediaItemDTO()
         {
