@@ -322,7 +322,7 @@ namespace BusinessLogicLayer
             {
                 throw new InvalidCredentialException();
             }
-            
+
             //check if the user has already rated this media item
             var existing = _storage.Get<Rating>().Where(a => a.UserId == userId && a.EntityId == mediaItemId).Select(a => a).FirstOrDefault();
             if (existing != null)
@@ -339,13 +339,23 @@ namespace BusinessLogicLayer
             }
             else
             {
-                var newRating = new Rating
+                var validUser = _storage.Get<UserAcc>().Any(a => a.Id == userId);
+                var validMediaItem = _storage.Get<Entity>().Any(a => a.Id == mediaItemId);
+                if (validUser && validMediaItem)
                 {
-                    UserId = userId,
-                    EntityId = mediaItemId,
-                    Value = rating
-                };
-                _storage.Add(newRating);
+                    var newRating = new Rating
+                    {
+                        UserId = userId,
+                        EntityId = mediaItemId,
+                        Value = rating
+                    };
+                    _storage.Add(newRating);
+                }
+                else
+                {
+                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem);
+                }
+
             }
 
         }

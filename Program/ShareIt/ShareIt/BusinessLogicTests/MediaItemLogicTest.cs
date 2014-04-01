@@ -69,6 +69,8 @@ namespace BusinessLogicTests
                 }
             }
             var ratings = SetupRatings();
+            var users = SetupUsers();
+            dbMoq.Setup(foo => foo.Get<UserAcc>()).Returns(users.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Rating>()).Returns(ratings.AsQueryable);
             dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
@@ -152,6 +154,14 @@ namespace BusinessLogicTests
             var r3 = new Rating { Id = 3, UserId = 2, EntityId = 1, Value = 7 };
             var r4 = new Rating { Id = 4, UserId = 3, EntityId = 1, Value = 2 };
             return new HashSet<Rating> {r1, r2, r3, r4};
+        }
+
+        private HashSet<UserAcc> SetupUsers()
+        {
+            var u1 = new UserAcc { Id = 1 };
+            var u2 = new UserAcc { Id = 2 };
+            var u3 = new UserAcc { Id = 3 };
+            return new HashSet<UserAcc> { u1, u2, u3 };
         }
 
             #endregion
@@ -486,6 +496,30 @@ namespace BusinessLogicTests
             const string token = "testClient";
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
             //Assert something - but what? _dbStorage.Get<Rating>() returns the mock data
+        }
+
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void RateMediaItem_UserIdNotFound()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 99; //Not existing
+            const int mediaItemId = 2;
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+        }
+
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void RateMediaItem_MediaItemIdNotFound()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int userId = 2;
+            const int mediaItemId = 99; //Not existing
+            const int rating = 8;
+            const string token = "testClient";
+            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
         }
 
         [TestMethod]
