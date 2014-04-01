@@ -224,6 +224,13 @@ namespace BusinessLogicLayer
                     Message = "Client token not valid."
                 });
             }
+            if (_authLogic.CheckUserExists(admin) == -1)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "User credentials not valid."
+                });
+            }
             if (!_authLogic.IsUserAdminOnClient(admin, clientToken))
             {
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
@@ -262,6 +269,13 @@ namespace BusinessLogicLayer
                 });
             }
             var userId = _authLogic.CheckUserExists(requestingUser);
+            if (userId == -1)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "User credentials not valid."
+                });
+            }
             if (!_authLogic.IsUserAdminOnClient(userId, clientToken) && userId != userToBeDeletedId)
             {
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
