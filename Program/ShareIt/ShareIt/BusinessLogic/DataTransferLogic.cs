@@ -48,7 +48,8 @@ namespace BusinessLogicLayer
 
             ValidateClientToken(clientToken);
             user.Id = ValidateUser(user);
-            if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess)
+            //Check that that user can download
+            if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
                 {
                     Message = "User not allowed to download media with id: " + mediaId
@@ -147,29 +148,31 @@ namespace BusinessLogicLayer
                 throw new InvalidOperationException("No media with id: " + mediaId + " found.\n" +
                                                     "There must be a media which the thumbnail should be associated with.");
             //Check user has owner access to media.
-            if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner)
+            if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner && !_authLogic.IsUserAdminOnClient(userId, clientToken))
                 throw new InvalidCredentialException("User must be owner of the media which he attempts to associate a thumbnail with.");
             
-            //check no thumbnail already exists for given media.
-            var url =
-                _dbStorage.Get<EntityInfo>()
-                    .SingleOrDefault(
-                        x => x.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail && x.EntityId == mediaId);
-            if (url != null)
-                throw new InvalidOperationException("Media with id: "+ mediaId + " already has a thumbnail.\n" +
-                                                    "It can be found at: " + url.Data);
             //Save thumbnail and return result.
             string result;
             try
             {
                 result = _fileStorage.SaveThumbnail(fileByteStream, mediaId, fileExtension);
-                var entityInfo = new EntityInfo
+                //check if thumbnail already exists for given media.
+                var url =
+                    _dbStorage.Get<EntityInfo>()
+                        .SingleOrDefault(
+                            x => x.EntityInfoTypeId == (int)InformationTypeDTO.Thumbnail && x.EntityId == mediaId);
+                //Add thumbnail info to database if none existed.
+                if (url == null)
                 {
-                    Data = result,
-                    EntityInfoTypeId = (int) InformationTypeDTO.Thumbnail,
-                    EntityId = mediaId
-                };
-                _dbStorage.Add(entityInfo);
+                    var entityInfo = new EntityInfo
+                    {
+                        Data = result,
+                        EntityInfoTypeId = (int)InformationTypeDTO.Thumbnail,
+                        EntityId = mediaId
+                    };
+                    _dbStorage.Add(entityInfo);
+                }
+
             }
             catch (IOException)
             {

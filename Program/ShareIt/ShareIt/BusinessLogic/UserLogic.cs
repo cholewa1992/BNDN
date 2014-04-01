@@ -49,11 +49,16 @@ namespace BusinessLogicLayer
                 throw new Exception("Username already in use");
             }
 
-            // Check constraints on username and password
+            // Check constraints on username
             if (user.Username.Length < 1 || user.Username.Length > 20)
             {
                 throw new ArgumentException("Username must consist of between 1 and 20 characters");
             }
+            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
+            {
+                throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
+            }
+            //Check constraints on password
             ValidatePassword(user);
 
             // Attempt to create the user account
@@ -197,7 +202,6 @@ namespace BusinessLogicLayer
         /// <summary>
         /// Validate that the password of a UserDTO lives up to requirements.
         /// Between 1 and 50 characters.
-        /// Only alphanumerical characters a-z + A-Z + 0-9
         /// Must not contain any whitespace characters.
         /// </summary>
         /// <param name="user">The user whose password should be validated.</param>
@@ -206,10 +210,6 @@ namespace BusinessLogicLayer
             if (user.Password.Length < 1 || user.Password.Length > 50)
             {
                 throw new ArgumentException("Password must consist of between 1 and 50 characters");
-            }
-            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
-            {
-                throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
             }
             if (Regex.IsMatch(user.Password, "\\s"))
             {
