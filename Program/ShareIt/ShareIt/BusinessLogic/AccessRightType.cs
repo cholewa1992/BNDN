@@ -1,7 +1,12 @@
-﻿namespace BusinessLogicLayer
+﻿using System.Runtime.Serialization;
+
+namespace BusinessLogicLayer
 {
+    [DataContract]
     public enum AccessRightType
     {
-        NoAccess, Owner, Buyer
+        NoAccess, 
+        [EnumMember]Owner, 
+        [EnumMember]Buyer
     }
 }
