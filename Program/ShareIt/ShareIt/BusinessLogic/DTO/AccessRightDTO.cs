@@ -17,8 +17,5 @@ namespace BusinessLogicLayer.DTO
 
         [DataMember]
         public DateTime? Expiration { get; set; }
-
-        [DataMember]
-        public AccessRightType AccessRightType { get; set; }
     }
 }

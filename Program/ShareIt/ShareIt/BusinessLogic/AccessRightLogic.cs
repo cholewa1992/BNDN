@@ -247,9 +247,8 @@ namespace BusinessLogicLayer
             return acessRights.Select(aR => new AccessRightDTO
             {
                 Id = aR.Id, 
-                MediaItemId = aR.EntityId, 
-                AccessRightType = (AccessRightType) aR.AccessRightTypeId, 
-                Expiration = aR.Expiration, 
+                MediaItemId = aR.EntityId,
+                Expiration = aR.Expiration,
                 UserId = aR.UserId
             }).ToList();
         }
