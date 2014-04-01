@@ -78,11 +78,23 @@ namespace BusinessLogicLayer
             if(userId != null) {
                 try
                 {
-                    informationList.Add(new MediaItemInformationDTO
+                    DateTime? date = _authLogic.GetExpirationDate((int) userId, mediaItem.Id);
+                    if (date == null)
                     {
-                        Type = InformationTypeDTO.ExpirationDate,
-                        Data = _authLogic.GetExpirationDate((int) userId, mediaItem.Id).ToString(CultureInfo.CurrentCulture)
-                    });
+                        informationList.Add(new MediaItemInformationDTO
+                        {
+                            Type = InformationTypeDTO.ExpirationDate,
+                            Data = null
+                        });
+                    }
+                    else
+                    {
+                        informationList.Add(new MediaItemInformationDTO
+                        {
+                            Type = InformationTypeDTO.ExpirationDate,
+                            Data = date.ToString()
+                        });
+                    }
                 }
                 catch (InstanceNotFoundException e)
                 {
@@ -132,8 +144,7 @@ namespace BusinessLogicLayer
         {
             Contract.Requires<ArgumentException>(from > 0);
             Contract.Requires<ArgumentException>(to > 0);
-            Contract.Requires<ArgumentException>(from < int.MaxValue);
-            Contract.Requires<ArgumentException>(to < int.MaxValue);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
 
             const int rangeCap = 100;
             if (from > to) { int temp = from; from = to; to = temp; } //Switch values if from > to
@@ -192,17 +203,6 @@ namespace BusinessLogicLayer
                 #region Searchkey & all media types
                 else //Searchkey & all media types
                 {
-                    /*var typeGroups = (_storage.Get<EntityInfo>().
-                        Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
-                        GroupBy(info => info.EntityId).
-                        OrderBy(group => group.Count())).
-                        GroupBy(d => d.FirstOrDefault().Entity.TypeId);*/
-                    /*var typeGroups = _storage.Get<EntityInfo>().
-                        Where(info => info.Data.Contains(searchKey) && info.Entity.ClientId == clientId).
-                        GroupBy(info => info.EntityId).
-                        OrderBy(group => group.Count()).
-                        GroupBy(a => a.FirstOrDefault().Entity.TypeId).
-                        OrderBy(a => a.Key);*/
                     var typeGroups = _storage.Get<EntityInfo>().
                         Where(ei => ei.Data.Contains(searchKey) && ei.Entity.ClientId == clientId).
                         GroupBy(ei => ei.Entity.TypeId);
@@ -315,8 +315,6 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(0 < rating && rating <= 10);
             Contract.Requires<ArgumentNullException>(clientToken != null);
-            Contract.Requires<ArgumentException>(userId < int.MaxValue);
-            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
 
             //check if client has access
             int clientId = _authLogic.CheckClientToken(clientToken);

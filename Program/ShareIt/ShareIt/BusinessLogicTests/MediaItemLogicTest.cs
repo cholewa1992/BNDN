@@ -228,7 +228,7 @@ namespace BusinessLogicTests
             const int to = 3;
             var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
             var bookList = dictionary[MediaItemTypeDTO.Book];
-            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count); //TODO Assuming only books? otherwise the first 3 hits wouldn't necessarily be books?
+            Assert.AreEqual(to - (from - 1), bookList.MediaItemList.Count);
         }
 
         [TestMethod]
@@ -261,17 +261,7 @@ namespace BusinessLogicTests
             const int to = 3;
             mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
         }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void FindMediaItemRange_FromAndToAreNull() //TODO Redundant when you have already check seperately?
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int from = 0;
-            const int to = 0;
-            mediaItemLogic.FindMediaItemRange(from, to, null, null, "testClient");
-        }
-
+        
         [TestMethod]
         public void FindMediaItemRange_FromExceedsNumberOfElements_ListCount()
         {
@@ -317,7 +307,7 @@ namespace BusinessLogicTests
             }
         }
 
-        [ExpectedException(typeof(InvalidCredentialException))] //TODO Should be argument null exception
+        [ExpectedException(typeof(ArgumentNullException))] 
         [TestMethod]
         public void FindMediaItemRange_ClientTokenNull()
         {
@@ -411,18 +401,6 @@ namespace BusinessLogicTests
         #endregion
 
         #region RateMediaItem
-        /* RateMediaItem
-         * userId < 1
-         * userId > int.MaxValue
-         * mediaItemId < 1
-         * mediaItemId > int.MaxValue
-         * rating < 1
-         * rating > 10
-         * invalid clientToken
-         * user never rated media item before
-         * user already rated media item
-         * 
-         */
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -436,17 +414,6 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void RateMediaItem_UserIdExceedsMax() //TODO Doesn't exceed max, it is exactly max.
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = int.MaxValue;
-            const int mediaItemId = 1;
-            const int rating = 8;
-            const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-        }
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -460,17 +427,6 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void RateMediaItem_MediaItemIdExceedsMax() //TODO doesn't exceed max, it is exactly max
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
-            const int mediaItemId = int.MaxValue;
-            const int rating = 8;
-            const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-        }
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -547,13 +503,6 @@ namespace BusinessLogicTests
         #endregion
 
         #region GetAverageRating
-        /* GetAverageRating
-         * mediaItemId < 1
-         * mediaItemId > int.MaxValue
-         * no rating
-         * 1 rating
-         * 3 ratings
-         */
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -561,13 +510,6 @@ namespace BusinessLogicTests
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.GetAverageRating(-2);
-        }
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void GetAverageRating_MediaItemIdExceedsMax() //TODO doesn't exceed max, is exactly max
-        {
-            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.GetAverageRating(int.MaxValue);
         }
         [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
