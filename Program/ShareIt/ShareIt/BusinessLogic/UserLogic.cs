@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Authentication;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
 namespace BusinessLogicLayer
@@ -200,6 +202,79 @@ namespace BusinessLogicLayer
             return true;
         }
         /// <summary>
+        /// Get a list of all users.
+        /// </summary>
+        /// <param name="admin">The admin requesting the list</param>
+        /// <param name="clientToken">The client from which the request originated.</param>
+        /// <returns>A list of all users including their id and username, but not their password.</returns>
+        /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken is not valid.</exception>
+        /// <exception cref="FaultException{UnauthorizedUser}">If "admin" isn't an admin on the specified client.</exception>
+        public IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken)
+        {
+            Contract.Requires<ArgumentNullException>(admin != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(admin.Username));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(admin.Password));
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+
+
+            if (_authLogic.CheckClientToken(clientToken) < 1)
+            {
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
+                {
+                    Message = "Client token not valid."
+                });
+            }
+            if (!_authLogic.IsUserAdminOnClient(admin, clientToken))
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "Only admins can get a list of all users."
+                });
+            }
+
+            return _storage.Get<UserAcc>().Select(x => new UserDTO()
+            {
+                Id = x.Id,
+                Username = x.Username
+            }).ToList();
+        }
+        /// <summary>
+        /// Delete a user.
+        /// </summary>
+        /// <param name="requestingUser">The user who wishes to delete a user. Should be an admin or the same user as is being deleted.</param>
+        /// <param name="userToBeDeletedId">The id of the user which is to be deleted.</param>
+        /// <param name="clientToken">The client from which the request originatd.</param>
+        /// <returns>True if the user was deleted, otherwise false.</returns>
+        /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken is not valid.</exception>
+        /// <exception cref="FaultException{UnauthorizedUser}">If the requesting user isn't admin and trying to delete a user other than himself.</exception>
+        public bool DeleteUser(UserDTO requestingUser, int userToBeDeletedId, string clientToken)
+        {
+            Contract.Requires<ArgumentNullException>(requestingUser != null);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(userToBeDeletedId > 0);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Username));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Password));
+            if (_authLogic.CheckClientToken(clientToken) < 1)
+            {
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
+                {
+                    Message = "Client token not valid."
+                });
+            }
+            var userId = _authLogic.CheckUserExists(requestingUser);
+            if (!_authLogic.IsUserAdminOnClient(userId, clientToken) && userId != userToBeDeletedId)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "User not allowed to delete user with id: " + userToBeDeletedId + ",\n" +
+                              "because he is not admin and tying to delete another user than himself."
+                });
+            }
+            _storage.Delete<UserAcc>(userToBeDeletedId);
+            return true;
+        }
+
+        /// <summary>
         /// Validate that the password of a UserDTO lives up to requirements.
         /// Between 1 and 50 characters.
         /// Must not contain any whitespace characters.
@@ -215,6 +290,14 @@ namespace BusinessLogicLayer
             {
                 throw new ArgumentException("Password must not contain any whitespace characters");
             }
+        }
+
+        public void Dispose()
+        {
+            if(_authLogic != null)
+                _authLogic.Dispose();
+            if(_storage != null)
+                _storage.Dispose();
         }
     }
 }

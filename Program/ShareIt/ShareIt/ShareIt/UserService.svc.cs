@@ -125,5 +125,25 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+
+        public IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken)
+        {
+            IList<UserDTO> result;
+            using (var logic = _factory.CreateUserLogic())
+            {
+                result = logic.GetAllUsers(admin, clientToken);
+            }
+            return result;
+        }
+
+        public bool DeleteAccount(UserDTO requestingUser, int acountToBeDeletedId, string clientToken)
+        {
+            var result = false;
+            using (var logic = _factory.CreateUserLogic())
+            {
+                result = logic.DeleteUser(requestingUser, acountToBeDeletedId, clientToken);
+            }
+            return result;
+        }
     }
 }

@@ -48,5 +48,23 @@ namespace ShareIt
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool UpdateAccounInformation(UserDTO requestingUser, UserDTO newUser, string clientToken);
+        /// <summary>
+        /// Get a list of all users.
+        /// </summary>
+        /// <param name="admin">The admin who is requesting the list</param>
+        /// <param name="clientToken">Token used to validate from which client the request originated.</param>
+        /// <returns>A list of UserDTOs containing the id and username of all users but ommiting their password.</returns>
+        [OperationContract]
+        IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken);
+
+        /// <summary>
+        /// Delete a user.
+        /// </summary>
+        /// <param name="requestingUser">The user who requests the deletion, should be either an admin or the user who is to be deleted.</param>
+        /// <param name="acountToBeDeletedId">The id of the user who is to be deleted.</param>
+        /// <param name="clientToken">Token used to validate from which client the request originated.</param>
+        /// <returns>True if the user was successfully deleted, otherwise false</returns>
+        [OperationContract]
+        bool DeleteAccount(UserDTO requestingUser, int acountToBeDeletedId,  string clientToken);
     }
 }
