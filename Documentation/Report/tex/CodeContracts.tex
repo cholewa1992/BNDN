@@ -5,10 +5,19 @@
 
 \section{Erroneous states}
 
-In order to avoid implementation errors from leading to more errors through the software flow, Code Contract\footnote{Microsoft Research plug-in for .NET} has been implemented for checking preconditions and invariants.
+In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking.
 
-In order to run assemblies compiled with Code Contract checking, the plugin is required. However since the system being developed exposes services, requiring this plug-in from implementors is not feasible.
+Code Contracts can be used in several ways. We have chosen to use Contracts with chosen exceptions.
 
-There are two
+ \texttt{Contract.Requires<ArgumentException>(argument != null);}
+ 
+We have chosen to use Code Contracts over if-then-throw for two reasons mainly; Readability and control. Readability needs no justification
+
+Our assemblies are compiled with full runtime checking, which means that all our team needs Code Contracts installed in order to work on our source code.
+
+why do we do it??
+where do we use it
+
+
 
 \end{document}
