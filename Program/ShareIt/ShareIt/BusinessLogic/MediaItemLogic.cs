@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Authentication;
@@ -52,7 +53,11 @@ namespace BusinessLogicLayer
                 throw new ArgumentException("No media item with id " + mediaItemId + " exists in the database");
             }
 
-            var mediaItem = new MediaItemDTO { Id = entity.Id, Information = new List<MediaItemInformationDTO>() };
+            var mediaItem = new MediaItemDTO { Id = entity.Id, 
+                                               Information = new List<MediaItemInformationDTO>(),
+                                               Type = (MediaItemTypeDTO) entity.TypeId,
+                                               FileExtension = Path.GetExtension(entity.FilePath)
+            };
             var informationList = new List<MediaItemInformationDTO>();
 
             // Add UserInformation to the temporary list object
