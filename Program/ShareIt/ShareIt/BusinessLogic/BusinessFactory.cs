@@ -22,7 +22,8 @@ namespace BusinessLogicLayer
 
         public IAccessRightLogic CreateAccessRightLogic()
         {
-            throw new NotImplementedException();
+            var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>());
+            return new AccessRightLogic(new AuthLogic(storage), storage);
         }
 
         public IDataTransferLogic CreateDataTransferLogic()
