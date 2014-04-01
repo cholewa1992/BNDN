@@ -15,7 +15,7 @@ namespace ShareIt
     /// </summary>
     public class AuthService : IAuthService
     {
-        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetTestFactory();
+        private readonly IBusinessLogicFactory _factory = BusinessLogicFacade.GetBusinessFactory();
 
 
         #region constructors
@@ -48,12 +48,20 @@ namespace ShareIt
         /// <param name="user">A user to check</param>
         /// <param name="clientToken">The token to varify the client asking</param>
         /// <returns>A boolean result</returns>
-        public bool ValidateUser(UserDTO user, string clientToken)
+        public int ValidateUser(UserDTO user, string clientToken)
         {
 
             try
             {
-                return _factory.CreateAuthLogic().CheckUserExists(user);
+
+                int result = -1;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.CheckUserExists(user, clientToken);
+                }
+
+                return result;
             }
             catch (Exception e)
             {
@@ -72,13 +80,39 @@ namespace ShareIt
         {
             try
             {
-                return _factory.CreateAuthLogic().CheckClientExists(client);
+                bool result;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.CheckClientExists(client);
+                }
+
+                return result;
             }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
             }
 
+        }
+
+        public bool IsUserAdminOnClient(UserDTO user, string clientToken)
+        {
+            try
+            {
+                bool result;
+
+                using (var al = _factory.CreateAuthLogic())
+                {
+                    result = al.IsUserAdminOnClient(user, clientToken);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
         #endregion

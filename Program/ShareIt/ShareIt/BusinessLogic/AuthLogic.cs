@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
+using System.Runtime.Remoting.Messaging;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Client = BusinessLogicLayer.DTO.ClientDTO;
@@ -17,8 +18,7 @@ namespace BusinessLogicLayer
 
         internal AuthLogic(IStorageBridge storage)
         {
-            //Contract.Requires<ArgumentNullException>(storage != null);
-            if(storage == null) {throw new ArgumentNullException(); }
+            Contract.Requires<ArgumentNullException>(storage != null);
 
             _storage = storage;
         }
@@ -38,20 +38,26 @@ namespace BusinessLogicLayer
             // TODO use .single instead of .First
 
             //Find an accessright
-            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId)
-                .Select(a => a).First();
+            var ar = _storage.Get<AccessRight>().SingleOrDefault(a => a.UserId == userId && a.EntityId == mediaItemId);
 
-            //Check if it's past expiration
+
+            //Check if any result was found
+            if (ar == null)
+            {
+                return AccessRightType.NoAccess;
+            }
+
+            //Grant no access if the expiration is overdue
             if (ar.Expiration != null && DateTime.Now >= ar.Expiration)
-                throw new Exception();
+            {
+                return AccessRightType.NoAccess;
+            }
 
-            //Pass the accessrighttype to enum
-            var art =
-                ParseEnum<AccessRightType>(
+            return ParseEnum<AccessRightType>(
                     _storage.Get<DataAccessLayer.AccessRightType>().Where(a => a.Id == ar.AccessRightTypeId)
                         .Select(a => a.Name).First());
 
-            return art;
+            
         }
         
         /// <summary>
@@ -65,12 +71,18 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(clientToken));
 
             
-            //return client id or -1
-            return _storage.Get<DataAccessLayer.Client>()
-                    .Where((c) => c.Token == clientToken)
-                    .Select(c => c.Id)
-                    .FirstOrDefault(i => i == -1);
+            //return client id or 0
+            int result = _storage.Get<DataAccessLayer.Client>()
+                .Where((c) => c.Token == clientToken)
+                .Select(c => c.Id).FirstOrDefault();
 
+            // TODO implement firstordefault instead of below
+            if (result == 0)
+            {
+                result = -1;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -92,23 +104,51 @@ namespace BusinessLogicLayer
         /// Checks whether a user object containing Username and Password exists with the system
         /// </summary>
         /// <param name="user">Object checked for Username and Password</param>
-        /// <returns>userid if any found, or -1</returns>
-        public bool CheckUserExists(UserDTO user)
+        /// <returns>bool of whether given user exists with the system</returns>
+        public int CheckUserExists(UserDTO user)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Password));
 
 
-            bool result;
+            var result = _storage.Get<UserAcc>()
+                .Where(ua => ua.Username == user.Username && ua.Password == user.Password)
+                .Select(ua => ua.Id).FirstOrDefault();
 
-            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
+            if (result == 0)
             {
-                result = storage.Get<UserAcc>().Any(ua => ua.Username == user.Username && ua.Password == user.Password);
+                result = -1;
             }
 
             return result;
+
         }
+
+        /// <summary>
+        /// Checks whether a user object containing Username and Password exists with the system,
+        /// if a valid clientToken is provided
+        /// </summary>
+        /// <param name="user">User object to be checked</param>
+        /// <param name="clientToken">Requesters ClientToken</param>
+        /// <returns>bool of whether given user exists</returns>
+        public int CheckUserExists(UserDTO user, string clientToken)
+        {
+            if (CheckClientToken(clientToken) == -1)
+                throw new UnauthorizedAccessException("Invalid ClientToken");
+
+            return CheckUserExists(user);
+        }
+
+
+        public bool IsUserAdminOnClient(UserDTO user, string clientToken)
+        {
+            return
+                _storage.Get<ClientAdmin>()
+                    .Any(ca => ca.Client.Token == clientToken && ca.UserAcc.Username == user.Username);
+        }
+
+        
 
         /// <summary>
         /// Checks whether a client with given Name and Token exists with the system
@@ -121,15 +161,8 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Name));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(client.Token));
 
-
-            bool result;
-
-            using (var storage = new StorageBridge(new EfStorageConnection<RentIt08Entities>()))
-            {
-                result = storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
-            }
-
-            return result;
+            return _storage.Get<DataAccessLayer.Client>().Any(c => c.Name == client.Name && c.Token == client.Token);
+            
         }
 
         /// <summary>
@@ -139,42 +172,34 @@ namespace BusinessLogicLayer
         /// <param name="userId">The id of the user</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <returns>A DateTime telling when the access expires</returns>
-        /// <exception cref="InstanceNotFoundException">Thrown when the access right has already expired 
-        /// or when there is no access right and therefore no expiration date</exception>
-        public DateTime GetExpirationDate(int userId, int mediaItemId)
+        /// <exception cref="InstanceNotFoundException">Thrown when there is no access right and therefore no expiration date</exception>
+        public DateTime? GetExpirationDate(int userId, int mediaItemId)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
-            
+
+            var arNoExpiration = _storage.Get<AccessRight>().
+                Any(a => a.UserId == userId && a.EntityId == mediaItemId
+                && a.AccessRightTypeId == (int) AccessRightType.Buyer && a.Expiration == null);
+            if (arNoExpiration)
+            {
+                return null;
+            }
+
             //Find the accessright with the latest expiration (if any)
-            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId 
-                && a.AccessRightTypeId == (int) AccessRightType.Buyer).
+            var ar = _storage.Get<AccessRight>().Where(a => a.UserId == userId && a.EntityId == mediaItemId
+                && a.AccessRightTypeId == (int)AccessRightType.Buyer).
                 OrderByDescending(a => a.Expiration).
                 Select(a => a).FirstOrDefault();
 
             if (ar != null)
             {
-                if (ar.Expiration == null)
-                {
-                    return new DateTime(9999, 12, 31);
-                } else if (ar.Expiration < DateTime.Now)
-                {
-                    throw new InstanceNotFoundException("The access right has expired");
-                }
-                return (DateTime) ar.Expiration;
+                return ar.Expiration;
             }
 
             throw new InstanceNotFoundException("No expiration date was found");
         }
-
-
-        [ContractInvariantMethod]
-        private void InvariantCheck()
-        {
-            Contract.Invariant(_storage != null);
-        }
-
 
         public void Dispose()
         {

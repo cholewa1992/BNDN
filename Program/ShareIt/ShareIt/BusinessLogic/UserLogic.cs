@@ -13,18 +13,16 @@ namespace BusinessLogicLayer
     public class UserLogic : IUserLogic
     {
 
-        private readonly IBusinessLogicFactory _factory;
+        private readonly IAuthInternalLogic _authLogic;
         private readonly IStorageBridge _storage;
 
         /// <summary>
-        /// Construct a UserLogic which uses the default business logic factory.
-        /// This constructor is called by WCF.
+        /// Construct a UserLogic which is used by the default business logic factory.
         /// </summary>
-        public UserLogic(IStorageBridge storage)
+        internal UserLogic(IStorageBridge storage, IAuthInternalLogic authLogic)
         {
             _storage = storage;
-            _factory = BusinessLogicFacade.GetTestFactory();
-            //_factory = BusinessLogicFacade.GetBusinessFactory();
+            _authLogic = authLogic;
         }
 
         /// <summary>
@@ -40,8 +38,7 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             // Check if the clientToken is valid
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
@@ -52,23 +49,17 @@ namespace BusinessLogicLayer
                 throw new Exception("Username already in use");
             }
 
-            // Check constraints on username and password
+            // Check constraints on username
             if (user.Username.Length < 1 || user.Username.Length > 20)
             {
                 throw new ArgumentException("Username must consist of between 1 and 20 characters");
             }
-            if (user.Password.Length < 1 || user.Password.Length > 50)
-            {
-                throw new ArgumentException("Password must consist of between 1 and 50 characters");
-            }
-            if (Regex.IsMatch(user.Username, "^[a-zA-Z0-9]+$*"))
+            if (Regex.IsMatch(user.Username, "[^a-zA-Z0-9]"))
             {
                 throw new ArgumentException("Username must only consist of alphanumerical characters (a-zA-Z0-9)");
             }
-            if (Regex.IsMatch(user.Password, "\\s"))
-            {
-                throw new ArgumentException("Password must not contain any whitespace characters");
-            }
+            //Check constraints on password
+            ValidatePassword(user);
 
             // Attempt to create the user account
             try
@@ -91,38 +82,33 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public UserDTO GetAccountInformation(UserDTO requestingUser, UserDTO targetUser, string clientToken)
+        public UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken)
         {
 
             //Preconditions
             Contract.Requires<ArgumentNullException>(requestingUser != null);
-            Contract.Requires<ArgumentNullException>(targetUser != null);
+            Contract.Requires<ArgumentNullException>(requestingUser.Id != 0);
+            Contract.Requires<ArgumentNullException>(targetUserId != 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!authLogic.CheckUserExists(requestingUser) &&
-                (requestingUser.Username != targetUser.Username)) &&
-                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
+                (requestingUser.Id != targetUserId)) &&
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
-
-            if (!_factory.CreateAuthLogic().CheckUserExists(targetUser))
-            {
-                throw new Exception("User does not exist");
-            }
-
+            
             IEnumerable<UserInfo> userInfos;
 
             try
             {
                 // Get the userinformation belonging to the user with the requested ID
-                userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUser.Id select u);
+                userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUserId select u);
             }
             catch (Exception e)
             {
@@ -130,7 +116,7 @@ namespace BusinessLogicLayer
             }
 
             // Create a UserInformation in the user we want to return
-            targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
+            var targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
             var informationList = new List<UserInformationDTO>();
 
             // Add UserInformation to the temporary list object
@@ -156,16 +142,19 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(requestingUser != null);
             Contract.Requires<ArgumentNullException>(userToUpdate != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(userToUpdate.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(userToUpdate.Username));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Password));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Username));
 
-            AuthLogic authLogic = new AuthLogic(_storage);
-            if (authLogic.CheckClientToken(clientToken) == -1)
+            if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((!authLogic.CheckUserExists(requestingUser) &&
+            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
                 (requestingUser.Username != userToUpdate.Username)) &&
-                (!authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -174,7 +163,7 @@ namespace BusinessLogicLayer
 
             try
             {
-                 currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
+                 currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First(); //TODO should probably not be id
             }
             catch (Exception)
             {
@@ -184,16 +173,24 @@ namespace BusinessLogicLayer
             // Attempt to update the user account by inserting it with the same id
             try
             {
-                var userAcc = new UserAcc()
+                ValidatePassword(userToUpdate);
+                currentUserAcc.Password = userToUpdate.Password;
+                currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
                 {
-                    Id = userToUpdate.Id,
-                    Username = userToUpdate.Username,
-                    Password = userToUpdate.Password,
-                    AccessRight = currentUserAcc.AccessRight,
-                    UserInfo = currentUserAcc.UserInfo,
-                    ClientAdmin = currentUserAcc.ClientAdmin
-                };
-                _storage.Add<UserAcc>(userAcc);
+                    Data = x.Data,
+                    UserInfoType = (int) x.Type
+                }).ToList();
+                _storage.Update(currentUserAcc);
+                //var userAcc = new UserAcc()
+                //{
+                //    Id = userToUpdate.Id,
+                //    Username = userToUpdate.Username,
+                //    Password = userToUpdate.Password,
+                //    AccessRight = currentUserAcc.AccessRight,
+                //    UserInfo = currentUserAcc.UserInfo,
+                //    ClientAdmin = currentUserAcc.ClientAdmin
+                //};
+                //_storage.Add<UserAcc>(userAcc);
             }
             catch (Exception e)
             {
@@ -201,6 +198,23 @@ namespace BusinessLogicLayer
             }
 
             return true;
+        }
+        /// <summary>
+        /// Validate that the password of a UserDTO lives up to requirements.
+        /// Between 1 and 50 characters.
+        /// Must not contain any whitespace characters.
+        /// </summary>
+        /// <param name="user">The user whose password should be validated.</param>
+        private void ValidatePassword(UserDTO user)
+        {
+            if (user.Password.Length < 1 || user.Password.Length > 50)
+            {
+                throw new ArgumentException("Password must consist of between 1 and 50 characters");
+            }
+            if (Regex.IsMatch(user.Password, "\\s"))
+            {
+                throw new ArgumentException("Password must not contain any whitespace characters");
+            }
         }
     }
 }

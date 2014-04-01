@@ -29,5 +29,12 @@ namespace ShareIt
         /// <returns>An UploadStatusMessage specifying wether the upload succeeded or not.</returns>
         [OperationContract]
         UploadResponse UploadMedia(UploadRequest request);
+        /// <summary>
+        /// Upload a thumbnail and associate it with a media.
+        /// </summary>
+        /// <param name="request">The ThumbnailUploadRequest which contains the information necessary to upload the thumbnail.</param>
+        /// <returns>An UploadStatusMessage specifying wether the upload succeeded or not.</returns>
+        [OperationContract]
+        ThumbnailUploadResponse UploadThumbnail(ThumbnailUploadRequest request);
     }
 }

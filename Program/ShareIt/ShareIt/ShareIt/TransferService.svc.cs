@@ -23,7 +23,7 @@ namespace ShareIt
         /// </summary>
         public TransferService()
         {
-            _factory = BusinessLogicFacade.GetTestFactory();
+            _factory = BusinessLogicFacade.GetBusinessFactory();
         }
         /// <summary>
         /// Construct a TransferService object which uses a specified IBusinessLogicFactory.
@@ -73,6 +73,19 @@ namespace ShareIt
             return new UploadResponse
             {
                 AssignedMediaItemId = result  
+            };
+        }
+
+        public ThumbnailUploadResponse UploadThumbnail(ThumbnailUploadRequest request)
+        {
+            string result;
+            using (var logic = _factory.CreateDataTransferLogic())
+            {
+                result = logic.SaveThumbnail(request.ClientToken, request.Owner, request.MediaId,request.FileExtension, request.FileByteStream);
+            }
+            return new ThumbnailUploadResponse
+            {
+                ThumbnailURL = result
             };
         }
     }

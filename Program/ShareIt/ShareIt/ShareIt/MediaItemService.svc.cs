@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
@@ -24,7 +26,7 @@ namespace ShareIt
         /// </summary>
         public MediaItemService()
         {
-            _factory = BusinessLogicFacade.GetTestFactory(); //Remember to change this
+            _factory = BusinessLogicFacade.GetBusinessFactory(); //Remember to change this
         }
 
         /// <summary>
@@ -135,12 +137,42 @@ namespace ShareIt
             }
             catch (ArgumentException ae)
             {
-                var fault = new ArgumentFault { Message = ae.Message };
+                var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault);
             }
-            catch (InvalidOperationException ioe)
+            catch (InvalidOperationException e)
             {
                 throw new FaultException(new FaultReason("Error when casting the MediaItemType"));
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient {Message = e.Message};
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (InstanceNotFoundException e)
+            {
+                //TODO create fitting faultdatacontract
+                throw new FaultException(new FaultReason(e.Message));
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Associates a user with a media item and includes a value from 1-10 representing the rating.
+        /// </summary>
+        /// <param name="userId">The id of the user</param>
+        /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="rating">The rating from 1-10</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
+        public void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken)
+        {
+            try
+            {
+                _factory.CreateMediaItemLogic().RateMediaItem(userId, mediaItemId, rating, clientToken);
             }
             catch (Exception e)
             {

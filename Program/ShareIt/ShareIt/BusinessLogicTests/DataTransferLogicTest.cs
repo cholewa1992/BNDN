@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Security;
 using System.ServiceModel;
 using BusinessLogicLayer;
@@ -8,6 +10,7 @@ using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using AccessRightType = BusinessLogicLayer.AccessRightType;
 
 namespace BusinessLogicTests
 {
@@ -17,6 +20,7 @@ namespace BusinessLogicTests
         private IAuthInternalLogic _authLogic;
         private IStorageBridge _dbStorage;
         private IFileStorage _fileStorage;
+        private DataTransferLogic _target;
 #region Init
         [TestInitialize]
         public void Init()
@@ -24,6 +28,7 @@ namespace BusinessLogicTests
             SetupAuthMock();
             SetupDbStorageMock();
             SetupFileStorageMock();
+            _target = new DataTransferLogic(_fileStorage, _dbStorage, _authLogic);
         }
         private void SetupAuthMock()
         {
@@ -35,31 +40,29 @@ namespace BusinessLogicTests
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
-                .Returns(true);
+                .Returns(1);
             authMoq.Setup(
                 foo =>
                     foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
-                .Returns(false);
+                .Returns(-1);
             //setup checkUserAccess
-            authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
-            authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
+            authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
+            authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.Owner);
             _authLogic = authMoq.Object;
         }
 
         private void SetupDbStorageMock()
         {
-            var dbMoq = new Mock<IStorageBridge>();
-            dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Verifiable();
-            dbMoq.Setup(foo => foo.Update(It.IsAny<Entity>())).Verifiable();
-            _dbStorage = dbMoq.Object;
+            _dbStorage = new StorageBridgeStub(new HashSet<IEntityDto>());
         }
 
         private void SetupFileStorageMock()
         {
             var fileMoq = new Mock<IFileStorage>();
-            fileMoq.Setup(foo => foo.SaveFile(It.IsAny<Stream>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
-                .Returns("TestFilePath");
-            fileMoq.Setup(foo => foo.ReadFile(It.IsAny<string>())).Returns(new MemoryStream());
+            fileMoq.Setup(foo => foo.SaveMedia(It.IsAny<Stream>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
+                .Returns("TestFilePath").Verifiable();
+            fileMoq.Setup(foo => foo.ReadFile(It.IsAny<string>())).Returns(new MemoryStream()).Verifiable();
+            fileMoq.Setup(x => x.SaveThumbnail(It.IsAny<Stream>(), It.IsAny<int>(), It.IsAny<string>())).Returns("testURL").Verifiable();
             _fileStorage = fileMoq.Object;
         }
 #endregion
@@ -161,6 +164,46 @@ namespace BusinessLogicTests
             target.SaveMedia("token", new UserDTO { Username = "NotValid", Password = "     " }, new MediaItemDTO(), new MemoryStream());
         }
 
+        #endregion
+        #region SaveThumbnailTests
+
+        [TestMethod]
+        public void TestSaveThumbnailReturnsUrlAsFromStorage()
+        {
+            var entity = new Entity {Id = 1};
+            _dbStorage.Add(entity);
+            var result = _target.SaveThumbnail("testClient", new UserDTO() {Username = "testUserName", Password = "testPassword"}, 1,
+                ".jpg", new MemoryStream());
+            Assert.AreEqual("testURL", result);
+            SetupDbStorageMock();
+        }
+
+        [TestMethod]
+        public void TesetSaveTumbnailStoresNewEntityInfoWithCorrectEntityIdAndType()
+        {
+            var entity = new Entity { Id = 1 };
+            _dbStorage.Add(entity);
+
+            _target.SaveThumbnail("testClient", new UserDTO() {Username = "testUserName", Password = "testPassword"}, 1,
+                ".jpg", new MemoryStream());
+            var info = _dbStorage.Get<EntityInfo>().First();
+            Assert.AreEqual(info.EntityId, 1);
+            Assert.AreEqual(info.EntityInfoTypeId, (int) InformationTypeDTO.Thumbnail);
+            SetupDbStorageMock();
+        }
+
+        [TestMethod]
+        public void TestSaveThumbnailStoresOnlyOneEntityInfoInStorage()
+        {
+            var entity = new Entity { Id = 1 };
+            _dbStorage.Add(entity);
+
+            _target.SaveThumbnail("testClient", new UserDTO() { Username = "testUserName", Password = "testPassword" }, 1,
+                ".jpg", new MemoryStream());
+
+            Assert.AreEqual(_dbStorage.Get<EntityInfo>().Count(), 1);
+            SetupDbStorageMock();
+        }
         #endregion
     }
 }

@@ -9,6 +9,9 @@ namespace DataAccessLayer
 {
     public class FileStorage : IFileStorage
     {
+        private readonly string _physicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+        private const string WebPath = @"http://rentit.itu.dk/rentit08/";
+
         /// <summary>
         /// Save a stream to the disk as a file.
         /// </summary>
@@ -17,14 +20,47 @@ namespace DataAccessLayer
         /// <param name="mediaId">The id of the file's meta data.</param>
         /// <param name="fileExtension">The extension of the file.</param>
         /// <returns>The path to where the file was saved on the disk.</returns>
-        public string SaveFile(Stream stream, int userId, int mediaId, string fileExtension)
+        public string SaveMedia(Stream stream, int userId, int mediaId, string fileExtension)
         {
-            var apPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-            var directoryPath = Path.Combine(apPath,"files", "user_" + userId);
+            var directoryPath = Path.Combine(_physicalPath,"files", "user_" + userId);
             var filePath = Path.Combine(directoryPath, mediaId + fileExtension);
-            FileStream targetStream;
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
+
+            WriteStreamToDisk(filePath, stream);
+            return filePath;
+        }
+
+        public Stream ReadFile(string filePath)
+        {
+            var fileInfo = new FileInfo(filePath);
+            if(!fileInfo.Exists)
+               throw new FileNotFoundException();
+            return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        }
+
+        public string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension)
+        {
+            var directoryPath = Path.Combine(_physicalPath, "img");
+            var thumbnailName = "thumbnail_" + mediaId + fileExtension;
+            var filePath = Path.Combine(directoryPath, thumbnailName);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+            //Delete thumbnail if it already existed for the given mediaId
+            if(File.Exists(filePath))
+                File.Delete(filePath);
+            WriteStreamToDisk(filePath, fileByteStream);
+            return WebPath + "/img/" + thumbnailName;
+        }
+
+        /// <summary>
+        /// Writes a stream to the disk at the given filepath.
+        /// </summary>
+        /// <param name="filePath">The path where the file should be written.</param>
+        /// <param name="stream">The stream which should be written.</param>
+        private void WriteStreamToDisk(string filePath, Stream stream)
+        {
+            FileStream targetStream;
             using (targetStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 const int bufferLength = 65000;
@@ -36,15 +72,6 @@ namespace DataAccessLayer
                 }
                 stream.Close();
             }
-            return filePath;
-        }
-
-        public Stream ReadFile(string filePath)
-        {
-            var fileInfo = new FileInfo(filePath);
-            if(!fileInfo.Exists)
-               throw new FileNotFoundException();
-            return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
         }
     }
 }

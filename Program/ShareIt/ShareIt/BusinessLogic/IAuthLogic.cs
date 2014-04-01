@@ -7,8 +7,10 @@ namespace BusinessLogicLayer
 {
     public interface IAuthLogic: IDisposable
     {
-        
-        bool CheckUserExists(UserDTO user);
+
+        bool IsUserAdminOnClient(UserDTO user, string clientToken);
+
+        int CheckUserExists(UserDTO user, string clientToken);
 
         bool CheckClientExists(Client client);
     }
