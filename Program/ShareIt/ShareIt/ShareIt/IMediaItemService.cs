@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer.DTO;
@@ -109,6 +110,25 @@ namespace ShareIt
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
+
+        /// <summary>
+        /// Deletes a media item and all of its associations if the user has the right to do so. 
+        /// Only admins and owners are allowed to delete media items.
+        /// </summary>
+        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="mediaItemId">The id of the media item to be deleted</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the userId or the mediaItemId is not > 0</exception>
+        /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the clientToken is null</exception>
+        /// <exception cref="FaultException&lt;UnauthorizedClient&gt;">Thrown when the clientToken is not accepted</exception>
+        /// <exception cref="FaultException&lt;AccessRightNotFound&gt;">Thrown when the requesting user is not allowed to delete the media item</exception>
+        /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(AccessRightNotFound))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        void DeleteMediaItem(int userId, int mediaItemId, string clientToken);
     }
 }
 

@@ -49,6 +49,8 @@ namespace BusinessLogicTests
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 3)).Returns(BusinessLogicLayer.AccessRightType.Buyer);
+            authMoq.Setup(foo => foo.IsUserAdminOnClient(It.Is<int>(i => i == 2), It.Is<string>(s => s == "testClient"))).Returns(true);
+            authMoq.Setup(foo => foo.IsUserAdminOnClient(It.Is<int>(i => i != 2), It.Is<string>(s => s != "testClient"))).Returns(false);
             _authLogic = authMoq.Object;
         }
 
@@ -73,14 +75,17 @@ namespace BusinessLogicTests
             dbMoq.Setup(foo => foo.Get<EntityInfo>()).Returns(info.AsQueryable);
             dbMoq.Setup(foo => foo.Get<Entity>()).Returns(mediaItems.AsQueryable);
 
-            //Added methodes
+            //Add methods
             dbMoq.Setup(foo => foo.Add(It.IsAny<UserAcc>())).Callback(new Action<UserAcc>((e) => users.Add(e))).Verifiable();
             dbMoq.Setup(foo => foo.Add(It.IsAny<Rating>())).Callback(new Action<Rating>((e) => ratings.Add(e))).Verifiable();
             dbMoq.Setup(foo => foo.Add(It.IsAny<EntityInfo>())).Callback(new Action<EntityInfo>((e) => info.Add(e))).Verifiable();
             dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Callback(new Action<Entity>((e) => mediaItems.Add(e))).Verifiable();
 
-            //Update methodes
+            //Update methods
             dbMoq.Setup(foo => foo.Update(It.IsAny<Rating>())).Callback(new Action<Rating>((e) => ratings.Add(e))).Verifiable();
+
+            //Delete methods
+            dbMoq.Setup(foo => foo.Delete<Entity>(It.IsAny<int>())).Callback(new Action<int>(e => mediaItems.RemoveWhere(a => a.Id == e))).Verifiable();
 
             _dbStorage = dbMoq.Object;
         }
@@ -102,15 +107,15 @@ namespace BusinessLogicTests
                 };
                 set.Add(book);
             }
-
-            for (int i = 1; i <= 3; i++)
+            int musicCount = 1;
+            for (int i = 5; i <= 7; i++)
             {
                 var music = new Entity { Id = i, TypeId = (int)MediaItemTypeDTO.Music, ClientId = 1 };
                 music.EntityInfo = new List<EntityInfo> 
                 {
-                    new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Music" + i, Entity = music},
-                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + count, Entity = music},
-                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 12, Data = "Artist" + i, Entity = music}
+                    new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Music" + musicCount++, Entity = music},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + i + count, Entity = music},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 12, Data = "Artist" + musicCount++, Entity = music}
                 };
                 set.Add(music);
             }
@@ -119,6 +124,7 @@ namespace BusinessLogicTests
             var movie2 = new Entity { Id = 9, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             var movie3 = new Entity { Id = 10, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
             var movie4 = new Entity { Id = 11, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            var movie5 = new Entity { Id = 12, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
 
             movie1.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 8, Id = 18, EntityInfoTypeId = 1, Data = "Movie1", Entity = movie1},
@@ -143,7 +149,7 @@ namespace BusinessLogicTests
                 new EntityInfo {EntityId = 11, Id = 28, EntityInfoTypeId = 2, Data = "Description 11", Entity = movie4},
                 new EntityInfo {EntityId = 11, Id = 29, EntityInfoTypeId = 11, Data = "Director1", Entity = movie4}
             };
-            var movie5 = new Entity { Id = 12, TypeId = (int)MediaItemTypeDTO.Movie, ClientId = 1 };
+            
             movie5.EntityInfo = new List<EntityInfo> {
                 new EntityInfo {EntityId = 12, Id = 30, EntityInfoTypeId = 1, Data = "Movie5", Entity = movie5},
                 new EntityInfo {EntityId = 12, Id = 31, EntityInfoTypeId = 2, Data = "Description 12", Entity = movie5},
@@ -643,6 +649,115 @@ namespace BusinessLogicTests
                 return obj.Id.GetHashCode();
             }
         }
+        #endregion
+        #region DeleteMediaItem
+        /* userId < 1
+         * userId not existing
+         * meiaItemId < 1
+         * mediaItemId not existing
+         * clientToken null
+         * clientToken not accepted
+         * admin delete
+         * owner delete
+         * buyer delete
+         * no access delete 
+         * media item filepath not found
+         * media item filepath null
+         * media item filepath valid
+         */
+        
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void DeleteMediaItem_UserIdLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(-2, 1, "testClient");
+        }
+        [ExpectedException(typeof(AccessViolationException))]
+        [TestMethod]
+        public void DeleteMediaItem_UserIdNotExisting()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(99, 1, "testClient");
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void DeleteMediaItem_MediaItemIdLessThanOne()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, -2, "testClient");
+        }
+        [ExpectedException(typeof(InstanceNotFoundException))]
+        [TestMethod]
+        public void DeleteMediaItem_MediaItemIdNotExisting()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, 99, "testClient");
+        }
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void DeleteMediaItem_ClientTokenNull()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, 1, null);
+        }
+        [ExpectedException(typeof(InvalidCredentialException))]
+        [TestMethod]
+        public void DeleteMediaItem_ClientTokenInvalid()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, 1, "invalidToken");
+        }
+        [TestMethod]
+        public void DeleteMediaItem_AdminAllowed()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+
+            var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Movie, null, "testClient");
+            var countBeforeDeleting = dictionary[MediaItemTypeDTO.Movie].NumberOfSearchResults;
+
+            mediaItemLogic.DeleteMediaItem(2, 10, "testClient"); //user 2 is admin (item 10 is movie3
+
+            dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Movie, null, "testClient");
+            var countAfterDeleting = dictionary[MediaItemTypeDTO.Movie].NumberOfSearchResults;
+
+            Assert.AreEqual(countBeforeDeleting - 1, countAfterDeleting);
+        }
+        [TestMethod]
+        public void DeleteMediaItem_OwnerAllowed()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+
+            var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
+            var countBeforeDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
+
+            mediaItemLogic.DeleteMediaItem(1, 2, "testClient"); //user 1 owns item 2 (item 2 is book2)
+
+            dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
+            var countAfterDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
+
+            Assert.AreEqual(countBeforeDeleting - 1, countAfterDeleting);
+        }
+        [ExpectedException(typeof(AccessViolationException))]
+        [TestMethod]
+        public void DeleteMediaItem_BuyerNotAllowed()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, 3, "testClient"); //user 1 has bought item 3
+        }
+        [ExpectedException(typeof(AccessViolationException))]
+        [TestMethod]
+        public void DeleteMediaItem_NoAccessNotAllowed()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(1, 1, "testClient"); //user 1 has no access to item 1
+        }
+        [TestMethod]
+        public void DeleteMediaItem_FilePathNotFound() { Assert.Fail("Not implemented yet"); }
+        [TestMethod]
+        public void DeleteMediaItem_FilePathNull() { Assert.Fail("Not implemented yet"); }
+        [TestMethod]
+        public void DeleteMediaItem_ValidFilePath() { Assert.Fail("Not implemented yet"); }
         #endregion
     }
 }
