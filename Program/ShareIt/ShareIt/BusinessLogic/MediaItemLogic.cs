@@ -402,22 +402,22 @@ namespace BusinessLogicLayer
 
             if (isUserAdmin || userAccessRight == AccessRightType.Owner)
             {
-                //TODO wipe file
-                /*try
+                if (File.Exists(mediaItem.FilePath))
                 {
                     File.Delete(mediaItem.FilePath);
                 }
-                //catch (ArgumentNullException e) { }
-                //catch (ArgumentException e) { }
-                //catch (DirectoryNotFoundException e) { }
-                //catch (NotSupportedException e) { }
-                //catch (PathTooLongException e) { }
-                //catch (IOException e) { }
-                //catch (UnauthorizedAccessException e) { }
-                catch (Exception e)
+                //else Do nothing. The file is not there anyway
+
+                //Delete thumbnail
+                var thumbnailPath = mediaItem.EntityInfo.
+                    Where(a => a.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail).
+                    Select(a => a.Data).
+                    FirstOrDefault();
+                if (thumbnailPath != null && File.Exists(thumbnailPath))
                 {
-                    throw new Exception("Could not delete the file (filepath: " + mediaItem.FilePath + ")");
-                }*/
+                    File.Delete(thumbnailPath);
+                }
+                //else Do nothing. The file has no thumbnail OR the thumbnail does not exist on the path
                 
                 _storage.Delete<Entity>(mediaItemId);
             }
