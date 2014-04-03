@@ -131,7 +131,7 @@ namespace BusinessLogicTests
                 music.EntityInfo = new List<EntityInfo> 
                 {
                     new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Music" + musicCount++, Entity = music},
-                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + i + count, Entity = music},
+                    new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + i, Entity = music},
                     new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 12, Data = "Artist" + musicCount++, Entity = music}
                 };
                 set.Add(music);
@@ -397,8 +397,8 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, "Director1", "testClient");
-            const int expectedNumberOfMovies = 2; //even though range is from 1-3 there are only 2 movies matching "Director1"
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, null, "2", "testClient");
+            const int expectedNumberOfMovies = 2; //even though range is from 1-3 there are only 2 movies matching "2"
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(expectedNumberOfMovies, movieList.MediaItemList.Count);
         }
@@ -409,7 +409,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
-            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "Director1", "testClient");
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "2", "testClient");
             const int numberOfMoviesThatMatchesSearchKey = 2; 
             var movieList = dictionary[MediaItemTypeDTO.Movie];
             Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
