@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="UserService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" />
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel" />
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
+      <xsd:import schemaLocation="http://rentit.itu.dk/RentIt08/UserService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IUserService_CreateAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAccount" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_CreateAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q1:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_CreateAccount_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_CreateAccount_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q3:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountInformation" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q4:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q5:UnauthorizedUser" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q6:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAccounInformation" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAccounInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q7:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q8:UnauthorizedUser" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAllUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllUsers" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAllUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_DeleteAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAccount" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_DeleteAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAccountResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IUserService">
+    <wsdl:operation name="CreateAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/CreateAccount" message="tns:IUserService_CreateAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/CreateAccountResponse" message="tns:IUserService_CreateAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_CreateAccount_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_CreateAccount_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetAccountInformation" message="tns:IUserService_GetAccountInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationResponse" message="tns:IUserService_GetAccountInformation_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_GetAccountInformation_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_GetAccountInformation_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccounInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformation" message="tns:IUserService_UpdateAccounInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationResponse" message="tns:IUserService_UpdateAccounInformation_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_UpdateAccounInformation_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_UpdateAccounInformation_UnauthorizedUserFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_UpdateAccounInformation_UnauthorizedClientFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetAllUsers" message="tns:IUserService_GetAllUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetAllUsersResponse" message="tns:IUserService_GetAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/DeleteAccount" message="tns:IUserService_DeleteAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/DeleteAccountResponse" message="tns:IUserService_DeleteAccount_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IUserService" type="tns:IUserService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateAccount">
+      <soap:operation soapAction="http://tempuri.org/IUserService/CreateAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInformation">
+      <soap:operation soapAction="http://tempuri.org/IUserService/GetAccountInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccounInformation">
+      <soap:operation soapAction="http://tempuri.org/IUserService/UpdateAccounInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsers">
+      <soap:operation soapAction="http://tempuri.org/IUserService/GetAllUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccount">
+      <soap:operation soapAction="http://tempuri.org/IUserService/DeleteAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserService">
+    <wsdl:port name="BasicHttpBinding_IUserService" binding="tns:BasicHttpBinding_IUserService">
+      <soap:address location="http://rentit.itu.dk/RentIt08/UserService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
