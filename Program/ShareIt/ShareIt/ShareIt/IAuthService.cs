@@ -8,6 +8,7 @@ using System.Text;
 using System.Web.Services;
 using System.Web.Services.Description;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
 {
@@ -22,6 +23,8 @@ namespace ShareIt
         /// <param name="user">A user to check</param>
         /// <param name="clientToken">The token to varify the client asking</param>
         /// <returns>A boolean result</returns>
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         int ValidateUser(UserDTO user, string clientToken);
@@ -31,9 +34,19 @@ namespace ShareIt
         /// </summary>
         /// <param name="client">A client to check</param>
         /// <returns>A boolean result</returns>
+        [FaultContract(typeof(FaultException))]
+        [FaultContract(typeof(ArgumentFault))]
         [OperationContract]
         bool CheckClientExists(ClientDTO client);
 
+        /// <summary>
+        /// Validates whether a given user is an administrator on a given client
+        /// </summary>
+        /// <param name="user">given user</param>
+        /// <param name="clientToken">given client</param>
+        /// <returns>a bool answer</returns>
+        [FaultContract(typeof(FaultException))]
+        [FaultContract(typeof(ArgumentFault))]
         [OperationContract]
         bool IsUserAdminOnClient(UserDTO user, string clientToken);
     }

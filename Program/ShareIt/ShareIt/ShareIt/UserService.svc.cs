@@ -128,22 +128,36 @@ namespace ShareIt
 
         public IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken)
         {
-            IList<UserDTO> result;
-            using (var logic = _factory.CreateUserLogic())
+            try
             {
-                result = logic.GetAllUsers(admin, clientToken);
+                IList<UserDTO> result;
+                using (var logic = _factory.CreateUserLogic())
+                {
+                    result = logic.GetAllUsers(admin, clientToken);
+                }
+                return result;
             }
-            return result;
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
 
         public bool DeleteAccount(UserDTO requestingUser, int acountToBeDeletedId, string clientToken)
         {
-            var result = false;
-            using (var logic = _factory.CreateUserLogic())
+            try
             {
-                result = logic.DeleteUser(requestingUser, acountToBeDeletedId, clientToken);
+                var result = false;
+                using (var logic = _factory.CreateUserLogic())
+                {
+                    result = logic.DeleteUser(requestingUser, acountToBeDeletedId, clientToken);
+                }
+                return result;
             }
-            return result;
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
         }
     }
 }
