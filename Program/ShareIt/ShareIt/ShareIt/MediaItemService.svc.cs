@@ -179,5 +179,50 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+
+        /// <summary>
+        /// Deletes a media item and all of its associations if the user has the right to do so. 
+        /// Only admins and owners are allowed to delete media items.
+        /// </summary>
+        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="mediaItemId">The id of the media item to be deleted</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the userId or the mediaItemId is not > 0</exception>
+        /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the clientToken is null</exception>
+        /// <exception cref="FaultException&lt;UnauthorizedClient&gt;">Thrown when the clientToken is not accepted</exception>
+        /// <exception cref="FaultException&lt;AccessRightNotFound&gt;">Thrown when the requesting user is not allowed to delete the media item</exception>
+        /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
+        public void DeleteMediaItem(int userId, int mediaItemId, string clientToken)
+        {
+            try
+            {
+                _factory.CreateMediaItemLogic().DeleteMediaItem(userId, mediaItemId, clientToken);
+            }
+            catch (ArgumentNullException e)
+            {
+                //TODO Create fitting fault data contract
+                var fault = new ArgumentFault { Message = e.Message };
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault { Message = e.Message };
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient { Message = e.Message };
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (AccessViolationException e)
+            {
+                var fault = new AccessRightNotFound {Message = e.Message};
+                throw new FaultException<AccessRightNotFound>(fault);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
     }
 }

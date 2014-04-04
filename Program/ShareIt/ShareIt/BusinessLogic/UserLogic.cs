@@ -165,7 +165,14 @@ namespace BusinessLogicLayer
 
             try
             {
-                 currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First(); //TODO should probably not be id
+                if (userToUpdate.Id == 0)
+                {
+                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Username == userToUpdate.Username select u).First();
+                }
+                else
+                {
+                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First(); //TODO should probably not be id
+                }
             }
             catch (Exception)
             {

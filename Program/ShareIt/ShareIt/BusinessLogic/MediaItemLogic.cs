@@ -368,6 +368,65 @@ namespace BusinessLogicLayer
             throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
         }
 
+        /// <summary>
+        /// Deletes a media item and all of its associations if the user has the right to do so. 
+        /// Only admins and owners are allowed to delete media items.
+        /// </summary>
+        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="mediaItemId">The id of the media item to be deleted</param>
+        /// <param name="clientToken">A token used to verify the client</param>
+        /// <exception cref="ArgumentException">Thrown when the userId or the mediaItemId is not > 0</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the clientToken is null</exception>
+        /// <exception cref="InvalidCredentialException">Thrown when the clientToken is not accepted</exception>
+        /// <exception cref="AccessViolationException">Thrown when the requesting user is not allowed to delete the media item</exception>
+        public void DeleteMediaItem(int userId, int mediaItemId, string clientToken)
+        {
+            Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+
+            //check if client has access
+            int clientId = _authLogic.CheckClientToken(clientToken);
+            if (clientId == -1)
+            {
+                throw new InvalidCredentialException();
+            }
+
+            var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken);
+            var userAccessRight = _authLogic.CheckUserAccess(userId, mediaItemId);
+            var mediaItem = _storage.Get<Entity>().FirstOrDefault(foo => foo.Id == mediaItemId);
+            if (mediaItem == null)
+            {
+                throw new InstanceNotFoundException("Media item with id " + mediaItemId + " was not found");
+            }
+
+            if (isUserAdmin || userAccessRight == AccessRightType.Owner)
+            {
+                if (File.Exists(mediaItem.FilePath))
+                {
+                    File.Delete(mediaItem.FilePath);
+                }
+                //else Do nothing. The file is not there anyway
+
+                //Delete thumbnail
+                var thumbnailPath = mediaItem.EntityInfo.
+                    Where(a => a.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail).
+                    Select(a => a.Data).
+                    FirstOrDefault();
+                if (thumbnailPath != null && File.Exists(thumbnailPath))
+                {
+                    File.Delete(thumbnailPath);
+                }
+                //else Do nothing. The file has no thumbnail OR the thumbnail does not exist on the path
+                
+                _storage.Delete<Entity>(mediaItemId);
+            }
+            else
+            {
+                throw new AccessViolationException("The user is not allowed to delete this media item");
+            }
+        }
+
         public void Dispose()
         {
             _storage.Dispose();
