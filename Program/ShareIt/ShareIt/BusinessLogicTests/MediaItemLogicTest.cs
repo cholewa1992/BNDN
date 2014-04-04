@@ -5,6 +5,7 @@ using System.Management.Instrumentation;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Collections.Generic;
+using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.FaultDataContracts;
@@ -22,7 +23,8 @@ namespace BusinessLogicTests
     {
         private IAuthInternalLogic _authLogic;
         private IStorageBridge _dbStorage;
-        private string _filePath = "";
+        private string _directoryPath = @"C:\RentItServices\RentIt08\files\user_0";
+        private string _filePath = @"unittest.txt";
         private string _invalidFilePath = @"C:\Invalid\Path.txt";
 
         #region Setup
@@ -98,23 +100,23 @@ namespace BusinessLogicTests
 
             var set = new HashSet<Entity>(new EntityEqualityComparer());
 
-            /*//setup filepath
-            var stream = new MemoryStream();
-            using (var writer = new StreamWriter(stream))
+            // Create the directory for the file
+            if (!Directory.Exists(_directoryPath))
+                Directory.CreateDirectory(_directoryPath);
+            // Create a file. 
+            using (FileStream fs = File.Create(Path.Combine(_directoryPath, _filePath)))
             {
-                writer.Write("Test");
-                stream.Position = 0;
-                //execution
-                var target = new FileStorage();
-                _filePath = target.SaveMedia(stream, 1, 1, ".txt");
-            }*/
+                Byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
+                // Add some information to the file.
+                fs.Write(info, 0, info.Length);
+            }
 
             var count = 0;
 
             for (int i = 1; i <= 4; i++)
             {
                 var book = new Entity { Id = i, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
-                if (i == 1){ book.FilePath = _filePath; }
+                if (i == 1){ book.FilePath = Path.Combine(_directoryPath, _filePath); }
                 else if (i == 3) { book.FilePath = _invalidFilePath; }
 
                 book.EntityInfo = new List<EntityInfo>
@@ -182,7 +184,7 @@ namespace BusinessLogicTests
         [TestCleanup]
         public void CleanUp()
         {
-            if(File.Exists(_filePath)) { File.Delete(_filePath); }
+            if(File.Exists(Path.Combine(_directoryPath, _filePath))) { File.Delete(Path.Combine(_directoryPath, _filePath)); }
         }
         #endregion
         #region GetMediaItemInformation
@@ -768,8 +770,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void DeleteMediaItem_ValidFilePath()
         {
-            Assert.Fail("The _filePath has not been setup correctly");
-            Assert.IsTrue(File.Exists(_filePath)); //Make sure the file exists before deleting the item
+            Assert.IsTrue(File.Exists(Path.Combine(_directoryPath, _filePath))); //Make sure the file exists before deleting the item
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
 
             var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
