@@ -10,7 +10,7 @@ namespace DataAccessLayer
     public class FileStorage : IFileStorage
     {
         private readonly string _physicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-        private const string WebPath = @"http://rentit.itu.dk/rentit08/";
+        private const string WebPath = @"http://rentit.itu.dk/rentit08";
 
         /// <summary>
         /// Save a stream to the disk as a file.
