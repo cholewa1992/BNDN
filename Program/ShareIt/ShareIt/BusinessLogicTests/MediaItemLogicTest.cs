@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
@@ -23,7 +24,7 @@ namespace BusinessLogicTests
     {
         private IAuthInternalLogic _authLogic;
         private IStorageBridge _dbStorage;
-        private string _directoryPath = @"C:\RentItServices\RentIt08\files\user_0";
+        private string _directoryPath = @"C:\RentItUnitTest";
         private string _filePath = @"unittest.txt";
         private string _invalidFilePath = @"C:\Invalid\Path.txt";
 
@@ -56,6 +57,10 @@ namespace BusinessLogicTests
             authMoq.Setup(foo => foo.CheckUserAccess(1, 3)).Returns(BusinessLogicLayer.AccessRightType.Buyer);
             authMoq.Setup(foo => foo.IsUserAdminOnClient(It.Is<int>(i => i == 2), It.Is<string>(s => s == "testClient"))).Returns(true);
             authMoq.Setup(foo => foo.IsUserAdminOnClient(It.Is<int>(i => i != 2), It.Is<string>(s => s != "testClient"))).Returns(false);
+            authMoq.Setup(foo => foo.GetBuyerExpirationDate(1, 1)).Returns((DateTime?) null);
+            authMoq.Setup(foo => foo.GetBuyerExpirationDate(1, 2)).Returns((DateTime?) null);
+            authMoq.Setup(foo => foo.GetBuyerExpirationDate(2, 2)).Returns(new DateTime(2015, 01, 01, 00, 00, 00));
+            authMoq.Setup(foo => foo.GetBuyerExpirationDate(1, 3)).Throws<InstanceNotFoundException>();
             _authLogic = authMoq.Object;
         }
 
@@ -178,13 +183,13 @@ namespace BusinessLogicTests
                 new UserAcc {Id = 3},
             };
         }
-
         #endregion
         #region Cleanup
         [TestCleanup]
         public void CleanUp()
         {
             if(File.Exists(Path.Combine(_directoryPath, _filePath))) { File.Delete(Path.Combine(_directoryPath, _filePath)); }
+            if(Directory.Exists(_directoryPath)) { Directory.Delete(_directoryPath); }
         }
         #endregion
         #region GetMediaItemInformation
@@ -248,6 +253,34 @@ namespace BusinessLogicTests
             Assert.AreEqual(list[0], InformationTypeDTO.Title);
             Assert.AreEqual(list[1], InformationTypeDTO.Description);
         }
+
+        [TestMethod]
+        public void GetMediaItemInformation_AccessRightOwner()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(1, 2, "testClient");
+            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).Select(x => x.Data).Single();
+            Assert.AreEqual(null, accessRightInfo);
+        }
+        [TestMethod]
+        public void GetMediaItemInformation_AccessRightBuyer()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(2, 2, "testClient");
+            var expected = new DateTime(2015, 01, 01, 00, 00, 00);
+            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).
+                Select(x => x.Data).Single();
+            Assert.AreEqual(expected.ToString(CultureInfo.CurrentCulture), accessRightInfo);
+        }
+        [TestMethod]
+        public void GetMediaItemInformation_AccessRightNoAccess()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, 1, "testClient"); 
+            var accessRightInfo = mediaItem.Information.Any(x => x.Type == InformationTypeDTO.ExpirationDate);
+            Assert.IsFalse(accessRightInfo);
+        }
+
         #endregion
         #region FindMediaItemRange
         [TestMethod]
