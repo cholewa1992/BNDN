@@ -129,15 +129,27 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UpdateAccountModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AuthServiceClient\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -214,6 +226,13 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Service References\AuthServiceClient\AuthService.disco" />
+    <Content Include="Service References\AuthServiceClient\configuration91.svcinfo" />
+    <Content Include="Service References\AuthServiceClient\configuration.svcinfo" />
+    <Content Include="Service References\AuthServiceClient\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -228,6 +247,25 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Service References\AuthServiceClient\AuthService.wsdl" />
+    <None Include="Service References\AuthServiceClient\AuthService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthServiceClient\AuthService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthServiceClient\AuthService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthServiceClient\AuthService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthServiceClient\AuthService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\Logout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -245,6 +283,15 @@
       <Project>{99E4EB0B-DA40-41A0-B4A5-3A1317EC1211}</Project>
       <Name>ShareItServices</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AuthServiceClient\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
