@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MediaItemService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xs:element name="GetMediaItemInformation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="mediaItemId" type="xs:int" />
+            <xs:element minOccurs="0" name="userId" nillable="true" type="xs:int" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMediaItemInformationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="GetMediaItemInformationResult" nillable="true" type="q1:MediaItemDTO" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMediaItems">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="from" type="xs:int" />
+            <xs:element minOccurs="0" name="to" type="xs:int" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMediaItemsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetMediaItemsResult" nillable="true" type="q2:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMediaItemsByType">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="from" type="xs:int" />
+            <xs:element minOccurs="0" name="to" type="xs:int" />
+            <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="mediaType" type="q3:MediaItemTypeDTO" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMediaItemsByTypeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetMediaItemsByTypeResult" nillable="true" type="q4:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchMediaItems">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="from" type="xs:int" />
+            <xs:element minOccurs="0" name="to" type="xs:int" />
+            <xs:element minOccurs="0" name="searchKey" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchMediaItemsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SearchMediaItemsResult" nillable="true" type="q5:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchMediaItemsByType">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="from" type="xs:int" />
+            <xs:element minOccurs="0" name="to" type="xs:int" />
+            <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="mediaType" nillable="true" type="q6:MediaItemTypeDTO" />
+            <xs:element minOccurs="0" name="searchKey" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SearchMediaItemsByTypeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SearchMediaItemsByTypeResult" nillable="true" type="q7:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RateMediaItem">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="userId" type="xs:int" />
+            <xs:element minOccurs="0" name="mediaItemId" type="xs:int" />
+            <xs:element minOccurs="0" name="rating" type="xs:int" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RateMediaItemResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:complexType name="MediaItemDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FileExtension" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Information" nillable="true" type="tns:ArrayOfMediaItemInformationDTO" />
+          <xs:element minOccurs="0" name="Owner" nillable="true" type="tns:UserDTO" />
+          <xs:element minOccurs="0" name="Type" type="tns:MediaItemTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemDTO" nillable="true" type="tns:MediaItemDTO" />
+      <xs:complexType name="ArrayOfMediaItemInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaItemInformationDTO" nillable="true" type="tns:MediaItemInformationDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfMediaItemInformationDTO" nillable="true" type="tns:ArrayOfMediaItemInformationDTO" />
+      <xs:complexType name="MediaItemInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Type" type="tns:InformationTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemInformationDTO" nillable="true" type="tns:MediaItemInformationDTO" />
+      <xs:simpleType name="InformationTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Title">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Description">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Price">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Picture">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="KeywordTag">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Genre">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TrackLength">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Runtime">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NumberOfPages">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Author">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Director">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Artist">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CastMember">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ReleaseDate">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Language">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ExpirationDate">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="AverageRating">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Thumbnail">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="InformationTypeDTO" nillable="true" type="tns:InformationTypeDTO" />
+      <xs:complexType name="UserDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Information" nillable="true" type="tns:ArrayOfUserInformationDTO" />
+          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UserDTO" nillable="true" type="tns:UserDTO" />
+      <xs:complexType name="ArrayOfUserInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfUserInformationDTO" nillable="true" type="tns:ArrayOfUserInformationDTO" />
+      <xs:complexType name="UserInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Type" type="tns:UserInformationTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
+      <xs:simpleType name="UserInformationTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Firstname">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Lastname">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Email">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Location">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="UserInformationTypeDTO" nillable="true" type="tns:UserInformationTypeDTO" />
+      <xs:simpleType name="MediaItemTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Movie">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Book">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Music">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="MediaItemTypeDTO" nillable="true" type="tns:MediaItemTypeDTO" />
+      <xs:complexType name="MediaItemSearchResultDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MediaItemList" nillable="true" type="tns:ArrayOfMediaItemDTO" />
+          <xs:element minOccurs="0" name="NumberOfSearchResults" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemSearchResultDTO" nillable="true" type="tns:MediaItemSearchResultDTO" />
+      <xs:complexType name="ArrayOfMediaItemDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaItemDTO" nillable="true" type="tns:MediaItemDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfMediaItemDTO" nillable="true" type="tns:ArrayOfMediaItemDTO" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.ServiceModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.ServiceModel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xs:complexType name="FaultException">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:CommunicationException" />
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="FaultException" nillable="true" type="tns:FaultException" />
+      <xs:complexType name="CommunicationException">
+        <xs:complexContent mixed="false">
+          <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/System" base="q1:SystemException" />
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="CommunicationException" nillable="true" type="tns:CommunicationException" />
+      <xs:complexType name="FaultException.FaultCodeData">
+        <xs:sequence>
+          <xs:element name="name" nillable="true" type="xs:string" />
+          <xs:element name="ns" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FaultException.FaultCodeData" nillable="true" type="tns:FaultException.FaultCodeData" />
+      <xs:complexType name="ArrayOfFaultException.FaultReasonData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FaultException.FaultReasonData" nillable="true" type="tns:FaultException.FaultReasonData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfFaultException.FaultReasonData" nillable="true" type="tns:ArrayOfFaultException.FaultReasonData" />
+      <xs:complexType name="FaultException.FaultReasonData">
+        <xs:sequence>
+          <xs:element name="text" nillable="true" type="xs:string" />
+          <xs:element name="xmlLang" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FaultException.FaultReasonData" nillable="true" type="tns:FaultException.FaultReasonData" />
+      <xs:complexType name="ArrayOfFaultException.FaultCodeData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FaultException.FaultCodeData" nillable="true" type="tns:FaultException.FaultCodeData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfFaultException.FaultCodeData" nillable="true" type="tns:ArrayOfFaultException.FaultCodeData" />
+    </xs:schema>
+    <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/System" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:complexType name="SystemException">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:Exception" />
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="SystemException" nillable="true" type="tns:SystemException" />
+      <xs:complexType name="Exception">
+        <xs:sequence>
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="skip" />
+        </xs:sequence>
+        <xs:attribute ref="ser:FactoryType" />
+      </xs:complexType>
+      <xs:element name="Exception" nillable="true" type="tns:Exception" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="ArgumentFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
+      <xs:complexType name="ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo">
+        <xs:annotation>
+          <xs:appinfo>
+            <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" name="Key" type="q1:MediaItemTypeDTO" />
+                <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" name="Value" nillable="true" type="q2:MediaItemSearchResultDTO" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" nillable="true" type="tns:ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo" />
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItemInformation" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItemInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q1:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItems" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q3:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItems_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q4:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemsByType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItemsByType" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemsByType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMediaItemsByTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q5:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemsByType_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q6:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchMediaItems" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchMediaItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItems_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q8:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchMediaItemsByType" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchMediaItemsByTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q10:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_RateMediaItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:RateMediaItem" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_RateMediaItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RateMediaItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_RateMediaItem_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q11:FaultException" />
+  </wsdl:message>
+  <wsdl:portType name="IMediaItemService">
+    <wsdl:operation name="GetMediaItemInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformation" message="tns:IMediaItemService_GetMediaItemInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationResponse" message="tns:IMediaItemService_GetMediaItemInformation_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMediaItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItems" message="tns:IMediaItemService_GetMediaItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsResponse" message="tns:IMediaItemService_GetMediaItems_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItems_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMediaItemsByType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByType" message="tns:IMediaItemService_GetMediaItemsByType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeResponse" message="tns:IMediaItemService_GetMediaItemsByType_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItemsByType_ArgumentFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchMediaItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItems" message="tns:IMediaItemService_SearchMediaItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsResponse" message="tns:IMediaItemService_SearchMediaItems_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_SearchMediaItems_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchMediaItemsByType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByType" message="tns:IMediaItemService_SearchMediaItemsByType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeResponse" message="tns:IMediaItemService_SearchMediaItemsByType_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_SearchMediaItemsByType_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RateMediaItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItem" message="tns:IMediaItemService_RateMediaItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemResponse" message="tns:IMediaItemService_RateMediaItem_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_RateMediaItem_FaultExceptionFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMediaItemService" type="tns:IMediaItemService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMediaItemInformation">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/GetMediaItemInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetMediaItems">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/GetMediaItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetMediaItemsByType">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/GetMediaItemsByType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SearchMediaItems">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/SearchMediaItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SearchMediaItemsByType">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/SearchMediaItemsByType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RateMediaItem">
+      <soap:operation soapAction="http://tempuri.org/IMediaItemService/RateMediaItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MediaItemService">
+    <wsdl:port name="BasicHttpBinding_IMediaItemService" binding="tns:BasicHttpBinding_IMediaItemService">
+      <soap:address location="http://rentit.itu.dk/RentIt08/MediaItemService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

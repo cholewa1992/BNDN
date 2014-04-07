@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
@@ -49,9 +50,20 @@ namespace BusinessLogicTests
 
         private void SetupDbStorageMock()
         {
+            var userAcc = new HashSet<UserAcc>();
             var dbMoq = new Mock<IStorageBridge>();
             dbMoq.Setup(foo => foo.Add(It.IsAny<Entity>())).Verifiable();
             dbMoq.Setup(foo => foo.Update(It.IsAny<Entity>())).Verifiable();
+
+            dbMoq.Setup(foo => foo.Add(It.IsAny<UserAcc>())).Callback<UserAcc>(entity =>
+            {
+                entity.Id = 1;
+                userAcc.Add(entity);
+            });
+
+            dbMoq.Setup(foo => foo.Get<UserAcc>()).Returns(userAcc.AsQueryable);
+            dbMoq.Setup(foo => foo.Get<UserAcc>(It.IsAny<int>())).Returns<int>(id => userAcc.Single(acc => acc.Id == id));
+
             _dbStorage = dbMoq.Object;
         }
 
@@ -254,13 +266,13 @@ namespace BusinessLogicTests
             _testUser.Password = "Password";
 
             var shouldBeTrue = _userLogic.CreateAccount(_testUser, "testClient");
-
             Assert.AreEqual(shouldBeTrue, true);
 
-            var dbResult = _dbStorage.Get<UserAcc>(_testUser.Id);
-
-            Assert.AreEqual(dbResult.Username, _testUser.Username);
-            Assert.AreEqual(dbResult.Password, _testUser.Password);
+            var dbResult =
+                _dbStorage.Get<UserAcc>().Single(t => t.Username == _testUser.Username && t.Password == _testUser.Password);
+ 
+            Assert.AreEqual(_testUser.Username, dbResult.Username);
+            Assert.AreEqual(_testUser.Password, dbResult.Password);
 
         }
 
@@ -290,13 +302,20 @@ namespace BusinessLogicTests
         {
             _testUser.Username = "John44";
             _testUser.Password = "Password";
+            _testUser.Id = 1;
 
-            _userLogic.CreateAccount(_testUser, "testClient");
+            var requestingUser = new UserDTO
+            {
+                Id = 5,
+                Username = "Jacob12345",
+                Password = "helloWorld"
+            };
 
-            UserDTO u = _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
+            Assert.IsTrue(_userLogic.CreateAccount(_testUser, "testClient"));
+            var u = _userLogic.GetAccountInformation(requestingUser, _testUser.Id, "testClient");
 
-            Assert.AreEqual(u.Username, "John44");
-            Assert.AreEqual(u.Password, "Password");
+            Assert.AreEqual("John44", u.Username);
+            Assert.AreEqual("Password", u.Password);
         }
 
         [TestMethod]
@@ -322,8 +341,10 @@ namespace BusinessLogicTests
         [TestMethod]
         public void UpdateAccountInformation_UserUpdated()
         {
+            _testUser.Id = 1;
             _testUser.Username = "John44";
             _testUser.Password = "Password";
+            _testUser.Information = new List<UserInformationDTO>();
 
             _userLogic.CreateAccount(_testUser, "testClient");
 

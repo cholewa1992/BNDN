@@ -74,7 +74,7 @@ namespace BusinessLogicLayer
                     UserInfo = new Collection<UserInfo>(),
                     ClientAdmin = new Collection<ClientAdmin>()
                 };
-                _storage.Add<UserAcc>(userAcc);
+                _storage.Add(userAcc);
             }
             catch (Exception)
             {
@@ -86,7 +86,6 @@ namespace BusinessLogicLayer
 
         public UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken)
         {
-
             //Preconditions
             Contract.Requires<ArgumentNullException>(requestingUser != null);
             Contract.Requires<ArgumentNullException>(requestingUser.Id != 0);
@@ -104,38 +103,30 @@ namespace BusinessLogicLayer
             {
                 throw new UnauthorizedAccessException();
             }
-            
-            IEnumerable<UserInfo> userInfos;
 
             try
             {
-                // Get the userinformation belonging to the user with the requested ID
-                userInfos = (from u in _storage.Get<UserInfo>() where u.UserId == targetUserId select u);
+              var user = _storage.Get<UserAcc>().Single(t => t.Id == targetUserId);
+              var targetUser = new UserDTO
+              {
+                  Id = user.Id,
+                  Username = user.Username,
+                  Password = user.Password,
+                  Information = user.UserInfo.Select(t => new UserInformationDTO
+                  {
+                      Data = t.Data,
+                      Type = (UserInformationTypeDTO)t.UserInfoType
+                  })
+              };
+
+                
+
+              return targetUser;
             }
             catch (Exception e)
             {
                 throw new Exception("The requested user could not be found");
             }
-
-            // Create a UserInformation in the user we want to return
-            var targetUser = new UserDTO {Information = new List<UserInformationDTO>()};
-            var informationList = new List<UserInformationDTO>();
-
-            // Add UserInformation to the temporary list object
-            foreach (var userInfo in userInfos){
-
-                informationList.Add(new UserInformationDTO()
-                    {
-                        Type = (UserInformationTypeDTO) userInfo.UserInfoType,
-                        Data = userInfo.Data
-                    }
-                );
-            }
-
-            // Add all the UserInformation to targetUser and return it
-            targetUser.Information = informationList;
-
-            return targetUser;
         }
 
         public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO userToUpdate, string clientToken)
@@ -180,8 +171,8 @@ namespace BusinessLogicLayer
             }
 
             // Attempt to update the user account by inserting it with the same id
-            try
-            {
+            //try
+            //{
                 ValidatePassword(userToUpdate);
                 currentUserAcc.Password = userToUpdate.Password;
                 currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
@@ -200,11 +191,11 @@ namespace BusinessLogicLayer
                 //    ClientAdmin = currentUserAcc.ClientAdmin
                 //};
                 //_storage.Add<UserAcc>(userAcc);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("The account could not be created");
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("The account could not be created");
+            //}
 
             return true;
         }
