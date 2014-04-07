@@ -44,10 +44,19 @@ namespace ShareIt
             string fileExtension;
             Stream stream;
 
-            using (var logic = _factory.CreateDataTransferLogic())
+
+            try
             {
-               stream = logic.GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
+                using (var logic = _factory.CreateDataTransferLogic())
+                {
+                    stream = logic.GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
+                }
             }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+            
 
             return new DownloadResponse()
             {
@@ -66,23 +75,43 @@ namespace ShareIt
         public UploadResponse UploadMedia(UploadRequest request)
         {
             int result;
-            using (var logic = _factory.CreateDataTransferLogic())
+
+            try
             {
-                result = logic.SaveMedia(request.ClientToken,request.Owner, request.MetaData, request.FileByteStream);
+                using (var logic = _factory.CreateDataTransferLogic())
+                {
+                    result = logic.SaveMedia(request.ClientToken, request.Owner, request.MetaData, request.FileByteStream);
+                }
             }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+            
             return new UploadResponse
             {
                 AssignedMediaItemId = result  
             };
         }
 
+
+
         public ThumbnailUploadResponse UploadThumbnail(ThumbnailUploadRequest request)
         {
             string result;
-            using (var logic = _factory.CreateDataTransferLogic())
+
+            try
             {
-                result = logic.SaveThumbnail(request.ClientToken, request.Owner, request.MediaId,request.FileExtension, request.FileByteStream);
+                using (var logic = _factory.CreateDataTransferLogic())
+                {
+                    result = logic.SaveThumbnail(request.ClientToken, request.Owner, request.MediaId, request.FileExtension, request.FileByteStream);
+                }
             }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+            
             return new ThumbnailUploadResponse
             {
                 ThumbnailURL = result
