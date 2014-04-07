@@ -217,7 +217,8 @@ namespace ShareIt
             catch (AccessViolationException e)
             {
                 var fault = new AccessRightNotFound {Message = e.Message};
-                throw new FaultException<AccessRightNotFound>(fault);
+                throw new FaultException<AccessRightNotFound>(fault); //TODO Change to UnauthorizedUserFault 
+                //TODO (AccessRightNotFound is for when an AccessRight cannot be found when it is supposed to be deleted or edited)
             }
             catch (Exception e)
             {

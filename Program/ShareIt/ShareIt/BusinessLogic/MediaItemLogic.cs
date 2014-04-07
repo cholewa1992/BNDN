@@ -423,7 +423,7 @@ namespace BusinessLogicLayer
             }
             else
             {
-                throw new AccessViolationException("The user is not allowed to delete this media item");
+                throw new AccessViolationException("The user is not allowed to delete this media item"); //TODO Maybe change to UnauthorizedAccessException (For consistency)
             }
         }
 
