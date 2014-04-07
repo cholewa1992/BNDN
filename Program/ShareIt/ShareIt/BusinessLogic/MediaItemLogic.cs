@@ -38,7 +38,7 @@ namespace BusinessLogicLayer
 
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             Entity entity;
@@ -153,7 +153,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
@@ -317,7 +317,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             //check if the user has already rated this media item
@@ -344,7 +344,7 @@ namespace BusinessLogicLayer
                 }
                 else
                 {
-                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem);
+                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem); //TODO What is this for?
                 }
             }
         }
@@ -389,7 +389,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCredentialException("Invalid client token");
             }
 
             var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken);

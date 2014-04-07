@@ -23,6 +23,8 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken);
@@ -36,6 +38,7 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool Delete(UserDTO admin, int accessRightId, string clientToken);
@@ -49,6 +52,8 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(AccessRightNotFound))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool EditExpiration(UserDTO user, AccessRightDTO newAccessRight, string clientToken);
@@ -65,6 +70,8 @@ namespace ShareIt
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken);

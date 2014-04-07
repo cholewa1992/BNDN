@@ -90,6 +90,12 @@ namespace ShareIt
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
             }
+            catch (ArgumentException ae)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = ae.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -120,6 +126,12 @@ namespace ShareIt
                 fault.Message = "The User is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedUser>(fault);
             }
+            catch (ArgumentException ae)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = ae.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -137,6 +149,12 @@ namespace ShareIt
                 }
                 return result;
             }
+            catch (ArgumentException ae)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = ae.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -153,6 +171,12 @@ namespace ShareIt
                     result = logic.DeleteUser(requestingUser, acountToBeDeletedId, clientToken);
                 }
                 return result;
+            }
+            catch (ArgumentException ae)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = ae.Message;
+                throw new FaultException<ArgumentFault>(fault);
             }
             catch (Exception e)
             {

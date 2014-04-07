@@ -33,6 +33,7 @@ namespace ShareIt
         /// <returns></returns>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken);
@@ -45,6 +46,7 @@ namespace ShareIt
         /// <param name="clientToken">Token used to validate the client</param>
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool UpdateAccounInformation(UserDTO requestingUser, UserDTO newUser, string clientToken);
@@ -54,6 +56,9 @@ namespace ShareIt
         /// <param name="admin">The admin who is requesting the list</param>
         /// <param name="clientToken">Token used to validate from which client the request originated.</param>
         /// <returns>A list of UserDTOs containing the id and username of all users but ommiting their password.</returns>
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken);
@@ -65,6 +70,9 @@ namespace ShareIt
         /// <param name="acountToBeDeletedId">The id of the user who is to be deleted.</param>
         /// <param name="clientToken">Token used to validate from which client the request originated.</param>
         /// <returns>True if the user was successfully deleted, otherwise false</returns>
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool DeleteAccount(UserDTO requestingUser, int acountToBeDeletedId,  string clientToken);

@@ -25,6 +25,7 @@ namespace ShareIt
         /// <returns>A MediaItem</returns>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
@@ -43,6 +44,7 @@ namespace ShareIt
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken);
@@ -61,6 +63,7 @@ namespace ShareIt
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof (FaultException))]
         [OperationContract]
         Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, MediaItemTypeDTO mediaType, string clientToken);
@@ -80,6 +83,7 @@ namespace ShareIt
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken);
@@ -100,6 +104,7 @@ namespace ShareIt
         /// <exception cref="FaultException">Thrown when the MediaItemType is not recognized or when something unexpected happens</exception>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, MediaItemTypeDTO? mediaType, string searchKey, string clientToken);
@@ -112,6 +117,8 @@ namespace ShareIt
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
         /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
@@ -131,6 +138,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(AccessRightNotFound))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void DeleteMediaItem(int userId, int mediaItemId, string clientToken);

@@ -57,6 +57,11 @@ namespace ShareIt
                 var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault);
             }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient { Message = e.Message };
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -151,8 +156,9 @@ namespace ShareIt
             }
             catch (InstanceNotFoundException e)
             {
-                //TODO create fitting faultdatacontract
-                throw new FaultException(new FaultReason(e.Message));
+                //TODO Create fitting fault data contract
+                var fault = new MediaItemNotFound { Message = e.Message };
+                throw new FaultException<MediaItemNotFound>(fault);
             }
             catch (Exception e)
             {
@@ -173,6 +179,15 @@ namespace ShareIt
             try
             {
                 _factory.CreateMediaItemLogic().RateMediaItem(userId, mediaItemId, rating, clientToken);
+            }
+            catch (ArgumentException ae)
+            {
+                var fault = new ArgumentFault { Message = ae.Message };
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new FaultException(new FaultReason("Error when casting the MediaItemType"));
             }
             catch (Exception e)
             {
@@ -219,6 +234,11 @@ namespace ShareIt
                 var fault = new AccessRightNotFound {Message = e.Message};
                 throw new FaultException<AccessRightNotFound>(fault); //TODO Change to UnauthorizedUserFault 
                 //TODO (AccessRightNotFound is for when an AccessRight cannot be found when it is supposed to be deleted or edited)
+            }
+            catch (InstanceNotFoundException e)
+            {
+                var fault = new MediaItemNotFound { Message = e.Message };
+                throw new FaultException<MediaItemNotFound>(fault);
             }
             catch (Exception e)
             {

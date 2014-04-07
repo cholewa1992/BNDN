@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.FaultDataContracts;
 using ShareIt.MessageContracts;
 
 namespace ShareIt
@@ -52,6 +54,12 @@ namespace ShareIt
                     stream = logic.GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
                 }
             }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -83,6 +91,12 @@ namespace ShareIt
                     result = logic.SaveMedia(request.ClientToken, request.Owner, request.MetaData, request.FileByteStream);
                 }
             }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -106,6 +120,24 @@ namespace ShareIt
                 {
                     result = logic.SaveThumbnail(request.ClientToken, request.Owner, request.MediaId, request.FileExtension, request.FileByteStream);
                 }
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                var fault = new MediaItemNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<MediaItemNotFound>(fault);
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault);
             }
             catch (Exception e)
             {
