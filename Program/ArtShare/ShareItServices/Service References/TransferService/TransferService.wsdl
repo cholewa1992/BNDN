@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TransferService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_ITransferService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsoma:OptimizedMimeSerialization xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
+      <xs:import namespace="http://schemas.microsoft.com/Message" />
+      <xs:element name="DownloadRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="User" nillable="true" type="q1:UserDTO" />
+            <xs:element minOccurs="0" name="MediaId" type="xs:int" />
+            <xs:element minOccurs="0" name="ClientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DownloadResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.microsoft.com/Message" name="FileByteStream" type="q2:StreamBody" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FileByteStreamLength" type="xs:long" />
+      <xs:element name="FileExtension" nillable="true" type="xs:string" />
+      <xs:element name="UploadRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q3="http://schemas.microsoft.com/Message" name="FileByteStream" type="q3:StreamBody" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ClientToken" nillable="true" type="xs:string" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" name="MetaData" nillable="true" type="q4:MediaItemDTO" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" name="Owner" nillable="true" type="q5:UserDTO" />
+      <xs:element name="UploadResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="AssignedMediaItemId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ThumbnailUploadRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q6="http://schemas.microsoft.com/Message" name="FileByteStream" type="q6:StreamBody" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MediaId" type="xs:int" />
+      <xs:element name="ThumbnailUploadResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="ThumbnailURL" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:complexType name="UserDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Information" nillable="true" type="tns:ArrayOfUserInformationDTO" />
+          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UserDTO" nillable="true" type="tns:UserDTO" />
+      <xs:complexType name="ArrayOfUserInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfUserInformationDTO" nillable="true" type="tns:ArrayOfUserInformationDTO" />
+      <xs:complexType name="UserInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Type" type="tns:UserInformationTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
+      <xs:simpleType name="UserInformationTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Firstname">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Lastname">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Email">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Location">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="UserInformationTypeDTO" nillable="true" type="tns:UserInformationTypeDTO" />
+      <xs:complexType name="MediaItemDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FileExtension" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Information" nillable="true" type="tns:ArrayOfMediaItemInformationDTO" />
+          <xs:element minOccurs="0" name="Owner" nillable="true" type="tns:UserDTO" />
+          <xs:element minOccurs="0" name="Type" type="tns:MediaItemTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemDTO" nillable="true" type="tns:MediaItemDTO" />
+      <xs:complexType name="ArrayOfMediaItemInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaItemInformationDTO" nillable="true" type="tns:MediaItemInformationDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfMediaItemInformationDTO" nillable="true" type="tns:ArrayOfMediaItemInformationDTO" />
+      <xs:complexType name="MediaItemInformationDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:int" />
+          <xs:element minOccurs="0" name="Type" type="tns:InformationTypeDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemInformationDTO" nillable="true" type="tns:MediaItemInformationDTO" />
+      <xs:simpleType name="InformationTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Title">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Description">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Price">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Picture">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="KeywordTag">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Genre">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TrackLength">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Runtime">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NumberOfPages">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Author">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Director">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Artist">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CastMember">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ReleaseDate">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Language">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ExpirationDate">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="AverageRating">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Thumbnail">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="InformationTypeDTO" nillable="true" type="tns:InformationTypeDTO" />
+      <xs:simpleType name="MediaItemTypeDTO">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Movie">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Book">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Music">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="MediaItemTypeDTO" nillable="true" type="tns:MediaItemTypeDTO" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/Message" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/Message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:simpleType name="StreamBody">
+        <xs:restriction base="xs:base64Binary" />
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="DownloadRequest">
+    <wsdl:part name="parameters" element="tns:DownloadRequest" />
+  </wsdl:message>
+  <wsdl:message name="DownloadResponse">
+    <wsdl:part name="parameters" element="tns:DownloadResponse" />
+  </wsdl:message>
+  <wsdl:message name="DownloadResponse_Headers">
+    <wsdl:part name="FileByteStreamLength" element="tns:FileByteStreamLength" />
+    <wsdl:part name="FileExtension" element="tns:FileExtension" />
+  </wsdl:message>
+  <wsdl:message name="UploadRequest">
+    <wsdl:part name="parameters" element="tns:UploadRequest" />
+  </wsdl:message>
+  <wsdl:message name="UploadRequest_Headers">
+    <wsdl:part name="ClientToken" element="tns:ClientToken" />
+    <wsdl:part name="FileByteStreamLength" element="tns:FileByteStreamLength" />
+    <wsdl:part name="MetaData" element="tns:MetaData" />
+    <wsdl:part name="Owner" element="tns:Owner" />
+  </wsdl:message>
+  <wsdl:message name="UploadResponse">
+    <wsdl:part name="parameters" element="tns:UploadResponse" />
+  </wsdl:message>
+  <wsdl:message name="ThumbnailUploadRequest">
+    <wsdl:part name="parameters" element="tns:ThumbnailUploadRequest" />
+  </wsdl:message>
+  <wsdl:message name="ThumbnailUploadRequest_Headers">
+    <wsdl:part name="ClientToken" element="tns:ClientToken" />
+    <wsdl:part name="FileByteStreamLength" element="tns:FileByteStreamLength" />
+    <wsdl:part name="FileExtension" element="tns:FileExtension" />
+    <wsdl:part name="MediaId" element="tns:MediaId" />
+    <wsdl:part name="Owner" element="tns:Owner" />
+  </wsdl:message>
+  <wsdl:message name="ThumbnailUploadResponse">
+    <wsdl:part name="parameters" element="tns:ThumbnailUploadResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITransferService">
+    <wsdl:operation name="DownloadMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITransferService/DownloadMedia" name="DownloadRequest" message="tns:DownloadRequest" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITransferService/DownloadMediaResponse" name="DownloadResponse" message="tns:DownloadResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITransferService/UploadMedia" name="UploadRequest" message="tns:UploadRequest" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITransferService/UploadMediaResponse" name="UploadResponse" message="tns:UploadResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadThumbnail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITransferService/UploadThumbnail" name="ThumbnailUploadRequest" message="tns:ThumbnailUploadRequest" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITransferService/UploadThumbnailResponse" name="ThumbnailUploadResponse" message="tns:ThumbnailUploadResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITransferService" type="tns:ITransferService">
+    <wsp:PolicyReference URI="#BasicHttpBinding_ITransferService_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DownloadMedia">
+      <soap:operation soapAction="http://tempuri.org/ITransferService/DownloadMedia" style="document" />
+      <wsdl:input name="DownloadRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DownloadResponse">
+        <soap:header message="tns:DownloadResponse_Headers" part="FileByteStreamLength" use="literal" />
+        <soap:header message="tns:DownloadResponse_Headers" part="FileExtension" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadMedia">
+      <soap:operation soapAction="http://tempuri.org/ITransferService/UploadMedia" style="document" />
+      <wsdl:input name="UploadRequest">
+        <soap:header message="tns:UploadRequest_Headers" part="ClientToken" use="literal" />
+        <soap:header message="tns:UploadRequest_Headers" part="FileByteStreamLength" use="literal" />
+        <soap:header message="tns:UploadRequest_Headers" part="MetaData" use="literal" />
+        <soap:header message="tns:UploadRequest_Headers" part="Owner" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UploadResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadThumbnail">
+      <soap:operation soapAction="http://tempuri.org/ITransferService/UploadThumbnail" style="document" />
+      <wsdl:input name="ThumbnailUploadRequest">
+        <soap:header message="tns:ThumbnailUploadRequest_Headers" part="ClientToken" use="literal" />
+        <soap:header message="tns:ThumbnailUploadRequest_Headers" part="FileByteStreamLength" use="literal" />
+        <soap:header message="tns:ThumbnailUploadRequest_Headers" part="FileExtension" use="literal" />
+        <soap:header message="tns:ThumbnailUploadRequest_Headers" part="MediaId" use="literal" />
+        <soap:header message="tns:ThumbnailUploadRequest_Headers" part="Owner" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ThumbnailUploadResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TransferService">
+    <wsdl:port name="BasicHttpBinding_ITransferService" binding="tns:BasicHttpBinding_ITransferService">
+      <soap:address location="http://rentit.itu.dk/RentIt08/TransferService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
