@@ -19,7 +19,8 @@ namespace BusinessLogicLayer.DataMappers
             };
             foreach (var info in item.Information)
             {
-                result.EntityInfo.Add(MapMediaItemInfo(info));
+                if(info != null)
+                    result.EntityInfo.Add(MapMediaItemInfo(info));
             }
             return result;
         }
