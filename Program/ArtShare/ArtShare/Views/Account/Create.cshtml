@@ -1,0 +1,26 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Create Account";
+}
+
+<h2>Create Account</h2>
+
+<form class="pure-form pure-form-stacked">
+    <fieldset>
+        <legend>To enjoy full access, please create an account.</legend>
+
+        <input type="text" placeholder="Username" required maxlength="20" />
+        <input type="password" placeholder="Password" required maxlength="50" />
+        
+        <div style="margin-top: 30px; clear: both"></div> <!-- Spacer -->
+        
+        <input type="text" placeholder="Firstname"/>
+        <input type="text" placeholder="Lastname"/>
+        <input type="email" placeholder="Email"/>
+        <input type="text" placeholder="Location"/>
+
+        <button type="submit" class="pure-button button-success">Sign in</button>
+        @Html.ActionLink("Already a user?", "Login")
+    </fieldset>
+</form>
