@@ -132,12 +132,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\AccountLogic.cs" />
+    <Compile Include="Logic\AccountLogicStub.cs" />
+    <Compile Include="Logic\IAccountLogic.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\UpdateAccountModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\UserService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -212,12 +212,6 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
-    <None Include="Service References\UserService\configuration91.svcinfo" />
-    <None Include="Service References\UserService\configuration.svcinfo" />
-    <None Include="Service References\UserService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -231,11 +225,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Service References\UserService\UserService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -244,12 +237,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\UserService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestClient\TestClient.csproj">
-      <Project>{8CDB2219-C25C-4556-9174-95A14A4F6A4E}</Project>
-      <Name>TestClient</Name>
+    <ProjectReference Include="..\ShareItServices\ShareItServices.csproj">
+      <Project>{99E4EB0B-DA40-41A0-B4A5-3A1317EC1211}</Project>
+      <Name>ShareItServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArtShare.Logic;
+using ArtShare.Models;
 using Microsoft.Ajax.Utilities;
-using TestClient.UserService;
+using ShareItServices.UserService;
 
 namespace ArtShare.Controllers
 {
@@ -12,8 +14,19 @@ namespace ArtShare.Controllers
     {
 
 
-        private string token = "7dac496c534911c0ef47bce1de772502b0d6a6c60b1dbd73c1d3f285f36a0f61";
+        
 
+        private IAccountLogic accountLogic;
+
+        public AccountController()
+        {
+            accountLogic = new AccountLogic();
+        }
+
+        public AccountController(IAccountLogic logic)
+        {
+            accountLogic = logic;
+        }
 
         //
         // GET: /Account/
@@ -40,35 +53,22 @@ namespace ArtShare.Controllers
         }
 
         //
-        // POST: /Account/Create
+        // POST: /Account/register
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Register(RegisterModel model)
         {
 
-            UserDTO user;
-
             try
             {
-                user = PassUserInformation(collection);
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Error passing user to update in edit; " + e.Message);
-            }
-
-            try
-            {
-                using (var us = new UserServiceClient())
-                {
-                    us.CreateAccount(user, token);
-                }
+                accountLogic.RegisterAccount(model);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                model.Error = e.Message;
+                return View(model);
             }
         }
 
@@ -80,36 +80,11 @@ namespace ArtShare.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            var requestingUser = new UserDTO();
-            UserDTO userToUpdate;
-
-            try
-            {
-                requestingUser.Username = collection["reqUsername"];
-                requestingUser.Password = collection["reqUserPassword"];
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Error passing requesting user in edit; " + e.Message);
-            }
-
-            try
-            {
-                userToUpdate = PassUserInformation(collection);
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Error passing user to update in edit; " + e.Message);
-            }
-
-
+            
             try
             {
 
-                using (var us = new UserServiceClient())
-                {
-                    us.UpdateAccounInformation(requestingUser, userToUpdate, token);
-                }
+                //TODO implement
 
                 return RedirectToAction("Index");
             }
@@ -125,29 +100,12 @@ namespace ArtShare.Controllers
         // POST: /Account/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
 
-            var requestingUser = new UserDTO();
-
             try
             {
-                requestingUser.Username = collection["reqUsername"];
-                requestingUser.Password = collection["reqUserPassword"];
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Error passing requesting user in edit; " + e.Message);
-            }
-
-
-            try
-            {
-
-                using (var us = new UserServiceClient())
-                {
-                    us.DeleteAccount(requestingUser, id, token);
-                }
+                accountLogic.DeleteAccount(id);
 
                 return RedirectToAction("Index");
             }
@@ -158,13 +116,5 @@ namespace ArtShare.Controllers
         }
 
 
-        public UserDTO PassUserInformation(FormCollection collection)
-        {
-            return new UserDTO()
-            {
-                Username = collection["username"],
-                Password = collection["password"]
-            };
-        }
     }
 }

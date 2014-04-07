@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestClient
+namespace ShareItServices
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(String[] args)
         {
-
-            Console.WriteLine(new UserLogic().CreateAccount());
-
-            Console.Read();
+            
         }
     }
 }

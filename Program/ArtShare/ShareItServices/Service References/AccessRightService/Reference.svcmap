@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="faa54a5c-b011-43f8-b466-311826444e6e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="517045c7-e83b-4e5a-920f-63e64a801311" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://rentit.itu.dk/RentIt08/UserService.svc?singleWsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://rentit.itu.dk/RentIt08/AccessRightService.svc?singleWsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="UserService.wsdl" MetadataType="Wsdl" ID="ee492541-a9f7-4eb4-9104-f0d78ae26cb8" SourceId="1" SourceUrl="http://rentit.itu.dk/RentIt08/UserService.svc?singleWsdl" />
+    <MetadataFile FileName="AccessRightService.wsdl" MetadataType="Wsdl" ID="98210dbf-8287-46b1-8982-b15947512743" SourceId="1" SourceUrl="http://rentit.itu.dk/RentIt08/AccessRightService.svc?singleWsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

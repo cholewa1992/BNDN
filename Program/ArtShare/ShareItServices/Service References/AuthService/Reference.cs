@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ArtShare.UserService {
+namespace ShareItServices.AuthService {
     using System.Runtime.Serialization;
     using System;
     
@@ -26,7 +26,7 @@ namespace ArtShare.UserService {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ArtShare.UserService.UserInformationDTO[] InformationField;
+        private ShareItServices.AuthService.UserInformationDTO[] InformationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordField;
@@ -58,7 +58,7 @@ namespace ArtShare.UserService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public ArtShare.UserService.UserInformationDTO[] Information {
+        public ShareItServices.AuthService.UserInformationDTO[] Information {
             get {
                 return this.InformationField;
             }
@@ -122,7 +122,7 @@ namespace ArtShare.UserService {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ArtShare.UserService.UserInformationTypeDTO TypeField;
+        private ShareItServices.AuthService.UserInformationTypeDTO TypeField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -161,7 +161,7 @@ namespace ArtShare.UserService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public ArtShare.UserService.UserInformationTypeDTO Type {
+        public ShareItServices.AuthService.UserInformationTypeDTO Type {
             get {
                 return this.TypeField;
             }
@@ -202,15 +202,18 @@ namespace ArtShare.UserService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ClientDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
     [System.SerializableAttribute()]
-    public partial class UnauthorizedClient : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ClientDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MessageField;
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TokenField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -223,14 +226,27 @@ namespace ArtShare.UserService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Message {
+        public string Name {
             get {
-                return this.MessageField;
+                return this.NameField;
             }
             set {
-                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
-                    this.MessageField = value;
-                    this.RaisePropertyChanged("Message");
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Token {
+            get {
+                return this.TokenField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TokenField, value) != true)) {
+                    this.TokenField = value;
+                    this.RaisePropertyChanged("Token");
                 }
             }
         }
@@ -245,53 +261,79 @@ namespace ArtShare.UserService {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-    [System.SerializableAttribute()]
-    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="AuthService.IAuthService")]
+    public interface IAuthService {
         
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/ValidateUser", ReplyAction="http://tempuri.org/IAuthService/ValidateUserResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IAuthService/ValidateUserFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        int ValidateUser(ShareItServices.AuthService.UserDTO user, string clientToken);
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MessageField;
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/ValidateUser", ReplyAction="http://tempuri.org/IAuthService/ValidateUserResponse")]
+        System.Threading.Tasks.Task<int> ValidateUserAsync(ShareItServices.AuthService.UserDTO user, string clientToken);
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/CheckClientExists", ReplyAction="http://tempuri.org/IAuthService/CheckClientExistsResponse")]
+        bool CheckClientExists(ShareItServices.AuthService.ClientDTO client);
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Message {
-            get {
-                return this.MessageField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
-                    this.MessageField = value;
-                    this.RaisePropertyChanged("Message");
-                }
-            }
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/CheckClientExists", ReplyAction="http://tempuri.org/IAuthService/CheckClientExistsResponse")]
+        System.Threading.Tasks.Task<bool> CheckClientExistsAsync(ShareItServices.AuthService.ClientDTO client);
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/IsUserAdminOnClient", ReplyAction="http://tempuri.org/IAuthService/IsUserAdminOnClientResponse")]
+        bool IsUserAdminOnClient(ShareItServices.AuthService.UserDTO user, string clientToken);
         
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/IsUserAdminOnClient", ReplyAction="http://tempuri.org/IAuthService/IsUserAdminOnClientResponse")]
+        System.Threading.Tasks.Task<bool> IsUserAdminOnClientAsync(ShareItServices.AuthService.UserDTO user, string clientToken);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IAuthServiceChannel : ShareItServices.AuthService.IAuthService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    public class FaultException {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class AuthServiceClient : System.ServiceModel.ClientBase<ShareItServices.AuthService.IAuthService>, ShareItServices.AuthService.IAuthService {
+        
+        public AuthServiceClient() {
+        }
+        
+        public AuthServiceClient(string endpointConfigurationName) : 
+                base(endpointConfigurationName) {
+        }
+        
+        public AuthServiceClient(string endpointConfigurationName, string remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
+        }
+        
+        public AuthServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
+        }
+        
+        public AuthServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(binding, remoteAddress) {
+        }
+        
+        public int ValidateUser(ShareItServices.AuthService.UserDTO user, string clientToken) {
+            return base.Channel.ValidateUser(user, clientToken);
+        }
+        
+        public System.Threading.Tasks.Task<int> ValidateUserAsync(ShareItServices.AuthService.UserDTO user, string clientToken) {
+            return base.Channel.ValidateUserAsync(user, clientToken);
+        }
+        
+        public bool CheckClientExists(ShareItServices.AuthService.ClientDTO client) {
+            return base.Channel.CheckClientExists(client);
+        }
+        
+        public System.Threading.Tasks.Task<bool> CheckClientExistsAsync(ShareItServices.AuthService.ClientDTO client) {
+            return base.Channel.CheckClientExistsAsync(client);
+        }
+        
+        public bool IsUserAdminOnClient(ShareItServices.AuthService.UserDTO user, string clientToken) {
+            return base.Channel.IsUserAdminOnClient(user, clientToken);
+        }
+        
+        public System.Threading.Tasks.Task<bool> IsUserAdminOnClientAsync(ShareItServices.AuthService.UserDTO user, string clientToken) {
+            return base.Channel.IsUserAdminOnClientAsync(user, clientToken);
+        }
     }
 }

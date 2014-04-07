@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestClient.UserService {
+namespace ShareItServices.UserService {
     using System.Runtime.Serialization;
     using System;
     
@@ -26,7 +26,7 @@ namespace TestClient.UserService {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private TestClient.UserService.UserInformationDTO[] InformationField;
+        private ShareItServices.UserService.UserInformationDTO[] InformationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordField;
@@ -58,7 +58,7 @@ namespace TestClient.UserService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public TestClient.UserService.UserInformationDTO[] Information {
+        public ShareItServices.UserService.UserInformationDTO[] Information {
             get {
                 return this.InformationField;
             }
@@ -122,7 +122,7 @@ namespace TestClient.UserService {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private TestClient.UserService.UserInformationTypeDTO TypeField;
+        private ShareItServices.UserService.UserInformationTypeDTO TypeField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -161,7 +161,7 @@ namespace TestClient.UserService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public TestClient.UserService.UserInformationTypeDTO Type {
+        public ShareItServices.UserService.UserInformationTypeDTO Type {
             get {
                 return this.TypeField;
             }
@@ -340,52 +340,52 @@ namespace TestClient.UserService {
     public interface IUserService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreateAccount", ReplyAction="http://tempuri.org/IUserService/CreateAccountResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/CreateAccountArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/CreateAccountArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/CreateAccountFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
-        bool CreateAccount(TestClient.UserService.UserDTO user, string clientToken);
+        bool CreateAccount(ShareItServices.UserService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreateAccount", ReplyAction="http://tempuri.org/IUserService/CreateAccountResponse")]
-        System.Threading.Tasks.Task<bool> CreateAccountAsync(TestClient.UserService.UserDTO user, string clientToken);
+        System.Threading.Tasks.Task<bool> CreateAccountAsync(ShareItServices.UserService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAccountInformation", ReplyAction="http://tempuri.org/IUserService/GetAccountInformationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/GetAccountInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
-        TestClient.UserService.UserDTO GetAccountInformation(TestClient.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
+        ShareItServices.UserService.UserDTO GetAccountInformation(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAccountInformation", ReplyAction="http://tempuri.org/IUserService/GetAccountInformationResponse")]
-        System.Threading.Tasks.Task<TestClient.UserService.UserDTO> GetAccountInformationAsync(TestClient.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
+        System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO> GetAccountInformationAsync(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateAccounInformation", ReplyAction="http://tempuri.org/IUserService/UpdateAccounInformationResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/UpdateAccounInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TestClient.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        bool UpdateAccounInformation(TestClient.UserService.UserDTO requestingUser, TestClient.UserService.UserDTO newUser, string clientToken);
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        bool UpdateAccounInformation(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateAccounInformation", ReplyAction="http://tempuri.org/IUserService/UpdateAccounInformationResponse")]
-        System.Threading.Tasks.Task<bool> UpdateAccounInformationAsync(TestClient.UserService.UserDTO requestingUser, TestClient.UserService.UserDTO newUser, string clientToken);
+        System.Threading.Tasks.Task<bool> UpdateAccounInformationAsync(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllUsers", ReplyAction="http://tempuri.org/IUserService/GetAllUsersResponse")]
-        TestClient.UserService.UserDTO[] GetAllUsers(TestClient.UserService.UserDTO admin, string clientToken);
+        ShareItServices.UserService.UserDTO[] GetAllUsers(ShareItServices.UserService.UserDTO admin, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllUsers", ReplyAction="http://tempuri.org/IUserService/GetAllUsersResponse")]
-        System.Threading.Tasks.Task<TestClient.UserService.UserDTO[]> GetAllUsersAsync(TestClient.UserService.UserDTO admin, string clientToken);
+        System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO[]> GetAllUsersAsync(ShareItServices.UserService.UserDTO admin, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeleteAccount", ReplyAction="http://tempuri.org/IUserService/DeleteAccountResponse")]
-        bool DeleteAccount(TestClient.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken);
+        bool DeleteAccount(ShareItServices.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeleteAccount", ReplyAction="http://tempuri.org/IUserService/DeleteAccountResponse")]
-        System.Threading.Tasks.Task<bool> DeleteAccountAsync(TestClient.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken);
+        System.Threading.Tasks.Task<bool> DeleteAccountAsync(ShareItServices.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IUserServiceChannel : TestClient.UserService.IUserService, System.ServiceModel.IClientChannel {
+    public interface IUserServiceChannel : ShareItServices.UserService.IUserService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class UserServiceClient : System.ServiceModel.ClientBase<TestClient.UserService.IUserService>, TestClient.UserService.IUserService {
+    public partial class UserServiceClient : System.ServiceModel.ClientBase<ShareItServices.UserService.IUserService>, ShareItServices.UserService.IUserService {
         
         public UserServiceClient() {
         }
@@ -406,43 +406,43 @@ namespace TestClient.UserService {
                 base(binding, remoteAddress) {
         }
         
-        public bool CreateAccount(TestClient.UserService.UserDTO user, string clientToken) {
+        public bool CreateAccount(ShareItServices.UserService.UserDTO user, string clientToken) {
             return base.Channel.CreateAccount(user, clientToken);
         }
         
-        public System.Threading.Tasks.Task<bool> CreateAccountAsync(TestClient.UserService.UserDTO user, string clientToken) {
+        public System.Threading.Tasks.Task<bool> CreateAccountAsync(ShareItServices.UserService.UserDTO user, string clientToken) {
             return base.Channel.CreateAccountAsync(user, clientToken);
         }
         
-        public TestClient.UserService.UserDTO GetAccountInformation(TestClient.UserService.UserDTO requestingUser, int targetUserId, string clientToken) {
+        public ShareItServices.UserService.UserDTO GetAccountInformation(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken) {
             return base.Channel.GetAccountInformation(requestingUser, targetUserId, clientToken);
         }
         
-        public System.Threading.Tasks.Task<TestClient.UserService.UserDTO> GetAccountInformationAsync(TestClient.UserService.UserDTO requestingUser, int targetUserId, string clientToken) {
+        public System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO> GetAccountInformationAsync(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken) {
             return base.Channel.GetAccountInformationAsync(requestingUser, targetUserId, clientToken);
         }
         
-        public bool UpdateAccounInformation(TestClient.UserService.UserDTO requestingUser, TestClient.UserService.UserDTO newUser, string clientToken) {
+        public bool UpdateAccounInformation(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken) {
             return base.Channel.UpdateAccounInformation(requestingUser, newUser, clientToken);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateAccounInformationAsync(TestClient.UserService.UserDTO requestingUser, TestClient.UserService.UserDTO newUser, string clientToken) {
+        public System.Threading.Tasks.Task<bool> UpdateAccounInformationAsync(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken) {
             return base.Channel.UpdateAccounInformationAsync(requestingUser, newUser, clientToken);
         }
         
-        public TestClient.UserService.UserDTO[] GetAllUsers(TestClient.UserService.UserDTO admin, string clientToken) {
+        public ShareItServices.UserService.UserDTO[] GetAllUsers(ShareItServices.UserService.UserDTO admin, string clientToken) {
             return base.Channel.GetAllUsers(admin, clientToken);
         }
         
-        public System.Threading.Tasks.Task<TestClient.UserService.UserDTO[]> GetAllUsersAsync(TestClient.UserService.UserDTO admin, string clientToken) {
+        public System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO[]> GetAllUsersAsync(ShareItServices.UserService.UserDTO admin, string clientToken) {
             return base.Channel.GetAllUsersAsync(admin, clientToken);
         }
         
-        public bool DeleteAccount(TestClient.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken) {
+        public bool DeleteAccount(ShareItServices.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken) {
             return base.Channel.DeleteAccount(requestingUser, acountToBeDeletedId, clientToken);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteAccountAsync(TestClient.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken) {
+        public System.Threading.Tasks.Task<bool> DeleteAccountAsync(ShareItServices.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken) {
             return base.Channel.DeleteAccountAsync(requestingUser, acountToBeDeletedId, clientToken);
         }
     }
