@@ -20,6 +20,7 @@ namespace ClientUnitTest
             var result = ac.Register(model) as ViewResult;
             var resultModel = result.Model as RegisterModel;
             Assert.AreEqual("error", resultModel.Error);
+
         }
 
         [TestMethod]
