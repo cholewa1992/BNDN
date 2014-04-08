@@ -178,48 +178,16 @@ namespace BusinessLogicLayer
             ValidatePassword(userToUpdate);
             currentUserAcc.Password = userToUpdate.Password;
 
-            foreach (var info in userToUpdate.Information)
+            _storage.Delete<UserInfo>(currentUserAcc.UserInfo);
+
+            currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
             {
-                var oldInfo = currentUserAcc.UserInfo.SingleOrDefault(t => t.UserInfoType == (int) info.Type);
-                if (oldInfo != null)
-                {
-                    oldInfo.Data = info.Data;
-                    _storage.Update(oldInfo);
-                }
-                else
-                {
-                    currentUserAcc.UserInfo.Add(new UserInfo
-                    {
-                        Data = info.Data,
-                        UserInfoType = (int)info.Type,
-                        UserId = currentUserAcc.Id
-                    });
-                }
-            }
-            
-            //currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
-            //{
-            //    Data = x.Data,
-            //    UserInfoType = (int) x.Type
-            //}).ToList();
-
+                Data = x.Data,
+                UserInfoType = (int) x.Type
+            }).ToList();
+ 
             _storage.Update(currentUserAcc);
-            //var userAcc = new UserAcc()
-            //{
-            //    Id = userToUpdate.Id,
-            //    Username = userToUpdate.Username,
-            //    Password = userToUpdate.Password,
-            //    AccessRight = currentUserAcc.AccessRight,
-            //    UserInfo = currentUserAcc.UserInfo,
-            //    ClientAdmin = currentUserAcc.ClientAdmin
-            //};
-            //_storage.Add<UserAcc>(userAcc);
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new Exception("The account could not be created");
-            //}
-
+ 
             return true;
         }
 
