@@ -1,0 +1,30 @@
+﻿@model ArtShare.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Create Account";
+}
+
+<h2>Create Account</h2>
+
+@Html.label(m => m.Error)
+
+<form class="pure-form pure-form-stacked" method="post">
+    <fieldset>
+        <legend>To enjoy full access, please create an account.</legend>
+
+        <!--<input type="text" id="username" placeholder="Username" required maxlength="20" />-->
+        @Html.TextBoxFor(m => m.Username)
+        <!--<input type="password" id="password" placeholder="Password" required maxlength="50" />-->
+        @Html.TextBoxFor(m => m.Password)
+        
+        <div style="margin-top: 30px; clear: both"></div> <!-- Spacer -->
+        
+        <!--<input type="text" placeholder="Firstname"/>
+        <input type="text" placeholder="Lastname"/>
+        <input type="email" placeholder="Email"/>
+        <input type="text" placeholder="Location"/>-->
+
+        <button type="submit" class="pure-button button-success">Create Account</button>
+        <small>@Html.ActionLink("Already a user?", "Login")</small>
+    </fieldset>
+</form>

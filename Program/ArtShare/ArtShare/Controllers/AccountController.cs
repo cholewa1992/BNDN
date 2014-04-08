@@ -47,18 +47,17 @@ namespace ArtShare.Controllers
         //
         // GET: /Account/Create
 
-        public ActionResult Create()
+        public ActionResult Register()
         {
             return View();
         }
 
         //
-        // POST: /Account/register
+        // POST: /Account/Register
 
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-
             try
             {
                 accountLogic.RegisterAccount(model);

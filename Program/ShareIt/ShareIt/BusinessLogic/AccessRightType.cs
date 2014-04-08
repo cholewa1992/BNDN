@@ -5,7 +5,8 @@ namespace BusinessLogicLayer
     public enum AccessRightType
     {
         NoAccess, 
-        Owner, 
-        Buyer
+        Buyer,
+        Owner 
+        
     }
 }

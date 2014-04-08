@@ -4,10 +4,7 @@ using System.Data.Entity.Core;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.FaultDataContracts;
 using System.Security.Authentication;
 using DataAccessLayer;
 
@@ -36,19 +33,12 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(user != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
-            Contract.Requires<ArgumentException>(user.Id > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
-            
-            if (_authLogic.CheckClientToken(clientToken) < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
 
-            if (_authLogic.CheckUserExists(user) == -1)
-            {
-                throw new UnauthorizedAccessException("Invalid User credentials!");
-            }
+            ValidateClientToken(clientToken);
+
+            user.Id = ValidateUser(user);
 
             try
             {
@@ -78,16 +68,11 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(oldAdmin != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Username));
-            Contract.Requires<ArgumentException>(oldAdmin.Id > 0);
             Contract.Requires<ArgumentException>(newAdminId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
-
-            var clientId = _authLogic.CheckClientToken(clientToken);
-            if (clientId < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
+            oldAdmin.Id = ValidateUser(oldAdmin);
+            var clientId = ValidateClientToken(clientToken);
 
             if (!_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
@@ -152,7 +137,7 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public List<AccessRightDTO> GetPurchaseHistory(int userId)
+        public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
@@ -175,7 +160,7 @@ namespace BusinessLogicLayer
             return accessRights;
         }
 
-        public List<AccessRightDTO> GetUploadHistory(int userId)
+        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
@@ -239,7 +224,7 @@ namespace BusinessLogicLayer
             if (oldAR != null)
             {
                 oldAR.Expiration = newAR.Expiration;
-                _storage.Update<AccessRight>(oldAR);
+                _storage.Update(oldAR);
             }
             return true;
         }
@@ -259,6 +244,36 @@ namespace BusinessLogicLayer
                 Expiration = aR.Expiration,
                 UserId = aR.UserId
             }).ToList();
+        }
+
+        /// <summary>
+        /// Validate credentials of a clientToken
+        /// </summary>
+        /// <param name="clientToken">The clientToken to validate.</param>
+        /// <returns>The id of the client if it was validated.</returns>
+        /// <exception cref="InvalidCredentialException">If the clientToken was not accepted.</exception>
+        private int ValidateClientToken(string clientToken)
+        {
+            var result = _authLogic.CheckClientToken(clientToken);
+            if (result == -1)
+                throw new InvalidCredentialException("Invalid client token");
+            return result;
+        }
+
+        /// <summary>
+        /// Validate credentials of a user.
+        /// </summary>
+        /// <param name="user">The user whose credentials are to be validated.</param>
+        /// <returns>The id of the user if his credentials are validated.</returns>
+        /// <exception cref="UnauthorizedAccessException">If the user's credentials aren't validated.</exception>
+        private int ValidateUser(UserDTO user)
+        {
+            var result = _authLogic.CheckUserExists(user);
+
+            if (result == -1)
+                throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
+
+            return result;
         }
     }
 }
