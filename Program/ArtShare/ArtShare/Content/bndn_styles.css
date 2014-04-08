@@ -39,6 +39,7 @@ header{
 	color: #d7d7d7;
 	padding-left: 20px;
 	padding-right: 20px;	
+    z-index: 999;
 }
 
 header nav{
@@ -111,7 +112,7 @@ header nav ul li div{
 }
 
 .featured .title{
-    text-align: center;
+    text-align: left;
     color: #CA4957;
     font-family: sans-serif;
     font-size: 19px;
@@ -126,7 +127,7 @@ header nav ul li div{
     background-color: #555;
     width: 150px;
     height: 225px;
-    float: left;
+    float: right;
 }
 
 /* Footer */
