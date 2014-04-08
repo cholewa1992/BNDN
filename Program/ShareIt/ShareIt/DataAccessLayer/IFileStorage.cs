@@ -29,5 +29,7 @@ namespace DataAccessLayer
         /// <param name="fileExtension">The file extension of the thumbnail.</param>
         /// <returns>A string containing the URL where the thumbnail can be found.</returns>
         string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension);
+
+        void DeleteThumbnail(int mediaId, string fileExtension);
     }
 }
