@@ -85,6 +85,12 @@ namespace ShareIt
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
         /// where the type is buyer</returns>
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ObjectNotFound))]
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
         List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken);
 
         /// <summary>
@@ -95,6 +101,12 @@ namespace ShareIt
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
         /// where the type is owner</returns>
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(ObjectNotFound))]
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
         List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken);
 
         ///// <summary>
@@ -105,6 +117,7 @@ namespace ShareIt
         ///// <param name="mediaItemId"></param>
         ///// <param name="clientToken"></param>
         ///// <returns></returns>
+        //[OperationContract]
         //bool CanDownload(UserDTO user, int userId, int mediaItemId, string clientToken);
     }
 }

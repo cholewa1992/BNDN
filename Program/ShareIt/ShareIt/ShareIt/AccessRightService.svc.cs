@@ -261,6 +261,36 @@ namespace ShareIt
 
                 return result;
             }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault);
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
@@ -287,6 +317,36 @@ namespace ShareIt
                 }
 
                 return result;
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault);
             }
             catch (Exception e)
             {
