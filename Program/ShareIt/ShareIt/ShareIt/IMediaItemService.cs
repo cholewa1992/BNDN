@@ -127,7 +127,7 @@ namespace ShareIt
         /// Deletes a media item and all of its associations if the user has the right to do so. 
         /// Only admins and owners are allowed to delete media items.
         /// </summary>
-        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="user">The user who wishes to delete a media item</param>
         /// <param name="mediaItemId">The id of the media item to be deleted</param>
         /// <param name="clientToken">A token used to verify the client</param>
         /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the userId or the mediaItemId is not > 0</exception>
@@ -142,7 +142,7 @@ namespace ShareIt
         [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        void DeleteMediaItem(int userId, int mediaItemId, string clientToken);
+        void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken);
     }
 }
 

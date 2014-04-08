@@ -27,6 +27,8 @@ namespace BusinessLogicTests
         private string _directoryPath = @"C:\RentItUnitTest";
         private string _filePath = @"unittest.txt";
         private string _invalidFilePath = @"C:\Invalid\Path.txt";
+        private UserDTO user1 = new UserDTO{Id = 1, Username = "user1", Password = "pass1"};
+        private UserDTO user2 = new UserDTO {Id = 2, Username = "user2", Password = "pass2"};
 
         #region Setup
         [TestInitialize]
@@ -43,14 +45,16 @@ namespace BusinessLogicTests
             authMoq.Setup(foo => foo.CheckClientToken(It.Is<string>(s => s == "testClient"))).Returns(1);
             authMoq.Setup(foo => foo.CheckClientToken(It.Is<string>(s => s != "testClient"))).Returns(-1);
             //setup checkUserExists.
-            authMoq.Setup(
-                foo =>
-                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
-                .Returns(1);
-            authMoq.Setup(
-                foo =>
-                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
-                .Returns(-1);
+            authMoq.Setup(foo => foo.CheckUserExists(
+                It.Is<UserDTO>(u => u.Password == "pass1" && u.Username == "user1"))).Returns(1);
+            authMoq.Setup(foo => foo.CheckUserExists(
+                It.Is<UserDTO>(u => u.Password == "pass2" && u.Username == "user2"))).Returns(2);
+            authMoq.Setup(foo => foo.CheckUserExists(
+                It.Is<UserDTO>(u => u.Password != "pass1" && u.Username == "user1"))).Returns(-1);
+            authMoq.Setup(foo => foo.CheckUserExists(
+                It.Is<UserDTO>(u => u.Password != "pass2" && u.Username == "user2"))).Returns(-1);
+            authMoq.Setup(foo => foo.CheckUserExists(
+                It.Is<UserDTO>(u => u.Username != "user1" && u.Username != "user2"))).Returns(-1);
             //setup checkUserAccess
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
@@ -178,9 +182,9 @@ namespace BusinessLogicTests
 
             return new HashSet<UserAcc>(new UserAccEqualityComparer())
             {
-                new UserAcc {Id = 1},
-                new UserAcc {Id = 2},
-                new UserAcc {Id = 3},
+                new UserAcc {Id = 1, Username = "user1", Password = "pass1"},
+                new UserAcc {Id = 2, Username = "user2", Password = "pass2"},
+                new UserAcc {Id = 3}
             };
         }
         #endregion
@@ -696,48 +700,48 @@ namespace BusinessLogicTests
          * media item filepath null
          * media item filepath valid
          */
-        
-        [ExpectedException(typeof(ArgumentException))]
+
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
         public void DeleteMediaItem_UserIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(-2, 1, "testClient");
+            mediaItemLogic.DeleteMediaItem(new UserDTO{Id = -2}, 1, "testClient");
         }
-        [ExpectedException(typeof(AccessViolationException))]
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
-        public void DeleteMediaItem_UserIdNotExisting()
+        public void DeleteMediaItem_UserNotExisting()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(99, 1, "testClient");
+            mediaItemLogic.DeleteMediaItem(new UserDTO{Id = 99}, 1, "testClient");
         }
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void DeleteMediaItem_MediaItemIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, -2, "testClient");
+            mediaItemLogic.DeleteMediaItem(user1, -2, "testClient");
         }
         [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
         public void DeleteMediaItem_MediaItemIdNotExisting()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, 99, "testClient");
+            mediaItemLogic.DeleteMediaItem(user1, 99, "testClient");
         }
         [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
         public void DeleteMediaItem_ClientTokenNull()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, 1, null);
+            mediaItemLogic.DeleteMediaItem(user1, 1, null);
         }
         [ExpectedException(typeof(InvalidCredentialException))]
         [TestMethod]
         public void DeleteMediaItem_ClientTokenInvalid()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, 1, "invalidToken");
+            mediaItemLogic.DeleteMediaItem(user1, 1, "invalidToken");
         }
         [TestMethod]
         public void DeleteMediaItem_AdminAllowed()
@@ -747,7 +751,7 @@ namespace BusinessLogicTests
             var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Movie, null, "testClient");
             var countBeforeDeleting = dictionary[MediaItemTypeDTO.Movie].NumberOfSearchResults;
 
-            mediaItemLogic.DeleteMediaItem(2, 10, "testClient"); //user 2 is admin (item 10 is movie3
+            mediaItemLogic.DeleteMediaItem(user2, 10, "testClient"); //user 2 is admin (item 10 is movie3
 
             dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Movie, null, "testClient");
             var countAfterDeleting = dictionary[MediaItemTypeDTO.Movie].NumberOfSearchResults;
@@ -762,26 +766,26 @@ namespace BusinessLogicTests
             var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countBeforeDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
 
-            mediaItemLogic.DeleteMediaItem(1, 2, "testClient"); //user 1 owns item 2 (item 2 is book2)
+            mediaItemLogic.DeleteMediaItem(user1, 2, "testClient"); //user 1 owns item 2 (item 2 is book2)
 
             dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countAfterDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
 
             Assert.AreEqual(countBeforeDeleting - 1, countAfterDeleting);
         }
-        [ExpectedException(typeof(AccessViolationException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         [TestMethod]
         public void DeleteMediaItem_BuyerNotAllowed()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, 3, "testClient"); //user 1 has bought item 3
+            mediaItemLogic.DeleteMediaItem(user1, 3, "testClient"); //user 1 has bought item 3
         }
-        [ExpectedException(typeof(AccessViolationException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         [TestMethod]
         public void DeleteMediaItem_NoAccessNotAllowed()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.DeleteMediaItem(1, 1, "testClient"); //user 1 has no access to item 1
+            mediaItemLogic.DeleteMediaItem(user1, 1, "testClient"); //user 1 has no access to item 1
         }
 
         [TestMethod]
@@ -792,7 +796,7 @@ namespace BusinessLogicTests
             var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countBeforeDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
 
-            mediaItemLogic.DeleteMediaItem(2, 3, "testClient"); //user 2 is admin (item 3 is book3 which has an invalid filePath)
+            mediaItemLogic.DeleteMediaItem(user2, 3, "testClient"); //user 2 is admin (item 3 is book3 which has an invalid filePath)
 
             dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countAfterDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
@@ -809,7 +813,7 @@ namespace BusinessLogicTests
             var dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countBeforeDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
 
-            mediaItemLogic.DeleteMediaItem(2, 1, "testClient"); //user 2 is admin (item 1 is book1 which has a valid filePath)
+            mediaItemLogic.DeleteMediaItem(user2, 1, "testClient"); //user 2 is admin (item 1 is book1 which has a valid filePath)
 
             dictionary = mediaItemLogic.FindMediaItemRange(1, 99, MediaItemTypeDTO.Book, null, "testClient");
             var countAfterDeleting = dictionary[MediaItemTypeDTO.Book].NumberOfSearchResults;
