@@ -161,10 +161,8 @@ namespace DataAccessLayer
         /// </summary>
         protected void SaveChanges()
         {
-            if (!_storageConnection.SaveChanges())
-            {
-                throw new ChangesWasNotSavedException("The changes in this context could not be saved!");
-            }
+            _storageConnection.SaveChanges();
+
         }
 
         /// <summary>
