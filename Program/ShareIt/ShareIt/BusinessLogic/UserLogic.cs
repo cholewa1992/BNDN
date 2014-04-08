@@ -88,18 +88,18 @@ namespace BusinessLogicLayer
         {
             //Preconditions
             Contract.Requires<ArgumentNullException>(requestingUser != null);
-            Contract.Requires<ArgumentNullException>(requestingUser.Id != 0);
             Contract.Requires<ArgumentNullException>(targetUserId != 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
+          
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
                 throw new InvalidCredentialException();
             }
 
-            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
-                (requestingUser.Id != targetUserId)) &&
-                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+            requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
+
+            if ((requestingUser.Id == -1 && (requestingUser.Id != targetUserId)) && (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
             }
@@ -146,7 +146,7 @@ namespace BusinessLogicLayer
             }
 
             if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
-                (requestingUser.Username != userToUpdate.Username)) &&
+                 (requestingUser.Username != userToUpdate.Username)) &&
                 (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
             {
                 throw new UnauthorizedAccessException();
@@ -158,11 +158,13 @@ namespace BusinessLogicLayer
             {
                 if (userToUpdate.Id == 0)
                 {
-                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Username == userToUpdate.Username select u).First();
+                    currentUserAcc =
+                        (from u in _storage.Get<UserAcc>() where u.Username == userToUpdate.Username select u).First();
                 }
                 else
                 {
-                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First(); //TODO should probably not be id
+                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
+                        //TODO should probably not be id
                 }
             }
             catch (Exception)
@@ -173,24 +175,45 @@ namespace BusinessLogicLayer
             // Attempt to update the user account by inserting it with the same id
             //try
             //{
-                ValidatePassword(userToUpdate);
-                currentUserAcc.Password = userToUpdate.Password;
-                currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
+            ValidatePassword(userToUpdate);
+            currentUserAcc.Password = userToUpdate.Password;
+
+            foreach (var info in userToUpdate.Information)
+            {
+                var oldInfo = currentUserAcc.UserInfo.SingleOrDefault(t => t.UserInfoType == (int) info.Type);
+                if (oldInfo != null)
                 {
-                    Data = x.Data,
-                    UserInfoType = (int) x.Type
-                }).ToList();
-                _storage.Update(currentUserAcc);
-                //var userAcc = new UserAcc()
-                //{
-                //    Id = userToUpdate.Id,
-                //    Username = userToUpdate.Username,
-                //    Password = userToUpdate.Password,
-                //    AccessRight = currentUserAcc.AccessRight,
-                //    UserInfo = currentUserAcc.UserInfo,
-                //    ClientAdmin = currentUserAcc.ClientAdmin
-                //};
-                //_storage.Add<UserAcc>(userAcc);
+                    oldInfo.Data = info.Data;
+                    _storage.Update(oldInfo);
+                }
+                else
+                {
+                    currentUserAcc.UserInfo.Add(new UserInfo
+                    {
+                        Data = info.Data,
+                        UserInfoType = (int)info.Type,
+                        UserId = currentUserAcc.Id
+                    });
+                }
+            }
+            
+            //currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
+            //{
+            //    Data = x.Data,
+            //    UserInfoType = (int) x.Type
+            //}).ToList();
+
+            _storage.Update(currentUserAcc);
+            //var userAcc = new UserAcc()
+            //{
+            //    Id = userToUpdate.Id,
+            //    Username = userToUpdate.Username,
+            //    Password = userToUpdate.Password,
+            //    AccessRight = currentUserAcc.AccessRight,
+            //    UserInfo = currentUserAcc.UserInfo,
+            //    ClientAdmin = currentUserAcc.ClientAdmin
+            //};
+            //_storage.Add<UserAcc>(userAcc);
             //}
             //catch (Exception e)
             //{
@@ -199,6 +222,7 @@ namespace BusinessLogicLayer
 
             return true;
         }
+
         /// <summary>
         /// Get a list of all users.
         /// </summary>

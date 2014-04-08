@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -136,6 +137,23 @@ namespace DataAccessLayer
             if (id <= 0) { throw new ArgumentException("Ids 0 or less"); } //Checks that the id is not 0 or less
             if (id > int.MaxValue) { throw new ArgumentException("Ids larger than int.MaxValue"); } //Checks that the id is not more that int.maxValue
             Delete(Get<TEntity>(id)); //Calls Delete with entity fetched by id
+        }
+
+        /// <summary>
+        /// Deletes a list of entities from the repo
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type to use</typeparam>
+        /// <param name="list">The list of entities to delete</param>
+        public void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto
+        {
+            foreach (var entity in list)
+            {
+                if (entity == null) { throw new InternalDbException("An entity in the list was null"); } //Checks that the entity is not null
+                if (entity.Id <= 0) throw new InternalDbException("Id was zero or below");
+                if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
+                _storageConnection.Delete(entity); //Deletes the entity
+            }
+            SaveChanges(); //Saves the changes to the database
         }
 
         /// <summary>
