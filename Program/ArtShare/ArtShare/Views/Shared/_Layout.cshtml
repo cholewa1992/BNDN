@@ -14,13 +14,10 @@
     <body>
         <div id="container">
             <header>
-                <!--<img src="~/Content/img/logo.png"/>-->
-
                 <div class="pure-menu pure-menu-open pure-menu-horizontal to-left">
                     <a href="#" class="pure-menu-heading"><img class="logo-header" src="~/Content/img/logo.png"/></a>
-
                     <ul>
-                        <li class="pure-menu-selected"><a href="#">Home</a></li>
+                        <li class="pure-menu-selected"><a href="~/">Home</a></li>
                         <li><a href="#">Movies</a></li>
                         <li><a href="#">Books</a></li>
                         <li><a href="#">Music</a></li>
@@ -32,8 +29,14 @@
 				        <li><div class="search"><input type="text" placeholder="Search"></div></li>
 				        <!--<li><button class="button-small button-art pure-button">Search</button></li>-->
 				        <li><button class="button-small button-art pure-button">Login</button></li>
+                        <li><button class="button-small button-art pure-button" onclick="window.location.href='/Account/Register'">Create Account</button></li>
 			        </ul>
 		        </nav>
+
+                @if (Request.Url.PathAndQuery == "/")
+                {
+                    // Maybe a jumbo?
+                }
             </header>
 
                 <div class="content-wrapper">
