@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.AccessControl;
 
@@ -21,6 +22,15 @@ namespace BusinessLogicLayer.DTO
         
         [DataMember(IsRequired = false)]
         public UserDTO Owner { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public DateTime? ExpirationDate { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public double AverageRating { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public int NumberOfRatings { get; set; }
 
         public MediaItemDTO()
         {

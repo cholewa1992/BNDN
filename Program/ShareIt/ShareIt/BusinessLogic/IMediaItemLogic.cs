@@ -15,10 +15,10 @@ namespace BusinessLogicLayer
         /// Returns a media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
+        /// <param name="user">The user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
