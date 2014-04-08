@@ -467,16 +467,16 @@ namespace BusinessLogicTests
         }
         #endregion
         #region RateMediaItem
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
         public void RateMediaItem_UserIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = -4;
+            UserDTO user = new UserDTO {Id = -4};
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user, mediaItemId, rating, token);
         }
 
 
@@ -485,11 +485,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_MediaItemIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = -2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
 
@@ -498,11 +497,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_RatingLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = -2;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(ArgumentException))]
@@ -510,11 +508,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_RatingGreaterThanTen()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 11;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(InvalidCredentialException))]
@@ -522,11 +519,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_InvalidClientToken()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = "invalidToken";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(ArgumentNullException))]
@@ -534,11 +530,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_ClientTokenIsNull()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = null;
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [TestMethod]
@@ -546,26 +541,25 @@ namespace BusinessLogicTests
         {
             
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 2;
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == userId && t.EntityId == mediaItemId && t.Value == rating));
+            mediaItemLogic.RateMediaItem(user2, mediaItemId, rating, token);
+            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == user2.Id && t.EntityId == mediaItemId && t.Value == rating));
 
 
         }
 
-        [ExpectedException(typeof(InstanceNotFoundException))]
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
         public void RateMediaItem_UserIdNotFound()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 99; //Not existing
+            UserDTO user = new UserDTO { Id = 99 };
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(InstanceNotFoundException))]
@@ -573,18 +567,16 @@ namespace BusinessLogicTests
         public void RateMediaItem_MediaItemIdNotFound()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 2;
             const int mediaItemId = 99; //Not existing
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user2, mediaItemId, rating, token);
         }
 
         [TestMethod]
         public void RateMediaItem_ValidUpdateRating()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 2;
             const int rating = 3; //User 1 rates media item 2 3 instead of 1
             const string token = "testClient";
@@ -593,7 +585,7 @@ namespace BusinessLogicTests
             Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 3));
             var count = _dbStorage.Get<Rating>().Count();
 
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
 
             Assert.AreEqual(count, _dbStorage.Get<Rating>().Count());
             Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 1));

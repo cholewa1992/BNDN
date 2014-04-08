@@ -297,11 +297,11 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
-        public void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken)
+        public void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken)
         {
-            Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(0 < rating && rating <= 10);
+            Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             //check if client has access
@@ -309,6 +309,16 @@ namespace BusinessLogicLayer
             if (clientId == -1)
             {
                 throw new InvalidCredentialException("Invalid client token");
+            }
+
+            //check if the user exists
+            int userId = _authLogic.CheckUserExists(user);
+            if (userId == -1)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = "User credentials not accepted."
+                });
             }
 
             //check if the user has already rated this media item
@@ -321,9 +331,8 @@ namespace BusinessLogicLayer
             }
             else
             {
-                var validUser = _storage.Get<UserAcc>().Any(a => a.Id == userId);
                 var validMediaItem = _storage.Get<Entity>().Any(a => a.Id == mediaItemId);
-                if (validUser && validMediaItem)
+                if (validMediaItem)
                 {
                     var newRating = new Rating
                     {
@@ -335,7 +344,7 @@ namespace BusinessLogicLayer
                 }
                 else
                 {
-                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem);
+                    throw new InstanceNotFoundException("Media item with id " + mediaItemId + "not found");
                 }
             }
         }
@@ -366,10 +375,11 @@ namespace BusinessLogicLayer
         /// <param name="user">The user who wishes to delete a media item</param>
         /// <param name="mediaItemId">The id of the media item to be deleted</param>
         /// <param name="clientToken">A token used to verify the client</param>
-        /// <exception cref="ArgumentException">Thrown when the userId or the mediaItemId is not > 0</exception>
-        /// <exception cref="ArgumentNullException">Thrown when the clientToken is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the mediaItemId is not > 0</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the user or the clientToken is null</exception>
         /// <exception cref="InvalidCredentialException">Thrown when the clientToken is not accepted</exception>
         /// <exception cref="AccessViolationException">Thrown when the requesting user is not allowed to delete the media item</exception>
+        /// <exception cref="FaultException&lt;UnauthorizedUser&gt;">Thrown when the user credentials are not accepted</exception>
         public void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken)
         {
             Contract.Requires<ArgumentNullException>(user != null);

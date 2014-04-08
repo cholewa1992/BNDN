@@ -43,11 +43,11 @@ namespace BusinessLogicLayer
         /// <summary>
         /// Associates a user with a media item and includes a value from 1-10 representing the rating.
         /// </summary>
-        /// <param name="userId">The id of the user</param>
+        /// <param name="user">The user who wishes to rate a media item</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
-        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
+        void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken);
 
         /// <summary>
         /// Deletes a media item and all of its associations if the user has the right to do so. 

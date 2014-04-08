@@ -53,7 +53,11 @@ namespace DataAccessLayer
             WriteStreamToDisk(filePath, fileByteStream);
             return WebPath + "/img/" + thumbnailName;
         }
-
+        /// <summary>
+        /// Deletes a thumbnail
+        /// </summary>
+        /// <param name="mediaId">The id of the media item whose thumbnail must be deleted</param>
+        /// <param name="fileExtension">The file extension of the thumbnail to be deleted</param>
         public void DeleteThumbnail(int mediaId, string fileExtension)
         {
             Contract.Requires<ArgumentException>(mediaId > 0);
@@ -65,11 +69,22 @@ namespace DataAccessLayer
             }
         }
 
+        /// <summary>
+        /// Gets the path of the thumbnail
+        /// </summary>
+        /// <param name="thumbnailName">The name of the thumbnail whose path we are interested in</param>
+        /// <returns>The path of the thumbnail</returns>
         private string GetThumbnailPath(string thumbnailName)
         {
             return Path.Combine(_physicalPath, "img", thumbnailName);
         }
 
+        /// <summary>
+        /// Get the name of the thumbnail
+        /// </summary>
+        /// <param name="mediaId">The id of the media item whose thumbnail name we are interested in</param>
+        /// <param name="fileExtension">The file extension of the thumbnail</param>
+        /// <returns>The name of the thumbnail</returns>
         private string GetThumbnailName(int mediaId, string fileExtension)
         {
             return "thumbnail_" + mediaId + fileExtension;

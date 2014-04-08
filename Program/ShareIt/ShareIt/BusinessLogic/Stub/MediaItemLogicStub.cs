@@ -210,7 +210,7 @@ namespace BusinessLogicLayer.Stub
             return result;
         }
 
-        public void RateMediaItem(int userId, int mediaId, int rating, string clientToken)
+        public void RateMediaItem(UserDTO user, int mediaId, int rating, string clientToken)
         {
             throw new NotImplementedException();
         }
