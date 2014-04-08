@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Runtime.Serialization;
@@ -156,7 +157,6 @@ namespace ShareIt
             }
             catch (InstanceNotFoundException e)
             {
-                //TODO Create fitting fault data contract
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault);
             }
@@ -182,8 +182,13 @@ namespace ShareIt
             }
             catch (ArgumentException ae)
             {
-                var fault = new ArgumentFault { Message = ae.Message };
+                var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InstanceNotFoundException e)
+            {
+                var fault = new ObjectNotFound { Message = e.Message };
+                throw new FaultException<ObjectNotFound>(fault);
             }
             catch (InvalidOperationException e)
             {
@@ -199,7 +204,7 @@ namespace ShareIt
         /// Deletes a media item and all of its associations if the user has the right to do so. 
         /// Only admins and owners are allowed to delete media items.
         /// </summary>
-        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="user">The user who wishes to delete a media item</param>
         /// <param name="mediaItemId">The id of the media item to be deleted</param>
         /// <param name="clientToken">A token used to verify the client</param>
         /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the userId or the mediaItemId is not > 0</exception>
@@ -207,17 +212,11 @@ namespace ShareIt
         /// <exception cref="FaultException&lt;UnauthorizedClient&gt;">Thrown when the clientToken is not accepted</exception>
         /// <exception cref="FaultException&lt;AccessRightNotFound&gt;">Thrown when the requesting user is not allowed to delete the media item</exception>
         /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
-        public void DeleteMediaItem(int userId, int mediaItemId, string clientToken)
+        public void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken)
         {
             try
             {
-                _factory.CreateMediaItemLogic().DeleteMediaItem(userId, mediaItemId, clientToken);
-            }
-            catch (ArgumentNullException e)
-            {
-                //TODO Create fitting fault data contract
-                var fault = new ArgumentFault { Message = e.Message };
-                throw new FaultException<ArgumentFault>(fault);
+                _factory.CreateMediaItemLogic().DeleteMediaItem(user, mediaItemId, clientToken);
             }
             catch (ArgumentException e)
             {
@@ -229,20 +228,16 @@ namespace ShareIt
                 var fault = new UnauthorizedClient { Message = e.Message };
                 throw new FaultException<UnauthorizedClient>(fault);
             }
-            catch (AccessViolationException e)
+            catch (UnauthorizedAccessException e)
             {
-                var fault = new AccessRightNotFound {Message = e.Message};
-                throw new FaultException<AccessRightNotFound>(fault); //TODO Change to UnauthorizedUserFault 
-                //TODO (AccessRightNotFound is for when an AccessRight cannot be found when it is supposed to be deleted or edited)
+                var fault = new UnauthorizedUser {Message = e.Message};
+                throw new FaultException<UnauthorizedUser>(fault); 
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault);
             }
-
-            //TODO Catch new exception thrown when User does not have access
-
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));

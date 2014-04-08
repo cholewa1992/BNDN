@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,8 +43,8 @@ namespace DataAccessLayer
         public string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension)
         {
             var directoryPath = Path.Combine(_physicalPath, "img");
-            var thumbnailName = "thumbnail_" + mediaId + fileExtension;
-            var filePath = Path.Combine(directoryPath, thumbnailName);
+            var thumbnailName = GetThumbnailName(mediaId, fileExtension);
+            var filePath = GetThumbnailPath(thumbnailName);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
             //Delete thumbnail if it already existed for the given mediaId
@@ -51,6 +52,27 @@ namespace DataAccessLayer
                 File.Delete(filePath);
             WriteStreamToDisk(filePath, fileByteStream);
             return WebPath + "/img/" + thumbnailName;
+        }
+
+        public void DeleteThumbnail(int mediaId, string fileExtension)
+        {
+            Contract.Requires<ArgumentException>(mediaId > 0);
+            Contract.Requires<ArgumentNullException>(fileExtension != null);
+            var path = Path.Combine(_physicalPath, "img", "thumbnail_" + mediaId + fileExtension);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        private string GetThumbnailPath(string thumbnailName)
+        {
+            return Path.Combine(_physicalPath, "img", thumbnailName);
+        }
+
+        private string GetThumbnailName(int mediaId, string fileExtension)
+        {
+            return "thumbnail_" + mediaId + fileExtension;
         }
 
         /// <summary>
