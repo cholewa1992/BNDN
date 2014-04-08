@@ -146,7 +146,7 @@ namespace DataAccessLayer
         /// <param name="list">The list of entities to delete</param>
         public void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto
         {
-            foreach (var entity in list)
+            foreach (var entity in list.ToList())
             {
                 if (entity == null) { throw new InternalDbException("An entity in the list was null"); } //Checks that the entity is not null
                 if (entity.Id <= 0) throw new InternalDbException("Id was zero or below");
