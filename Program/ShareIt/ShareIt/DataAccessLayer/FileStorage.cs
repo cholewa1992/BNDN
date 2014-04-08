@@ -60,8 +60,8 @@ namespace DataAccessLayer
         /// <param name="fileExtension">The file extension of the thumbnail to be deleted</param>
         public void DeleteThumbnail(int mediaId, string fileExtension)
         {
-            Contract.Requires<ArgumentException>(mediaId > 0);
-            Contract.Requires<ArgumentNullException>(fileExtension != null);
+            if(mediaId < 1) { throw new ArgumentException(); }
+            if(string.IsNullOrEmpty(fileExtension)) { throw new ArgumentNullException(); }
             var path = Path.Combine(_physicalPath, "img", "thumbnail_" + mediaId + fileExtension);
             if (File.Exists(path))
             {
