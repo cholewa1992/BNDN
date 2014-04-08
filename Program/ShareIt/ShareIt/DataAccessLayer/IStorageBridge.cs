@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -71,5 +72,12 @@ namespace DataAccessLayer
         /// @pre int.MaxValue > id
         /// </remarks>
         void Delete<TEntity>(int id) where TEntity : class, IEntityDto;
+
+        /// <summary>
+        /// Deletes a list of entities from the repo
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type to use</typeparam>
+        /// <param name="list">The list of entities to delete</param>
+        void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto;
     }
 }
