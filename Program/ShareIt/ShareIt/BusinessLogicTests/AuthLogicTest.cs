@@ -252,7 +252,7 @@ namespace BusinessLogicTests
                 Expiration = null,
                 EntityId = 1, 
                 UserId = 1,
-                AccessRightTypeId = 2
+                AccessRightTypeId = 1
             };
             var ar2 = new AccessRight //User 2 owns Entity 1
             {
@@ -260,7 +260,7 @@ namespace BusinessLogicTests
                 Expiration = null,
                 EntityId = 1,
                 UserId = 2,
-                AccessRightTypeId = 1
+                AccessRightTypeId = 2
             };
             var ar3 = new AccessRight //User 1 has bought Entity 1 before, but it expired last christmas
             {
@@ -268,7 +268,7 @@ namespace BusinessLogicTests
                 Expiration = new DateTime(2013, 12, 24, 23, 59, 59),
                 EntityId = 1,
                 UserId = 1,
-                AccessRightTypeId = 2
+                AccessRightTypeId = 1
             };
             var ar4 = new AccessRight //User 3 has bought Entity 1 but has no expiration
             {
@@ -276,7 +276,7 @@ namespace BusinessLogicTests
                 Expiration = null,
                 EntityId = 1,
                 UserId = 3,
-                AccessRightTypeId = 2
+                AccessRightTypeId = 1
             };
             var ar5 = new AccessRight //User 3 has bought Entity 2 but it has expired
             {
@@ -284,7 +284,7 @@ namespace BusinessLogicTests
                 Expiration = new DateTime(2013, 12, 31, 00, 00, 00),
                 EntityId = 2,
                 UserId = 3,
-                AccessRightTypeId = 2
+                AccessRightTypeId = 1
             };
             var ar6 = new AccessRight //User 2 has bought Entity 2
             {
@@ -292,7 +292,7 @@ namespace BusinessLogicTests
                 Expiration = new DateTime(2015, 01, 01, 00, 00, 00),
                 EntityId = 2,
                 UserId = 2,
-                AccessRightTypeId = 2
+                AccessRightTypeId = 1
             };
             return new HashSet<AccessRight> { ar1, ar2, ar3, ar4, ar5, ar6 };
         }
