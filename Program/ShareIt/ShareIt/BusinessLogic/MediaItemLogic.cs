@@ -429,7 +429,9 @@ namespace BusinessLogicLayer
                     FileStorage.DeleteThumbnail(mediaItemId, Path.GetExtension(thumbnailPath));
                 }
                 //else Do nothing. The file has no thumbnail OR the thumbnail does not exist on the path
-                
+                _storage.Delete(mediaItem.EntityInfo);
+                _storage.Delete(mediaItem.AccessRight);
+                _storage.Delete(mediaItem.Rating);
                 _storage.Delete<Entity>(mediaItemId);
             }
             else
