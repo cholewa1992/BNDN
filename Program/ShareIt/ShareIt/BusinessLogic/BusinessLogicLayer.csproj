@@ -137,6 +137,7 @@
     <Compile Include="FaultDataContracts\ArgumentFault.cs" />
     <Compile Include="FaultDataContracts\MediaItemNotFound.cs" />
     <Compile Include="FaultDataContracts\AccessRightNotFound.cs" />
+    <Compile Include="FaultDataContracts\ObjectNotFound.cs" />
     <Compile Include="IAuthInternalLogic.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedClient.cs" />
     <Compile Include="FaultDataContracts\UnauthorizedUser.cs" />

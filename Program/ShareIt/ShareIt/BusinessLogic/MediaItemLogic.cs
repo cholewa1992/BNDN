@@ -15,12 +15,14 @@ namespace BusinessLogicLayer
     class MediaItemLogic : IMediaItemInternalLogic
     {
         private readonly IStorageBridge _storage;
+        public IFileStorage FileStorage { get; set; }
         private readonly IAuthInternalLogic _authLogic;
 
         internal MediaItemLogic(IStorageBridge storage, IAuthInternalLogic authLogic)
         {
             _storage = storage;
             _authLogic = authLogic;
+            FileStorage = new FileStorage();
         }
 
         /// <summary>
@@ -295,11 +297,11 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
-        public void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken)
+        public void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken)
         {
-            Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(0 < rating && rating <= 10);
+            Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
             //check if client has access
@@ -307,6 +309,16 @@ namespace BusinessLogicLayer
             if (clientId == -1)
             {
                 throw new InvalidCredentialException("Invalid client token");
+            }
+
+            //check if the user exists
+            int userId = _authLogic.CheckUserExists(user);
+            if (userId == -1)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = "User credentials not accepted."
+                });
             }
 
             //check if the user has already rated this media item
@@ -319,9 +331,8 @@ namespace BusinessLogicLayer
             }
             else
             {
-                var validUser = _storage.Get<UserAcc>().Any(a => a.Id == userId);
                 var validMediaItem = _storage.Get<Entity>().Any(a => a.Id == mediaItemId);
-                if (validUser && validMediaItem)
+                if (validMediaItem)
                 {
                     var newRating = new Rating
                     {
@@ -333,7 +344,7 @@ namespace BusinessLogicLayer
                 }
                 else
                 {
-                    throw new InstanceNotFoundException("Valid user id: " + validUser + ". Valid media item id: " + validMediaItem); //TODO What is this for?
+                    throw new InstanceNotFoundException("Media item with id " + mediaItemId + "not found");
                 }
             }
         }
@@ -361,16 +372,17 @@ namespace BusinessLogicLayer
         /// Deletes a media item and all of its associations if the user has the right to do so. 
         /// Only admins and owners are allowed to delete media items.
         /// </summary>
-        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="user">The user who wishes to delete a media item</param>
         /// <param name="mediaItemId">The id of the media item to be deleted</param>
         /// <param name="clientToken">A token used to verify the client</param>
-        /// <exception cref="ArgumentException">Thrown when the userId or the mediaItemId is not > 0</exception>
-        /// <exception cref="ArgumentNullException">Thrown when the clientToken is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the mediaItemId is not > 0</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the user or the clientToken is null</exception>
         /// <exception cref="InvalidCredentialException">Thrown when the clientToken is not accepted</exception>
         /// <exception cref="AccessViolationException">Thrown when the requesting user is not allowed to delete the media item</exception>
-        public void DeleteMediaItem(int userId, int mediaItemId, string clientToken)
+        /// <exception cref="FaultException&lt;UnauthorizedUser&gt;">Thrown when the user credentials are not accepted</exception>
+        public void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken)
         {
-            Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
@@ -381,14 +393,23 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken); //TODO Throw exception if user doesn't have access
-            var userAccessRight = _authLogic.CheckUserAccess(userId, mediaItemId); //TODO Throw exception if user doesn't have access
+            //check if the user exists
+            int userId = _authLogic.CheckUserExists(user);
+            if (userId == -1) 
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser {
+                    Message = "User credentials not accepted."
+                });
+            }
+
             var mediaItem = _storage.Get<Entity>().FirstOrDefault(foo => foo.Id == mediaItemId);
             if (mediaItem == null)
             {
                 throw new InstanceNotFoundException("Media item with id " + mediaItemId + " was not found");
             }
 
+            var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken);
+            var userAccessRight = _authLogic.CheckUserAccess(userId, mediaItemId);
             if (isUserAdmin || userAccessRight == AccessRightType.Owner)
             {
                 if (File.Exists(mediaItem.FilePath))
@@ -402,9 +423,9 @@ namespace BusinessLogicLayer
                     Where(a => a.EntityInfoTypeId == (int) InformationTypeDTO.Thumbnail).
                     Select(a => a.Data).
                     FirstOrDefault();
-                if (thumbnailPath != null && File.Exists(thumbnailPath))
+                if (thumbnailPath != null)
                 {
-                    File.Delete(thumbnailPath);
+                    FileStorage.DeleteThumbnail(mediaItemId, Path.GetExtension(thumbnailPath));
                 }
                 //else Do nothing. The file has no thumbnail OR the thumbnail does not exist on the path
                 
@@ -412,7 +433,7 @@ namespace BusinessLogicLayer
             }
             else
             {
-                throw new AccessViolationException("The user is not allowed to delete this media item"); //TODO Maybe change to UnauthorizedAccessException (For consistency)
+                throw new UnauthorizedAccessException("The user is not allowed to delete this media item");
             }
         }
 

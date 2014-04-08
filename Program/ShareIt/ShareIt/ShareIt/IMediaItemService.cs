@@ -112,7 +112,7 @@ namespace ShareIt
         /// <summary>
         /// Associates a user with a media item and includes a value from 1-10 representing the rating.
         /// </summary>
-        /// <param name="userId">The id of the user</param>
+        /// <param name="user">The user who wishes to rate a media item</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
@@ -121,13 +121,13 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
+        void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken);
 
         /// <summary>
         /// Deletes a media item and all of its associations if the user has the right to do so. 
         /// Only admins and owners are allowed to delete media items.
         /// </summary>
-        /// <param name="userId">The id of user who wishes to delete a media item</param>
+        /// <param name="user">The user who wishes to delete a media item</param>
         /// <param name="mediaItemId">The id of the media item to be deleted</param>
         /// <param name="clientToken">A token used to verify the client</param>
         /// <exception cref="FaultException&lt;ArgumentFault&gt;">Thrown when the userId or the mediaItemId is not > 0</exception>
@@ -142,7 +142,7 @@ namespace ShareIt
         [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        void DeleteMediaItem(int userId, int mediaItemId, string clientToken);
+        void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken);
     }
 }
 
