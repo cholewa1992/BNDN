@@ -240,6 +240,9 @@ namespace ShareIt
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault);
             }
+
+            //TODO Catch new exception thrown when User does not have access
+
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));

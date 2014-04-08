@@ -392,8 +392,8 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken);
-            var userAccessRight = _authLogic.CheckUserAccess(userId, mediaItemId);
+            var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken); //TODO Throw exception if user doesn't have access
+            var userAccessRight = _authLogic.CheckUserAccess(userId, mediaItemId); //TODO Throw exception if user doesn't have access
             var mediaItem = _storage.Get<Entity>().FirstOrDefault(foo => foo.Id == mediaItemId);
             if (mediaItem == null)
             {

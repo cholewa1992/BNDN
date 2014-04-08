@@ -34,8 +34,8 @@ namespace ShareIt
         /// </summary>
         /// <param name="client">A client to check</param>
         /// <returns>A boolean result</returns>
-        [FaultContract(typeof(FaultException))]
         [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool CheckClientExists(ClientDTO client);
 
@@ -45,8 +45,8 @@ namespace ShareIt
         /// <param name="user">given user</param>
         /// <param name="clientToken">given client</param>
         /// <returns>a bool answer</returns>
-        [FaultContract(typeof(FaultException))]
         [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool IsUserAdminOnClient(UserDTO user, string clientToken);
     }

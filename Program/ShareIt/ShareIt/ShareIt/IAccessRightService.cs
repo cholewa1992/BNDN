@@ -39,6 +39,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(AccessRightNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         bool Delete(UserDTO admin, int accessRightId, string clientToken);

@@ -138,6 +138,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(AccessRightNotFound))]
         [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(UnauthorizedUser))]
         [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]

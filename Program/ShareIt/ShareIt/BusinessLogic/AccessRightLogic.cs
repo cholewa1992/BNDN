@@ -137,7 +137,15 @@ namespace BusinessLogicLayer
                 throw new UnauthorizedAccessException("User does not have access to perform this operation!");
             }
             //Check if accessRight exists
-            _storage.Get<AccessRight>(accessRightId);
+            try
+            {
+                _storage.Get<AccessRight>(accessRightId);
+            }
+            catch(InvalidOperationException e)
+            {
+                throw new InstanceNotFoundException("No access right with id " + accessRightId + "was found");
+            }
+            
 
             _storage.Delete<AccessRight>(accessRightId);
 

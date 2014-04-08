@@ -120,6 +120,12 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault);
             }
+            catch (InstanceNotFoundException e)
+            {
+                var fault = new AccessRightNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<AccessRightNotFound>(fault);
+            }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
