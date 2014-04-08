@@ -4,10 +4,7 @@ using System.Data.Entity.Core;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.FaultDataContracts;
 using System.Security.Authentication;
 using DataAccessLayer;
 
@@ -36,7 +33,6 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(user != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
-            Contract.Requires<ArgumentException>(user.Id > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
             
@@ -45,7 +41,9 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException("Invalid client token");
             }
 
-            if (_authLogic.CheckUserExists(user) == -1)
+            user.Id = _authLogic.CheckUserExists(user);
+
+            if (user.Id == -1)
             {
                 throw new UnauthorizedAccessException("Invalid User credentials!");
             }
@@ -78,10 +76,10 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(oldAdmin != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Username));
-            Contract.Requires<ArgumentException>(oldAdmin.Id > 0);
             Contract.Requires<ArgumentException>(newAdminId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
+            oldAdmin.Id = _authLogic.CheckUserExists(oldAdmin);
 
             var clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId < 0)
@@ -239,7 +237,7 @@ namespace BusinessLogicLayer
             if (oldAR != null)
             {
                 oldAR.Expiration = newAR.Expiration;
-                _storage.Update<AccessRight>(oldAR);
+                _storage.Update(oldAR);
             }
             return true;
         }
