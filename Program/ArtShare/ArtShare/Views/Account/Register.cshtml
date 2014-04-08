@@ -6,7 +6,7 @@
 
 <h2>Create Account</h2>
 
-@Html.label(m => m.Error)
+@Html.TextBoxFor(m => m.Error)
 
 <form class="pure-form pure-form-stacked" method="post">
     <fieldset>
@@ -25,6 +25,6 @@
         <input type="text" placeholder="Location"/>-->
 
         <button type="submit" class="pure-button button-success">Create Account</button>
-        <small>@Html.ActionLink("Already a user?", "Login")</small>
+        <small></small>
     </fieldset>
 </form>

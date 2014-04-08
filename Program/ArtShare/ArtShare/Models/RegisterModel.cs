@@ -13,7 +13,6 @@ namespace ArtShare.Models
         [Display(Name = "Confirm Password")]
         public string RetypePassword { get; set; }
 
-        [Display(Name = "Error")]
         public string Error { get; set; }
     }
 }

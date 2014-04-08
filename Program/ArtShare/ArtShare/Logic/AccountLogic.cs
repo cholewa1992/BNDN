@@ -13,10 +13,11 @@ namespace ArtShare.Logic
 
         public void RegisterAccount(RegisterModel model)
         {
+            /*
             if (model.Password != model.RetypePassword)
             {
                 throw new InvalidDataException("Retyped password does not match");
-            }
+            }*/
 
             var user = new UserDTO()
             {
