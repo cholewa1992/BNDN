@@ -46,14 +46,14 @@ namespace ShareIt
         /// Get a list of media item information about a given media item.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
+        /// <param name="user">The user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A list of MediaItemInformation</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken)
         {
             try
             {
-                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, userId, clientToken);
+                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, user, clientToken);
             } 
             catch (ArgumentException ae)
             {

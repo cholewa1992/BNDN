@@ -30,10 +30,10 @@ namespace BusinessLogicLayer
         /// Returns a media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId"></param>
+        /// <param name="user">The </param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(mediaItemId > 0);
@@ -52,14 +52,18 @@ namespace BusinessLogicLayer
             }
             catch (Exception e)
             {
-                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound{
-                    Message = "No media item with id " + mediaItemId + " exists in the database"});
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
+                {
+                    Message = "No media item with id " + mediaItemId + " exists in the database"
+                });
             }
 
-            var mediaItem = new MediaItemDTO { Id = entity.Id, 
-                                               Information = new List<MediaItemInformationDTO>(),
-                                               Type = (MediaItemTypeDTO) entity.TypeId,
-                                               FileExtension = Path.GetExtension(entity.FilePath)
+            var mediaItem = new MediaItemDTO
+            {
+                Id = entity.Id,
+                Information = new List<MediaItemInformationDTO>(),
+                Type = (MediaItemTypeDTO)entity.TypeId,
+                FileExtension = Path.GetExtension(entity.FilePath)
             };
             var informationList = new List<MediaItemInformationDTO>();
 
@@ -75,15 +79,20 @@ namespace BusinessLogicLayer
                 });
             }
 
-            if (userId != null)
+            if (user != null)
             {
+                int userId = _authLogic.CheckUserExists(user);
+                if (userId == -1)
+                {
+                    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                    {
+                        Message = "User credentials not accepted."
+                    });
+                }
                 try
                 {
-                    DateTime? date = _authLogic.GetBuyerExpirationDate((int)userId, mediaItem.Id);
-                    var mediaItemInformation = new MediaItemInformationDTO();
-                    mediaItemInformation.Type = InformationTypeDTO.ExpirationDate;
-                    mediaItemInformation.Data = date == null ? null : date.ToString();
-                    informationList.Add(mediaItemInformation);
+                    DateTime? date = _authLogic.GetBuyerExpirationDate(userId, mediaItem.Id);
+                    mediaItem.ExpirationDate = date;
                 }
                 catch (InstanceNotFoundException e)
                 {
@@ -93,17 +102,14 @@ namespace BusinessLogicLayer
 
             try
             {
-                var avgRating = GetAverageRating(mediaItemId);
-                informationList.Add(new MediaItemInformationDTO
+                var dict = GetAverageRating(mediaItemId);
+                foreach (var entry in dict)
                 {
-                    Type = InformationTypeDTO.AverageRating,
-                    Data = avgRating.ToString("#0.00")
-                });
+                    mediaItem.AverageRating = entry.Key;
+                    mediaItem.NumberOfRatings = entry.Value;
+                }
             }
-            catch (InstanceNotFoundException e)
-            {
-                //Do nothing - no avg rating found
-            }
+            catch (InstanceNotFoundException e) { /*Do nothing - no avg rating found*/ }
 
             // Add all the UserInformation to targetUser and return it
             mediaItem.Information = informationList;
@@ -294,7 +300,7 @@ namespace BusinessLogicLayer
         /// <summary>
         /// Associates a user with a media item and includes a value from 1-10 representing the rating.
         /// </summary>
-        /// <param name="userId">The id of the user</param>
+        /// <param name="user">The user who wishes to rate a media item</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
@@ -354,18 +360,21 @@ namespace BusinessLogicLayer
         /// Gets the average rating of a media item
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <returns>A double representing the average rating</returns>
+        /// <returns>A dictionary with the average rating as key and the number of ratings as value</returns>
         /// <exception cref="InstanceNotFoundException">Thrown when the media item has not been rated</exception>
-        internal double GetAverageRating(int mediaItemId)
+        internal Dictionary<double, int> GetAverageRating(int mediaItemId)
         {
             Contract.Requires<ArgumentException>(mediaItemId > 0);
-            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
 
             if (_storage.Get<Rating>().Any(a => a.EntityId == mediaItemId))
             {
-                return _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId).Average(a => a.Value);
+                var result = new Dictionary<double, int>();
+                var ratings = _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId);
+
+                result.Add(ratings.Average(a => a.Value), ratings.Count());
+                return result;
             }
-            
+
             throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
         }
 

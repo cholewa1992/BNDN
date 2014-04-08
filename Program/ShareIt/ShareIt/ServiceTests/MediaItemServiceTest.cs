@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.ServiceModel;
 using BusinessLogicLayer;
+using BusinessLogicLayer.FaultDataContracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShareIt;
 
@@ -26,17 +28,16 @@ namespace ServiceTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(FaultException<MediaItemNotFound>))]
         public void TestGetMediaItemInvalidId()
         {
-            try
-            {
-                _mediaItemService.GetMediaItemInformation(999, null, "token");
-            }
-            catch (ArgumentException e)
+            _mediaItemService.GetMediaItemInformation(9999, null, "token");
+            
+            /*catch (FaultException<ArgumentFault> e)
             {
                 Assert.AreEqual("No media item with id 999 exists in the database", e.Message);
             }
-            Assert.Fail("Expected ArgumentException");
+            Assert.Fail("Expected FaultException<ArgumentFault>");*/
         }
 
 
