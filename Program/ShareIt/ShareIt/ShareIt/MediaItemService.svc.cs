@@ -6,8 +6,10 @@ using System.Runtime.Serialization;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
+using System.Web.UI.WebControls;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using ShareIt;
 
@@ -247,6 +249,46 @@ namespace ShareIt
             {
                 throw new FaultException(new FaultReason(e.Message));
             }
+        }
+
+        public bool UpdateMediaItemInformation(UserDTO user, MediaItemDTO media, string clientToken)
+        {
+            try
+            {
+                using (var logic = _factory.CreateMediaItemLogic())
+                    logic.UpdateMediaItem(user, media, clientToken);
+                return true;
+            }
+            catch (InvalidUserException)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "Username and password didn't match."
+                });
+            }
+            catch (InvalidClientException)
+            {
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
+                {
+                    Message = "Client token invalid."
+                });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "User not allowed to update media information for media with id: " + media.Id
+                });
+            }
+            catch (MediaItemNotFoundException)
+            {
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound(){Message = "No media item found with id: " + media.Id});
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+                
         }
     }
 }

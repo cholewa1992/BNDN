@@ -7,6 +7,7 @@ using System.Management.Instrumentation;
 using System.Security.Authentication;
 using System.ServiceModel;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
@@ -425,6 +426,54 @@ namespace BusinessLogicLayer
             {
                 throw new AccessViolationException("The user is not allowed to delete this media item"); //TODO Maybe change to UnauthorizedAccessException (For consistency)
             }
+        }
+        /// <summary>
+        /// Update an Entity in the database given so it holds the information given by a MediaItemDTO.
+        /// </summary>
+        /// <param name="user">The user who requested the update.</param>
+        /// <param name="media">The MediaItemDTO holding the new information.</param>
+        /// <param name="clientToken">A token to verify the client.</param>
+        /// <exception cref="InvalidClientException">If the clientToken isn't valid.</exception>
+        /// <exception cref="InvalidUserException">If the username and password of the user don't match.</exception>
+        /// <exception cref="UnauthorizedAccessException">If the user isn't allowed to perform the update.</exception>
+        /// <exception cref="MediaItemNotFoundException">If no entity was found with the given id.</exception>
+        public void UpdateMediaItem(UserDTO user, MediaItemDTO media, string clientToken)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(media != null);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(media.Id > 0);
+            //Validate clientToken
+            if (_authLogic.CheckClientToken(clientToken) == -1)
+            {
+                throw new InvalidClientException();
+            }
+            //Validate User credentials.
+            user.Id = _authLogic.CheckUserExists(user);
+            if (user.Id == -1)
+                throw new InvalidUserException();
+            //Validate that user is allowed to update.
+            if(_authLogic.CheckUserAccess(user.Id, media.Id) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
+                throw new UnauthorizedAccessException();
+            //See if there is an item in the db with matching id.
+            var entity = _storage.Get<Entity>().FirstOrDefault(x => x.Id == media.Id);
+
+            //only update if there is something to update.
+            if (entity == null) throw new MediaItemNotFoundException();
+            //Map any MediaItemInformationDTO in the Information collection to an EntityInfo, ignoring any null entries.
+            List<EntityInfo> information = media.Information == null
+                ? new List<EntityInfo>()
+                : media.Information.Aggregate(new List<EntityInfo>(), (list, x) =>
+                {
+                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type, Id = x.Id});
+                    return list;
+                });
+            //Delete old infos.
+            _storage.Delete<EntityInfo>(entity.EntityInfo);
+            //Set type and information to be the new values and update db.
+            entity.TypeId = (int)media.Type;
+            entity.EntityInfo = information;
+            _storage.Update(entity);
         }
 
         public void Dispose()

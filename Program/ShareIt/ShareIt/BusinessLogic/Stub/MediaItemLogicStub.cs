@@ -231,5 +231,15 @@ namespace BusinessLogicLayer.Stub
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateMediaItem(UserDTO user, MediaItemDTO media, string clientToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

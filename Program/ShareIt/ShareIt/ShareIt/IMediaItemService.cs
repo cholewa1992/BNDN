@@ -143,6 +143,15 @@ namespace ShareIt
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void DeleteMediaItem(int userId, int mediaItemId, string clientToken);
+        /// <summary>
+        /// Update the information of a media item.
+        /// </summary>
+        /// <param name="user">The user who wishes to update the information.</param>
+        /// <param name="media">The media which is to be updated.</param>
+        /// <param name="clientToken">A string validating from which client the request originates.</param>
+        /// <returns>True if the update succeeded, otherwise false.</returns>
+        [OperationContract]
+        bool UpdateMediaItemInformation(UserDTO user, MediaItemDTO media, string clientToken);
     }
 }
 

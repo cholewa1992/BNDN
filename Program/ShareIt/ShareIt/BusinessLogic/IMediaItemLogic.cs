@@ -9,7 +9,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public interface IMediaItemLogic
+    public interface IMediaItemLogic : IDisposable
     {
         /// <summary>
         /// Returns a media item with a collection of media item information
@@ -61,5 +61,13 @@ namespace BusinessLogicLayer
         /// <exception cref="InvalidCredentialException">Thrown when the clientToken is not accepted</exception>
         /// <exception cref="AccessViolationException">Thrown when the requesting user is not allowed to delete the media item</exception>
         void DeleteMediaItem(int userId, int mediaItemId, string clientToken);
+        /// <summary>
+        /// Update the information about at media.
+        /// Only admins and ownsers are allowed to update information of a media item.
+        /// </summary>
+        /// <param name="user">The user who wishes to update the media information.</param>
+        /// <param name="media">The media which is to be updated.</param>
+        /// <param name="clientToken">A token used to verify the client.</param>
+        void UpdateMediaItem(UserDTO user, MediaItemDTO media, string clientToken);
     }
 }
