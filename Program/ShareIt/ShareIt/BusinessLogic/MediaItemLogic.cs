@@ -479,7 +479,7 @@ namespace BusinessLogicLayer
                     return list;
                 });
             //Delete old infos.
-            //_storage.Delete<EntityInfo>(entity.EntityInfo);
+            _storage.Delete<EntityInfo>(entity.EntityInfo);
             //Set type and information to be the new values and update db.
             entity.TypeId = (int)media.Type;
             entity.EntityInfo = information;
