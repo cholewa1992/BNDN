@@ -13,9 +13,6 @@ namespace ArtShare.Controllers
     public class AccountController : Controller
     {
 
-
-        
-
         private IAccountLogic accountLogic;
 
         public AccountController()
@@ -67,6 +64,7 @@ namespace ArtShare.Controllers
             catch(Exception e)
             {
                 model.Error = e.Message;
+                TempData["error"] = e.Message;
                 return View(model);
             }
         }

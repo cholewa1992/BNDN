@@ -8,9 +8,9 @@ namespace BusinessLogicLayer.DTO
 {
     public enum UserInformationTypeDTO
     {
-        [EnumMember]Firstname=1,
+        [EnumMember]Email = 1,
+        [EnumMember]Firstname,
         [EnumMember]Lastname,
-        [EnumMember]Email,
         [EnumMember]Location
         
     }
