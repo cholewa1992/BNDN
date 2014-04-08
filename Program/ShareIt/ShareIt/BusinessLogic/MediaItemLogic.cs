@@ -72,26 +72,15 @@ namespace BusinessLogicLayer
                 });
             }
 
-            if(userId != null) {
+            if (userId != null)
+            {
                 try
                 {
-                    DateTime? date = _authLogic.GetBuyerExpirationDate((int) userId, mediaItem.Id);
-                    if (date == null)
-                    {
-                        informationList.Add(new MediaItemInformationDTO
-                        {
-                            Type = InformationTypeDTO.ExpirationDate,
-                            Data = null
-                        });
-                    }
-                    else
-                    {
-                        informationList.Add(new MediaItemInformationDTO
-                        {
-                            Type = InformationTypeDTO.ExpirationDate,
-                            Data = date.ToString()
-                        });
-                    }
+                    DateTime? date = _authLogic.GetBuyerExpirationDate((int)userId, mediaItem.Id);
+                    var mediaItemInformation = new MediaItemInformationDTO();
+                    mediaItemInformation.Type = InformationTypeDTO.ExpirationDate;
+                    mediaItemInformation.Data = date == null ? null : date.ToString();
+                    informationList.Add(mediaItemInformation);
                 }
                 catch (InstanceNotFoundException e)
                 {
