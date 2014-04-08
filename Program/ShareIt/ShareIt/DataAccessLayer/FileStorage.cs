@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,8 +43,8 @@ namespace DataAccessLayer
         public string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension)
         {
             var directoryPath = Path.Combine(_physicalPath, "img");
-            var thumbnailName = "thumbnail_" + mediaId + fileExtension;
-            var filePath = Path.Combine(directoryPath, thumbnailName);
+            var thumbnailName = GetThumbnailName(mediaId, fileExtension);
+            var filePath = GetThumbnailPath(thumbnailName);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
             //Delete thumbnail if it already existed for the given mediaId
@@ -51,6 +52,42 @@ namespace DataAccessLayer
                 File.Delete(filePath);
             WriteStreamToDisk(filePath, fileByteStream);
             return WebPath + "/img/" + thumbnailName;
+        }
+        /// <summary>
+        /// Deletes a thumbnail
+        /// </summary>
+        /// <param name="mediaId">The id of the media item whose thumbnail must be deleted</param>
+        /// <param name="fileExtension">The file extension of the thumbnail to be deleted</param>
+        public void DeleteThumbnail(int mediaId, string fileExtension)
+        {
+            Contract.Requires<ArgumentException>(mediaId > 0);
+            Contract.Requires<ArgumentNullException>(fileExtension != null);
+            var path = Path.Combine(_physicalPath, "img", "thumbnail_" + mediaId + fileExtension);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        /// <summary>
+        /// Gets the path of the thumbnail
+        /// </summary>
+        /// <param name="thumbnailName">The name of the thumbnail whose path we are interested in</param>
+        /// <returns>The path of the thumbnail</returns>
+        private string GetThumbnailPath(string thumbnailName)
+        {
+            return Path.Combine(_physicalPath, "img", thumbnailName);
+        }
+
+        /// <summary>
+        /// Get the name of the thumbnail
+        /// </summary>
+        /// <param name="mediaId">The id of the media item whose thumbnail name we are interested in</param>
+        /// <param name="fileExtension">The file extension of the thumbnail</param>
+        /// <returns>The name of the thumbnail</returns>
+        private string GetThumbnailName(int mediaId, string fileExtension)
+        {
+            return "thumbnail_" + mediaId + fileExtension;
         }
 
         /// <summary>

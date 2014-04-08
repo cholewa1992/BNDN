@@ -202,6 +202,96 @@ namespace ShareItServices.AuthService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.SerializableAttribute()]
+    public partial class UnauthorizedUser : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.SerializableAttribute()]
+    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ClientDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
     [System.SerializableAttribute()]
     public partial class ClientDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -266,6 +356,8 @@ namespace ShareItServices.AuthService {
     public interface IAuthService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/ValidateUser", ReplyAction="http://tempuri.org/IAuthService/ValidateUserResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.AuthService.UnauthorizedUser), Action="http://tempuri.org/IAuthService/ValidateUserUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.AuthService.ArgumentFault), Action="http://tempuri.org/IAuthService/ValidateUserArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IAuthService/ValidateUserFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         int ValidateUser(ShareItServices.AuthService.UserDTO user, string clientToken);
         
@@ -273,12 +365,16 @@ namespace ShareItServices.AuthService {
         System.Threading.Tasks.Task<int> ValidateUserAsync(ShareItServices.AuthService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/CheckClientExists", ReplyAction="http://tempuri.org/IAuthService/CheckClientExistsResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.AuthService.ArgumentFault), Action="http://tempuri.org/IAuthService/CheckClientExistsArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IAuthService/CheckClientExistsFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         bool CheckClientExists(ShareItServices.AuthService.ClientDTO client);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/CheckClientExists", ReplyAction="http://tempuri.org/IAuthService/CheckClientExistsResponse")]
         System.Threading.Tasks.Task<bool> CheckClientExistsAsync(ShareItServices.AuthService.ClientDTO client);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/IsUserAdminOnClient", ReplyAction="http://tempuri.org/IAuthService/IsUserAdminOnClientResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.AuthService.ArgumentFault), Action="http://tempuri.org/IAuthService/IsUserAdminOnClientArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IAuthService/IsUserAdminOnClientFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         bool IsUserAdminOnClient(ShareItServices.AuthService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthService/IsUserAdminOnClient", ReplyAction="http://tempuri.org/IAuthService/IsUserAdminOnClientResponse")]

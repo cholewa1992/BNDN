@@ -239,5 +239,119 @@ namespace ShareIt
                 throw new FaultException(new FaultReason(e.Message));
             }
         }
+
+        /// <summary>
+        /// Gets all the AccessRights where the AccessRightType is buyer for a given User
+        /// </summary>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
+        /// <param name="clientToken">The client from which the request originated</param>
+        /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
+        /// where the type is buyer</returns>
+        public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
+        {
+            try
+            {
+                List<AccessRightDTO> result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.GetPurchaseHistory(user, userId, clientToken);
+                }
+
+                return result;
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Gets all the AccessRights where the AccessRightType is owner for a given User
+        /// </summary>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
+        /// <param name="clientToken">The client from which the request originated</param>
+        /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
+        /// where the type is owner</returns>
+        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
+        {
+            try
+            {
+                List<AccessRightDTO> result;
+
+                using (var arl = _factory.CreateAccessRightLogic())
+                {
+                    result = arl.GetUploadHistory(user, userId, clientToken);
+                }
+
+                return result;
+            }
+            catch (InvalidCredentialException e)
+            {
+                var fault = new UnauthorizedClient();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedClient>(fault);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault);
+            }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (ArgumentException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidOperationException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+        }
     }
 }

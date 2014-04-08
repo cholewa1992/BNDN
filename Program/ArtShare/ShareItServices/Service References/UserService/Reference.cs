@@ -202,9 +202,9 @@ namespace ShareItServices.UserService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
     [System.SerializableAttribute()]
-    public partial class UnauthorizedClient : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -247,9 +247,9 @@ namespace ShareItServices.UserService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
     [System.SerializableAttribute()]
-    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class UnauthorizedClient : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -340,17 +340,18 @@ namespace ShareItServices.UserService {
     public interface IUserService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreateAccount", ReplyAction="http://tempuri.org/IUserService/CreateAccountResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/CreateAccountArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/CreateAccountFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         bool CreateAccount(ShareItServices.UserService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/CreateAccount", ReplyAction="http://tempuri.org/IUserService/CreateAccountResponse")]
         System.Threading.Tasks.Task<bool> CreateAccountAsync(ShareItServices.UserService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAccountInformation", ReplyAction="http://tempuri.org/IUserService/GetAccountInformationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/GetAccountInformationArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/GetAccountInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         ShareItServices.UserService.UserDTO GetAccountInformation(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
         
@@ -358,21 +359,30 @@ namespace ShareItServices.UserService {
         System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO> GetAccountInformationAsync(ShareItServices.UserService.UserDTO requestingUser, int targetUserId, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateAccounInformation", ReplyAction="http://tempuri.org/IUserService/UpdateAccounInformationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/UpdateAccounInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/UpdateAccounInformationArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/UpdateAccounInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         bool UpdateAccounInformation(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateAccounInformation", ReplyAction="http://tempuri.org/IUserService/UpdateAccounInformationResponse")]
         System.Threading.Tasks.Task<bool> UpdateAccounInformationAsync(ShareItServices.UserService.UserDTO requestingUser, ShareItServices.UserService.UserDTO newUser, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllUsers", ReplyAction="http://tempuri.org/IUserService/GetAllUsersResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/GetAllUsersUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/GetAllUsersUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/GetAllUsersArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/GetAllUsersFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         ShareItServices.UserService.UserDTO[] GetAllUsers(ShareItServices.UserService.UserDTO admin, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetAllUsers", ReplyAction="http://tempuri.org/IUserService/GetAllUsersResponse")]
         System.Threading.Tasks.Task<ShareItServices.UserService.UserDTO[]> GetAllUsersAsync(ShareItServices.UserService.UserDTO admin, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeleteAccount", ReplyAction="http://tempuri.org/IUserService/DeleteAccountResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.ArgumentFault), Action="http://tempuri.org/IUserService/DeleteAccountArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedUser), Action="http://tempuri.org/IUserService/DeleteAccountUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.UserService.UnauthorizedClient), Action="http://tempuri.org/IUserService/DeleteAccountUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IUserService/DeleteAccountFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         bool DeleteAccount(ShareItServices.UserService.UserDTO requestingUser, int acountToBeDeletedId, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/DeleteAccount", ReplyAction="http://tempuri.org/IUserService/DeleteAccountResponse")]

@@ -4,10 +4,7 @@ using System.Data.Entity.Core;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.FaultDataContracts;
 using System.Security.Authentication;
 using DataAccessLayer;
 
@@ -33,22 +30,15 @@ namespace BusinessLogicLayer
         public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentException>(user != null);
+            Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
-            Contract.Requires<ArgumentException>(user.Id > 0);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
-            
-            if (_authLogic.CheckClientToken(clientToken) < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
 
-            if (_authLogic.CheckUserExists(user) == -1)
-            {
-                throw new UnauthorizedAccessException("Invalid User credentials!");
-            }
+            ValidateClientToken(clientToken);
+
+            user.Id = ValidateUser(user);
 
             try
             {
@@ -75,19 +65,14 @@ namespace BusinessLogicLayer
         public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentException>(oldAdmin != null);
+            Contract.Requires<ArgumentNullException>(oldAdmin != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(oldAdmin.Username));
-            Contract.Requires<ArgumentException>(oldAdmin.Id > 0);
             Contract.Requires<ArgumentException>(newAdminId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
-
-            var clientId = _authLogic.CheckClientToken(clientToken);
-            if (clientId < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
+            oldAdmin.Id = ValidateUser(oldAdmin);
+            var clientId = ValidateClientToken(clientToken);
 
             if (!_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
@@ -120,17 +105,14 @@ namespace BusinessLogicLayer
         public bool DeleteAccessRight(UserDTO admin, int accessRightId, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentException>(admin != null);
+            Contract.Requires<ArgumentNullException>(admin != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(admin.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(admin.Username));
-            Contract.Requires<ArgumentException>(admin.Id > 0);
             Contract.Requires<ArgumentException>(accessRightId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
-            if (_authLogic.CheckClientToken(clientToken) < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
+            ValidateClientToken(clientToken);
+            admin.Id = ValidateUser(admin);
 
             if (!_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
             {
@@ -152,33 +134,47 @@ namespace BusinessLogicLayer
             return true;
         }
 
-        public List<AccessRightDTO> GetPurchaseHistory(int userId)
+        public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
+            ValidateClientToken(clientToken);
+            user.Id = ValidateUser(user);
+            
             try
             {
                 _storage.Get<UserAcc>(userId);
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjectNotFoundException("User not found.");
+                throw new ObjectNotFoundException("User with id: "+ user.Id +" not found.");
             }
 
-            var acessRights = _storage.Get<AccessRight>()
+            var accessRights = _storage.Get<AccessRight>()
                 .Where(x => x.UserId == userId &&
                 x.AccessRightTypeId == (int)AccessRightType.Buyer);
 
-            var accessRights = mapAccessRights(acessRights);
+            var accessRightDTOs = mapAccessRights(accessRights);
 
-            return accessRights;
+            return accessRightDTOs;
         }
 
-        public List<AccessRightDTO> GetUploadHistory(int userId)
+        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(userId > 0);
+            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
+
+            ValidateClientToken(clientToken);
+            user.Id = ValidateUser(user);
 
             try
             {
@@ -186,38 +182,31 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjectNotFoundException("User not found.");
+                throw new ObjectNotFoundException("User with id: " + user.Id + " not found.");
             }
 
-            var acessRights = _storage.Get<AccessRight>()
+            var accessRights = _storage.Get<AccessRight>()
                 .Where(x => x.UserId == userId &&
                 x.AccessRightTypeId == (int)AccessRightType.Owner);
 
-            var accessRights = mapAccessRights(acessRights);
+            var accessRightDTOs = mapAccessRights(accessRights);
 
-            return accessRights;
+            return accessRightDTOs;
         }
 
         public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentException>(u != null);
+            Contract.Requires<ArgumentNullException>(u != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(u.Password));
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(u.Username));
-            Contract.Requires<ArgumentException>(u.Id > 0);
             Contract.Requires<ArgumentException>(newAR.Id > 0);
-            Contract.Requires<ArgumentException>(newAR.Expiration != null);
+            Contract.Requires<ArgumentNullException>(newAR.Expiration != null);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
-            if (_authLogic.CheckClientToken(clientToken) < 0)
-            {
-                throw new InvalidCredentialException("Invalid client token");
-            }
+            ValidateClientToken(clientToken);
 
-            if (_authLogic.CheckUserExists(u) == -1)
-            {
-                throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
-            }
+            u.Id = ValidateUser(u);
 
             if (_authLogic.CheckUserAccess(u.Id, newAR.MediaItemId) != AccessRightType.NoAccess &&
                 !_authLogic.IsUserAdminOnClient(u.Id, clientToken))
@@ -239,7 +228,7 @@ namespace BusinessLogicLayer
             if (oldAR != null)
             {
                 oldAR.Expiration = newAR.Expiration;
-                _storage.Update<AccessRight>(oldAR);
+                _storage.Update(oldAR);
             }
             return true;
         }
@@ -259,6 +248,36 @@ namespace BusinessLogicLayer
                 Expiration = aR.Expiration,
                 UserId = aR.UserId
             }).ToList();
+        }
+
+        /// <summary>
+        /// Validate credentials of a clientToken
+        /// </summary>
+        /// <param name="clientToken">The clientToken to validate.</param>
+        /// <returns>The id of the client if it was validated.</returns>
+        /// <exception cref="InvalidCredentialException">If the clientToken was not accepted.</exception>
+        private int ValidateClientToken(string clientToken)
+        {
+            var result = _authLogic.CheckClientToken(clientToken);
+            if (result == -1)
+                throw new InvalidCredentialException("Invalid client token");
+            return result;
+        }
+
+        /// <summary>
+        /// Validate credentials of a user.
+        /// </summary>
+        /// <param name="user">The user whose credentials are to be validated.</param>
+        /// <returns>The id of the user if his credentials are validated.</returns>
+        /// <exception cref="UnauthorizedAccessException">If the user's credentials aren't validated.</exception>
+        private int ValidateUser(UserDTO user)
+        {
+            var result = _authLogic.CheckUserExists(user);
+
+            if (result == -1)
+                throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
+
+            return result;
         }
     }
 }
