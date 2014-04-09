@@ -98,6 +98,7 @@ namespace BusinessLogicLayer
             //Create new entity.
             var entity = MediaItemMapper.MapToEntity(media);
             entity.ClientId = clientId;
+            entity.FilePath = ""; //Set filepath to empty string because of db constraint.
             entity.AccessRight.Add(new AccessRight
             {
                 AccessRightTypeId = (int)AccessRightType.Owner,

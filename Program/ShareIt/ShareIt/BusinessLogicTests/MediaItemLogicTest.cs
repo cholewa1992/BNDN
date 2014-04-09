@@ -26,6 +26,8 @@ namespace BusinessLogicTests
         private IStorageBridge _dbStorage;
         private string _directoryPath = @"C:\RentItUnitTest";
         private string _filePath = @"unittest.txt";
+        static private string _thumbnailName = @"thumbnail_1.jpg";
+        private string _thumbnailWebPath = Path.Combine("http://rentit.itu.dk/rentit08/img/", _thumbnailName);
         private string _invalidFilePath = @"C:\Invalid\Path.txt";
         private UserDTO user1 = new UserDTO{Id = 1, Username = "user1", Password = "pass1"};
         private UserDTO user2 = new UserDTO {Id = 2, Username = "user2", Password = "pass2"};
@@ -119,20 +121,36 @@ namespace BusinessLogicTests
                 // Add some information to the file.
                 fs.Write(info, 0, info.Length);
             }
+            // Create a thumbnail file
+            using (FileStream fs = File.Create(Path.Combine(_directoryPath, _thumbnailName)))
+            {
+                Byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
+                // Add some information to the file.
+                fs.Write(info, 0, info.Length);
+            }
 
             var count = 0;
 
             for (int i = 1; i <= 4; i++)
             {
                 var book = new Entity { Id = i, TypeId = (int)MediaItemTypeDTO.Book, ClientId = 1 };
-                if (i == 1){ book.FilePath = Path.Combine(_directoryPath, _filePath); }
-                else if (i == 3) { book.FilePath = _invalidFilePath; }
-
+                
                 book.EntityInfo = new List<EntityInfo>
                 {
                     new EntityInfo {EntityId = i, Id = ++count, EntityInfoTypeId = 1, Data = "Book" + i, Entity = book},
                     new EntityInfo { EntityId = i, Id = ++count, EntityInfoTypeId = 2, Data = "Description" + i, Entity = book}
                 };
+
+                if (i == 1) { book.FilePath = Path.Combine(_directoryPath, _filePath); }
+                else if (i == 3) { 
+                    book.FilePath = _invalidFilePath; 
+                    //TODO Test if thumbnail is removed when deleting media item
+                    /* NOT IMPLEMENTED YET
+                    book.EntityInfo.Add(new EntityInfo
+                    {
+                        EntityId = i, Id = ++count, EntityInfoTypeId = 16, Data = _thumbnailWebPath, Entity = book
+                    }); */
+                }
                 set.Add(book);
             }
             int musicCount = 1;
@@ -193,6 +211,7 @@ namespace BusinessLogicTests
         public void CleanUp()
         {
             if(File.Exists(Path.Combine(_directoryPath, _filePath))) { File.Delete(Path.Combine(_directoryPath, _filePath)); }
+            if (File.Exists(Path.Combine(_directoryPath, _thumbnailName))) { File.Delete(Path.Combine(_directoryPath, _thumbnailName)); }
             if(Directory.Exists(_directoryPath)) { Directory.Delete(_directoryPath); }
         }
         #endregion
@@ -262,27 +281,25 @@ namespace BusinessLogicTests
         public void GetMediaItemInformation_AccessRightOwner()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(1, 2, "testClient");
-            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).Select(x => x.Data).Single();
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(1, user2, "testClient");
+            var accessRightInfo = mediaItem.ExpirationDate;
             Assert.AreEqual(null, accessRightInfo);
         }
         [TestMethod]
         public void GetMediaItemInformation_AccessRightBuyer()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(2, 2, "testClient");
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(2, user2, "testClient");
             var expected = new DateTime(2015, 01, 01, 00, 00, 00);
-            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).
-                Select(x => x.Data).Single();
-            Assert.AreEqual(expected.ToString(CultureInfo.CurrentCulture), accessRightInfo);
+            var accessRightInfo = mediaItem.ExpirationDate;
+            Assert.AreEqual(expected, accessRightInfo);
         }
         [TestMethod]
         public void GetMediaItemInformation_AccessRightNoAccess()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, 1, "testClient"); 
-            var accessRightInfo = mediaItem.Information.Any(x => x.Type == InformationTypeDTO.ExpirationDate);
-            Assert.IsFalse(accessRightInfo);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, user1, "testClient");
+            Assert.IsNull(mediaItem.ExpirationDate); //TODO Note that Expiration date is null when there is no access AND when access right never expires
         }
 
         #endregion
@@ -467,16 +484,16 @@ namespace BusinessLogicTests
         }
         #endregion
         #region RateMediaItem
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
         public void RateMediaItem_UserIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = -4;
+            UserDTO user = new UserDTO {Id = -4};
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user, mediaItemId, rating, token);
         }
 
 
@@ -485,11 +502,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_MediaItemIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = -2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
 
@@ -498,11 +514,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_RatingLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = -2;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(ArgumentException))]
@@ -510,11 +525,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_RatingGreaterThanTen()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 11;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(InvalidCredentialException))]
@@ -522,11 +536,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_InvalidClientToken()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = "invalidToken";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(ArgumentNullException))]
@@ -534,11 +547,10 @@ namespace BusinessLogicTests
         public void RateMediaItem_ClientTokenIsNull()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 1;
             const int rating = 8;
             const string token = null;
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
         [TestMethod]
@@ -546,26 +558,25 @@ namespace BusinessLogicTests
         {
             
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 2;
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
-            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == userId && t.EntityId == mediaItemId && t.Value == rating));
+            mediaItemLogic.RateMediaItem(user2, mediaItemId, rating, token);
+            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == user2.Id && t.EntityId == mediaItemId && t.Value == rating));
 
 
         }
 
-        [ExpectedException(typeof(InstanceNotFoundException))]
+        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
         public void RateMediaItem_UserIdNotFound()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 99; //Not existing
+            UserDTO user = new UserDTO { Id = 99 };
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user, mediaItemId, rating, token);
         }
 
         [ExpectedException(typeof(InstanceNotFoundException))]
@@ -573,18 +584,16 @@ namespace BusinessLogicTests
         public void RateMediaItem_MediaItemIdNotFound()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 2;
             const int mediaItemId = 99; //Not existing
             const int rating = 8;
             const string token = "testClient";
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user2, mediaItemId, rating, token);
         }
 
         [TestMethod]
         public void RateMediaItem_ValidUpdateRating()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            const int userId = 1;
             const int mediaItemId = 2;
             const int rating = 3; //User 1 rates media item 2 3 instead of 1
             const string token = "testClient";
@@ -593,7 +602,7 @@ namespace BusinessLogicTests
             Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 3));
             var count = _dbStorage.Get<Rating>().Count();
 
-            mediaItemLogic.RateMediaItem(userId, mediaItemId, rating, token);
+            mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
 
             Assert.AreEqual(count, _dbStorage.Get<Rating>().Count());
             Assert.IsFalse(_dbStorage.Get<Rating>().Any(t => t.Id == 2 && t.Value == 1));
@@ -619,20 +628,53 @@ namespace BusinessLogicTests
             mediaItemLogic.GetAverageRating(3);
         }
         [TestMethod]
-        public void GetAverageRating_OneRating()
+        public void GetAverageRating_OneRatingCheckAvg()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var actual = mediaItemLogic.GetAverageRating(2);
-            const double expected = 1.0;
-            Assert.AreEqual(expected, actual);
+            var dict = mediaItemLogic.GetAverageRating(2);
+            double actual = 0.0;
+            foreach (var entry in dict)
+            {
+                actual = entry.Key;
+            }
+            Assert.AreEqual(1.0, actual);
         }
         [TestMethod]
-        public void GetAverageRating_MultipleRatings()
+        public void GetAverageRating_OneRatingCheckCount()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var actual = mediaItemLogic.GetAverageRating(1);
+            var dict = mediaItemLogic.GetAverageRating(2);
+            int actual = 0;
+            foreach (var entry in dict)
+            {
+                actual = entry.Value;
+            }
+            Assert.AreEqual(1, actual);
+        }
+        [TestMethod]
+        public void GetAverageRating_MultipleRatingsCheckAvg()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var dict = mediaItemLogic.GetAverageRating(1);
+            double actual = 0.0;
+            foreach (var entry in dict)
+            {
+                actual = entry.Key;
+            }
             const double expected = 6.333333;
             Assert.AreEqual(expected, actual, 0.01);
+        }
+        [TestMethod]
+        public void GetNumberOfRatings_MultipleRatingsCheckCount()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var dict = mediaItemLogic.GetAverageRating(1);
+            int actual = 0;
+            foreach (var entry in dict)
+            {
+                actual = entry.Value;
+            }
+            Assert.AreEqual(3, actual);
         }
         #endregion
         #region EqualityCompares
@@ -686,20 +728,6 @@ namespace BusinessLogicTests
         }
         #endregion
         #region DeleteMediaItem
-        /* userId < 1
-         * userId not existing
-         * meiaItemId < 1
-         * mediaItemId not existing
-         * clientToken null
-         * clientToken not accepted
-         * admin delete
-         * owner delete
-         * buyer delete
-         * no access delete 
-         * media item filepath not found
-         * media item filepath null
-         * media item filepath valid
-         */
 
         [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
         [TestMethod]
@@ -820,6 +848,16 @@ namespace BusinessLogicTests
             Assert.AreEqual(countBeforeDeleting - 1, countAfterDeleting);
             Assert.IsFalse(File.Exists(_filePath));
         }
+        //TODO Test if thumbnail is removed when deleting media item
+        /* NOT IMPLEMENTED YET - FileStorage _physicalPath is null when unit testing
+        [TestMethod]
+        public void DeleteMediaItem_ValidThumbnail()
+        {
+            Assert.IsTrue(File.Exists(Path.Combine(_directoryPath, _thumbnailName)));
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.DeleteMediaItem(user2, 3, "testClient"); 
+            Assert.IsFalse(File.Exists(Path.Combine(_directoryPath, _thumbnailName)));
+        }*/
         #endregion
     }
 }

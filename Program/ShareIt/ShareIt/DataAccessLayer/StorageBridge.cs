@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -139,14 +140,29 @@ namespace DataAccessLayer
         }
 
         /// <summary>
+        /// Deletes a list of entities from the repo
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type to use</typeparam>
+        /// <param name="list">The list of entities to delete</param>
+        public void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto
+        {
+            foreach (var entity in list.ToList())
+            {
+                if (entity == null) { throw new InternalDbException("An entity in the list was null"); } //Checks that the entity is not null
+                if (entity.Id <= 0) throw new InternalDbException("Id was zero or below");
+                if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
+                _storageConnection.Delete(entity); //Deletes the entity
+            }
+            SaveChanges(); //Saves the changes to the database
+        }
+
+        /// <summary>
         /// Saves changes to the context
         /// </summary>
         protected void SaveChanges()
         {
-            if (!_storageConnection.SaveChanges())
-            {
-                throw new ChangesWasNotSavedException("The changes in this context could not be saved!");
-            }
+            _storageConnection.SaveChanges();
+
         }
 
         /// <summary>

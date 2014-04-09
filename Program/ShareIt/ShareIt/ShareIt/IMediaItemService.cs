@@ -20,7 +20,7 @@ namespace ShareIt
         /// Get a media item including all of its information.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
+        /// <param name="user">The user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem</returns>
         [FaultContract(typeof(ArgumentFault))]
@@ -28,7 +28,7 @@ namespace ShareIt
         [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items.
@@ -112,7 +112,7 @@ namespace ShareIt
         /// <summary>
         /// Associates a user with a media item and includes a value from 1-10 representing the rating.
         /// </summary>
-        /// <param name="userId">The id of the user</param>
+        /// <param name="user">The user who wishes to rate a media item</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
@@ -121,7 +121,7 @@ namespace ShareIt
         [FaultContract(typeof(UnauthorizedClient))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
+        void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken);
 
         /// <summary>
         /// Deletes a media item and all of its associations if the user has the right to do so. 
@@ -143,6 +143,15 @@ namespace ShareIt
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken);
+        /// <summary>
+        /// Update the information of a media item.
+        /// </summary>
+        /// <param name="user">The user who wishes to update the information.</param>
+        /// <param name="media">The media which is to be updated.</param>
+        /// <param name="clientToken">A string validating from which client the request originates.</param>
+        /// <returns>True if the update succeeded, otherwise false.</returns>
+        [OperationContract]
+        bool UpdateMediaItemInformation(UserDTO user, MediaItemDTO media, string clientToken);
     }
 }
 

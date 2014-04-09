@@ -53,6 +53,16 @@ namespace BusinessLogicLayer.Stub
             return true;
         }
 
+        public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
         }

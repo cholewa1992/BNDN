@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
@@ -7,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace IntergrationTest
 {
     [TestClass]
-    public class AccessRightLogic
+    public class BuinessLogicDalIntegrationTest
     {
 
         private readonly UserDTO _jacob = new UserDTO { Username = "Jacob", Password = "1234" };
@@ -61,6 +64,12 @@ namespace IntergrationTest
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Jacob', '1234')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Loh', '2143')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Mathias', '4321')");
+                #endregion
+                #region UserInfo
+                db.Database.ExecuteSqlCommand("INSERT INTO UserInfo (Data, UserId, UserInfoType) VALUES  ('jacob@cholewa.dk', 1, 1)");
+                db.Database.ExecuteSqlCommand("INSERT INTO UserInfo (Data, UserId, UserInfoType) VALUES  ('Jacob', 1, 2)");
+                db.Database.ExecuteSqlCommand("INSERT INTO UserInfo (Data, UserId, UserInfoType) VALUES  ('Cholewa', 1, 3)");
+                db.Database.ExecuteSqlCommand("INSERT INTO UserInfo (Data, UserId, UserInfoType) VALUES  ('Denmark', 1, 4)");
                 #endregion
                 #region ClientAdmin
                 db.Database.ExecuteSqlCommand("INSERT INTO ClientAdmin (ClientId, UserId) VALUES  (1, 1)");
@@ -124,6 +133,11 @@ namespace IntergrationTest
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
             arl.Purchase(_mathias, 1, DateTime.Now.AddDays(1), _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.AccessRight.Any(t => t.EntityId == 1 && t.AccessRightTypeId == 2 && t.UserId == 3));
+            }
         }
 
         [TestMethod]
@@ -135,12 +149,128 @@ namespace IntergrationTest
         }
 
         [TestMethod]
-        public void IntegrationTest_AuthLogic_EditExpiration()
+        public void IntegrationTest_AuthLogic_CheckClientExists()
         {
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var al = blf.CreateAuthLogic();
-            
+            Assert.IsTrue(al.CheckClientExists(new ClientDTO{Name = "SMU", Token = _smu}));
+            Assert.IsFalse(al.CheckClientExists(new ClientDTO{Name = "SMU", Token = _artShare}));
+            Assert.IsFalse(al.CheckClientExists(new ClientDTO{Name = "hello", Token = _smu}));
+            Assert.IsFalse(al.CheckClientExists(new ClientDTO{Name = "hello", Token = "cool"}));
         }
+        [TestMethod]
+        public void IntegrationTest_AuthLogic_CheckUserExists()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var al = blf.CreateAuthLogic();
+            Assert.AreEqual(1, al.CheckUserExists(_jacob, _artShare));
+            Assert.AreEqual(1, al.CheckUserExists(_jacob, _smu));
+            Assert.AreEqual(-1, al.CheckUserExists(new UserDTO{Username = "Thomas", Password = "52234"}, _artShare));
+        }
+
+        [TestMethod]
+        public void IntegrationTest_AuthLogic_IsUserAdminOnClient()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var al = blf.CreateAuthLogic();
+            Assert.IsTrue(al.IsUserAdminOnClient(_jacob, _artShare));
+            Assert.IsFalse(al.IsUserAdminOnClient(_jacob, _smu));
+            Assert.IsFalse(al.IsUserAdminOnClient(_loh, _artShare));
+            Assert.IsTrue(al.IsUserAdminOnClient(_loh, _smu));
+            Assert.IsFalse(al.IsUserAdminOnClient(_mathias, _artShare));
+            Assert.IsFalse(al.IsUserAdminOnClient(_mathias, _smu));
+        }
+
+        [TestMethod]
+        public void IntegrationTest_UserLogic_CreateAccount()
+        {
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsFalse(db.UserAcc.Any(t => t.Username == "Thomas" && t.Password == "3421"));
+            }
+
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var ul = blf.CreateUserLogic();
+            ul.CreateAccount(new UserDTO {Username = "Thomas", Password = "3421"}, _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.UserAcc.Any(t => t.Username == "Thomas" && t.Password == "3421"));
+            }
+        }
+
+        [TestMethod]
+        public void IntegrationTest_UserLogic_DeleteUser()
+        {
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.UserAcc.Any(t => t.Username == _mathias.Username && t.Password == _mathias.Password));
+            }
+
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var ul = blf.CreateUserLogic();
+            ul.DeleteUser(_jacob, 3, _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsFalse(db.UserAcc.Any(t => t.Username == _mathias.Username && t.Password == _mathias.Password));
+            }
+        }
+
+        [TestMethod]
+        public void IntegrationTest_UserLogic_GetAccountInformation()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var ul = blf.CreateUserLogic();
+            var info = ul.GetAccountInformation(_jacob, 1, _artShare);
+
+            var email = info.Information.Single(t => t.Type == UserInformationTypeDTO.Email);
+            var first = info.Information.Single(t => t.Type == UserInformationTypeDTO.Firstname);
+            var last = info.Information.Single(t => t.Type == UserInformationTypeDTO.Lastname);
+            var location = info.Information.Single(t => t.Type == UserInformationTypeDTO.Location);
+
+            Assert.AreEqual("jacob@cholewa.dk", email.Data);
+            Assert.AreEqual("Jacob", first.Data);
+            Assert.AreEqual("Cholewa", last.Data);
+            Assert.AreEqual("Denmark", location.Data);
+
+        } 
+
+        [TestMethod]
+        public void IntegrationTest_UserLogic_UpdateAccountInformation()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var ul = blf.CreateUserLogic();
+
+            var newUser = new UserDTO
+            {
+                Username = _jacob.Username,
+                Password = _jacob.Password,
+                Information = new List<UserInformationDTO>
+                {
+                    new UserInformationDTO {Data = "jbec@itu.dk", Type = UserInformationTypeDTO.Email},
+                    new UserInformationDTO {Data = "Jacob", Type = UserInformationTypeDTO.Firstname},
+                    new UserInformationDTO {Data = "Cholewa", Type = UserInformationTypeDTO.Lastname},
+                    new UserInformationDTO {Data = "Denmark", Type = UserInformationTypeDTO.Location}
+                }
+            };
+
+            ul.UpdateAccountInformation(_jacob, newUser, _artShare);
+            var info = ul.GetAccountInformation(_jacob, 1, _artShare);
+
+            var email = info.Information.Single(t => t.Type == UserInformationTypeDTO.Email);
+            var first = info.Information.Single(t => t.Type == UserInformationTypeDTO.Firstname);
+            var last = info.Information.Single(t => t.Type == UserInformationTypeDTO.Lastname);
+            var location = info.Information.Single(t => t.Type == UserInformationTypeDTO.Location);
+
+            Assert.AreEqual("jbec@itu.dk", email.Data);
+            Assert.AreEqual("Jacob", first.Data);
+            Assert.AreEqual("Cholewa", last.Data);
+            Assert.AreEqual("Denmark", location.Data);
+
+        }
+
+
 
 
     }

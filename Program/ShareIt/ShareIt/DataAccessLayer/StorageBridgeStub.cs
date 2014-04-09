@@ -48,5 +48,10 @@ namespace DataAccessLayer
         public void Delete<TEntity>(int id) where TEntity : class, IEntityDto
         {
         }
+
+        public void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto
+        {
+            
+        }
     }
 }

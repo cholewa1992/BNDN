@@ -6,16 +6,12 @@
 
 <h2>Create Account</h2>
 
-@Html.TextBoxFor(m => m.Error)
-
 <form class="pure-form pure-form-stacked" method="post">
     <fieldset>
         <legend>To enjoy full access, please create an account.</legend>
 
-        <!--<input type="text" id="username" placeholder="Username" required maxlength="20" />-->
-        @Html.TextBoxFor(m => m.Username)
-        <!--<input type="password" id="password" placeholder="Password" required maxlength="50" />-->
-        @Html.TextBoxFor(m => m.Password)
+        @Html.TextBoxFor(m => m.Username, new { placeholder="Username", required="true", maxlength="20" })
+        @Html.PasswordFor(m => m.Password, new { placeholder="Password", required="true", maxlength="50" })
         
         <div style="margin-top: 30px; clear: both"></div> <!-- Spacer -->
         
@@ -25,6 +21,6 @@
         <input type="text" placeholder="Location"/>-->
 
         <button type="submit" class="pure-button button-success">Create Account</button>
-        <small></small>
+        <small>@Html.ActionLink("Already a user", "Index", "Login")</small>
     </fieldset>
 </form>
