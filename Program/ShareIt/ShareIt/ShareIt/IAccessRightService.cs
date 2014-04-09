@@ -66,7 +66,7 @@ namespace ShareIt
         /// <param name="user">The User performing the request</param>
         /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
         /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
-        /// Value is Null if it is a permanent purchase).</param>
+        ///     Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
@@ -75,7 +75,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken);
+        bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken);
 
         /// <summary>
         /// Gets all the AccessRights where the AccessRightType is buyer for a given User

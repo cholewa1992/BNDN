@@ -60,6 +60,10 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<ArgumentFault>(fault);
             }
+            catch (FaultException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
                 throw new FaultException(new FaultReason(e.Message));
