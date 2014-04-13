@@ -137,6 +137,7 @@
     <Compile Include="Exceptions\InvalidClientException.cs" />
     <Compile Include="Exceptions\InvalidUserException.cs" />
     <Compile Include="Exceptions\MediaItemNotFoundException.cs" />
+    <Compile Include="Exceptions\UnauthorizedUserException.cs" />
     <Compile Include="FaultDataContracts\ArgumentFault.cs" />
     <Compile Include="FaultDataContracts\MediaItemNotFound.cs" />
     <Compile Include="FaultDataContracts\AccessRightNotFound.cs" />

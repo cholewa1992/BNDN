@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Exceptions
 {
-    public class InvalidClientException : Exception
+    public class UnauthorizedUserException : Exception
     {
-        
+       
     }
 }
