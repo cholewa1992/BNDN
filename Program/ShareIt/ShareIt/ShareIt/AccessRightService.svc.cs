@@ -195,10 +195,10 @@ namespace ShareIt
         /// <param name="user">The User performing the request</param>
         /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
         /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
-        /// Value is Null if it is a permanent purchase).</param>
+        ///     Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             try
             {

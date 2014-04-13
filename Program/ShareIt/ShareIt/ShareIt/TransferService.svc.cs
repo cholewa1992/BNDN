@@ -58,7 +58,11 @@ namespace ShareIt
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
+            }
+            catch (FaultException)
+            {
+                throw;
             }
             catch (Exception e)
             {

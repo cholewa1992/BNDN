@@ -25,6 +25,6 @@ namespace BusinessLogicLayer.DTO
         [EnumMember]CastMember,
         [EnumMember]ReleaseDate,
         [EnumMember]Language, 
-        [EnumMember]Thumbnail
+        [EnumMember]Thumbnail=18
     }
 }

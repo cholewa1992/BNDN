@@ -59,7 +59,7 @@ namespace ArtShare.Controllers
             {
                 accountLogic.RegisterAccount(model);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             catch(Exception e)
             {
