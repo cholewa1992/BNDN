@@ -9,11 +9,11 @@
 <form class="pure-form pure-form-stacked" method="post">
     <fieldset>
         <legend>To enjoy full access, please create an account.</legend>
-        <!--
-        @Html.TextBoxFor(m => m.User.Username, new { placeholder = "Username", required = "true", maxlength = "20" })
-        @Html.PasswordFor(m => m.User.Password, new { placeholder = "Password", required = "true", maxlength = "50" })
-        -->
+        
+        @*Html.TextBoxFor(m => m.User.Username, new { placeholder = "Username", required = "true", maxlength = "20" })
+        @Html.PasswordFor(m => m.User.Password, new { placeholder = "Password", required = "true", maxlength = "50" })*@
+
         <button type="submit" class="pure-button button-success">Login</button>
-        <small>@Html.ActionLink("Need an account?", "Index", "Login")</small>
+        <small>@Html.ActionLink("Need an account?", "Register", "Account")</small>
     </fieldset>
 </form>
