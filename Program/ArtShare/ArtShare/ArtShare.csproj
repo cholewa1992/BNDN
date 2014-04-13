@@ -134,13 +134,24 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MovieDetailsController.cs" />
+    <Compile Include="Controllers\MusicDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
+    <Compile Include="Logic\BookLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
+    <Compile Include="Logic\IBookLogic.cs" />
+    <Compile Include="Logic\IMovieLogic.cs" />
+    <Compile Include="Logic\IMusicLogic.cs" />
+    <Compile Include="Logic\MovieLogic.cs" />
+    <Compile Include="Logic\MusicLogic.cs" />
+    <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MovieDetailsModel.cs" />
+    <Compile Include="Models\MusicDetailsModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Models\SearchModel.cs" />
