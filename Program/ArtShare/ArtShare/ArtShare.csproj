@@ -146,8 +146,11 @@
     <Compile Include="Logic\IBookLogic.cs" />
     <Compile Include="Logic\IMovieLogic.cs" />
     <Compile Include="Logic\IMusicLogic.cs" />
+    <Compile Include="Logic\ISearchLogic.cs" />
     <Compile Include="Logic\MovieLogic.cs" />
     <Compile Include="Logic\MusicLogic.cs" />
+    <Compile Include="Logic\SearchLogic.cs" />
+    <Compile Include="Logic\SearchLogicStub.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MovieDetailsModel.cs" />

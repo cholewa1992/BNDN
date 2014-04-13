@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="AccountControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArtShare\ArtShare.csproj">
