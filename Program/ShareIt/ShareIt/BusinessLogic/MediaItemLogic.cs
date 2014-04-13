@@ -102,12 +102,10 @@ namespace BusinessLogicLayer
 
             try
             {
-                var dict = GetAverageRating(mediaItemId);
-                foreach (var entry in dict)
-                {
-                    mediaItem.AverageRating = entry.Key;
-                    mediaItem.NumberOfRatings = entry.Value;
-                }
+                int numberOfRatings;
+                var avgRating = GetAverageRating(mediaItemId, out numberOfRatings);
+                mediaItem.NumberOfRatings = numberOfRatings;
+                mediaItem.AverageRating = avgRating;
             }
             catch (InstanceNotFoundException e) { /*Do nothing - no avg rating found*/ }
 
@@ -362,17 +360,15 @@ namespace BusinessLogicLayer
         /// <param name="mediaItemId">The id of the media item</param>
         /// <returns>A dictionary with the average rating as key and the number of ratings as value</returns>
         /// <exception cref="InstanceNotFoundException">Thrown when the media item has not been rated</exception>
-        internal Dictionary<double, int> GetAverageRating(int mediaItemId)
+        internal double GetAverageRating(int mediaItemId, out int numberOfRatings)
         {
             Contract.Requires<ArgumentException>(mediaItemId > 0);
 
             if (_storage.Get<Rating>().Any(a => a.EntityId == mediaItemId))
             {
-                var result = new Dictionary<double, int>();
                 var ratings = _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId);
-
-                result.Add(ratings.Average(a => a.Value), ratings.Count());
-                return result;
+                numberOfRatings = ratings.Count();
+                return ratings.Average(a => a.Value);
             }
 
             throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
