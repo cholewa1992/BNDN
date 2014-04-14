@@ -358,8 +358,9 @@ namespace BusinessLogicLayer
         /// Gets the average rating of a media item
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <returns>A dictionary with the average rating as key and the number of ratings as value</returns>
-        /// <exception cref="InstanceNotFoundException">Thrown when the media item has not been rated</exception>
+        /// <param name="numberOfRatings">The number of ratings will be returned here</param>
+        /// <returns>A double representing the average rating</returns>
+        /// <exception cref="ArgumentException">Thrown when the mediaItemId is less than 1</exception>
         internal double GetAverageRating(int mediaItemId, out int numberOfRatings)
         {
             Contract.Requires<ArgumentException>(mediaItemId > 0);
@@ -371,7 +372,8 @@ namespace BusinessLogicLayer
                 return ratings.Average(a => a.Value);
             }
 
-            throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
+            numberOfRatings = 0;
+            return 0.0;
         }
 
         /// <summary>
