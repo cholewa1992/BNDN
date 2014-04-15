@@ -242,7 +242,7 @@ namespace BusinessLogicTests
                 Username = "invalid"
             };
 
-            accessRightLogic.Purchase(user, 202020, null, "testClient");
+            accessRightLogic.Purchase(user, 1, null, "testClient");
         }
 
         [ExpectedException(typeof(InvalidCredentialException))]
@@ -256,7 +256,7 @@ namespace BusinessLogicTests
                 Username = "user1"
             };
 
-            accessRightLogic.Purchase(user, 202020, null, "invalid");
+            accessRightLogic.Purchase(user, 1, null, "invalid");
         }
 
         #endregion
