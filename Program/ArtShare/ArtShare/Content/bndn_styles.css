@@ -27,6 +27,8 @@ html, body {
 	position: relative;
 	padding-top: 100px;
     overflow: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /* Header */
@@ -223,6 +225,17 @@ header nav ul li div{
     float: right;
     font-size: 120%;
     margin-top: 5px;
+}
+
+/* Details */
+
+.media-details {
+
+}
+
+.media-details img{
+    width: 200px;
+    height: 300px;
 }
  
 /* Footer */
