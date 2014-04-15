@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
@@ -32,6 +33,8 @@ namespace ArtShare.Logic
 
         public SearchModel PrepareSearchModel(Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> searchResult)
         {
+            if (searchResult == null) { throw new ArgumentNullException("searchResult"); }
+
             var model = new SearchModel();
             foreach (var pair in searchResult)
             {

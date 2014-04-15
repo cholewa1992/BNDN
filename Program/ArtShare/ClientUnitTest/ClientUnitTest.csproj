@@ -85,7 +85,7 @@
     <Compile Include="AccountControllerTest.cs" />
     <Compile Include="DetailsLogicUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchControllerTest.cs" />
+    <Compile Include="SearchLogicTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArtShare\ArtShare.csproj">
