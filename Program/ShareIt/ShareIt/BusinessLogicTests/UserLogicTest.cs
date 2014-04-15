@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using Moq;
 
 namespace BusinessLogicTests
@@ -67,6 +69,7 @@ namespace BusinessLogicTests
             _dbStorage = dbMoq.Object;
         }
 
+        #region CreateAccount tests
         [TestMethod]
         public void CreateAccount_UsernameTooLong()
         {
@@ -275,7 +278,8 @@ namespace BusinessLogicTests
             Assert.AreEqual(_testUser.Password, dbResult.Password);
 
         }
-
+#endregion
+        #region GetAccountInformation tests
         [TestMethod]
         public void GetAccountInformation_targetUserNotFound()
         {
@@ -317,7 +321,8 @@ namespace BusinessLogicTests
             Assert.AreEqual("John44", u.Username);
             Assert.AreEqual("Password", u.Password);
         }
-
+        #endregion
+        #region UpdateAccountInformation
         [TestMethod]
         public void UpdateAccountInformation_UserNotFoundInDB()
         {
@@ -360,7 +365,136 @@ namespace BusinessLogicTests
             Assert.AreEqual(dbResult.Password, _testUser.Password);
 
         }
+        #endregion
 
+        #region GetAllUsers tests
+
+        [TestMethod]
+        public void Test_GetAllUsers_ReturnsEmptyListWhenNoUsers()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(true);
+            var dbMock = new Mock<IStorageBridge>();
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(new List<UserAcc>().AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            var output = target.GetAllUsers(new UserDTO() {Password = "bla", Username = "blabla"}, "anystring");
+
+            Assert.AreEqual(0, output.Count);
+        }
+
+        [TestMethod]
+        public void Test_GetAllUsers_ReturnsUserNameAndIdOfAllUsers()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(true);
+            var dbMock = new Mock<IStorageBridge>();
+            var returnList = new List<UserAcc>();
+            for (int i = 0; i < 5; i++)
+            {
+                returnList.Add(new UserAcc()
+                {
+                    Username = "user" + i,
+                    Id = i
+                });
+            }
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(returnList.AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            var output = target.GetAllUsers(new UserDTO() { Password = "bla", Username = "blabla" }, "anystring").ToArray();
+            
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.AreEqual("user" + i, output[i].Username);
+                Assert.AreEqual(i, output[i].Id);
+            }
+        }
+
+        [TestMethod]
+        public void Test_GetAllUsers_DoesntMapPassword()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(true);
+            var dbMock = new Mock<IStorageBridge>();
+            var returnList = new List<UserAcc>();
+            for (int i = 0; i < 5; i++)
+            {
+                returnList.Add(new UserAcc()
+                {
+                    Username = "user" + i,
+                    Id = i
+                });
+            }
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(returnList.AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            var output = target.GetAllUsers(new UserDTO() { Password = "bla", Username = "blabla" }, "anystring").ToArray();
+
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.IsNull(output[i].Password);
+            }
+        }
+
+        [ExpectedException(typeof(InvalidClientException))]
+        [TestMethod]
+        public void Test_GetAllUsers_ThrowsExceptionWhenClientTokenInvalid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(-1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(true);
+            var dbMock = new Mock<IStorageBridge>();
+            var returnList = new List<UserAcc>();
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(returnList.AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            target.GetAllUsers(new UserDTO() { Password = "bla", Username = "blabla" }, "anystring");
+        }
+        [ExpectedException(typeof(InvalidUserException))]
+        [TestMethod]
+        public void Test_GetAllUsers_ThrowsExceptionWhenUserNotValid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(-1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(true);
+            var dbMock = new Mock<IStorageBridge>();
+            var returnList = new List<UserAcc>();
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(returnList.AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            target.GetAllUsers(new UserDTO() { Password = "bla", Username = "blabla" }, "anystring");
+        }
+
+        [ExpectedException(typeof (UnauthorizedUserException))]
+        [TestMethod]
+        public void Test_GetAllUsers_ThrowsExceptionWhenUserNotAdmin()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(false);
+            var dbMock = new Mock<IStorageBridge>();
+            var returnList = new List<UserAcc>();
+            dbMock.Setup(x => x.Get<UserAcc>()).Returns(returnList.AsQueryable());
+
+            var target = new UserLogic(dbMock.Object, authMock.Object);
+
+            target.GetAllUsers(new UserDTO() { Password = "bla", Username = "blabla" }, "anystring");
+        }
+        #endregion
         // CreateAccount_UserIsNull
         // CreateAccount_ClientTokenIsNull
         // CreateAccount_ClientTokenNotValid
