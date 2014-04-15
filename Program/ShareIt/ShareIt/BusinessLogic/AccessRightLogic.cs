@@ -145,6 +145,12 @@ namespace BusinessLogicLayer
 
             ValidateClientToken(clientToken);
             user.Id = ValidateUser(user);
+
+            if (user.Id != userId &&
+                !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
+            {
+                throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
+            }
             
             try
             {

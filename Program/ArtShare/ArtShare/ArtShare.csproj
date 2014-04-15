@@ -132,18 +132,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\MovieDetailsController.cs" />
-    <Compile Include="Controllers\MusicDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
     <Compile Include="Logic\BookLogic.cs" />
+    <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
     <Compile Include="Logic\IBookLogic.cs" />
+    <Compile Include="Logic\IDetailsLogic.cs" />
     <Compile Include="Logic\IMovieLogic.cs" />
     <Compile Include="Logic\IMusicLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
@@ -294,6 +295,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Views\Details\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

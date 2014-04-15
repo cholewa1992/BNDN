@@ -47,6 +47,7 @@ namespace DataAccessLayer
 
         public void Delete<TEntity>(int id) where TEntity : class, IEntityDto
         {
+            _storageStub.Remove(Get<TEntity>(id));
         }
 
         public void Delete<TEntity>(ICollection<TEntity> list) where TEntity : class, IEntityDto
