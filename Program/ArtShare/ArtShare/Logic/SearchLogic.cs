@@ -38,22 +38,25 @@ namespace ArtShare.Logic
             var model = new SearchModel();
             foreach (var pair in searchResult)
             {
-                var mediaItemList = pair.Value.MediaItemList.ToList();
-                var numberOfSearchResults = pair.Value.NumberOfSearchResults;
-                switch ((int)pair.Key)
+                if (pair.Value != null)
                 {
-                    case (int)MediaItemTypeDTO.Book:
-                        model.Books = mediaItemList;
-                        model.NumberOfMatchingBooks = numberOfSearchResults;
-                        break;
-                    case (int)MediaItemTypeDTO.Music:
-                        model.Music = mediaItemList;
-                        model.NumberOfMatchingMusic = numberOfSearchResults;
-                        break;
-                    case (int)MediaItemTypeDTO.Movie:
-                        model.Movies = mediaItemList;
-                        model.NumberOfMatchingMovies = numberOfSearchResults;
-                        break;
+                    var mediaItemList = pair.Value.MediaItemList.ToList();
+                    var numberOfSearchResults = pair.Value.NumberOfSearchResults;
+                    switch ((int) pair.Key)
+                    {
+                        case (int) MediaItemTypeDTO.Book:
+                            model.Books = mediaItemList;
+                            model.NumberOfMatchingBooks = numberOfSearchResults;
+                            break;
+                        case (int) MediaItemTypeDTO.Music:
+                            model.Music = mediaItemList;
+                            model.NumberOfMatchingMusic = numberOfSearchResults;
+                            break;
+                        case (int) MediaItemTypeDTO.Movie:
+                            model.Movies = mediaItemList;
+                            model.NumberOfMatchingMovies = numberOfSearchResults;
+                            break;
+                    }
                 }
             }
             return model;
