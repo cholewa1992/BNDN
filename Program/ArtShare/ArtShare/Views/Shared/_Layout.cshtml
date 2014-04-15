@@ -26,8 +26,16 @@
 
                 <nav>
 			        <ul>
-				        <li><div class="search"><input type="text" placeholder="Search"></div></li>
-				        <!--<li><button class="button-small button-art pure-button">Search</button></li>-->
+				        <li>
+                            <div class="search">
+                                <form action="~/Search/SearchMediaItems" method="GET">
+                                    <input type="hidden" name="from" value="1" />
+                                    <input type="hidden" name="to" value="10" />
+                                    <input type="text" name="searchKey" placeholder="Search">
+                                    <button class="search-button" type="submit"></button>
+                                </form>
+                            </div>
+                        </li>
 				        <li><button class="button-small button-art pure-button" onclick="window.location.href='/Login'">Login</button></li>
                         <li><button class="button-small button-art pure-button" onclick="window.location.href='/Account/Register'">Create Account</button></li>
 			        </ul>
