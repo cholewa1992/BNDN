@@ -106,9 +106,9 @@ header nav ul li div{
 
 
 /* Featured */
-.category{
-    padding-bottom:20px;
-    text-align:left;
+.category {
+    padding-bottom: 20px;
+    text-align: left;
 }
 
 .category-title{
@@ -135,14 +135,6 @@ header nav ul li div{
     margin-left: 200px;
 }
 
-
-.category.img_thumbnail{
-    border: 1px solid #000;
-    width: 150px;
-    height: 225px;
-    float: right;
-}
-
 /* Media */
 .media-box{
     margin-right: 15px;
@@ -160,6 +152,7 @@ header nav ul li div{
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    height: 250px;
 }
 
 .media-box .info{
@@ -185,12 +178,20 @@ header nav ul li div{
     padding-top:15px;
 }
 
+.media-box .img_thumbnail{
+    float: left;
+    width: 30%;
+}
+
 .media-box .description { 
     padding-bottom: 25px; 
     font-size: 1.1em; 
     color: #222; 
-    height: 50px;
     overflow: hidden;
+    float:left;
+    width: 65%;
+    padding-left: 10px;
+    height: 60%;
 }
 
 .media-box .read-more{
