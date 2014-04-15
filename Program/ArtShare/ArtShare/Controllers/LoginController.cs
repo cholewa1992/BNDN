@@ -39,7 +39,7 @@ namespace ArtShare.Controllers
 
 
 
-            return Index();
+            return RedirectToAction("Index", "Home");
             return View(model);
         }
 

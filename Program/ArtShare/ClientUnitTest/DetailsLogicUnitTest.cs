@@ -90,7 +90,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void ExstractionBookDto__InvalidReleaseDateString_PropertyIsNull()
         {
-
+            
             var dto = new MediaItemDTO()
             {
                 Information = new[]

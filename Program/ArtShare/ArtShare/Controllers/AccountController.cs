@@ -71,46 +71,6 @@ namespace ArtShare.Controllers
 
         
 
-        //
-        // POST: /Account/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            
-            try
-            {
-
-                //TODO implement
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-       
-
-        //
-        // POST: /Account/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-
-            try
-            {
-                accountLogic.DeleteAccount(id);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
 
     }

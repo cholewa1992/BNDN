@@ -38,6 +38,8 @@ namespace ArtShare.Controllers
         /// <returns></returns>
         public ActionResult BookDetails(int id)
         {
+            //TODO collapse into one details get
+
             int? userId = null;
 
             if (Request.Cookies["user"] != null)

@@ -31,8 +31,8 @@ namespace ArtShare.Controllers
 
         public ActionResult Index()
         {
-            return Index();
-            //return View();
+            //return Index(); why??
+            return View();
         }
 
         [HttpPost]
