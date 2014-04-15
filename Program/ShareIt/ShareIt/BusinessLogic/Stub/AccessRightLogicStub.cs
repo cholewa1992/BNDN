@@ -63,7 +63,7 @@ namespace BusinessLogicLayer.Stub
             throw new NotImplementedException();
         }
 
-        public bool CheckAccessRight(UserDTO user, int mediaItemId, string clientToken)
+        public bool CanDownload(UserDTO user, int mediaItemId, string clientToken)
         {
             return true;
         }

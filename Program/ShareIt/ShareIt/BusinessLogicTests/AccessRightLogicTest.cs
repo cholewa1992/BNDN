@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -769,6 +770,98 @@ namespace BusinessLogicTests
             accessRightLogic.EditExpiration(user, newAR, "invalid");
         }
 
+        #endregion
+
+        #region CanDownload tests
+
+        [TestMethod]
+        public void Test_CanDownload_ReturnsTrueIfUserIsAdmin()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<int>(), It.IsAny<string>())).Returns(true);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+
+            var output = target.CanDownload(new UserDTO(), 3, "client");
+
+            Assert.IsTrue(output);
+        }
+
+        [TestMethod]
+        public void Test_CanDownload_ReturnsTrueIfUserOwner()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(false);
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(BusinessLogicLayer.AccessRightType.Owner);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+
+            var output = target.CanDownload(new UserDTO(), 3, "client");
+
+            Assert.IsTrue(output);
+        }
+
+        [TestMethod]
+        public void Test_CanDownload_ReturnsTrueIfUserIsBuyer()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(false);
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(BusinessLogicLayer.AccessRightType.Buyer);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+
+            var output = target.CanDownload(new UserDTO(), 3, "client");
+
+            Assert.IsTrue(output);
+        }
+
+        [TestMethod]
+        public void Test_CanDownload_ReturnsFalseIfUserHasNoAccess()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1);
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<UserDTO>(), It.IsAny<string>())).Returns(false);
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(BusinessLogicLayer.AccessRightType.NoAccess);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+
+            var output = target.CanDownload(new UserDTO(), 3, "client");
+
+            Assert.IsFalse(output);
+        }
+        [ExpectedException(typeof(InvalidClientException))]
+        [TestMethod]
+        public void Test_CanDownload_ThrowsExceptionIfClientTokenInvalid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(-1);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+            target.CanDownload(new UserDTO(), 3, "client");
+
+        }
+        [ExpectedException(typeof(InvalidUserException))]
+        [TestMethod]
+        public void Test_CanDownload_ThrowsExceptionIfUserInvalid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(-1);
+
+            var target = new AccessRightLogic(authMock.Object, _bridgeStub);
+
+            target.CanDownload(new UserDTO(), 3, "client");
+        }
         #endregion
     }
 }

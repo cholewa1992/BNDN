@@ -362,7 +362,7 @@ namespace ShareIt
             {
                 try
                 {
-                    result = logic.CheckAccessRight(user, mediaItemId, clientToken);
+                    result = logic.CanDownload(user, mediaItemId, clientToken);
                 }
                 catch (ArgumentException e)
                 {

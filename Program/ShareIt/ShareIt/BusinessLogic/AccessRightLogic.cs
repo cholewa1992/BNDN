@@ -201,7 +201,7 @@ namespace BusinessLogicLayer
             return accessRightDTOs;
         }
 
-        public bool CheckAccessRight(UserDTO user, int mediaItemId, string clientToken)
+        public bool CanDownload(UserDTO user, int mediaItemId, string clientToken)
         {
             Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentException>(mediaItemId > 0);
