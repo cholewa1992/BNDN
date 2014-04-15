@@ -15,6 +15,6 @@ namespace BusinessLogicLayer
         bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken);
         List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken);
         List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken);
-        //bool CheckAccessRight(UserDTO user, int userId, int mediaItemId, string clientToken);
+        bool CheckAccessRight(UserDTO user, int mediaItemId, string clientToken);
     }
 }

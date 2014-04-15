@@ -109,15 +109,18 @@ namespace ShareIt
         [OperationContract]
         List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken);
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <param name="userId"></param>
-        ///// <param name="mediaItemId"></param>
-        ///// <param name="clientToken"></param>
-        ///// <returns></returns>
-        //[OperationContract]
-        //bool CanDownload(UserDTO user, int userId, int mediaItemId, string clientToken);
+        // <summary>
+        // Ask if a given user is allowed to download a specific MediaItem
+        // </summary>
+        // <param name="user">The user in question.</param>
+        // <param name="mediaItemId">The id of the MediaItem</param>
+        // <param name="clientToken">A token validating the client.</param>
+        // <returns>True if the user is allowed to download the specified MediaItem, otherwise false.</returns>
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        bool CanDownload(UserDTO user, int mediaItemId, string clientToken);
     }
 }

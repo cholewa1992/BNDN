@@ -6,6 +6,7 @@ using System.Linq;
 using System.Management.Instrumentation;
 using BusinessLogicLayer.DTO;
 using System.Security.Authentication;
+using BusinessLogicLayer.Exceptions;
 using DataAccessLayer;
 
 namespace BusinessLogicLayer
@@ -198,6 +199,28 @@ namespace BusinessLogicLayer
             var accessRightDTOs = mapAccessRights(accessRights);
 
             return accessRightDTOs;
+        }
+
+        public bool CheckAccessRight(UserDTO user, int mediaItemId, string clientToken)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentException>(mediaItemId > 0);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+
+            //Check clientToken and User
+            if(_authLogic.CheckClientToken(clientToken) == -1)
+                throw new InvalidClientException();
+            int userId = _authLogic.CheckUserExists(user);
+            if (userId == -1)
+                throw new InvalidUserException();
+            //Admins can always download.
+            if (_authLogic.IsUserAdminOnClient(userId, clientToken))
+                return true;
+            //If access right isn't NoAccess, allow download.
+            if (_authLogic.CheckUserAccess(userId, mediaItemId) != AccessRightType.NoAccess)
+                return true;
+            //Else don't allow download.
+            return false;
         }
 
         public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
