@@ -5,6 +5,15 @@ namespace ArtShare.Logic
 {
     public interface IDetailsLogic
     {
+
+        /// <summary>
+        /// Purchases a mediaitem to a given user
+        /// </summary>
+        /// <param name="mediaId">media item to purchase</param>
+        /// <param name="requestingUser">logged in user</param>
+        /// <returns>bool of whether it succeeded</returns>
+        bool PurchaseItem(int mediaId, int requestingUser);
+
         /// <summary>
         /// Retrieves details about a given book and returns it in a book model
         /// </summary>

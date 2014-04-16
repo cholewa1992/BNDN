@@ -116,5 +116,36 @@ namespace ArtShare.Controllers
             return View();
         }
 
+
+        public ActionResult PurchaseItem(int mediaId)
+        {
+
+            int userId = -1;
+
+            if (Request.Cookies["user"] != null)
+            {
+                userId = int.Parse(Request.Cookies["user"].Value);
+            }
+            else
+            {
+                RedirectToAction("Index", "Login");
+            }
+
+
+            try
+            {
+                _logic.PurchaseItem(mediaId, userId);
+                //TODO Redirect to download
+                return View();
+            }
+            catch (Exception)
+            {
+
+                return View();
+            }
+
+
+        }
+
     }
 }

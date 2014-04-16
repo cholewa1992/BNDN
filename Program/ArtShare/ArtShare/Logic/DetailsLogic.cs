@@ -4,12 +4,35 @@ using System.Linq;
 using System.Web;
 using ArtShare.Models;
 using ArtShare.Properties;
+using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
 
 namespace ArtShare.Logic
 {
     public class DetailsLogic : IDetailsLogic
     {
+
+        /// <summary>
+        /// Purchases a mediaitem to a given user
+        /// </summary>
+        /// <param name="mediaId">media item to purchase</param>
+        /// <param name="requestingUser">logged in user</param>
+        /// <returns>bool of whether it succeeded</returns>
+        public bool PurchaseItem(int mediaId, int requestingUser)
+        {
+
+            var requestingUserDto = new ShareItServices.AccessRightService.UserDTO() {Id = requestingUser};
+            var expiration = new DateTime(2200, 01, 01);
+
+            bool result;
+
+            using (var ars = new AccessRightServiceClient())
+            {
+                result = ars.Purchase(requestingUserDto, mediaId, expiration, Resources.ClientToken);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Retrieves details about a given book and returns it in a book model
@@ -24,6 +47,7 @@ namespace ArtShare.Logic
             using (var ms = new MediaItemServiceClient())
             {
                 dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+                
             }
 
             return ExstractBookInformation(dto);
