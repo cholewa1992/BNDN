@@ -35,7 +35,9 @@ namespace ArtShare.Controllers
             return View();
         }
 
-        [HttpPost]
+        // GET: /Search/SearchMediaItems
+
+        [HttpGet]
         public ActionResult SearchMediaItems(int from, int to, string searchKey)
         {
             try
@@ -50,7 +52,9 @@ namespace ArtShare.Controllers
             }
         }
 
-        [HttpPost]
+        // GET: /Search/SearchMediaitemsByType
+
+        [HttpGet]
         public ActionResult SearchMediaItemsByType(int from, int to, MediaItemTypeDTO type, string searchKey)
         {
             try

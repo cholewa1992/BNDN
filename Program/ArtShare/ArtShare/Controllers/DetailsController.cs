@@ -49,7 +49,7 @@ namespace ArtShare.Controllers
 
             try
             {
-                var model = _logic.GetMovieDetailsModel(id, userId);
+                var model = _logic.GetBookDetailsModel(id, userId);
                 return View(model);
             }
             catch (Exception)

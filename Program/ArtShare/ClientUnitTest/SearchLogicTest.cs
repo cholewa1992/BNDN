@@ -126,6 +126,15 @@ namespace ClientUnitTest
             _searchLogic.PrepareSearchModel(null);
         }
 
+        [TestMethod]
+        public void PrepareSearchModel_BookArrayNull_ArgumentNullException()
+        {
+            var newDict = _dictionary;
+            newDict[MediaItemTypeDTO.Book] = null;
+            var actual = _searchLogic.PrepareSearchModel(newDict);
+            Assert.IsNull(actual.Books);
+        }
+
         
     }
 }

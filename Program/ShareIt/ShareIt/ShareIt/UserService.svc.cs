@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
@@ -154,6 +155,34 @@ namespace ShareIt
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
                 throw new FaultException<ArgumentFault>(fault);
+            }
+            catch (InvalidClientException)
+            {
+                var msg = "Client token not valid.";
+                var fault = new UnauthorizedClient()
+                {
+                    Message = msg
+                };
+
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
+            }
+            catch (InvalidUserException)
+            {
+                var msg = "User credentials not valid.";
+                var fault = new UnauthorizedUser()
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+            }
+            catch (UnauthorizedUserException)
+            {
+                var msg = "Only admins can get a list of all users.";
+                var fault = new UnauthorizedUser()
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
             }
             catch (Exception e)
             {
