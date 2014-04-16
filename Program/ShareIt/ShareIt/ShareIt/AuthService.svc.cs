@@ -66,11 +66,11 @@ namespace ShareIt
             }
             catch (UnauthorizedAccessException e)
             {
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser(){Message = e.Message});
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch(ArgumentException e)
             {
-                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message });
+                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -100,7 +100,7 @@ namespace ShareIt
             }
             catch (ArgumentException e)
             {
-                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message });
+                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -124,7 +124,7 @@ namespace ShareIt
             }
             catch (ArgumentException e)
             {
-                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message });
+                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch (Exception e)
             {

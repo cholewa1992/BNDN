@@ -58,7 +58,7 @@ namespace ShareIt
             {
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (Exception e)
             {
@@ -82,20 +82,22 @@ namespace ShareIt
             catch (InvalidCredentialException)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedClient>(fault);
+                var msg = "The Client is not authorized to perform this request.";
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
             }
             catch (UnauthorizedAccessException)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedUser>(fault);
+                var msg = "The User is not authorized to perform this request.";
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
             }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (Exception e)
             {
@@ -118,20 +120,22 @@ namespace ShareIt
             catch (InvalidCredentialException)
             {
                 var fault = new UnauthorizedClient();
-                fault.Message = "The Client is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedClient>(fault);
+                var msg = "The Client is not authorized to perform this request.";
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
             }
             catch (UnauthorizedAccessException)
             {
                 var fault = new UnauthorizedUser();
-                fault.Message = "The User is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedUser>(fault);
+                var msg = "The User is not authorized to perform this request.";
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
             }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (Exception e)
             {
@@ -154,7 +158,7 @@ namespace ShareIt
             {
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (InvalidClientException)
             {
@@ -205,7 +209,7 @@ namespace ShareIt
             {
                 var fault = new ArgumentFault();
                 fault.Message = ae.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (Exception e)
             {

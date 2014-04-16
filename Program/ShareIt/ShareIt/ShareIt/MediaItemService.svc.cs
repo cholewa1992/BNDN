@@ -58,12 +58,12 @@ namespace ShareIt
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient { Message = e.Message };
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -146,7 +146,7 @@ namespace ShareIt
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (InvalidOperationException e)
             {
@@ -155,12 +155,12 @@ namespace ShareIt
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient {Message = e.Message};
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
-                throw new FaultException<MediaItemNotFound>(fault);
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -185,12 +185,12 @@ namespace ShareIt
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
-                throw new FaultException<MediaItemNotFound>(fault);
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (InvalidOperationException e)
             {
@@ -223,22 +223,22 @@ namespace ShareIt
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault { Message = e.Message };
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient { Message = e.Message };
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser {Message = e.Message};
-                throw new FaultException<UnauthorizedUser>(fault); 
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message)); 
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
-                throw new FaultException<MediaItemNotFound>(fault);
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -256,28 +256,32 @@ namespace ShareIt
             }
             catch (InvalidUserException)
             {
+                var msg = "Username and password didn't match.";
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
                 {
-                    Message = "Username and password didn't match."
-                });
+                    Message = msg
+                }, new FaultReason(msg));
             }
             catch (InvalidClientException)
             {
+                var msg = "Client token invalid.";
                 throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
                 {
-                    Message = "Client token invalid."
-                });
+                    Message = msg
+                }, new FaultReason(msg));
             }
             catch (UnauthorizedAccessException)
             {
+                var message = "User not allowed to update media information for media with id: " + media.Id;
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
                 {
-                    Message = "User not allowed to update media information for media with id: " + media.Id
-                });
+                    Message = message
+                }, new FaultReason(message));
             }
             catch (MediaItemNotFoundException)
             {
-                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound(){Message = "No media item found with id: " + media.Id});
+                var message = "No media item found with id: " + media.Id;
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound(){Message = message}, new FaultReason(message));
             }
             catch (Exception e)
             {
