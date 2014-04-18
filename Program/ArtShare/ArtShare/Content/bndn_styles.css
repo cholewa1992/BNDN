@@ -16,6 +16,10 @@ html, body {
     font-weight: 300;
 }
 
+p, pre{
+    margin:1em 0;
+}
+
 #container {
    min-height:100%;
    position:relative;
@@ -46,7 +50,7 @@ header{
 
 header nav{
 	float: right;
-	padding-top:5px;
+	padding-top:20px;
 	margin-right: 50px;
 }
 
@@ -87,8 +91,8 @@ header nav ul li div{
     font-size: 14px;
     color: #888;
     width:175px;
-    height: 20px;
-    padding: 6px 15px 6px 10px;
+    height: 32px;
+    padding: 6px 35px 6px 10px;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
@@ -102,7 +106,7 @@ header nav ul li div{
     border: 0 none;
     color: #2f2f2f;
     width: 300px;
-    height: 20px;
+    height: 32px;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
@@ -138,8 +142,6 @@ header nav ul li div{
     float:left;
     padding:20px;
     border-right: 1px solid #888;
-    width:100px;
-
 }
 
 .category-title h2{
@@ -235,15 +237,17 @@ header nav ul li div{
 }
 
 .media-details img{
-    width: 200px;
-    height: 300px;
+    width: 90%;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
 }
 
 .info-box{
     border: 1px solid #d7d7d7;
     border-radius: 5px;
     padding: 5px 15px;
-    min-height: 300px;
+    height: inherit;
     margin-bottom: 10px;
 }
 
@@ -251,7 +255,10 @@ header nav ul li div{
     text-align: left;
 }
 
-.in
+.info-box label{
+    font-size: 12px;
+    font-family: helvetica;
+}
  
 /* Footer */
 
@@ -466,3 +473,8 @@ footer{
   border-color: #d43f3a;
 }
 
+/* BOOTSTRAP OVERWRITES */
+
+.form-control{
+    display:initial;
+}

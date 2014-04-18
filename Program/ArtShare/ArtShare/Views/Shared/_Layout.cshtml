@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="~/Content/pure.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
     <link rel="stylesheet" href="~/Content/bndn_styles.css" />
     <title>@ViewBag.Title</title>
     @Scripts.Render("~/bundles/modernizr")
@@ -26,22 +27,22 @@
 			        <ul>
 				        <li>
                             <div class="search">
-                                <form action="~/Search/SearchMediaItems" method="GET">
+                                <form role="form" action="~/Search/SearchMediaItems" method="GET">
                                     <input type="hidden" name="from" value="1" />
                                     <input type="hidden" name="to" value="10" />
-                                    <input type="text" name="searchKey" placeholder="Search">
+                                    <input type="text" class="form-control" name="searchKey" placeholder="Search">
                                     <button class="search-button" type="submit"></button>
                                 </form>
                             </div>
                         </li>
                         @if (Request.Cookies["user"] != null) { 
-                            <li><button class="button-small btn-success pure-button" onclick="window.location.href='/Account/Details/@Request.Cookies["user"].Values["id"]'">@Request.Cookies["user"].Values["username"]'s Account</button></li>
-                            <li><button class="button-small btn-danger pure-button" onclick="window.location.href='/Login/Logout'">Logout</button></li>
+                            <li><button class="btn-success pure-button" onclick="window.location.href='/Account/Details/@Request.Cookies["user"].Values["id"]'">@Request.Cookies["user"].Values["username"]'s Account</button></li>
+                            <li><button class="btn-danger pure-button" onclick="window.location.href='/Login/Logout'">Logout</button></li>
                         }
                         else
                         {
-                            <li><button class="button-small button-art pure-button" onclick="window.location.href='/Login'">Login</button></li>
-                            <li><button class="button-small button-art pure-button" onclick="window.location.href='/Account/Register'">Create Account</button></li>
+                            <li><button class="button-art pure-button" onclick="window.location.href='/Login'">Login</button></li>
+                            <li><button class="button-art pure-button" onclick="window.location.href='/Account/Register'">Create Account</button></li>
                         }
 			        </ul>
 		        </nav>
