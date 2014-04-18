@@ -15,6 +15,14 @@ namespace ArtShare.Logic
         bool PurchaseItem(int mediaId, int requestingUser);
 
         /// <summary>
+        /// Retrieves a mediaitem
+        /// </summary>
+        /// <param name="id">Id of item to retrieve</param>
+        /// <param name="requestingUser">Requesting user if any</param>
+        /// <returns>Retrieved media item</returns>
+        MediaItemDTO GetMediaItem(int id, int? requestingUser);
+
+        /// <summary>
         /// Retrieves details about a given book and returns it in a book model
         /// </summary>
         /// <param name="id">Id of book item</param>

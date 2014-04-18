@@ -140,16 +140,10 @@
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
-    <Compile Include="Logic\BookLogic.cs" />
     <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
-    <Compile Include="Logic\IBookLogic.cs" />
     <Compile Include="Logic\IDetailsLogic.cs" />
-    <Compile Include="Logic\IMovieLogic.cs" />
-    <Compile Include="Logic\IMusicLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
-    <Compile Include="Logic\MovieLogic.cs" />
-    <Compile Include="Logic\MusicLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
     <Compile Include="Logic\SearchLogicStub.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using ArtShare.Models;
 using ArtShare.Properties;
@@ -32,6 +33,26 @@ namespace ArtShare.Logic
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// Retrieves a mediaitem
+        /// </summary>
+        /// <param name="id">Id of item to retrieve</param>
+        /// <param name="requestingUser">Requesting user if any</param>
+        /// <returns>Retrieved media item</returns>
+        public MediaItemDTO GetMediaItem(int id, int? requestingUser)
+        {
+
+            MediaItemDTO dto;
+
+            using (var ms = new MediaItemServiceClient())
+            {
+                dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+            }
+
+            return dto;
         }
 
         /// <summary>
@@ -182,18 +203,6 @@ namespace ArtShare.Logic
                         model.Description = v.Data;
                         break;
 
-
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
-                        break;
-
                     case InformationTypeDTO.Genre:
                         if (model.Genres == null)
                         {
@@ -293,17 +302,6 @@ namespace ArtShare.Logic
                         model.Director = v.Data;
                         break;
 
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
-                        break;
-
                     case InformationTypeDTO.Genre:
                         if (model.Genres == null)
                         {
@@ -394,17 +392,6 @@ namespace ArtShare.Logic
                         model.Artist = v.Data;
                         break;
 
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
-                        break;
-
                     case InformationTypeDTO.Genre:
                         if (model.Genres == null)
                         {
@@ -455,7 +442,6 @@ namespace ArtShare.Logic
                     case InformationTypeDTO.TrackLength:
                         model.TrackLength = v.Data;
                         break;
-
 
                 }
             }

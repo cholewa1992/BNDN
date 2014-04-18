@@ -22,7 +22,6 @@ namespace ArtShare.Models
         public DateTime? ReleaseDate { get; set; }
         public string Language { get; set; }
         public float? Price { get; set; }
-        public DateTime? Expiration { get; set; }
 
     }
 }
