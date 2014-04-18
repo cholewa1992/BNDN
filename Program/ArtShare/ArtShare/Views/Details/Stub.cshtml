@@ -4,121 +4,36 @@
     ViewBag.Title = "Stub";
 }
 
-<!--<h2>Stub</h2>
+<script>
+    $(':radio').change(
+  function () {
+      $('.choice').text(this.value + ' stars');
+  }
+)
+</script>
 
-<div>
-    <h4>MovieDetailsModel</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Thumbnail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Thumbnail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FileExtension)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FileExtension)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FileUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FileUrl)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Director)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Director)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Runtime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Runtime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvgRating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvgRating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Language)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Language)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-    </dl>
-</div>-->
 
 <legend>
-    <h1>@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small></h1>
+    <h1>@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small> 
+        <span class="star-rating to-right">
+            <input type="radio" name="rating" value="1"><i></i>
+            <input type="radio" name="rating" value="2"><i></i>
+            <input type="radio" name="rating" value="3"><i></i>
+            <input type="radio" name="rating" value="4"><i></i>
+            <input type="radio" name="rating" value="5"><i></i>
+        </span>
+    </h1>
+
 </legend>
+
+
 
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">
             <img src="@Html.DisplayFor(model => model.Thumbnail)" />      
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <h4>Description</h4>
             @Html.DisplayFor(model => model.Description)
             <hr />
@@ -127,25 +42,18 @@
             </h4>
             @foreach (var genre in Model.Genres)
             {
-                @genre <span>&nbsp;</span>;
+                <button class="pure-button">@genre</button>
 
             }
             <hr />
-            <h4>
-                Language
-            </h4>
-            @Html.DisplayFor(model => model.Language)
+
+            <h4>Tags</h4>
+            @foreach (var t in Model.Tags)
+            {
+                <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+            }
             <hr />
 
-            <h4>
-                Runtime
-            </h4>
-            @Html.DisplayFor(model => model.Runtime)
-            <hr />
-        </div>
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-3">
             <h4>Cast</h4>
             <ul class="list-group">
                 @foreach (var p in Model.CastMembers)
@@ -157,18 +65,54 @@
                     </li>
                 }
             </ul>
-            <h4>Tags</h4>
+            <hr />
+
+            
+        </div>
+        <div class="col-md-1">
+            <!-- SPACER -->
+        </div>
+        <div class="col-md-3">
+            <h4>Movie Info</h4>
             <ul class="list-group">
-                @foreach (var t in Model.Tags)
-                {
-                    <li class="list-group-item">
-                        <span class="glyphicon glyphicon-tag"></span>
-                        <a href="~/person?personId=@t">
-                             @t
-                        </a>
-                    </li>
-                }
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Language)</strong> <br/>
+                    @Html.DisplayFor(model => model.Language)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Runtime)</strong> <br />
+                    @Html.DisplayFor(model => model.Runtime) min.
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Director)</strong> <br />
+                    @Html.DisplayFor(model => model.Director)
+                </li>
             </ul>
+
+            <h4>Access Info</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Uploader</strong> <br />
+                    &nbsp;
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />
+                    $@Html.DisplayFor(model => model.Price)
+                </li>
+                <li class="list-group-item">
+                    <strong>Status</strong> <br />
+                    Owner / Buyer / Something
+                </li>
+            </ul>
+
+            
+            
         </div>
     </div>
+</div>
+
+<div class="to-right">
+    <button class="pure-button button-art">Buy</button>
+    <button class="pure-button button-art">Download</button>
+    <button class="pure-button button-art">Edit</button>
 </div>
