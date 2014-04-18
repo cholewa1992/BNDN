@@ -34,16 +34,15 @@ namespace ArtShare.Controllers
             }
 
             var userCookie = new HttpCookie("user", model.User.Id + "");
+            userCookie["id"] = model.User.Id + "";
+            userCookie["username"] = model.User.Username;
             userCookie.Expires.AddDays(365);
             HttpContext.Response.Cookies.Add(userCookie);
-
-
 
             return RedirectToAction("Index", "Home");
             return View(model);
         }
 
-        [HttpPost]
         public ActionResult Logout()
         {
             if (Request.Cookies["user"] != null)
@@ -55,7 +54,8 @@ namespace ArtShare.Controllers
                 };
                 Response.Cookies.Add(user);
             }
-            return Index();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -54,9 +54,10 @@ header nav ul{
 	list-style: none;
 }
 
-header nav ul li{
-	display: inline;
+header nav ul li {
+    display: inline;
 }
+
 header nav ul li div{
 	display: inline;
 }
@@ -417,5 +418,36 @@ footer{
 }
 .alert-danger .alert-link {
   color: #843534;
+}
+
+/* BOOTSTRAP BUTTONS */
+.btn-primary {
+  color: #fff;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.btn-warning {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
 }
 
