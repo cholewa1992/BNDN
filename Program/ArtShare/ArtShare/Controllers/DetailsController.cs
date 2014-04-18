@@ -25,6 +25,33 @@ namespace ArtShare.Controllers
             _logic = detailsLogic;
         }
 
+
+        public ActionResult Stub()
+        {
+
+            var model = new Models.MovieDetailsModel()
+            {
+                AvgRating = 4,
+                CastMembers = new List<string>{ "Jude Law", "Forest Whitaker", "Alice Braga", "Liev Schrieber" },
+                Description = "In the near future, when artificial human organs can be bought on credit, one man makes a living by repossessing organs their users can't pay for. What happens when the best repo man in the business can't make payments on his own artificial heart?",
+                Director = "Miguel Sapochnik",
+                FileExtension = ".mp4",
+                FileUrl = "http://image.tmdb.org/t/p/w396/juU0imfyYlwfkKFdwE7ZMvLf16u.jpg",
+                Genres = new List<string> { "Action", "Science Fiction", "Thriller", "Crime" },
+                Language = "English (en)",
+                Price = 299,
+                ReleaseDate = new DateTime(2010, 03, 19),
+                Runtime = "111",
+                Tags = new List<string>{ "Evil Corporation", "Repo Man", "Aftercreditsstringer" },
+                Thumbnail = "http://image.tmdb.org/t/p/w396/juU0imfyYlwfkKFdwE7ZMvLf16u.jpg",
+                Title = "Repo Men"
+            };
+
+            return View(model);
+
+        }
+
+
         //
         // GET: /Details/
 
