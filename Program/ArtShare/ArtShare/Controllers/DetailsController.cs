@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ArtShare.Logic;
+using Microsoft.Ajax.Utilities;
+using ShareItServices.MediaItemService;
 
 namespace ArtShare.Controllers
 {
@@ -25,10 +27,49 @@ namespace ArtShare.Controllers
         //
         // GET: /Details/
 
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
+
+            int? userId = null;
+
+            if (Request.Cookies["user"] != null)
+            {
+                userId = int.Parse(Request.Cookies["user"].Values["id"]);
+            }
+
+            MediaItemDTO dto;
+
+            try
+            {
+                dto = _logic.GetMediaItem(id, userId);
+
+                switch (dto.Type)
+                {
+
+                    case MediaItemTypeDTO.Book:
+                        var bookModel = _logic.ExstractBookInformation(dto);
+                        return View(bookModel);
+
+                    case MediaItemTypeDTO.Movie:
+                        var movieModel = _logic.ExstractBookInformation(dto);
+                        return View(movieModel);
+
+                    case MediaItemTypeDTO.Music:
+                        var musicModel = _logic.ExstractBookInformation(dto);
+                        return View(musicModel);
+
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return View();
+            }
+
             return View();
         }
+
+
 
         /// <summary>
         /// Build view with Book details model
@@ -44,7 +85,7 @@ namespace ArtShare.Controllers
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Value);
+                userId = int.Parse(Request.Cookies["user"].Values["id"]);
             }
 
             try
@@ -72,7 +113,7 @@ namespace ArtShare.Controllers
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Value);
+                userId = int.Parse(Request.Cookies["user"].Values["id"]);
             }
 
             try
@@ -100,7 +141,7 @@ namespace ArtShare.Controllers
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Value);
+                userId = int.Parse(Request.Cookies["user"].Values["id"]);
             }
 
             try
@@ -124,7 +165,7 @@ namespace ArtShare.Controllers
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Value);
+                userId = int.Parse(Request.Cookies["user"].Values["id"]);
             }
             else
             {
