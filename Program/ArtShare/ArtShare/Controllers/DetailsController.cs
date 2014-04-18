@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Web;
 using System.Web.Mvc;
 using ArtShare.Logic;
@@ -30,18 +31,21 @@ namespace ArtShare.Controllers
         public ActionResult Index(int id)
         {
 
-            int? userId = null;
+            UserDTO user = null;
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Values["id"]);
+                user = new UserDTO()
+                {
+                    Username = Request.Cookies["user"].Values["username"]
+                };
             }
 
             MediaItemDTO dto;
 
             try
             {
-                dto = _logic.GetMediaItem(id, userId);
+                dto = _logic.GetMediaItem(id, user);
 
                 switch (dto.Type)
                 {
@@ -60,9 +64,9 @@ namespace ArtShare.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (FaultException e)
             {
-                TempData["error"] = e.Message;
+                TempData["error"] = e;
                 return View();
             }
 
@@ -71,91 +75,91 @@ namespace ArtShare.Controllers
 
 
 
-        /// <summary>
-        /// Build view with Book details model
-        /// GET: /Details/BookDetails/5
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult BookDetails(int id)
-        {
-            //TODO collapse into one details get
+        ///// <summary>
+        ///// Build view with Book details model
+        ///// GET: /Details/BookDetails/5
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public ActionResult BookDetails(int id)
+        //{
+        //    //TODO collapse into one details get
 
-            int? userId = null;
+        //    int? userId = null;
 
-            if (Request.Cookies["user"] != null)
-            {
-                userId = int.Parse(Request.Cookies["user"].Values["id"]);
-            }
+        //    if (Request.Cookies["user"] != null)
+        //    {
+        //        userId = int.Parse(Request.Cookies["user"].Values["id"]);
+        //    }
 
-            try
-            {
-                var model = _logic.GetBookDetailsModel(id, userId);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                //TODO error view
-            }
+        //    try
+        //    {
+        //        var model = _logic.GetBookDetailsModel(id, userId);
+        //        return View(model);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //TODO error view
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        /// <summary>
-        /// Build view with Movie details model
-        /// GET: /Details/MovieDetails/5
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult MovieDetails(int id)
-        {
-            int? userId = null;
+        ///// <summary>
+        ///// Build view with Movie details model
+        ///// GET: /Details/MovieDetails/5
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public ActionResult MovieDetails(int id)
+        //{
+        //    int? userId = null;
 
-            if (Request.Cookies["user"] != null)
-            {
-                userId = int.Parse(Request.Cookies["user"].Values["id"]);
-            }
+        //    if (Request.Cookies["user"] != null)
+        //    {
+        //        userId = int.Parse(Request.Cookies["user"].Values["id"]);
+        //    }
 
-            try
-            {
-                var model = _logic.GetMovieDetailsModel(id, userId);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                //TODO error view
-            }
+        //    try
+        //    {
+        //        var model = _logic.GetMovieDetailsModel(id, userId);
+        //        return View(model);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //TODO error view
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        /// <summary>
-        /// Build view with music details model
-        /// GET: /Details/MusicDetails/5
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult MusicDetails(int id)
-        {
-            int? userId = null;
+        ///// <summary>
+        ///// Build view with music details model
+        ///// GET: /Details/MusicDetails/5
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public ActionResult MusicDetails(int id)
+        //{
+        //    int? userId = null;
 
-            if (Request.Cookies["user"] != null)
-            {
-                userId = int.Parse(Request.Cookies["user"].Values["id"]);
-            }
+        //    if (Request.Cookies["user"] != null)
+        //    {
+        //        userId = int.Parse(Request.Cookies["user"].Values["id"]);
+        //    }
 
-            try
-            {
-                var model = _logic.GetMusicDetailsModel(id, userId);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                //TODO error view
-            }
+        //    try
+        //    {
+        //        var model = _logic.GetMusicDetailsModel(id, userId);
+        //        return View(model);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //TODO error view
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
         public ActionResult PurchaseItem(int mediaId)

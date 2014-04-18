@@ -7,6 +7,7 @@ using ArtShare.Models;
 using ArtShare.Properties;
 using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
+using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -40,12 +41,13 @@ namespace ArtShare.Logic
         /// Retrieves a mediaitem
         /// </summary>
         /// <param name="id">Id of item to retrieve</param>
-        /// <param name="requestingUser">Requesting user if any</param>
+        /// <param name="requestingUser"></param>
         /// <returns>Retrieved media item</returns>
-        public MediaItemDTO GetMediaItem(int id, int? requestingUser)
+        public MediaItemDTO GetMediaItem(int id, UserDTO requestingUser)
         {
 
             MediaItemDTO dto;
+            
 
             using (var ms = new MediaItemServiceClient())
             {
@@ -55,24 +57,24 @@ namespace ArtShare.Logic
             return dto;
         }
 
-        /// <summary>
-        /// Retrieves details about a given book and returns it in a book model
-        /// </summary>
-        /// <param name="id">Id of book item</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Book model with requested information</returns>
-        public BookDetailsModel GetBookDetailsModel(int id, int? requestingUser)
-        {
-            MediaItemDTO dto;
+        ///// <summary>
+        ///// Retrieves details about a given book and returns it in a book model
+        ///// </summary>
+        ///// <param name="id">Id of book item</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Book model with requested information</returns>
+        //public BookDetailsModel GetBookDetailsModel(int id, int? requestingUser)
+        //{
+        //    MediaItemDTO dto;
 
-            using (var ms = new MediaItemServiceClient())
-            {
-                dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
                 
-            }
+        //    }
 
-            return ExstractBookInformation(dto);
-        }
+        //    return ExstractBookInformation(dto);
+        //}
 
         /// <summary>
         /// Deletes a book
@@ -97,24 +99,24 @@ namespace ArtShare.Logic
         }
 
 
-        /// <summary>
-        /// Retrieves details about a given Movie and returns it in a Movie model
-        /// </summary>
-        /// <param name="id">Id of Movie</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Movie model with requested information</returns>
-        public MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser)
-        {
+        ///// <summary>
+        ///// Retrieves details about a given Movie and returns it in a Movie model
+        ///// </summary>
+        ///// <param name="id">Id of Movie</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Movie model with requested information</returns>
+        //public MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser)
+        //{
 
-            MediaItemDTO serviceDTO;
+        //    MediaItemDTO serviceDTO;
 
-            using (var ms = new MediaItemServiceClient())
-            {
-                serviceDTO = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
-            }
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        serviceDTO = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+        //    }
 
-            return ExstractMovieInformation(serviceDTO);
-        }
+        //    return ExstractMovieInformation(serviceDTO);
+        //}
         /// <summary>
         /// Deletes a Movie
         /// </summary>
@@ -137,24 +139,24 @@ namespace ArtShare.Logic
         }
 
 
-        /// <summary>
-        /// Retrieves details about given Music and returns it in a Music model
-        /// </summary>
-        /// <param name="id">Id of Music item</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Music model with requested information</returns>
-        public MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser)
-        {
+        ///// <summary>
+        ///// Retrieves details about given Music and returns it in a Music model
+        ///// </summary>
+        ///// <param name="id">Id of Music item</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Music model with requested information</returns>
+        //public MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser)
+        //{
 
-            MediaItemDTO dto;
+        //    MediaItemDTO dto;
 
-            using (var ms = new MediaItemServiceClient())
-            {
-                dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
-            }
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+        //    }
 
-            return ExstractMusicInformation(dto);
-        }
+        //    return ExstractMusicInformation(dto);
+        //}
         /// <summary>
         /// Deletes a Music Item
         /// </summary>

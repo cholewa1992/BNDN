@@ -798,7 +798,7 @@ namespace ShareItServices.MediaItemService {
             "lt", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationMediaItemNotFoundFaul" +
             "t", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? user, string clientToken);
+        ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItemInformation", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemInformationResponse")]
         System.Threading.Tasks.Task<ShareItServices.MediaItemService.MediaItemDTO> GetMediaItemInformationAsync(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken);
@@ -900,7 +900,7 @@ namespace ShareItServices.MediaItemService {
                 base(binding, remoteAddress) {
         }
         
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? user, string clientToken) {
+        public ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken) {
             return base.Channel.GetMediaItemInformation(mediaItemId, user, clientToken);
         }
         
