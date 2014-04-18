@@ -5,20 +5,18 @@
 
 \section{Erroneous states}
 
-In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking.
+In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking in the business logic on our back-end.
 
-Code Contracts can be used in several ways. We have chosen to use Contracts with  exceptions:
+We have chosen to use Code Contracts for two reasons mainly; Readability and control. Readability needs no justification. Code for contracts is shorter than if-then-throw\footnote{if(argument == null) throw new ArgumentNullException();}, and it is explicit from the method if we are checking a pre- or postcondition. As for control, with Code Contracts you can choose how these checks are build with your assemblies. \\
+
+Code Contracts can be used in several ways. We have chosen to use Contracts with  exceptions. Below is an example of a pre-condition:
 
  \texttt{Contract.Requires<ArgumentException>(argument != null);}
  
 We have chosen this approach because we are developing a system from the ground up, and have no schematic consistency requirements in form of legacy if-then-throw clauses.
 
-We have chosen to use Code Contracts for two reasons mainly; Readability and control. Readability needs no justification. Code for contracts is shorter than if-then-throw, and it is explicit from the method if we are checking a pre- or postcondition.
+Since we are developing an open API, we want to check variables parsed to us, and so our assemblies are compiled with full runtime checking. This means that all our team needs Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
 
-Our assemblies are compiled with full runtime checking, which means that all our team needs Code Contracts installed in order to work on our source code.
-
-why do we do it??
-where do we use it
 
 
 
