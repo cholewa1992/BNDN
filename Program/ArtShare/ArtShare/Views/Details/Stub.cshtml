@@ -5,6 +5,10 @@
 }
 
 <script>
+    function rate(val) {
+        document.getElementById("choice").textContent = "Rated " + val + " / 5";
+    }
+
     $(':radio').change(
   function () {
       $('.choice').text(this.value + ' stars');
@@ -13,25 +17,37 @@
 </script>
 
 
-<legend>
-    <h1>@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small> 
-        <span class="star-rating to-right">
-            <input type="radio" name="rating" value="1"><i></i>
-            <input type="radio" name="rating" value="2"><i></i>
-            <input type="radio" name="rating" value="3"><i></i>
-            <input type="radio" name="rating" value="4"><i></i>
-            <input type="radio" name="rating" value="5"><i></i>
-        </span>
+
+
+<legend class="clearfix">
+    <h1 class="to-left clear">@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small> 
+
     </h1>
+    <div class="to-right detail-buttons clearfix">
+        <button class="pure-button button-art">Buy</button>
+        <button class="pure-button button-art">Download</button>
+        <button class="pure-button button-art">Edit</button>
+    </div>
 
 </legend>
+
 
 
 
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">
-            <img src="@Html.DisplayFor(model => model.Thumbnail)" />      
+            <img src="@Html.DisplayFor(model => model.Thumbnail)" />  
+            <div class="is-center">
+                <span class="star-rating ">
+                    <input type="radio" name="rating" value="1" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="2" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="3" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="4" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="5" onclick="rate(this.value);"><i></i>
+                </span><br />
+                <small id="choice"></small>
+            </div>
         </div>
         <div class="col-md-5">
             <h4>Description</h4>
@@ -59,7 +75,7 @@
                 @foreach (var p in Model.CastMembers)
                 {
                     <li class="list-group-item">
-                        <a href="~/person?personId=@p">
+                        <a href="#">
                             @p
                         </a>
                     </li>
@@ -112,7 +128,5 @@
 </div>
 
 <div class="to-right">
-    <button class="pure-button button-art">Buy</button>
-    <button class="pure-button button-art">Download</button>
-    <button class="pure-button button-art">Edit</button>
+    
 </div>
