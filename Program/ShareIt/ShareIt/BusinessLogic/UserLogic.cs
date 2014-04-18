@@ -230,7 +230,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="requestingUser">The user who wishes to delete a user. Should be an admin or the same user as is being deleted.</param>
         /// <param name="userToBeDeletedId">The id of the user which is to be deleted.</param>
-        /// <param name="clientToken">The client from which the request originatd.</param>
+        /// <param name="clientToken">The client from which the request originated.</param>
         /// <returns>True if the user was deleted, otherwise false.</returns>
         /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken is not valid.</exception>
         /// <exception cref="FaultException{UnauthorizedUser}">If the requesting user isn't admin and trying to delete a user other than himself.</exception>
