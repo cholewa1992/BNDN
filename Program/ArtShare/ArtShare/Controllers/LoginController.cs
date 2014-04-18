@@ -33,7 +33,7 @@ namespace ArtShare.Controllers
                 model.LoggedIn = model.User.Id > 0;
             }
 
-            var userCookie = new HttpCookie("user", model.User.Id + "");
+            var userCookie = new HttpCookie("user");
             userCookie["id"] = model.User.Id + "";
             userCookie["username"] = model.User.Username;
             userCookie.Expires.AddDays(365);
