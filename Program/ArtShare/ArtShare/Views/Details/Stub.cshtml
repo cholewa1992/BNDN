@@ -4,7 +4,7 @@
     ViewBag.Title = "Stub";
 }
 
-<h2>Stub</h2>
+<!--<h2>Stub</h2>
 
 <div>
     <h4>MovieDetailsModel</h4>
@@ -107,4 +107,68 @@
         </dd>
 
     </dl>
+</div>-->
+
+<legend>
+    <h1>@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small></h1>
+</legend>
+
+<div class="media-details">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@Html.DisplayFor(model => model.Thumbnail)" />      
+        </div>
+        <div class="col-md-4">
+            <h4>Description</h4>
+            @Html.DisplayFor(model => model.Description)
+            <hr />
+            <h4>
+                Genre
+            </h4>
+            @foreach (var genre in Model.Genres)
+            {
+                @genre <span>&nbsp;</span>;
+
+            }
+            <hr />
+            <h4>
+                Language
+            </h4>
+            @Html.DisplayFor(model => model.Language)
+            <hr />
+
+            <h4>
+                Runtime
+            </h4>
+            @Html.DisplayFor(model => model.Runtime)
+            <hr />
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+            <h4>Cast</h4>
+            <ul class="list-group">
+                @foreach (var p in Model.CastMembers)
+                {
+                    <li class="list-group-item">
+                        <a href="~/person?personId=@p">
+                            @p
+                        </a>
+                    </li>
+                }
+            </ul>
+            <h4>Tags</h4>
+            <ul class="list-group">
+                @foreach (var t in Model.Tags)
+                {
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <a href="~/person?personId=@t">
+                             @t
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
