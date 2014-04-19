@@ -96,6 +96,12 @@
   <ItemGroup>
     <None Include="Resources\datamodel.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11 Technologic.m4a" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\03 Around The World %28Radio Edit%29.m4a" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -123,7 +129,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

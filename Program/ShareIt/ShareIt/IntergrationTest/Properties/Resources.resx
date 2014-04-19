@@ -127,4 +127,10 @@
   <data name="SMU" xml:space="preserve">
     <value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</value>
   </data>
+  <data name="Around_The_World" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\03 Around The World (Radio Edit).m4a;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Technologic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\11 Technologic.m4a;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

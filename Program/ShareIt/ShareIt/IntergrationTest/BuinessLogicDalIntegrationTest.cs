@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
@@ -102,6 +103,11 @@ namespace IntergrationTest
                 db.SaveChanges();
 
 
+                #endregion
+                #region
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('Lord of the Rings', 1, 1)");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('A movie about a ring', 1, 2)");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('$1000', 1, 3)");
                 #endregion
             }
         }
@@ -351,7 +357,89 @@ namespace IntergrationTest
         {
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
+            var result = mil.GetMediaItemInformation(1, _mathias, _artShare);
+            Assert.AreEqual("Lord of the Rings" ,result.Information.Single(t => t.Type == InformationTypeDTO.Title).Data);
+            Assert.AreEqual("A movie about a ring" ,result.Information.Single(t => t.Type == InformationTypeDTO.Description).Data);
+            Assert.AreEqual("$1000" ,result.Information.Single(t => t.Type == InformationTypeDTO.Price).Data);
+        }
+        
+        [TestMethod]
+        public void IntegrationTest_MediaItemLogic_FindMediaItemRange()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var mil = blf.CreateMediaItemLogic();
+
+            mil.FindMediaItemRange(1,3, null, null, _artShare);
+
+            var result = mil.FindMediaItemRange(1, 1, null, "Lord of the Rings", _artShare);
+            Assert.AreEqual(1, result.Single().Value.MediaItemList.Single().Id);
+        }
+
+        [TestMethod]
+        public void IntegrationTest_MediaItemLogic_UpdateMediaItem()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var mil = blf.CreateMediaItemLogic();
+
+            var result = mil.FindMediaItemRange(1, 1, null, "Lord of the Rings", _artShare);
+            Assert.AreEqual(1, result.Single().Value.MediaItemList.Single().Id);
+
+            var mediaItem = result.Single().Value.MediaItemList.Single();
+            mediaItem.Information.Single(t => t.Type == InformationTypeDTO.Title).Data = "Lord of the Rings two";
+
+            mil.UpdateMediaItem(_mathias, mediaItem, _artShare);
+
+            result = mil.FindMediaItemRange(1, 1, null, "Lord of the Rings two", _artShare);
+            Assert.AreEqual(1, result.Single().Value.MediaItemList.Single().Id);
         }
         #endregion
+        #region Data Transfer Logic tests
+
+        [TestMethod]
+        public void IntegrationTest_DataTransferLogic_GetMediaStream()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var dtl = blf.CreateDataTransferLogic();
+
+            dtl.SaveMedia(_artShare, _mathias, new MediaItemDTO
+            {
+                Type = MediaItemTypeDTO.Music,
+                FileExtension = "m4a",
+                Information = new List<MediaItemInformationDTO>
+                {
+                    new MediaItemInformationDTO
+                    {
+                        Data = "Technologic",
+                        Type = InformationTypeDTO.Title
+                    },
+                    new MediaItemInformationDTO
+                    {
+                        Data = "Daft Punk",
+                        Type = InformationTypeDTO.Artist
+                    }
+                }
+            }, new MemoryStream(Properties.Resources.Technologic));
+
+
+            /*string fileExtention;
+            var mis = dtl.GetMediaStream(_artShare, _loh, 2, out fileExtention);
+
+            var buffer = new byte[Properties.Resources.Technologic.Length];
+
+            mis.Read(buffer, 0, buffer.Length);
+
+            Assert.AreEqual(Properties.Resources.Technologic, buffer);*/
+        }
+
+        
+        [TestMethod]
+        public void IntegrationTest_DataTransferLogic_SaveThumbnail()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var dtl = blf.CreateDataTransferLogic();
+        }
+
+        #endregion
+
     }
 }

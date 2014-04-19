@@ -61,6 +61,16 @@ namespace IntergrationTest.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Around_The_World {
+            get {
+                object obj = ResourceManager.GetObject("Around_The_World", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 7dac496c534911c0ef47bce1de772502b0d6a6c60b1dbd73c1d3f285f36a0f61.
         /// </summary>
         internal static string ArtShare {
@@ -105,6 +115,16 @@ namespace IntergrationTest.Properties {
         internal static string SMU {
             get {
                 return ResourceManager.GetString("SMU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Technologic {
+            get {
+                object obj = ResourceManager.GetObject("Technologic", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }
