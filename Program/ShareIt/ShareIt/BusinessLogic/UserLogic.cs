@@ -178,7 +178,7 @@ namespace BusinessLogicLayer
             ValidatePassword(userToUpdate);
             currentUserAcc.Password = userToUpdate.Password;
 
-            _storage.Delete<UserInfo>(currentUserAcc.UserInfo);
+            _storage.Delete(currentUserAcc.UserInfo);
 
             currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
             {

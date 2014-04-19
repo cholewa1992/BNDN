@@ -119,7 +119,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessRightType.cs" />
+    <Compile Include="DTO\AccessRightType.cs" />
     <Compile Include="AccessRightLogic.cs" />
     <Compile Include="AuthLogic.cs" />
     <Compile Include="BusinessFactory.cs" />

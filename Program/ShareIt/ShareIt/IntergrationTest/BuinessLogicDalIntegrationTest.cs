@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Reflection;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
@@ -12,20 +12,19 @@ namespace IntergrationTest
     [TestClass]
     public class BuinessLogicDalIntegrationTest
     {
-
+        #region Setup
         private readonly UserDTO _jacob = new UserDTO { Username = "Jacob", Password = "1234" };
         private readonly UserDTO _loh = new UserDTO { Username = "Loh", Password = "2143" };
         private readonly UserDTO _mathias = new UserDTO { Username = "Mathias", Password = "4321" };
         private readonly string _smu = Properties.Resources.SMU;
         private readonly string _artShare = Properties.Resources.ArtShare;
 
-        #region Setup & TearDown
         [TestInitialize]
         public void Setup()
         {
             using (var db = new RentIt08Entities())
             {
-                TearDown();
+                db.Database.ExecuteSqlCommand(Properties.Resources.datamodel);
                 #region AccessRightType
                 db.Database.ExecuteSqlCommand("INSERT INTO AccessRightType (Name) VALUES  ('Buyer')");
                 db.Database.ExecuteSqlCommand("INSERT INTO AccessRightType (Name) VALUES  ('Owner')");
@@ -83,18 +82,31 @@ namespace IntergrationTest
                 #region Entity
                 db.Database.ExecuteSqlCommand("INSERT INTO Entity (FilePath, ClientId, TypeId) VALUES  ('C:/lol', 1, 1)");
                 #endregion
-            }
-        }
+                #region AccessRight
 
-       public void TearDown()
-        {
-            using (var db = new RentIt08Entities())
-            {
-                db.Database.ExecuteSqlCommand(Properties.Resources.datamodel); 
+                db.Entry( new AccessRight
+                {
+                    AccessRightTypeId = 1,
+                    EntityId = 1,
+                    Expiration = DateTime.Now.AddDays(2),
+                    UserId = 3
+                }).State = EntityState.Added;
+
+                db.Entry(new AccessRight
+                {
+                    AccessRightTypeId = 2,
+                    EntityId = 1,
+                    UserId = 1,
+                }).State = EntityState.Added;
+
+                db.SaveChanges();
+
+
+                #endregion
             }
         }
         #endregion
-
+        #region Access Right Logic Tests
         [TestMethod]
         public void IntegrationTest_AccessRightLogic_MakeAdmin()
         {
@@ -117,14 +129,19 @@ namespace IntergrationTest
         {
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
-            var mil = blf.CreateMediaItemLogic();
-            var ul = blf.CreateUserLogic();
-            var al = blf.CreateAuthLogic();
-            var accountInfo = ul.GetAccountInformation(new UserDTO {Username = "Loh", Password = "2143"}, 2, "4321");
-            
-            arl.DeleteAccessRight(new UserDTO {Username = "Loh", Password = "2143"}, 2, "4321"); //Demoting Loh from admin
 
-            //TODO CANNOT DELETE ACCESS RIGHT
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.AccessRight.Any(t => t.UserId == 3));
+            }
+
+            var history = arl.GetPurchaseHistory(_mathias, 3, _artShare);
+            arl.DeleteAccessRight(_jacob, history.Single().Id, _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsFalse(db.AccessRight.Any(t => t.UserId == 3));
+            }
         }
 
         [TestMethod]
@@ -136,7 +153,7 @@ namespace IntergrationTest
 
             using (var db = new RentIt08Entities())
             {
-                Assert.IsTrue(db.AccessRight.Any(t => t.EntityId == 1 && t.AccessRightTypeId == 2 && t.UserId == 3));
+                Assert.IsTrue(db.AccessRight.Any(t => t.EntityId == 1 && t.AccessRightTypeId == (int) BusinessLogicLayer.AccessRightType.Buyer && t.UserId == 3));
             }
         }
 
@@ -145,9 +162,28 @@ namespace IntergrationTest
         {
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
-            //TODO Still don't have AccessRightId
-        }
 
+            DateTime? dt;
+
+            using (var db = new RentIt08Entities())
+            {
+                dt = db.AccessRight.Single(t => t.UserId == 3).Expiration;
+            }
+
+            var history = arl.GetPurchaseHistory(_mathias, 3, _artShare);
+            var ar = history.Single();
+            ar.Expiration = DateTime.Now.AddDays(10);
+
+            arl.EditExpiration(_jacob, ar, _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                var newDt = db.AccessRight.Single(t => t.UserId == 3).Expiration;
+                Assert.AreNotEqual(dt,newDt);
+            }
+        }
+        #endregion
+        #region Auth logic tests
         [TestMethod]
         public void IntegrationTest_AuthLogic_CheckClientExists()
         {
@@ -180,7 +216,8 @@ namespace IntergrationTest
             Assert.IsFalse(al.IsUserAdminOnClient(_mathias, _artShare));
             Assert.IsFalse(al.IsUserAdminOnClient(_mathias, _smu));
         }
-
+        #endregion
+        #region User logic Tests
         [TestMethod]
         public void IntegrationTest_UserLogic_CreateAccount()
         {
@@ -269,9 +306,52 @@ namespace IntergrationTest
             Assert.AreEqual("Denmark", location.Data);
 
         }
+        #endregion
+        #region Media Item Logic Tests
+        [TestMethod]
+        public void IntegrationTest_MediaItemLogic_RateMediaItem()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var mil = blf.CreateMediaItemLogic();
 
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsFalse(db.Rating.Any());
+            }
 
+            mil.RateMediaItem(_mathias, 1, 5, _artShare);
 
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.Rating.Any());
+            }
+        } 
 
+        [TestMethod]
+        public void IntegrationTest_MediaItemLogic_DeleteMediaItem()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var mil = blf.CreateMediaItemLogic();
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsTrue(db.Entity.Any());
+            }
+
+            mil.DeleteMediaItem(_jacob, 1, _artShare);
+
+            using (var db = new RentIt08Entities())
+            {
+                Assert.IsFalse(db.Entity.Any());
+            }
+        }
+        
+        [TestMethod]
+        public void IntegrationTest_MediaItemLogic_GetMediaItemInformation()
+        {
+            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var mil = blf.CreateMediaItemLogic();
+        }
+        #endregion
     }
 }
