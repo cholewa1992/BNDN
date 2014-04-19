@@ -66,7 +66,7 @@ namespace ShareIt
         /// <param name="user">The User performing the request</param>
         /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
         /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
-        /// Value is Null if it is a permanent purchase).</param>
+        ///     Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         [FaultContract(typeof(UnauthorizedUser))]
@@ -75,7 +75,7 @@ namespace ShareIt
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
-        bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken);
+        bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken);
 
         /// <summary>
         /// Gets all the AccessRights where the AccessRightType is buyer for a given User
@@ -109,15 +109,18 @@ namespace ShareIt
         [OperationContract]
         List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken);
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <param name="userId"></param>
-        ///// <param name="mediaItemId"></param>
-        ///// <param name="clientToken"></param>
-        ///// <returns></returns>
-        //[OperationContract]
-        //bool CanDownload(UserDTO user, int userId, int mediaItemId, string clientToken);
+        // <summary>
+        // Ask if a given user is allowed to download a specific MediaItem
+        // </summary>
+        // <param name="user">The user in question.</param>
+        // <param name="mediaItemId">The id of the MediaItem</param>
+        // <param name="clientToken">A token validating the client.</param>
+        // <returns>True if the user is allowed to download the specified MediaItem, otherwise false.</returns>
+        [FaultContract(typeof(ArgumentFault))]
+        [FaultContract(typeof(UnauthorizedUser))]
+        [FaultContract(typeof(UnauthorizedClient))]
+        [FaultContract(typeof(FaultException))]
+        [OperationContract]
+        bool CanDownload(UserDTO user, int mediaItemId, string clientToken);
     }
 }

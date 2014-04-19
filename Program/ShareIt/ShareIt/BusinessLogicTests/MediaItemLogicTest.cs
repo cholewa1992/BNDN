@@ -148,7 +148,7 @@ namespace BusinessLogicTests
                     /* NOT IMPLEMENTED YET
                     book.EntityInfo.Add(new EntityInfo
                     {
-                        EntityId = i, Id = ++count, EntityInfoTypeId = 18, Data = _thumbnailWebPath, Entity = book
+                        EntityId = i, Id = ++count, EntityInfoTypeId = 16, Data = _thumbnailWebPath, Entity = book
                     }); */
                 }
                 set.Add(book);
@@ -281,27 +281,25 @@ namespace BusinessLogicTests
         public void GetMediaItemInformation_AccessRightOwner()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(1, 2, "testClient");
-            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).Select(x => x.Data).Single();
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(1, user2, "testClient");
+            var accessRightInfo = mediaItem.ExpirationDate;
             Assert.AreEqual(null, accessRightInfo);
         }
         [TestMethod]
         public void GetMediaItemInformation_AccessRightBuyer()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(2, 2, "testClient");
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(2, user2, "testClient");
             var expected = new DateTime(2015, 01, 01, 00, 00, 00);
-            var accessRightInfo = mediaItem.Information.Where(x => x.Type == InformationTypeDTO.ExpirationDate).
-                Select(x => x.Data).Single();
-            Assert.AreEqual(expected.ToString(CultureInfo.CurrentCulture), accessRightInfo);
+            var accessRightInfo = mediaItem.ExpirationDate;
+            Assert.AreEqual(expected, accessRightInfo);
         }
         [TestMethod]
         public void GetMediaItemInformation_AccessRightNoAccess()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, 1, "testClient"); 
-            var accessRightInfo = mediaItem.Information.Any(x => x.Type == InformationTypeDTO.ExpirationDate);
-            Assert.IsFalse(accessRightInfo);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, user1, "testClient");
+            Assert.IsNull(mediaItem.ExpirationDate); //TODO Note that Expiration date is null when there is no access AND when access right never expires
         }
 
         #endregion
@@ -620,30 +618,49 @@ namespace BusinessLogicTests
         public void GetAverageRating_MediaItemIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.GetAverageRating(-2);
+            int numberOfRatings;
+            mediaItemLogic.GetAverageRating(-2, out numberOfRatings);
         }
-        [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
         public void GetAverageRating_MediaItemNotRated()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            mediaItemLogic.GetAverageRating(3);
+            int numberOfRatings;
+            mediaItemLogic.GetAverageRating(3, out numberOfRatings);
+            Assert.AreEqual(0, numberOfRatings);
         }
         [TestMethod]
-        public void GetAverageRating_OneRating()
+        public void GetAverageRating_OneRatingCheckAvg()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var actual = mediaItemLogic.GetAverageRating(2);
-            const double expected = 1.0;
-            Assert.AreEqual(expected, actual);
+            int numberOfRatings;
+            var actual = mediaItemLogic.GetAverageRating(2, out numberOfRatings);
+            Assert.AreEqual(1.0, actual);
         }
         [TestMethod]
-        public void GetAverageRating_MultipleRatings()
+        public void GetAverageRating_OneRatingCheckCount()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
-            var actual = mediaItemLogic.GetAverageRating(1);
+            int numberOfRatings;
+            mediaItemLogic.GetAverageRating(2, out numberOfRatings);
+            Assert.AreEqual(1, numberOfRatings);
+        }
+        [TestMethod]
+        public void GetAverageRating_MultipleRatingsCheckAvg()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            int numberOfRatings;
+            var actual = mediaItemLogic.GetAverageRating(1, out numberOfRatings);
             const double expected = 6.333333;
             Assert.AreEqual(expected, actual, 0.01);
+        }
+        [TestMethod]
+        public void GetAverageRating_MultipleRatingsCheckCount()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            int numberOfRatings;
+            var actual = mediaItemLogic.GetAverageRating(1, out numberOfRatings);
+            Assert.AreEqual(3, numberOfRatings);
         }
         #endregion
         #region EqualityCompares

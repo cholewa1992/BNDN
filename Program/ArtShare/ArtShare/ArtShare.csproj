@@ -132,15 +132,27 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DetailsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
+    <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
+    <Compile Include="Logic\IDetailsLogic.cs" />
+    <Compile Include="Logic\ISearchLogic.cs" />
+    <Compile Include="Logic\SearchLogic.cs" />
+    <Compile Include="Logic\SearchLogicStub.cs" />
+    <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MovieDetailsModel.cs" />
+    <Compile Include="Models\MusicDetailsModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\UpdateAccountModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -157,6 +169,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\normalize.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -271,6 +284,9 @@
     </None>
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Logout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Details\Index.cshtml" />
+    <Content Include="Views\Details\Stub.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

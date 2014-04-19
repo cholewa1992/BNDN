@@ -13,11 +13,18 @@ namespace ArtShare
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            /*routes.MapRoute(
+                "details",
+                "Details/{id}",
+                new { controller = "Details", action = "Index", id = UrlParameter.Optional }
+            );*/
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            
         }
     }
 }

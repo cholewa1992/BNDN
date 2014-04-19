@@ -15,7 +15,6 @@ namespace BusinessLogicLayer.DataMappers
             var result = new Entity
             {
                 TypeId = (int)item.Type,
-                FilePath = ""
             };
             foreach (var info in item.Information)
             {

@@ -7,8 +7,10 @@ using System.Runtime.Serialization;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
+using System.Web.UI.WebControls;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using ShareIt;
 
@@ -44,14 +46,14 @@ namespace ShareIt
         /// Get a list of media item information about a given media item.
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
+        /// <param name="user">The user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A list of MediaItemInformation</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken)
         {
             try
             {
-                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, userId, clientToken);
+                return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, user, clientToken);
             } 
             catch (ArgumentException ae)
             {
@@ -242,6 +244,46 @@ namespace ShareIt
             {
                 throw new FaultException(new FaultReason(e.Message));
             }
+        }
+
+        public bool UpdateMediaItemInformation(UserDTO user, MediaItemDTO media, string clientToken)
+        {
+            try
+            {
+                using (var logic = _factory.CreateMediaItemLogic())
+                    logic.UpdateMediaItem(user, media, clientToken);
+                return true;
+            }
+            catch (InvalidUserException)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "Username and password didn't match."
+                });
+            }
+            catch (InvalidClientException)
+            {
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
+                {
+                    Message = "Client token invalid."
+                });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = "User not allowed to update media information for media with id: " + media.Id
+                });
+            }
+            catch (MediaItemNotFoundException)
+            {
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound(){Message = "No media item found with id: " + media.Id});
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(new FaultReason(e.Message));
+            }
+                
         }
     }
 }

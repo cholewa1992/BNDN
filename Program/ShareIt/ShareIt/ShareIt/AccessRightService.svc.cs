@@ -10,6 +10,7 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
@@ -195,10 +196,10 @@ namespace ShareIt
         /// <param name="user">The User performing the request</param>
         /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
         /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
-        /// Value is Null if it is a permanent purchase).</param>
+        ///     Value is Null if it is a permanent purchase).</param>
         /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
-        public bool Purchase(UserDTO user, int mediaItemId, DateTime expiration, string clientToken)
+        public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             try
             {
@@ -352,6 +353,42 @@ namespace ShareIt
             {
                 throw new FaultException(new FaultReason(e.Message));
             }
+        }
+
+        public bool CanDownload(UserDTO user, int mediaItemId, string clientToken)
+        {
+            bool result;
+            using(var logic = _factory.CreateAccessRightLogic())
+            {
+                try
+                {
+                    result = logic.CanDownload(user, mediaItemId, clientToken);
+                }
+                catch (ArgumentException e)
+                {
+                    var msg = e.Message;
+                    var fault = new ArgumentFault() {Message = msg};
+                    throw new FaultException<ArgumentFault>(fault, new FaultReason(msg));
+                }
+                catch (InvalidClientException)
+                {
+                    var msg = "Client token not valid.";
+                    var fault = new UnauthorizedClient() {Message = msg};
+                    throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
+                }
+                catch (InvalidUserException)
+                {
+                    var msg = "Invalid user credentials.";
+                    var fault = new UnauthorizedUser() {Message = msg};
+                    throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+                }
+                catch (Exception e)
+                {
+                    var msg = e.Message;
+                    throw new FaultException(new FaultReason(msg));
+                }
+            }
+            return result;
         }
     }
 }

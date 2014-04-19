@@ -145,8 +145,16 @@ namespace BusinessLogicLayer
         }
 
 
+        /// <summary>
+        /// Checks whether a user is admin on a client
+        /// </summary>
+        /// <param name="user">User with username to check</param>
+        /// <param name="clientToken">client to check</param>
+        /// <returns>a bool</returns>
         public bool IsUserAdminOnClient(UserDTO user, string clientToken)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
+
             return
                 _storage.Get<ClientAdmin>()
                     .Any(ca => ca.Client.Token == clientToken && ca.UserAcc.Username == user.Username);

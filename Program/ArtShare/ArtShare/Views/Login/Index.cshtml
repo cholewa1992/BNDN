@@ -1,17 +1,19 @@
-﻿@{
-    Layout = null;
+﻿@model ArtShare.Models.LoginModel
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<!DOCTYPE html>
+<h2>Login</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+<form class="pure-form pure-form-stacked" action="~/Login/Login" method="post">
+    <fieldset>
+        <legend>To enjoy full access, please create an account.</legend>
+
+        <input type="text" name="username" placeholder="Username" required="true" maxlength="20"/>
+        <input type="password" name="password" placeholder="Password" required="true" maxlength="50" />
+
+        <button type="submit" class="pure-button button-success">Login</button>
+        <small>@Html.ActionLink("Need an account?", "Register", "Account")</small>
+    </fieldset>
+</form>

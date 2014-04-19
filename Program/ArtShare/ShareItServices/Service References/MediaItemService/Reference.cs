@@ -15,115 +15,6 @@ namespace ShareItServices.MediaItemService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MediaItemDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
-    [System.SerializableAttribute()]
-    public partial class MediaItemDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string FileExtensionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ShareItServices.MediaItemService.MediaItemInformationDTO[] InformationField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ShareItServices.MediaItemService.UserDTO OwnerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ShareItServices.MediaItemService.MediaItemTypeDTO TypeField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string FileExtension {
-            get {
-                return this.FileExtensionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FileExtensionField, value) != true)) {
-                    this.FileExtensionField = value;
-                    this.RaisePropertyChanged("FileExtension");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ShareItServices.MediaItemService.MediaItemInformationDTO[] Information {
-            get {
-                return this.InformationField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.InformationField, value) != true)) {
-                    this.InformationField = value;
-                    this.RaisePropertyChanged("Information");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ShareItServices.MediaItemService.UserDTO Owner {
-            get {
-                return this.OwnerField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OwnerField, value) != true)) {
-                    this.OwnerField = value;
-                    this.RaisePropertyChanged("Owner");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ShareItServices.MediaItemService.MediaItemTypeDTO Type {
-            get {
-                return this.TypeField;
-            }
-            set {
-                if ((this.TypeField.Equals(value) != true)) {
-                    this.TypeField = value;
-                    this.RaisePropertyChanged("Type");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="UserDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
     [System.SerializableAttribute()]
     public partial class UserDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -201,6 +92,257 @@ namespace ShareItServices.MediaItemService {
                 if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
                     this.UsernameField = value;
                     this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserInformationDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
+    [System.SerializableAttribute()]
+    public partial class UserInformationDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ShareItServices.MediaItemService.UserInformationTypeDTO TypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Data {
+            get {
+                return this.DataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DataField, value) != true)) {
+                    this.DataField = value;
+                    this.RaisePropertyChanged("Data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ShareItServices.MediaItemService.UserInformationTypeDTO Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((this.TypeField.Equals(value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserInformationTypeDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
+    public enum UserInformationTypeDTO : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Email = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Firstname = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Lastname = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Location = 4,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MediaItemDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
+    [System.SerializableAttribute()]
+    public partial class MediaItemDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double AverageRatingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> ExpirationDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FileExtensionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ShareItServices.MediaItemService.MediaItemInformationDTO[] InformationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberOfRatingsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ShareItServices.MediaItemService.UserDTO OwnerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ShareItServices.MediaItemService.MediaItemTypeDTO TypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double AverageRating {
+            get {
+                return this.AverageRatingField;
+            }
+            set {
+                if ((this.AverageRatingField.Equals(value) != true)) {
+                    this.AverageRatingField = value;
+                    this.RaisePropertyChanged("AverageRating");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> ExpirationDate {
+            get {
+                return this.ExpirationDateField;
+            }
+            set {
+                if ((this.ExpirationDateField.Equals(value) != true)) {
+                    this.ExpirationDateField = value;
+                    this.RaisePropertyChanged("ExpirationDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FileExtension {
+            get {
+                return this.FileExtensionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FileExtensionField, value) != true)) {
+                    this.FileExtensionField = value;
+                    this.RaisePropertyChanged("FileExtension");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ShareItServices.MediaItemService.MediaItemInformationDTO[] Information {
+            get {
+                return this.InformationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InformationField, value) != true)) {
+                    this.InformationField = value;
+                    this.RaisePropertyChanged("Information");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int NumberOfRatings {
+            get {
+                return this.NumberOfRatingsField;
+            }
+            set {
+                if ((this.NumberOfRatingsField.Equals(value) != true)) {
+                    this.NumberOfRatingsField = value;
+                    this.RaisePropertyChanged("NumberOfRatings");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ShareItServices.MediaItemService.UserDTO Owner {
+            get {
+                return this.OwnerField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OwnerField, value) != true)) {
+                    this.OwnerField = value;
+                    this.RaisePropertyChanged("Owner");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ShareItServices.MediaItemService.MediaItemTypeDTO Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((this.TypeField.Equals(value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
                 }
             }
         }
@@ -356,32 +498,20 @@ namespace ShareItServices.MediaItemService {
         Language = 15,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        ExpirationDate = 16,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        AverageRating = 17,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
         Thumbnail = 18,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserInformationDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
     [System.SerializableAttribute()]
-    public partial class UserInformationDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ShareItServices.MediaItemService.UserInformationTypeDTO TypeField;
+        private string MessageField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -394,40 +524,14 @@ namespace ShareItServices.MediaItemService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Data {
+        public string Message {
             get {
-                return this.DataField;
+                return this.MessageField;
             }
             set {
-                if ((object.ReferenceEquals(this.DataField, value) != true)) {
-                    this.DataField = value;
-                    this.RaisePropertyChanged("Data");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ShareItServices.MediaItemService.UserInformationTypeDTO Type {
-            get {
-                return this.TypeField;
-            }
-            set {
-                if ((this.TypeField.Equals(value) != true)) {
-                    this.TypeField = value;
-                    this.RaisePropertyChanged("Type");
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
                 }
             }
         }
@@ -442,28 +546,56 @@ namespace ShareItServices.MediaItemService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserInformationTypeDTO", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO")]
-    public enum UserInformationTypeDTO : int {
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.SerializableAttribute()]
+    public partial class UnauthorizedClient : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Firstname = 1,
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Lastname = 2,
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
         
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Email = 3,
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
         
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Location = 4,
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
     [System.SerializableAttribute()]
-    public partial class ArgumentFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class MediaItemNotFound : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -565,6 +697,96 @@ namespace ShareItServices.MediaItemService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AccessRightNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.SerializableAttribute()]
+    public partial class AccessRightNotFound : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+    [System.SerializableAttribute()]
+    public partial class UnauthorizedUser : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MediaItemService.IMediaItemService")]
     public interface IMediaItemService {
@@ -572,22 +794,30 @@ namespace ShareItServices.MediaItemService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItemInformation", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemInformationResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
-        ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, System.Nullable<int> userId, string clientToken);
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationUnauthorizedClientFau" +
+            "lt", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationMediaItemNotFoundFaul" +
+            "t", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItemInformation", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemInformationResponse")]
-        System.Threading.Tasks.Task<ShareItServices.MediaItemService.MediaItemDTO> GetMediaItemInformationAsync(int mediaItemId, System.Nullable<int> userId, string clientToken);
+        System.Threading.Tasks.Task<ShareItServices.MediaItemService.MediaItemDTO> GetMediaItemInformationAsync(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItems", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/GetMediaItemsArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/GetMediaItemsMediaItemNotFoundFault", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/GetMediaItemsFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/GetMediaItemsUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/GetMediaItemsArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItems", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemsResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO>> GetMediaItemsAsync(int from, int to, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItemsByType", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeMediaItemNotFoundFault", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
         System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO> GetMediaItemsByType(int from, int to, ShareItServices.MediaItemService.MediaItemTypeDTO mediaType, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/GetMediaItemsByType", ReplyAction="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeResponse")]
@@ -596,25 +826,51 @@ namespace ShareItServices.MediaItemService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/SearchMediaItems", ReplyAction="http://tempuri.org/IMediaItemService/SearchMediaItemsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsMediaItemNotFoundFault", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO> SearchMediaItems(int from, int to, string searchKey, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/SearchMediaItems", ReplyAction="http://tempuri.org/IMediaItemService/SearchMediaItemsResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO>> SearchMediaItemsAsync(int from, int to, string searchKey, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByType", ReplyAction="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeUnauthorizedClientFaul" +
+            "t", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeMediaItemNotFoundFault" +
+            "", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO> SearchMediaItemsByType(int from, int to, System.Nullable<ShareItServices.MediaItemService.MediaItemTypeDTO> mediaType, string searchKey, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByType", ReplyAction="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO>> SearchMediaItemsByTypeAsync(int from, int to, System.Nullable<ShareItServices.MediaItemService.MediaItemTypeDTO> mediaType, string searchKey, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/RateMediaItem", ReplyAction="http://tempuri.org/IMediaItemService/RateMediaItemResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/RateMediaItemUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/RateMediaItemArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
         [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/RateMediaItemFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
-        void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken);
+        void RateMediaItem(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, int rating, string clientToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/RateMediaItem", ReplyAction="http://tempuri.org/IMediaItemService/RateMediaItemResponse")]
-        System.Threading.Tasks.Task RateMediaItemAsync(int userId, int mediaItemId, int rating, string clientToken);
+        System.Threading.Tasks.Task RateMediaItemAsync(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, int rating, string clientToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/DeleteMediaItem", ReplyAction="http://tempuri.org/IMediaItemService/DeleteMediaItemResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.ArgumentFault), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemArgumentFaultFault", Name="ArgumentFault", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(System.ServiceModel.FaultException), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemFaultExceptionFault", Name="FaultException", Namespace="http://schemas.datacontract.org/2004/07/System.ServiceModel")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.AccessRightNotFound), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemAccessRightNotFoundFault", Name="AccessRightNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedClient), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemUnauthorizedClientFault", Name="UnauthorizedClient", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.UnauthorizedUser), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemUnauthorizedUserFault", Name="UnauthorizedUser", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ShareItServices.MediaItemService.MediaItemNotFound), Action="http://tempuri.org/IMediaItemService/DeleteMediaItemMediaItemNotFoundFault", Name="MediaItemNotFound", Namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts")]
+        void DeleteMediaItem(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, string clientToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/DeleteMediaItem", ReplyAction="http://tempuri.org/IMediaItemService/DeleteMediaItemResponse")]
+        System.Threading.Tasks.Task DeleteMediaItemAsync(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, string clientToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/UpdateMediaItemInformation", ReplyAction="http://tempuri.org/IMediaItemService/UpdateMediaItemInformationResponse")]
+        bool UpdateMediaItemInformation(ShareItServices.MediaItemService.UserDTO user, ShareItServices.MediaItemService.MediaItemDTO media, string clientToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMediaItemService/UpdateMediaItemInformation", ReplyAction="http://tempuri.org/IMediaItemService/UpdateMediaItemInformationResponse")]
+        System.Threading.Tasks.Task<bool> UpdateMediaItemInformationAsync(ShareItServices.MediaItemService.UserDTO user, ShareItServices.MediaItemService.MediaItemDTO media, string clientToken);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -644,12 +900,12 @@ namespace ShareItServices.MediaItemService {
                 base(binding, remoteAddress) {
         }
         
-        public ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, System.Nullable<int> userId, string clientToken) {
-            return base.Channel.GetMediaItemInformation(mediaItemId, userId, clientToken);
+        public ShareItServices.MediaItemService.MediaItemDTO GetMediaItemInformation(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken) {
+            return base.Channel.GetMediaItemInformation(mediaItemId, user, clientToken);
         }
         
-        public System.Threading.Tasks.Task<ShareItServices.MediaItemService.MediaItemDTO> GetMediaItemInformationAsync(int mediaItemId, System.Nullable<int> userId, string clientToken) {
-            return base.Channel.GetMediaItemInformationAsync(mediaItemId, userId, clientToken);
+        public System.Threading.Tasks.Task<ShareItServices.MediaItemService.MediaItemDTO> GetMediaItemInformationAsync(int mediaItemId, ShareItServices.MediaItemService.UserDTO user, string clientToken) {
+            return base.Channel.GetMediaItemInformationAsync(mediaItemId, user, clientToken);
         }
         
         public System.Collections.Generic.Dictionary<ShareItServices.MediaItemService.MediaItemTypeDTO, ShareItServices.MediaItemService.MediaItemSearchResultDTO> GetMediaItems(int from, int to, string clientToken) {
@@ -684,12 +940,28 @@ namespace ShareItServices.MediaItemService {
             return base.Channel.SearchMediaItemsByTypeAsync(from, to, mediaType, searchKey, clientToken);
         }
         
-        public void RateMediaItem(int userId, int mediaItemId, int rating, string clientToken) {
-            base.Channel.RateMediaItem(userId, mediaItemId, rating, clientToken);
+        public void RateMediaItem(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, int rating, string clientToken) {
+            base.Channel.RateMediaItem(user, mediaItemId, rating, clientToken);
         }
         
-        public System.Threading.Tasks.Task RateMediaItemAsync(int userId, int mediaItemId, int rating, string clientToken) {
-            return base.Channel.RateMediaItemAsync(userId, mediaItemId, rating, clientToken);
+        public System.Threading.Tasks.Task RateMediaItemAsync(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, int rating, string clientToken) {
+            return base.Channel.RateMediaItemAsync(user, mediaItemId, rating, clientToken);
+        }
+        
+        public void DeleteMediaItem(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, string clientToken) {
+            base.Channel.DeleteMediaItem(user, mediaItemId, clientToken);
+        }
+        
+        public System.Threading.Tasks.Task DeleteMediaItemAsync(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, string clientToken) {
+            return base.Channel.DeleteMediaItemAsync(user, mediaItemId, clientToken);
+        }
+        
+        public bool UpdateMediaItemInformation(ShareItServices.MediaItemService.UserDTO user, ShareItServices.MediaItemService.MediaItemDTO media, string clientToken) {
+            return base.Channel.UpdateMediaItemInformation(user, media, clientToken);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UpdateMediaItemInformationAsync(ShareItServices.MediaItemService.UserDTO user, ShareItServices.MediaItemService.MediaItemDTO media, string clientToken) {
+            return base.Channel.UpdateMediaItemInformationAsync(user, media, clientToken);
         }
     }
 }

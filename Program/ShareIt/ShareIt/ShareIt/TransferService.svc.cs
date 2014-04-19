@@ -8,6 +8,7 @@ using System.ServiceModel;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using ShareIt.MessageContracts;
 
@@ -45,20 +46,60 @@ namespace ShareIt
         {
             string fileExtension;
             Stream stream;
-
+            int mediaId = request.MediaId;
 
             try
             {
                 using (var logic = _factory.CreateDataTransferLogic())
                 {
-                    stream = logic.GetMediaStream(request.ClientToken, request.User, request.MediaId, out fileExtension);
+                    stream = logic.GetMediaStream(request.ClientToken, request.User, mediaId, out fileExtension);
                 }
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
+            }
+            catch (UnauthorizedUserException)
+            {
+                var message = "User not allowed to download media with id: " + mediaId;
+                var unauthorizedUser = new UnauthorizedUser
+                {
+                    Message = message
+                };
+                throw new FaultException<UnauthorizedUser>(unauthorizedUser, new FaultReason(message));
+            }
+            catch (MediaItemNotFoundException)
+            {
+                var message = "No media found with id: " + mediaId;
+                var mediaItemNotFound = new MediaItemNotFound
+                {
+                    Message = message
+                };
+                throw new FaultException<MediaItemNotFound>(mediaItemNotFound, new FaultReason(message));
+            }
+            catch (InvalidClientException)
+            {
+                var msg = "Client token not accepted.";
+                var unauthorizedClient = new UnauthorizedClient
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedClient>(unauthorizedClient, new FaultReason(msg));
+            }
+            catch (InvalidUserException)
+            {
+                var msg = "User credentials not accepted.";
+                var unauthorizedUser = new UnauthorizedUser
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedUser>(unauthorizedUser, new FaultReason(msg));
+            }
+            catch (FaultException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -95,7 +136,25 @@ namespace ShareIt
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
+            }
+            catch (InvalidClientException)
+            {
+                var msg = "Client token not accepted.";
+                var unauthorizedClient = new UnauthorizedClient
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedClient>(unauthorizedClient, new FaultReason(msg));
+            }
+            catch (InvalidUserException)
+            {
+                var msg = "User credentials not accepted.";
+                var unauthorizedUser = new UnauthorizedUser
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedUser>(unauthorizedUser, new FaultReason(msg));
             }
             catch (Exception e)
             {
@@ -127,17 +186,38 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<ArgumentFault>(fault);
             }
-            catch (InvalidOperationException e)
+            catch (MediaItemNotFoundException)
             {
+                var msg = "No media with id: " + request.MediaId + " found.\n" +
+                          "There must be a media which the thumbnail should be associated with.";
                 var fault = new MediaItemNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<MediaItemNotFound>(fault);
+                fault.Message = msg;
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(msg));
             }
-            catch (InvalidCredentialException e)
+            catch (InvalidClientException)
             {
+                var msg = "Client token not accepted.";
+                var unauthorizedClient = new UnauthorizedClient
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedClient>(unauthorizedClient, new FaultReason(msg));
+            }
+            catch (InvalidUserException)
+            {
+                var msg = "User credentials not accepted.";
+                var unauthorizedUser = new UnauthorizedUser
+                {
+                    Message = msg
+                };
+                throw new FaultException<UnauthorizedUser>(unauthorizedUser, new FaultReason(msg));
+            }
+            catch (UnauthorizedUserException)
+            {
+                var msg = "User must be owner of the media which he attempts to associate a thumbnail with, or user must be admin.";
                 var fault = new UnauthorizedUser();
-                fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
             }
             catch (Exception e)
             {

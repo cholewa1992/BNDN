@@ -9,16 +9,16 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public interface IMediaItemLogic
+    public interface IMediaItemLogic : IDisposable
     {
         /// <summary>
         /// Returns a media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId">The id of the user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
+        /// <param name="user">The user requesting the media item. Null is allowed and can be used if the user is not logged in</param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken);
+        MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken);
 
         /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
@@ -61,5 +61,13 @@ namespace BusinessLogicLayer
         /// <exception cref="InvalidCredentialException">Thrown when the clientToken is not accepted</exception>
         /// <exception cref="AccessViolationException">Thrown when the requesting user is not allowed to delete the media item</exception>
         void DeleteMediaItem(UserDTO user, int mediaItemId, string clientToken);
+        /// <summary>
+        /// Update the information about at media.
+        /// Only admins and ownsers are allowed to update information of a media item.
+        /// </summary>
+        /// <param name="user">The user who wishes to update the media information.</param>
+        /// <param name="media">The media which is to be updated.</param>
+        /// <param name="clientToken">A token used to verify the client.</param>
+        void UpdateMediaItem(UserDTO user, MediaItemDTO media, string clientToken);
     }
 }

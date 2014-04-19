@@ -30,7 +30,7 @@ namespace ArtShare.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Register");
         }
 
         //
@@ -59,7 +59,7 @@ namespace ArtShare.Controllers
             {
                 accountLogic.RegisterAccount(model);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             catch(Exception e)
             {
@@ -71,46 +71,6 @@ namespace ArtShare.Controllers
 
         
 
-        //
-        // POST: /Account/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            
-            try
-            {
-
-                //TODO implement
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-       
-
-        //
-        // POST: /Account/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-
-            try
-            {
-                accountLogic.DeleteAccount(id);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
 
     }

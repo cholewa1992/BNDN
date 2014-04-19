@@ -7,6 +7,7 @@ using System.Management.Instrumentation;
 using System.Security.Authentication;
 using System.ServiceModel;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
@@ -29,10 +30,10 @@ namespace BusinessLogicLayer
         /// Returns a media item with a collection of media item information
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
-        /// <param name="userId"></param>
+        /// <param name="user">The </param>
         /// <param name="clientToken">Token used to verify the client</param>
         /// <returns>A MediaItem with all its information</returns>
-        public MediaItemDTO GetMediaItemInformation(int mediaItemId, int? userId, string clientToken)
+        public MediaItemDTO GetMediaItemInformation(int mediaItemId, UserDTO user, string clientToken)
         {
             //Preconditions
             Contract.Requires<ArgumentException>(mediaItemId > 0);
@@ -51,14 +52,18 @@ namespace BusinessLogicLayer
             }
             catch (Exception e)
             {
-                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound{
-                    Message = "No media item with id " + mediaItemId + " exists in the database"});
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
+                {
+                    Message = "No media item with id " + mediaItemId + " exists in the database"
+                });
             }
 
-            var mediaItem = new MediaItemDTO { Id = entity.Id, 
-                                               Information = new List<MediaItemInformationDTO>(),
-                                               Type = (MediaItemTypeDTO) entity.TypeId,
-                                               FileExtension = Path.GetExtension(entity.FilePath)
+            var mediaItem = new MediaItemDTO
+            {
+                Id = entity.Id,
+                Information = new List<MediaItemInformationDTO>(),
+                Type = (MediaItemTypeDTO)entity.TypeId,
+                FileExtension = Path.GetExtension(entity.FilePath)
             };
             var informationList = new List<MediaItemInformationDTO>();
 
@@ -74,15 +79,20 @@ namespace BusinessLogicLayer
                 });
             }
 
-            if (userId != null)
+            if (user != null)
             {
+                int userId = _authLogic.CheckUserExists(user);
+                if (userId == -1)
+                {
+                    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                    {
+                        Message = "User credentials not accepted."
+                    });
+                }
                 try
                 {
-                    DateTime? date = _authLogic.GetBuyerExpirationDate((int)userId, mediaItem.Id);
-                    var mediaItemInformation = new MediaItemInformationDTO();
-                    mediaItemInformation.Type = InformationTypeDTO.ExpirationDate;
-                    mediaItemInformation.Data = date == null ? null : date.ToString();
-                    informationList.Add(mediaItemInformation);
+                    DateTime? date = _authLogic.GetBuyerExpirationDate(userId, mediaItem.Id);
+                    mediaItem.ExpirationDate = date;
                 }
                 catch (InstanceNotFoundException e)
                 {
@@ -92,17 +102,12 @@ namespace BusinessLogicLayer
 
             try
             {
-                var avgRating = GetAverageRating(mediaItemId);
-                informationList.Add(new MediaItemInformationDTO
-                {
-                    Type = InformationTypeDTO.AverageRating,
-                    Data = avgRating.ToString("#0.00")
-                });
+                int numberOfRatings;
+                var avgRating = GetAverageRating(mediaItemId, out numberOfRatings);
+                mediaItem.NumberOfRatings = numberOfRatings;
+                mediaItem.AverageRating = avgRating;
             }
-            catch (InstanceNotFoundException e)
-            {
-                //Do nothing - no avg rating found
-            }
+            catch (InstanceNotFoundException e) { /*Do nothing - no avg rating found*/ }
 
             // Add all the UserInformation to targetUser and return it
             mediaItem.Information = informationList;
@@ -293,7 +298,7 @@ namespace BusinessLogicLayer
         /// <summary>
         /// Associates a user with a media item and includes a value from 1-10 representing the rating.
         /// </summary>
-        /// <param name="userId">The id of the user</param>
+        /// <param name="user">The user who wishes to rate a media item</param>
         /// <param name="mediaItemId">The id of the media item</param>
         /// <param name="rating">The rating from 1-10</param>
         /// <param name="clientToken">A token used to verify the client</param>
@@ -353,19 +358,22 @@ namespace BusinessLogicLayer
         /// Gets the average rating of a media item
         /// </summary>
         /// <param name="mediaItemId">The id of the media item</param>
+        /// <param name="numberOfRatings">The number of ratings will be returned here</param>
         /// <returns>A double representing the average rating</returns>
-        /// <exception cref="InstanceNotFoundException">Thrown when the media item has not been rated</exception>
-        internal double GetAverageRating(int mediaItemId)
+        /// <exception cref="ArgumentException">Thrown when the mediaItemId is less than 1</exception>
+        internal double GetAverageRating(int mediaItemId, out int numberOfRatings)
         {
             Contract.Requires<ArgumentException>(mediaItemId > 0);
-            Contract.Requires<ArgumentException>(mediaItemId < int.MaxValue);
 
             if (_storage.Get<Rating>().Any(a => a.EntityId == mediaItemId))
             {
-                return _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId).Average(a => a.Value);
+                var ratings = _storage.Get<Rating>().Where(a => a.EntityId == mediaItemId);
+                numberOfRatings = ratings.Count();
+                return ratings.Average(a => a.Value);
             }
-            
-            throw new InstanceNotFoundException("Media item with id " + mediaItemId + "has not been rated");
+
+            numberOfRatings = 0;
+            return 0.0;
         }
 
         /// <summary>
@@ -428,13 +436,63 @@ namespace BusinessLogicLayer
                     FileStorage.DeleteThumbnail(mediaItemId, Path.GetExtension(thumbnailPath));
                 }
                 //else Do nothing. The file has no thumbnail OR the thumbnail does not exist on the path
-                
+                _storage.Delete(mediaItem.EntityInfo);
+                _storage.Delete(mediaItem.AccessRight);
+                _storage.Delete(mediaItem.Rating);
                 _storage.Delete<Entity>(mediaItemId);
             }
             else
             {
                 throw new UnauthorizedAccessException("The user is not allowed to delete this media item");
             }
+        }
+        /// <summary>
+        /// Update an Entity in the database given so it holds the information given by a MediaItemDTO.
+        /// </summary>
+        /// <param name="user">The user who requested the update.</param>
+        /// <param name="media">The MediaItemDTO holding the new information.</param>
+        /// <param name="clientToken">A token to verify the client.</param>
+        /// <exception cref="InvalidClientException">If the clientToken isn't valid.</exception>
+        /// <exception cref="InvalidUserException">If the username and password of the user don't match.</exception>
+        /// <exception cref="UnauthorizedAccessException">If the user isn't allowed to perform the update.</exception>
+        /// <exception cref="MediaItemNotFoundException">If no entity was found with the given id.</exception>
+        public void UpdateMediaItem(UserDTO user, MediaItemDTO media, string clientToken)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(media != null);
+            Contract.Requires<ArgumentNullException>(clientToken != null);
+            Contract.Requires<ArgumentException>(media.Id > 0);
+            //Validate clientToken
+            if (_authLogic.CheckClientToken(clientToken) == -1)
+            {
+                throw new InvalidClientException();
+            }
+            //Validate User credentials.
+            user.Id = _authLogic.CheckUserExists(user);
+            if (user.Id == -1)
+                throw new InvalidUserException();
+            //Validate that user is allowed to update.
+            if(_authLogic.CheckUserAccess(user.Id, media.Id) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
+                throw new UnauthorizedAccessException();
+            //See if there is an item in the db with matching id.
+            var entity = _storage.Get<Entity>().FirstOrDefault(x => x.Id == media.Id);
+
+            //only update if there is something to update.
+            if (entity == null) throw new MediaItemNotFoundException();
+            //Map any MediaItemInformationDTO in the Information collection to an EntityInfo, ignoring any null entries.
+            List<EntityInfo> information = media.Information == null
+                ? new List<EntityInfo>()
+                : media.Information.Aggregate(new List<EntityInfo>(), (list, x) =>
+                {
+                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type, Id = x.Id});
+                    return list;
+                });
+            //Delete old infos.
+            _storage.Delete<EntityInfo>(entity.EntityInfo);
+            //Set type and information to be the new values and update db.
+            entity.TypeId = (int)media.Type;
+            entity.EntityInfo = information;
+            _storage.Update(entity);
         }
 
         public void Dispose()

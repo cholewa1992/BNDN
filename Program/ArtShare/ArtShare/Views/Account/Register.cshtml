@@ -12,15 +12,17 @@
 
         @Html.TextBoxFor(m => m.Username, new { placeholder="Username", required="true", maxlength="20" })
         @Html.PasswordFor(m => m.Password, new { placeholder="Password", required="true", maxlength="50" })
+        @Html.PasswordFor(m => m.RetypePassword, new { placeholder = "Retype password", required = "true", maxlength = "50" })
         
         <div style="margin-top: 30px; clear: both"></div> <!-- Spacer -->
         
+
         <!--<input type="text" placeholder="Firstname"/>
         <input type="text" placeholder="Lastname"/>
         <input type="email" placeholder="Email"/>
         <input type="text" placeholder="Location"/>-->
 
         <button type="submit" class="pure-button button-success">Create Account</button>
-        <small></small>
+        <small>@Html.ActionLink("Already a user", "Index", "Login")</small>
     </fieldset>
 </form>

@@ -7,6 +7,7 @@ using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
@@ -197,8 +198,6 @@ namespace BusinessLogicLayer
         /// <param name="admin">The admin requesting the list</param>
         /// <param name="clientToken">The client from which the request originated.</param>
         /// <returns>A list of all users including their id and username, but not their password.</returns>
-        /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken is not valid.</exception>
-        /// <exception cref="FaultException{UnauthorizedUser}">If "admin" isn't an admin on the specified client.</exception>
         public IList<UserDTO> GetAllUsers(UserDTO admin, string clientToken)
         {
             Contract.Requires<ArgumentNullException>(admin != null);
@@ -209,24 +208,15 @@ namespace BusinessLogicLayer
 
             if (_authLogic.CheckClientToken(clientToken) < 1)
             {
-                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
-                {
-                    Message = "Client token not valid."
-                });
+                throw new InvalidClientException();
             }
             if (_authLogic.CheckUserExists(admin) == -1)
             {
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
-                {
-                    Message = "User credentials not valid."
-                });
+                throw new InvalidUserException();
             }
             if (!_authLogic.IsUserAdminOnClient(admin, clientToken))
             {
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
-                {
-                    Message = "Only admins can get a list of all users."
-                });
+                throw new UnauthorizedUserException();
             }
 
             return _storage.Get<UserAcc>().Select(x => new UserDTO()
@@ -240,7 +230,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="requestingUser">The user who wishes to delete a user. Should be an admin or the same user as is being deleted.</param>
         /// <param name="userToBeDeletedId">The id of the user which is to be deleted.</param>
-        /// <param name="clientToken">The client from which the request originatd.</param>
+        /// <param name="clientToken">The client from which the request originated.</param>
         /// <returns>True if the user was deleted, otherwise false.</returns>
         /// <exception cref="FaultException{UnauthorizedClient}">If the clientToken is not valid.</exception>
         /// <exception cref="FaultException{UnauthorizedUser}">If the requesting user isn't admin and trying to delete a user other than himself.</exception>

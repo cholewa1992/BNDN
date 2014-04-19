@@ -9,6 +9,7 @@ using System.Security.Policy;
 using System.ServiceModel;
 using BusinessLogicLayer.DataMappers;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 
@@ -50,17 +51,11 @@ namespace BusinessLogicLayer
             user.Id = ValidateUser(user);
             //Check that that user can download
             if(_authLogic.CheckUserAccess(user.Id, mediaId) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
-                {
-                    Message = "User not allowed to download media with id: " + mediaId
-                });
+                throw new UnauthorizedUserException();
 
             var entity = _dbStorage.Get<Entity>().SingleOrDefault(e => e.Id == mediaId);
             if (entity == null)
-                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
-                {
-                    Message = "No media found with id: " + mediaId
-                });
+                throw new MediaItemNotFoundException();
 
             string filePath = entity.FilePath;
             fileExtension = Path.GetExtension(filePath);
@@ -83,21 +78,15 @@ namespace BusinessLogicLayer
             if (media == null) throw new ArgumentNullException("media");
             if (stream == null) throw new ArgumentNullException("stream");
             if(!stream.CanRead) throw new ArgumentException("Must be able to read stream.", "stream");
-            if(string.IsNullOrWhiteSpace(owner.Password) || string.IsNullOrWhiteSpace(owner.Username))
-                throw new ArgumentException("Must have both password and username values.", "owner");
             if(media.FileExtension == null)
                 throw new ArgumentException("Must have file extension value.", "media");
             var clientId = ValidateClientToken(clientToken);
             owner.Id = ValidateUser(owner);
-            //if(!_authLogic.UserCanUpload(owner, clientToken))
-            //    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
-            //        {
-            //            Message = "User not allowed to upload to client."
-            //        }
-            //        );
+
             //Create new entity.
             var entity = MediaItemMapper.MapToEntity(media);
             entity.ClientId = clientId;
+            entity.FilePath = ""; //Set filepath to empty string because of db constraint.
             entity.AccessRight.Add(new AccessRight
             {
                 AccessRightTypeId = (int)AccessRightType.Owner,
@@ -145,11 +134,11 @@ namespace BusinessLogicLayer
             int userId = ValidateUser(owner);
             //Check media exists with given media id.
             if (_dbStorage.Get<Entity>().SingleOrDefault(x => x.Id == mediaId) == null)
-                throw new InvalidOperationException("No media with id: " + mediaId + " found.\n" +
-                                                    "There must be a media which the thumbnail should be associated with.");
+                throw new MediaItemNotFoundException();
+
             //Check user has owner access to media.
             if(_authLogic.CheckUserAccess(userId, mediaId) != AccessRightType.Owner && !_authLogic.IsUserAdminOnClient(userId, clientToken))
-                throw new InvalidCredentialException("User must be owner of the media which he attempts to associate a thumbnail with.");
+                throw new UnauthorizedUserException();
             
             //Save thumbnail and return result.
             string result;
@@ -202,10 +191,7 @@ namespace BusinessLogicLayer
         {
             var result = _authLogic.CheckClientToken(clientToken);
             if (result == -1)
-                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient
-                {
-                    Message = "Client token not accepted."
-                });
+                throw new InvalidClientException();
             return result;
         }
         /// <summary>
@@ -219,10 +205,7 @@ namespace BusinessLogicLayer
             var result = _authLogic.CheckUserExists(user);
 
             if (result == -1)
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
-                {
-                    Message = "User credentials not accepted."
-                });
+                throw new InvalidUserException();
 
             return result;
         }
