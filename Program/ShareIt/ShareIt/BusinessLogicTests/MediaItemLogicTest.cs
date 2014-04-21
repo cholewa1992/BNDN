@@ -953,7 +953,7 @@ namespace BusinessLogicTests
             {
                 entityToUpdate
             };
-            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); //Empty list in db = no matching MediaItem.
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
             dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
             dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
 
@@ -999,7 +999,7 @@ namespace BusinessLogicTests
             {
                 entityToUpdate
             };
-            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); //Empty list in db = no matching MediaItem.
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
             dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
             dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
 
@@ -1072,7 +1072,7 @@ namespace BusinessLogicTests
             {
                 entityToUpdate
             };
-            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); //Empty list in db = no matching MediaItem.
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
             dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
             dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
 

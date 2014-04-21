@@ -447,7 +447,7 @@ namespace BusinessLogicLayer
             }
         }
         /// <summary>
-        /// Update an Entity in the database given so it holds the information given by a MediaItemDTO.
+        /// Update an Entity in the database so it holds the information given by a MediaItemDTO.
         /// </summary>
         /// <param name="user">The user who requested the update.</param>
         /// <param name="media">The MediaItemDTO holding the new information.</param>
