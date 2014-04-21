@@ -10,7 +10,7 @@ using Client = BusinessLogicLayer.DTO.ClientDTO;
 
 namespace BusinessLogicLayer
 {
-    public class AuthLogic: IAuthInternalLogic
+    internal class AuthLogic: IAuthInternalLogic
     {
 
         private IStorageBridge _storage;
