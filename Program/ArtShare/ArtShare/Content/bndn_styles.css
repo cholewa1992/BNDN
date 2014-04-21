@@ -163,6 +163,14 @@ header nav ul li div{
     margin-left: 200px;
 }
 
+.featured_container{
+
+}
+
+.featured_container img{
+    padding: 8px;
+}
+
 /* Media */
 .media-box{
     margin-right: 15px;
