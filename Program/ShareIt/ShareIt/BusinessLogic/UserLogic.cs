@@ -13,7 +13,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public class UserLogic : IUserLogic
+    internal class UserLogic : IUserLogic
     {
 
         private readonly IAuthInternalLogic _authLogic;

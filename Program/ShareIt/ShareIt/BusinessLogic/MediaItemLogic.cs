@@ -13,7 +13,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    class MediaItemLogic : IMediaItemInternalLogic
+    internal class MediaItemLogic : IMediaItemInternalLogic
     {
         private readonly IStorageBridge _storage;
         public IFileStorage FileStorage { get; set; }
