@@ -52,7 +52,7 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(fault.Message));
             }
             catch (ArgumentException ae)
             {
