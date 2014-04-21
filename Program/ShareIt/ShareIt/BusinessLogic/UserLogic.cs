@@ -13,7 +13,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public class UserLogic : IUserLogic
+    internal class UserLogic : IUserLogic
     {
 
         private readonly IAuthInternalLogic _authLogic;
@@ -179,7 +179,7 @@ namespace BusinessLogicLayer
             ValidatePassword(userToUpdate);
             currentUserAcc.Password = userToUpdate.Password;
 
-            _storage.Delete<UserInfo>(currentUserAcc.UserInfo);
+            _storage.Delete(currentUserAcc.UserInfo);
 
             currentUserAcc.UserInfo = userToUpdate.Information.Select(x => new UserInfo
             {
@@ -243,26 +243,29 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Password));
             if (_authLogic.CheckClientToken(clientToken) < 1)
             {
+                var msg = "Client token not valid.";
                 throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
                 {
-                    Message = "Client token not valid."
-                });
+                    Message = msg
+                }, new FaultReason(msg));
             }
             var userId = _authLogic.CheckUserExists(requestingUser);
             if (userId == -1)
             {
+                var msg = "User credentials not valid.";
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
                 {
-                    Message = "User credentials not valid."
-                });
+                    Message = msg
+                }, new FaultReason(msg));
             }
             if (!_authLogic.IsUserAdminOnClient(userId, clientToken) && userId != userToBeDeletedId)
             {
+                var msg = "User not allowed to delete user with id: " + userToBeDeletedId + ",\n" +
+                              "because he is not admin and tying to delete another user than himself.";
                 throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
                 {
-                    Message = "User not allowed to delete user with id: " + userToBeDeletedId + ",\n" +
-                              "because he is not admin and tying to delete another user than himself."
-                });
+                    Message = msg
+                }, new FaultReason(msg));
             }
             _storage.Delete<UserAcc>(userToBeDeletedId);
             return true;

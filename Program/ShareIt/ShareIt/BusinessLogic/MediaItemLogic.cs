@@ -13,7 +13,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    class MediaItemLogic : IMediaItemInternalLogic
+    internal class MediaItemLogic : IMediaItemInternalLogic
     {
         private readonly IStorageBridge _storage;
         public IFileStorage FileStorage { get; set; }
@@ -447,7 +447,7 @@ namespace BusinessLogicLayer
             }
         }
         /// <summary>
-        /// Update an Entity in the database given so it holds the information given by a MediaItemDTO.
+        /// Update an Entity in the database so it holds the information given by a MediaItemDTO.
         /// </summary>
         /// <param name="user">The user who requested the update.</param>
         /// <param name="media">The MediaItemDTO holding the new information.</param>
@@ -472,7 +472,7 @@ namespace BusinessLogicLayer
             if (user.Id == -1)
                 throw new InvalidUserException();
             //Validate that user is allowed to update.
-            if(_authLogic.CheckUserAccess(user.Id, media.Id) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
+            if(_authLogic.CheckUserAccess(user.Id, media.Id) != AccessRightType.Owner && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
                 throw new UnauthorizedAccessException();
             //See if there is an item in the db with matching id.
             var entity = _storage.Get<Entity>().FirstOrDefault(x => x.Id == media.Id);
@@ -484,11 +484,11 @@ namespace BusinessLogicLayer
                 ? new List<EntityInfo>()
                 : media.Information.Aggregate(new List<EntityInfo>(), (list, x) =>
                 {
-                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type, Id = x.Id});
+                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type});
                     return list;
                 });
             //Delete old infos.
-            _storage.Delete<EntityInfo>(entity.EntityInfo);
+            _storage.Delete(entity.EntityInfo);
             //Set type and information to be the new values and update db.
             entity.TypeId = (int)media.Type;
             entity.EntityInfo = information;

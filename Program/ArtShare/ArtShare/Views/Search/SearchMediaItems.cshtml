@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ArtShare.Models.SearchModel>
+
+@{
+    ViewBag.Title = "SearchMediaItems";
+}
+
+<h2>SearchMediaItems</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfMatchingBooks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfMatchingMusic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfMatchingMovies)
+        </th>
+        <th></th>
+    </tr>
+    @Html.DropDownListFor(model => model.Books)
+    @using ShareItServices.MediaItemService.MediaItemDTO
+
+
+
+
+</table>

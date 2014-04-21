@@ -76,6 +76,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\AccessRightService\AccessRightService.wsdl" />
+    <None Include="Service References\AccessRightService\ShareItServices.AccessRightService.AccessRightDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\AuthService\AuthService.wsdl" />
     <None Include="Service References\MediaItemService\MediaItemService.wsdl" />
     <None Include="Service References\MediaItemService\ShareItServices.MediaItemService.MediaItemDTO.datasource">

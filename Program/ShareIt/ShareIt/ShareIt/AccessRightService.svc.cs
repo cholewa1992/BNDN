@@ -63,25 +63,25 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<MediaItemNotFound>(fault);
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -113,25 +113,25 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new AccessRightNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<AccessRightNotFound>(fault);
+                throw new FaultException<AccessRightNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -163,25 +163,25 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new AccessRightNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<AccessRightNotFound>(fault);
+                throw new FaultException<AccessRightNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -215,25 +215,25 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<MediaItemNotFound>(fault);
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -266,31 +266,31 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentNullException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (InvalidOperationException e)
             {
                 var fault = new ObjectNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault);
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -323,31 +323,31 @@ namespace ShareIt
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedClient>(fault);
+                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
             catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
-                throw new FaultException<UnauthorizedUser>(fault);
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentNullException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault);
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (InvalidOperationException e)
             {
                 var fault = new ObjectNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault);
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {

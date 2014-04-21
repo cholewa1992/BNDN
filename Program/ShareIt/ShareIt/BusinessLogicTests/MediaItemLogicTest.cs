@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using AccessRightType = BusinessLogicLayer.AccessRightType;
 
 namespace BusinessLogicTests
 {
@@ -844,6 +846,249 @@ namespace BusinessLogicTests
             mediaItemLogic.DeleteMediaItem(user2, 3, "testClient"); 
             Assert.IsFalse(File.Exists(Path.Combine(_directoryPath, _thumbnailName)));
         }*/
+        #endregion
+        #region UpdateMediaItem
+        [ExpectedException(typeof(InvalidClientException))]
+        [TestMethod]
+        public void UpdateMediaItem_ThrowsExceptionWhenClientNotValid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(-1);
+            var dbMock = new Mock<IStorageBridge>();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = 123
+            };
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "bla");
+        }
+
+        [ExpectedException(typeof (InvalidUserException))]
+        [TestMethod]
+        public void UpdateMediaItem_ThrowsExceptionWhenUserNotValid()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1);
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(-1);
+            var dbMock = new Mock<IStorageBridge>();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = 123
+            };
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+
+        }
+
+        [ExpectedException(typeof (UnauthorizedAccessException))]
+        [TestMethod]
+        public void UpdateMediaItem_ThrowsExceptionWhenUserNotAllowedToUpdate()
+        {
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1); //Valid client token
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1); //Valid user
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>())).Returns(AccessRightType.NoAccess); //Not Owner
+            authMock.Setup(x => x.IsUserAdminOnClient(It.IsAny<int>(), It.IsAny<string>())).Returns(false); //Not admin
+            var dbMock = new Mock<IStorageBridge>();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = 123
+            };
+
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+        }
+
+        [ExpectedException(typeof(MediaItemNotFoundException))]
+        [TestMethod]
+        public void UpdateMediaItem_ThrowsExceptionWhenNoMatchingMediaItem()
+        {
+            
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1); //Valid client token
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1); //Valid user
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>())).Returns(AccessRightType.Owner); //Owner is allowed to update
+            var dbMock = new Mock<IStorageBridge>();
+            dbMock.Setup(x => x.Get<Entity>()).Returns(new List<Entity>().AsQueryable()); //Empty list in db = no matching MediaItem.
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = 123
+            };
+
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+        }
+
+        [TestMethod]
+        public void UpdateMediaItem_MapsNullValueOfInformationListToEmptyList()
+        {
+            int mediaId = 12355;
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1); //Valid client token
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1); //Valid user
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>())).Returns(AccessRightType.Owner); //Owner is allowed to update
+
+            var dbMock = new Mock<IStorageBridge>();
+            //db should return an entity with 3 EntityInfo.
+            var entityToUpdate = new Entity()
+            {
+                Id = mediaId,
+                TypeId = 4,
+                EntityInfo = new List<EntityInfo>()
+                {
+                    new EntityInfo(),
+                    new EntityInfo(),
+                    new EntityInfo()
+                }
+            };
+            var listToReturn = new List<Entity>()
+            {
+                entityToUpdate
+            };
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
+            dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
+            dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = mediaId,
+                Type = MediaItemTypeDTO.Music, //3
+                Information = null
+            };
+
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+
+            dbMock.Verify(x => x.Delete(It.IsAny<ICollection<EntityInfo>>()), Times.Once);
+            dbMock.Verify(x => x.Update(It.IsAny<Entity>()), Times.Once);
+            Assert.AreEqual(0, entityToUpdate.EntityInfo.Count);
+        }
+
+        [TestMethod]
+        public void UpdateMediaItem_MapsAllInformationInDTOIgnoringNullValues()
+        {
+            int mediaId = 76538;
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1); //Valid client token
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1); //Valid user
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>())).Returns(AccessRightType.Owner); //Owner is allowed to update
+
+            var dbMock = new Mock<IStorageBridge>();
+            //db should return an entity with 3 EntityInfo.
+            var entityToUpdate = new Entity()
+            {
+                Id = mediaId,
+                TypeId = 4,
+                EntityInfo = new List<EntityInfo>()
+                {
+                    new EntityInfo(),
+                    new EntityInfo(),
+                    new EntityInfo()
+                }
+            };
+            var listToReturn = new List<Entity>()
+            {
+                entityToUpdate
+            };
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
+            dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
+            dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = mediaId,
+                Type = MediaItemTypeDTO.Music, //3
+                Information = new List<MediaItemInformationDTO>
+                {
+                    new MediaItemInformationDTO()
+                    {
+                        Data = "Best song ever",
+                        Type = InformationTypeDTO.Description 
+                    },
+                    null,
+                    new MediaItemInformationDTO()
+                    {
+                        Data = "Clark Kent",
+                        Type = InformationTypeDTO.Artist 
+                    },
+                    null, null,
+                    new MediaItemInformationDTO()
+                    {
+                        Data = "One million dollars",
+                        Type = InformationTypeDTO.Price
+                    },
+                    new MediaItemInformationDTO()
+                    {
+                        Data = "English",
+                        Type = InformationTypeDTO.Language
+                    }
+                }
+            };
+
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+
+            Assert.AreEqual(4, entityToUpdate.EntityInfo.Count);
+
+            Assert.AreEqual("Best song ever", entityToUpdate.EntityInfo.First(x => x.EntityInfoTypeId == (int) InformationTypeDTO.Description).Data);
+            Assert.AreEqual("Clark Kent", entityToUpdate.EntityInfo.First(x => x.EntityInfoTypeId == (int) InformationTypeDTO.Artist).Data);
+            Assert.AreEqual("One million dollars", entityToUpdate.EntityInfo.First(x => x.EntityInfoTypeId == (int) InformationTypeDTO.Price).Data);
+            Assert.AreEqual("English", entityToUpdate.EntityInfo.First(x => x.EntityInfoTypeId == (int) InformationTypeDTO.Language).Data);
+        }
+
+        [TestMethod]
+        public void UpdateMediaItem_MapsTypeFomDTO()
+        {
+            int mediaId = 12355;
+            var authMock = new Mock<IAuthInternalLogic>();
+            authMock.Setup(x => x.CheckClientToken(It.IsAny<string>())).Returns(1); //Valid client token
+            authMock.Setup(x => x.CheckUserExists(It.IsAny<UserDTO>())).Returns(1); //Valid user
+            authMock.Setup(x => x.CheckUserAccess(It.IsAny<int>(), It.IsAny<int>())).Returns(AccessRightType.Owner); //Owner is allowed to update
+
+            var dbMock = new Mock<IStorageBridge>();
+            //db should return an entity with 3 EntityInfo.
+            var entityToUpdate = new Entity()
+            {
+                Id = mediaId,
+                TypeId = 086049,
+                EntityInfo = new List<EntityInfo>()
+                {
+                    new EntityInfo(),
+                    new EntityInfo(),
+                    new EntityInfo()
+                }
+            };
+            var listToReturn = new List<Entity>()
+            {
+                entityToUpdate
+            };
+            dbMock.Setup(x => x.Get<Entity>()).Returns(listToReturn.AsQueryable()); 
+            dbMock.Setup(x => x.Delete(It.IsAny<ICollection<EntityInfo>>())).Verifiable();
+            dbMock.Setup(x => x.Update(It.IsAny<Entity>())).Verifiable();
+
+            var target = new MediaItemLogic(dbMock.Object, authMock.Object);
+
+            var toUpdateFrom = new MediaItemDTO()
+            {
+                Id = mediaId,
+                Type = MediaItemTypeDTO.Music, //3
+                Information = null
+            };
+
+            target.UpdateMediaItem(new UserDTO(), toUpdateFrom, "cliant");
+
+            Assert.AreEqual((int) MediaItemTypeDTO.Music, entityToUpdate.TypeId);
+        }
         #endregion
     }
 }

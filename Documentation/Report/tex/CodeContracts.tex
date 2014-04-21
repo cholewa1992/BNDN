@@ -30,11 +30,9 @@ Another benefit of using the Contract library is that it is explicit from the me
 
 When a contract with no custom exception specified is broken, a ContractException is thrown. This is why one also has the option for specifying an exception.
 
-We have chosen to use custom exceptions because we have to expose these errors as faults in our services. Without custom exceptions it would always be a ContractException, and then we would have to check the exception message to distinguish.
+We have chosen to use custom exceptions because we have to expose these errors as faults in our services. Without custom exceptions it would always be a type ContractException, and then we would have to check the exception message to distinguish.
 
-Choosing Code contracts for the control element comes down to building assemblies. With Code contracts one can choose to what degree variable checks are build with assemblies.
-
-Since we are developing an open API, we want to check variables parsed to us, and so our assemblies are compiled with full runtime checking. This means that all our team needs Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
+Since we are developing an open API, we want to check variables parsed to us, and so our assemblies are compiled with full runtime checking. This means that all members of our team need Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
 
 
 

@@ -11,7 +11,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    public class AccessRightLogic : IAccessRightInternalLogic
+    internal class AccessRightLogic : IAccessRightInternalLogic
     {
         private readonly IAuthInternalLogic _authLogic;
         private readonly IStorageBridge _storage;

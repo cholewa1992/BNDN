@@ -1,0 +1,121 @@
+﻿@model ArtShare.Models.BookDetailsModel
+
+@{
+    ViewBag.Title = "Stub";
+}
+
+<script>
+    function rate(val) {
+        document.getElementById("choice").textContent = "Rated " + val + " / 5";
+    }
+
+    $(':radio').change(
+  function () {
+      $('.choice').text(this.value + ' stars');
+  }
+)
+</script>
+
+
+
+
+<legend class="clearfix">
+    <h1 class="to-left clear">
+        @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small>
+
+    </h1>
+    <div class="to-right detail-buttons clearfix">
+        <button class="pure-button button-art">Buy</button>
+        <button class="pure-button button-art">Download</button>
+        <button class="pure-button button-art">Edit</button>
+    </div>
+
+</legend>
+
+
+
+
+<div class="media-details">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@Html.DisplayFor(model => model.Thumbnail)" />
+            <div class="is-center">
+                <span class="star-rating ">
+                    <input type="radio" name="rating" value="1" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="2" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="3" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="4" onclick="rate(this.value);"><i></i>
+                    <input type="radio" name="rating" value="5" onclick="rate(this.value);"><i></i>
+                </span><br />
+                <small id="choice"></small>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h4>Description</h4>
+            @Html.DisplayFor(model => model.Description)
+            <hr />
+            <h4>
+                Genre
+            </h4>
+            @foreach (var genre in Model.Genres)
+            {
+                <button class="pure-button">@genre</button>
+
+            }
+            <hr />
+
+            <h4>Tags</h4>
+            @foreach (var t in Model.Tags)
+            {
+                <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+            }
+            <hr />
+
+
+        </div>
+        <div class="col-md-1">
+            <!-- SPACER -->
+        </div>
+        <div class="col-md-3">
+            <h4>Movie Info</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Author)</strong> <br />
+                    @Html.DisplayFor(model => model.Author)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong> <br />
+                    @Html.DisplayFor(model => model.ReleaseDate)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.NumberOfPages)</strong> <br />
+                    @Html.DisplayFor(model => model.NumberOfPages)
+                </li>
+
+            </ul>
+
+            <h4>Access Info</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Uploader</strong> <br />
+                    &nbsp;
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />
+                    $@Html.DisplayFor(model => model.Price)
+                </li>
+                <li class="list-group-item">
+                    <strong>Status</strong> <br />
+                    Owner / Buyer / Something
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="to-right">
+
+</div>

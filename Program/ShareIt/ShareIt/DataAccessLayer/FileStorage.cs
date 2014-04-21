@@ -23,7 +23,7 @@ namespace DataAccessLayer
         /// <returns>The path to where the file was saved on the disk.</returns>
         public string SaveMedia(Stream stream, int userId, int mediaId, string fileExtension)
         {
-            var directoryPath = Path.Combine(_physicalPath,"files", "user_" + userId);
+            var directoryPath = Path.Combine(_physicalPath ?? "", "files", "user_" + userId);
             var filePath = Path.Combine(directoryPath, mediaId + fileExtension);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
@@ -42,7 +42,7 @@ namespace DataAccessLayer
 
         public string SaveThumbnail(Stream fileByteStream, int mediaId, string fileExtension)
         {
-            var directoryPath = Path.Combine(_physicalPath, "img");
+            var directoryPath = Path.Combine(_physicalPath ?? "", "img");
             var thumbnailName = GetThumbnailName(mediaId, fileExtension);
             var filePath = GetThumbnailPath(thumbnailName);
             if (!Directory.Exists(directoryPath))
@@ -76,7 +76,7 @@ namespace DataAccessLayer
         /// <returns>The path of the thumbnail</returns>
         private string GetThumbnailPath(string thumbnailName)
         {
-            return Path.Combine(_physicalPath, "img", thumbnailName);
+            return Path.Combine(_physicalPath ?? "", "img", thumbnailName);
         }
 
         /// <summary>
