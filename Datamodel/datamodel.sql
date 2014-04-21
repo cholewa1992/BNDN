@@ -52,7 +52,7 @@ CREATE TABLE Entity(
 	Id Int IDENTITY Primary Key,
 	FilePath varchar(256) NOT NULL,
 	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
-	TypeId Int REFERENCES EntityType(Id) ON DELETE SET NULL
+	TypeId Int REFERENCES EntityType(Id)
 );
 
 GO
