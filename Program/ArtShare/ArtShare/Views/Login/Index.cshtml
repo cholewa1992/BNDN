@@ -8,10 +8,12 @@
 
 <form class="pure-form pure-form-stacked" action="~/Login/Login" method="post">
     <fieldset>
-        <legend>To enjoy full access, please create an account.</legend>
+        <legend>To enjoy full access, please login.</legend>
 
         <input type="text" name="username" placeholder="Username" required="true" maxlength="20"/>
         <input type="password" name="password" placeholder="Password" required="true" maxlength="50" />
+
+        <div style="margin-top: 20px; clear: both"></div> <!-- Spacer -->
 
         <button type="submit" class="pure-button button-success">Login</button>
         <small>@Html.ActionLink("Need an account?", "Register", "Account")</small>
