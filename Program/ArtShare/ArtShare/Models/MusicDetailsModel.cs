@@ -20,7 +20,6 @@ namespace ArtShare.Models
         public string Artist { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public string TrackLength { get; set; }
-        public DateTime? Expiration { get; set; }
         public float? Price { get; set; }
 
     }

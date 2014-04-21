@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using ArtShare.Models;
 using ArtShare.Properties;
+using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
+using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -12,22 +15,66 @@ namespace ArtShare.Logic
     {
 
         /// <summary>
-        /// Retrieves details about a given book and returns it in a book model
+        /// Purchases a mediaitem to a given user
         /// </summary>
-        /// <param name="id">Id of book item</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Book model with requested information</returns>
-        public BookDetailsModel GetBookDetailsModel(int id, int? requestingUser)
+        /// <param name="mediaId">media item to purchase</param>
+        /// <param name="requestingUser">logged in user</param>
+        /// <returns>bool of whether it succeeded</returns>
+        public bool PurchaseItem(int mediaId, int requestingUser)
         {
+
+            var requestingUserDto = new ShareItServices.AccessRightService.UserDTO() {Id = requestingUser};
+            var expiration = new DateTime(2200, 01, 01);
+
+            bool result;
+
+            using (var ars = new AccessRightServiceClient())
+            {
+                result = ars.Purchase(requestingUserDto, mediaId, expiration, Resources.ClientToken);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Retrieves a mediaitem
+        /// </summary>
+        /// <param name="id">Id of item to retrieve</param>
+        /// <param name="requestingUser"></param>
+        /// <returns>Retrieved media item</returns>
+        public MediaItemDTO GetMediaItem(int id, UserDTO requestingUser)
+        {
+
             MediaItemDTO dto;
+            
 
             using (var ms = new MediaItemServiceClient())
             {
                 dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
             }
 
-            return ExstractBookInformation(dto);
+            return dto;
         }
+
+        ///// <summary>
+        ///// Retrieves details about a given book and returns it in a book model
+        ///// </summary>
+        ///// <param name="id">Id of book item</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Book model with requested information</returns>
+        //public BookDetailsModel GetBookDetailsModel(int id, int? requestingUser)
+        //{
+        //    MediaItemDTO dto;
+
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+                
+        //    }
+
+        //    return ExstractBookInformation(dto);
+        //}
 
         /// <summary>
         /// Deletes a book
@@ -52,24 +99,24 @@ namespace ArtShare.Logic
         }
 
 
-        /// <summary>
-        /// Retrieves details about a given Movie and returns it in a Movie model
-        /// </summary>
-        /// <param name="id">Id of Movie</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Movie model with requested information</returns>
-        public MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser)
-        {
+        ///// <summary>
+        ///// Retrieves details about a given Movie and returns it in a Movie model
+        ///// </summary>
+        ///// <param name="id">Id of Movie</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Movie model with requested information</returns>
+        //public MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser)
+        //{
 
-            MediaItemDTO serviceDTO;
+        //    MediaItemDTO serviceDTO;
 
-            using (var ms = new MediaItemServiceClient())
-            {
-                serviceDTO = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
-            }
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        serviceDTO = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+        //    }
 
-            return ExstractMovieInformation(serviceDTO);
-        }
+        //    return ExstractMovieInformation(serviceDTO);
+        //}
         /// <summary>
         /// Deletes a Movie
         /// </summary>
@@ -92,24 +139,24 @@ namespace ArtShare.Logic
         }
 
 
-        /// <summary>
-        /// Retrieves details about given Music and returns it in a Music model
-        /// </summary>
-        /// <param name="id">Id of Music item</param>
-        /// <param name="requestingUser">Id of the user requesting the details</param>
-        /// <returns>Music model with requested information</returns>
-        public MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser)
-        {
+        ///// <summary>
+        ///// Retrieves details about given Music and returns it in a Music model
+        ///// </summary>
+        ///// <param name="id">Id of Music item</param>
+        ///// <param name="requestingUser">Id of the user requesting the details</param>
+        ///// <returns>Music model with requested information</returns>
+        //public MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser)
+        //{
 
-            MediaItemDTO dto;
+        //    MediaItemDTO dto;
 
-            using (var ms = new MediaItemServiceClient())
-            {
-                dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
-            }
+        //    using (var ms = new MediaItemServiceClient())
+        //    {
+        //        dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+        //    }
 
-            return ExstractMusicInformation(dto);
-        }
+        //    return ExstractMusicInformation(dto);
+        //}
         /// <summary>
         /// Deletes a Music Item
         /// </summary>
@@ -156,18 +203,6 @@ namespace ArtShare.Logic
 
                     case InformationTypeDTO.Description:
                         model.Description = v.Data;
-                        break;
-
-
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
                         break;
 
                     case InformationTypeDTO.Genre:
@@ -269,17 +304,6 @@ namespace ArtShare.Logic
                         model.Director = v.Data;
                         break;
 
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
-                        break;
-
                     case InformationTypeDTO.Genre:
                         if (model.Genres == null)
                         {
@@ -370,17 +394,6 @@ namespace ArtShare.Logic
                         model.Artist = v.Data;
                         break;
 
-                    case InformationTypeDTO.ExpirationDate:
-                        try
-                        {
-                            model.Expiration = DateTime.Parse(v.Data);
-                        }
-                        catch (Exception)
-                        {
-                            model.Expiration = null;
-                        }
-                        break;
-
                     case InformationTypeDTO.Genre:
                         if (model.Genres == null)
                         {
@@ -431,7 +444,6 @@ namespace ArtShare.Logic
                     case InformationTypeDTO.TrackLength:
                         model.TrackLength = v.Data;
                         break;
-
 
                 }
             }

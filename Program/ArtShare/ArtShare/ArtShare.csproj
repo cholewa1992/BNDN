@@ -140,16 +140,10 @@
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\AccountLogicStub.cs" />
-    <Compile Include="Logic\BookLogic.cs" />
     <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
-    <Compile Include="Logic\IBookLogic.cs" />
     <Compile Include="Logic\IDetailsLogic.cs" />
-    <Compile Include="Logic\IMovieLogic.cs" />
-    <Compile Include="Logic\IMusicLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
-    <Compile Include="Logic\MovieLogic.cs" />
-    <Compile Include="Logic\MusicLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
     <Compile Include="Logic\SearchLogicStub.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />
@@ -175,6 +169,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\normalize.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -290,12 +285,13 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Logout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Details\Index.cshtml" />
+    <Content Include="Views\Details\Stub.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Views\Details\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

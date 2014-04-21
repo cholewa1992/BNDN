@@ -5,13 +5,30 @@ namespace ArtShare.Logic
 {
     public interface IDetailsLogic
     {
+
+        /// <summary>
+        /// Purchases a mediaitem to a given user
+        /// </summary>
+        /// <param name="mediaId">media item to purchase</param>
+        /// <param name="requestingUser">logged in user</param>
+        /// <returns>bool of whether it succeeded</returns>
+        bool PurchaseItem(int mediaId, int requestingUser);
+
+        /// <summary>
+        /// Retrieves a mediaitem
+        /// </summary>
+        /// <param name="id">Id of item to retrieve</param>
+        /// <param name="requestingUser1"></param>
+        /// <returns>Retrieved media item</returns>
+        MediaItemDTO GetMediaItem(int id, UserDTO requestingUser);
+
         /// <summary>
         /// Retrieves details about a given book and returns it in a book model
         /// </summary>
         /// <param name="id">Id of book item</param>
         /// <param name="requestingUser">Id of the user requesting the details</param>
         /// <returns>Book model with requested information</returns>
-        BookDetailsModel GetBookDetailsModel(int id, int? requestingUser);
+        //BookDetailsModel GetBookDetailsModel(int id, int? requestingUser);
 
         /// <summary>
         /// Deletes a book
@@ -35,7 +52,7 @@ namespace ArtShare.Logic
         /// <param name="id">Id of Movie</param>
         /// <param name="requestingUser">Id of the user requesting the details</param>
         /// <returns>Movie model with requested information</returns>
-        MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser);
+        //MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser);
 
         /// <summary>
         /// Deletes a Movie
@@ -59,7 +76,7 @@ namespace ArtShare.Logic
         /// <param name="id">Id of Music item</param>
         /// <param name="requestingUser">Id of the user requesting the details</param>
         /// <returns>Music model with requested information</returns>
-        MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser);
+        //MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser);
 
         /// <summary>
         /// Deletes a Music Item

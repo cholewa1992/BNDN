@@ -1,0 +1,58 @@
+﻿@model ArtShare.Models.BookDetailsModel
+
+@{
+    ViewBag.Title = "BookDetails";
+}
+
+<h2>@Html.DisplayFor(model => model.Title)</h2>
+
+<div class="media-details">
+
+    <div class="pure-g-r">
+
+        <div class="pure-u-1-4">
+            <!--<img src="@Html.DisplayFor(model => model.Thumbnail)" />-->
+            <img src="~/Content/img/thumbnail_02.jpg" />
+        </div>
+        
+        <div class="pure-u-1-2">
+            <h4>@Html.DisplayNameFor(model => model.Description)</h4>
+            <p>@Html.DisplayFor(model => model.Description)</p>
+        </div>
+
+        <div class="pure-u-1-4">
+            <div class="info-box">
+                <h3>Info</h3>
+                <dl>
+                    <dt>Author</dt>
+                    <dd>Someone</dd>
+                </dl>
+                
+                <label>Release Date: </label>
+                <hr />
+                <label>Uploaded by: </label>
+                <label>Upload date: </label>
+                <label>Price</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pure-g-r">
+        <div class="pure-u-1-1">
+            <div class="to-right">
+                <button class="pure-button button-art">Buy</button>
+                <button class="pure-button button-art">Download</button>
+                <button class="pure-button button-art">Edit</button>
+            </div>
+        </div>
+    </div>
+    
+
+
+</div>
+
+
+<!--<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })
+</p>-->

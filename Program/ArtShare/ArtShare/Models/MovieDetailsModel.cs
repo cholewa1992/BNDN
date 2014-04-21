@@ -21,7 +21,6 @@ namespace ArtShare.Models
         public DateTime? ReleaseDate { get; set; }
         public string Runtime { get; set; }
         public List<string> CastMembers { get; set; }
-        public DateTime? Expiration { get; set; }
         public float AvgRating { get; set; }
         public string Language { get; set; }
         public float? Price { get; set; }
