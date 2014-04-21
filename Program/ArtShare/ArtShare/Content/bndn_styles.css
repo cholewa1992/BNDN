@@ -261,7 +261,6 @@ header nav ul li div{
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 5px;
-    height: inherit;
     margin-bottom: 10px;
 }
 
@@ -270,7 +269,27 @@ header nav ul li div{
     font-size: 14px;
 }
 
- 
+/* Search */
+.search-table{
+    
+}
+
+.search-table tr:hover {
+    cursor: pointer;
+}
+
+.search-results img{
+    width: 40%;
+    margin-right: 10px;
+}
+
+.search-results button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+
 /* Footer */
 
 footer{

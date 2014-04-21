@@ -1,28 +1,79 @@
-﻿@model IEnumerable<ArtShare.Models.SearchModel>
+﻿@model ArtShare.Models.SearchModel
 
 @{
     ViewBag.Title = "SearchMediaItems";
 }
 
-<h2>SearchMediaItems</h2>
+<script>
+    function setActive(tr, id) {
+        var ch1 = document.getElementById('tablebody').children;
+        for (var i = 0; i < ch1.length; i++) {
+            ch1[i].className = "";
+        }
+        tr.className = "info";
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NumberOfMatchingBooks)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumberOfMatchingMusic)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumberOfMatchingMovies)
-        </th>
-        <th></th>
-    </tr>
-    @Html.DropDownListFor(model => model.Books)
-    @using ShareItServices.MediaItemService.MediaItemDTO
+        var ch2 = document.getElementById('extended-results').children;
+        for (var j = 0; j < ch2.length; j++) {
+            ch2[j].style.display = "none";
+        }
+
+        document.getElementById("movie-" + id).style.display = "block";
+    }
+</script>
+
+<h2>Search results for "@Request.Params["searchKey"]"</h2>
+
+<div class="col-md-5">
+    <table class="table table-striped table-hover search-table">
+        <tbody id="tablebody">
+            <tr onclick="setActive(this, 12);">
+                <td><span class="glyphicon glyphicon-film"></span></td>
+                <td>Repo Men (2012)</td>
+            </tr>
+            <tr onclick="setActive(this, 13);">
+                <td><span class="glyphicon glyphicon-music"></span></td>
+                <td>Wrecking Ball (2013)</td>
+            </tr>
+            <tr onclick="setActive(this);">
+                <td>3</td>
+                <td>Larry</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="pager">
+        @if (!Request.Params["from"].Equals("1"))
+        {
+            <li class="previous to-left"><button class="pure-button">Previous</button></li>
+        }
+
+        <li class="next to-right"><button class="pure-button">Next</button></li>
+    </ul>
+
+</div>
 
 
 
+<div class="col-md-1">
 
-</table>
+</div>
+
+<div class="col-md-6" id="extended-results">
+    <div id="movie-12" class="search-results" style="display: none;">
+        <h4>Repo Men (2012)</h4>
+        <img class="to-left" src="http://image.tmdb.org/t/p/w396/juU0imfyYlwfkKFdwE7ZMvLf16u.jpg" />
+        <div class="description">In the near future, when artificial human organs can be bought on credit, one man makes a living by repossessing organs their users can't pay for. What happens when the best repo man in the business can't make payments on his own artificial heart?</div>
+        <hr />
+        <button class="pure-button button-art read-more to-right to-bottom" style="position:absolute; bottom:0;right:0;">Read more</button>
+    </div>
+    <div id="movie-13" class="search-results" style="display: none;">
+        <h4>Wrecking Ball (2013)</h4>
+        <img class="to-left" src="http://upload.wikimedia.org/wikipedia/en/thumb/0/06/Miley_Cyrus_-_Wrecking_Ball.jpg/220px-Miley_Cyrus_-_Wrecking_Ball.jpg" />
+        <div class="description">Wrecking Ball is a song performed by American recording artist Miley Cyrus for her fourth studio album Bangerz (2013). It was released on August 25, 2013, by RCA Records as the second single from the record. It was written by MoZella, Stephan Moccio, Sacha Skarbek, Lukasz Gottwald, and Henry Russell Walter. It was produced by Dr. Luke and Cirkut. Wrecking Ball is a pop ballad which lyrically discusses the deterioration of a relationship; it has been widely speculated to have been inspired by Cyrus' former fiancé Liam Hemsworth.</div>
+        <hr />
+        <button class="pure-button button-art read-more to-right to-bottom" style="position:absolute; bottom:0;right:0;">Read more</button>
+    </div>
+    
+</div>
+
+
