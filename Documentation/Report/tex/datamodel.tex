@@ -27,9 +27,9 @@
 \begin{document}
 When designing the data model there were several considerations to make. Our design goals for the data model was as follows
 \begin{itemize}
-\item Make a generic data model that could suit both the ArtShare and SMU Client.
+\item Make a generic data model that can suit both the ArtShare and SMU Client.
 \item Make the model as extendible as possible. By this we mean that we can add a new property to eg a \textit{Media item} without having to change the data model. This facilitates more iterative development.
-\item We wanted to have a data model with as high normal form as possible to avoid redundancy in regards to data space and corruption
+\item We want to have a data model with as high normal form as possible to avoid redundancy in regards to data space and corruption
 \end{itemize} 
 
 
@@ -41,17 +41,15 @@ When designing the data model there were several considerations to make. Our des
 
 Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
 
-In order to make data model flexible and extendible we choose to only make the \textit{User} and \textit{Media item} store required information. Other information like title, artist, director, email etc. is made relational (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel})
-
-This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively.\\
-
-Another choice we made was to have a AccessRight relation between \textit{User's} and \textit{Media item's}. We made this choice to facilitate different Access rights to a \textit{Media item} like Owner and Buyer. We could have implemented Owner as an attribute to Entity and have made a table for purchases instead of having an AccessRight and AccessRightType table. We did this to make the model more extensible. For example if we for some reason wants multiple owners or if we want to make a new type. 
-
 \begin{figure}[H]
-\includegraphics[width=\linewidth]{img/ER.pdf}
+\includegraphics[width=\linewidth]{img/ER.png}
 \caption{ER diagram of the data model}
 \label{fig:use case diagram}
 \end{figure}
+
+In order to make the data model flexible and extendible we choose to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
+
+This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively.\\
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -78,7 +76,91 @@ CREATE TABLE EntityInfo(
 \label{datamodel}
 \end{figure}
 
+Another choice we made was to have an AccessRight relation between \textit{User's} and \textit{Media item's}. We made this choice to facilitate different Access rights to a \textit{Media item} like Owner and Buyer.
+
 Our data model is in 3NF (Third normal form). It's in 3NF and not BCNF (Boyce-Codd normal form) because we have ID's on all entities. An ID for eg \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier in regards to implementation of a generic Data Access Layer.
+
+The full data model SQL definition can be found in appendix
+
+(Move to appendix)
+
+\begin{lstlisting}
+CREATE TABLE Client(
+	Id Int IDENTITY Primary Key,
+	Name varchar(256) NOT NULL,
+	Token varchar(256) NOT NULL
+);
+
+CREATE TABLE EntityInfoType(
+	Id Int IDENTITY Primary Key,
+	Name varchar(256) NOT NULL,
+);
+
+CREATE TABLE EntityType(
+	Id Int IDENTITY Primary Key,
+	Type varchar(256) NOT NULL UNIQUE
+);
+
+CREATE TABLE Entity(
+	Id Int IDENTITY Primary Key,
+	FilePath varchar(256) NOT NULL,
+	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
+	TypeId Int REFERENCES EntityType(Id)
+);
+
+CREATE TABLE EntityInfo(
+	Data varchar(max),
+	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
+	EntityInfoTypeId Int NOT NULL REFERENCES EntityInfoType(Id) ON DELETE CASCADE,
+	Id INT IDENTITY Primary Key
+);
+
+CREATE TABLE UserAcc(
+	Id INT IDENTITY Primary Key,
+	Username varchar(20) NOT NULL UNIQUE,
+	Password varchar(50) NOT NULL
+);
+
+CREATE TABLE UserInfoType(
+	Id INT IDENTITY Primary Key,
+	Type varchar(256) NOT NULL UNIQUE
+);
+
+CREATE TABLE UserInfo(
+	Id Int IDENTITY Primary Key,
+	Data varchar(max),
+	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
+	UserInfoType Int NOT NULL REFERENCES UserInfoType(Id) ON DELETE CASCADE
+);
+
+CREATE TABLE AccessRightType(
+	Id Int IDENTITY Primary Key,
+	Name varchar(256) NOT NULL UNIQUE
+);
+
+CREATE TABLE AccessRight(
+	Id Int IDENTITY Primary Key,
+	Expiration datetime,
+	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
+	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
+	AccessRightTypeId INT NOT NULL REFERENCES AccessRightType(Id) ON DELETE CASCADE,
+);
+
+CREATE TABLE ClientAdmin(
+	Id Int IDENTITY Primary Key,
+	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
+	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE	
+);
+
+CREATE TABLE Rating(
+	Id int IDENTITY Primary Key,
+	Value int NOT NULL,
+	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
+	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
+);
+\end{lstlisting}
+
+
 
 
 \end{document}
