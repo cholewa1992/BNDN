@@ -7,6 +7,7 @@ using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AccessRightType = BusinessLogicLayer.AccessRightType;
 
 namespace IntergrationTest
 {
@@ -87,7 +88,7 @@ namespace IntergrationTest
 
                 db.Entry( new AccessRight
                 {
-                    AccessRightTypeId = 1,
+                    AccessRightTypeId = (int) AccessRightType.Buyer,
                     EntityId = 1,
                     Expiration = DateTime.Now.AddDays(2),
                     UserId = 3
@@ -104,13 +105,21 @@ namespace IntergrationTest
 
 
                 #endregion
-                #region
+                #region EntityInfo
                 db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('Lord of the Rings', 1, 1)");
                 db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('A movie about a ring', 1, 2)");
                 db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId , EntityInfoTypeId) VALUES  ('$1000', 1, 3)");
                 #endregion
             }
         }
+
+        [TestCleanup]
+        public void TearDown()
+        {
+            if (File.Exists("files/user_3/2.m4a")) File.Delete("files/user_3/2.m4a");
+            if (File.Exists("img/thumbnail_1.jpg")) File.Delete("img/thumbnail_1.jpg");
+        }
+
         #endregion
         #region Access Right Logic Tests
         [TestMethod]
@@ -401,10 +410,12 @@ namespace IntergrationTest
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var dtl = blf.CreateDataTransferLogic();
 
+            Assert.IsFalse(File.Exists("files/user_3/2.m4a"));
+
             dtl.SaveMedia(_artShare, _mathias, new MediaItemDTO
             {
                 Type = MediaItemTypeDTO.Music,
-                FileExtension = "m4a",
+                FileExtension = ".m4a",
                 Information = new List<MediaItemInformationDTO>
                 {
                     new MediaItemInformationDTO
@@ -420,15 +431,7 @@ namespace IntergrationTest
                 }
             }, new MemoryStream(Properties.Resources.Technologic));
 
-
-            /*string fileExtention;
-            var mis = dtl.GetMediaStream(_artShare, _loh, 2, out fileExtention);
-
-            var buffer = new byte[Properties.Resources.Technologic.Length];
-
-            mis.Read(buffer, 0, buffer.Length);
-
-            Assert.AreEqual(Properties.Resources.Technologic, buffer);*/
+            Assert.IsTrue(File.Exists("files/user_3/2.m4a"));
         }
 
         
@@ -437,9 +440,11 @@ namespace IntergrationTest
         {
             var blf = BusinessLogicFacade.GetBusinessFactory();
             var dtl = blf.CreateDataTransferLogic();
+            Assert.IsFalse(File.Exists("img/thumbnail_1.jpg"));
+            dtl.SaveThumbnail(_artShare, _jacob, 1, ".jpg",
+                new MemoryStream(Properties.Resources.Daft_Punk_Technologic));
+            Assert.IsTrue(File.Exists("img/thumbnail_1.jpg"));
         }
-
         #endregion
-
     }
 }

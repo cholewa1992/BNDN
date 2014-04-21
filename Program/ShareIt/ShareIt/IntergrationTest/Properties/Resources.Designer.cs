@@ -80,6 +80,16 @@ namespace IntergrationTest.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Daft_Punk_Technologic {
+            get {
+                object obj = ResourceManager.GetObject("Daft_Punk_Technologic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DROP TABLE [dbo].[Rating]
         ///DROP TABLE [dbo].[AccessRight]
         ///DROP TABLE [dbo].[AccessRightType]
