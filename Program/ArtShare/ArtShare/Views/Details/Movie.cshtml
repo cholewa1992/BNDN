@@ -1,7 +1,7 @@
-﻿@model ArtShare.Models.BookDetailsModel
+﻿@model ArtShare.Models.MovieDetailsModel
 
 @{
-    ViewBag.Title = "Stub";
+    ViewBag.Title = "Movie";
 }
 
 <script>
@@ -20,7 +20,8 @@
 
 
 <legend class="clearfix">
-    <h1 class="to-left clear">@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small> 
+    <h1 class="to-left clear">
+        @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Runtime) min.)</small>
 
     </h1>
     <div class="to-right detail-buttons clearfix">
@@ -37,7 +38,7 @@
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">
-            <img src="@Html.DisplayFor(model => model.Thumbnail)" />  
+            <img src="@Html.DisplayFor(model => model.Thumbnail)" />
             <div class="is-center">
                 <span class="star-rating ">
                     <input type="radio" name="rating" value="1" onclick="rate(this.value);"><i></i>
@@ -70,7 +71,20 @@
             }
             <hr />
 
-            
+            <h4>Cast</h4>
+            <ul class="list-group">
+                @foreach (var p in Model.CastMembers)
+                {
+                    <li class="list-group-item">
+                        <a href="#">
+                            @p
+                        </a>
+                    </li>
+                }
+            </ul>
+            <hr />
+
+
         </div>
         <div class="col-md-1">
             <!-- SPACER -->
@@ -79,18 +93,17 @@
             <h4>Movie Info</h4>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <strong>@Html.DisplayNameFor(model => model.Author)</strong> <br />
-                    @Html.DisplayFor(model => model.Author)
+                    <strong>@Html.DisplayNameFor(model => model.Language)</strong> <br />
+                    @Html.DisplayFor(model => model.Language)
                 </li>
                 <li class="list-group-item">
-                    <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong> <br/>
-                    @Html.DisplayFor(model => model.ReleaseDate)
+                    <strong>@Html.DisplayNameFor(model => model.Runtime)</strong> <br />
+                    @Html.DisplayFor(model => model.Runtime) min.
                 </li>
                 <li class="list-group-item">
-                    <strong>@Html.DisplayNameFor(model => model.NumberOfPages)</strong> <br />
-                    @Html.DisplayFor(model => model.NumberOfPages)
+                    <strong>@Html.DisplayNameFor(model => model.Director)</strong> <br />
+                    @Html.DisplayFor(model => model.Director)
                 </li>
-
             </ul>
 
             <h4>Access Info</h4>
@@ -109,12 +122,12 @@
                 </li>
             </ul>
 
-            
-            
+
+
         </div>
     </div>
 </div>
 
 <div class="to-right">
-    
+
 </div>

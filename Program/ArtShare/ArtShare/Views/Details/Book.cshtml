@@ -20,7 +20,8 @@
 
 
 <legend class="clearfix">
-    <h1 class="to-left clear">@Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small> 
+    <h1 class="to-left clear">
+        @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small>
 
     </h1>
     <div class="to-right detail-buttons clearfix">
@@ -37,7 +38,7 @@
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">
-            <img src="@Html.DisplayFor(model => model.Thumbnail)" />  
+            <img src="@Html.DisplayFor(model => model.Thumbnail)" />
             <div class="is-center">
                 <span class="star-rating ">
                     <input type="radio" name="rating" value="1" onclick="rate(this.value);"><i></i>
@@ -70,7 +71,7 @@
             }
             <hr />
 
-            
+
         </div>
         <div class="col-md-1">
             <!-- SPACER -->
@@ -83,7 +84,7 @@
                     @Html.DisplayFor(model => model.Author)
                 </li>
                 <li class="list-group-item">
-                    <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong> <br/>
+                    <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong> <br />
                     @Html.DisplayFor(model => model.ReleaseDate)
                 </li>
                 <li class="list-group-item">
@@ -109,12 +110,12 @@
                 </li>
             </ul>
 
-            
-            
+
+
         </div>
     </div>
 </div>
 
 <div class="to-right">
-    
+
 </div>
