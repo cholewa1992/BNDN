@@ -16,5 +16,20 @@ namespace ArtShare.Controllers
             return View();
         }
 
+        public ActionResult Movies()
+        {
+            return View();
+        }
+
+        public ActionResult Music()
+        {
+            return View();
+        }
+
+        public ActionResult Books()
+        {
+            return View();
+        }
+
     }
 }
