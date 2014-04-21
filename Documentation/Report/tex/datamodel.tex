@@ -25,7 +25,7 @@
 }
 
 \begin{document}
-When designing the data model there were several considerations to make. Our main goals of the data model was as following
+When designing the data model there were several considerations to make. Our design goals for the data model was as follows
 \begin{itemize}
 \item Make a generic data model that could suit both the ArtShare and SMU Client.
 \item Make the model as extendible as possible. By this we mean that we can add a new property to eg a \textit{Media item} without having to change the data model. This facilitates more iterative development.
@@ -39,11 +39,13 @@ When designing the data model there were several considerations to make. Our mai
 %(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
 
 
-Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. 
+Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
 
 In order to make data model flexible and extendible we choose to only make the \textit{User} and \textit{Media item} store required information. Other information like title, artist, director, email etc. is made relational (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel})
 
-This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively. 
+This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively.\\
+
+Another choice we made was to have a AccessRight relation between \textit{User's} and \textit{Media item's}. We made this choice to facilitate different Access rights to a \textit{Media item} like Owner and Buyer. We could have implemented Owner as an attribute to Entity and have made a table for purchases instead of having an AccessRight and AccessRightType table. We did this to make the model more extensible. For example if we for some reason wants multiple owners or if we want to make a new type. 
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{img/ER.pdf}
@@ -76,7 +78,7 @@ CREATE TABLE EntityInfo(
 \label{datamodel}
 \end{figure}
 
-Our data model is in 3NF (Third normal form). This is because we have ID's on all entities. An ID for eg \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier to implement a generic Data Access Layer when every entity had an unique property.
+Our data model is in 3NF (Third normal form). It's in 3NF and not BCNF (Boyce-Codd normal form) because we have ID's on all entities. An ID for eg \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier in regards to implementation of a generic Data Access Layer.
 
 
 \end{document}
