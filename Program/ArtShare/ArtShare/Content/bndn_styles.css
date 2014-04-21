@@ -220,7 +220,7 @@ header nav ul li div{
     float:left;
     width: 60%;
     padding-left: 10px;
-    height: 55%; /* 60% for 1-2, 55% for 1-3, 45% for 1-4*/
+    height: 60%; /* 60% for 1-2, 55% for 1-3, 45% for 1-4*/
 }
 
 .media-box .read-more{
@@ -278,12 +278,22 @@ header nav ul li div{
     cursor: pointer;
 }
 
-.search-results img{
+.search-results{
+    height: 400px;
+}
+
+.search-results .img-container{
+    height: 100%;
     width: 40%;
     margin-right: 10px;
 }
 
-.search-results button{
+.search-results img{
+    width: 100%;
+    
+}
+
+.search-results .read-more{
     position: absolute;
     bottom: 0;
     right: 0;
