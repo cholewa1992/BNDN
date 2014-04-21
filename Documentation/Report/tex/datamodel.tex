@@ -1,8 +1,25 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
-When designing the data model there were several considerations to make. Firstly it was important to design a data model which was flexible enough to accommodate the demands of the SMU team. Secondly it was important to design a data model which was in as high a normal form as possible in order to reduce redundant data and the possibility of creating corrupt data.(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER) !!!ADD THIRD THING HERE!!!!!!
+When designing the data model there were several considerations to make. Our main goals of the data model was as following
+\begin{itemize}
+\item Make a generic data model that could suit both the ArtShare and SMU Client.
+\item Make the model as extendible as possible. By this we mean that we can add a new property to eg a \textit{Media item} without having to change the data model. This facilitates more iterative development.
+\item We wanted to have a data model with as high normal form as possible to avoid redundancy in regards to data space and corruption
+\end{itemize} 
 
-Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media Item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. 
 
-In order to make data model as flexible as possible we decided to add an entity for the type of the \textit{Media Item}
+%Firstly it was important to design a data model which was generic enough to accommodate the demands of the SMU team. Secondly it was important to design a data model which was in as high a normal form as possible in order to reduce redundant data and the possibility of creating corrupt data. Lastly we wanted to make the datamodel as extendible to new features as possible.  
+
+
+%(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
+
+
+Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. 
+
+In order to make data model flexible and extendible we choose to only make the \textit{User} and \textit{Media item} store required information. Other information like title, artist, director, email etc. is made relational. 
+
+This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively. 
+
+\includegraphics{img/ER}
+
 \end{document}
