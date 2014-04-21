@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ArtShare.Logic;
 using Microsoft.Ajax.Utilities;
 using ShareItServices.MediaItemService;
+using ArtShare.Models;
 
 namespace ArtShare.Controllers
 {
@@ -29,7 +30,7 @@ namespace ArtShare.Controllers
         public ActionResult Stub()
         {
 
-            var model = new Models.MovieDetailsModel()
+            /*var model = new Models.MovieDetailsModel()
             {
                 AvgRating = 4,
                 CastMembers = new List<string>{ "Jude Law", "Forest Whitaker", "Alice Braga", "Liev Schrieber" },
@@ -45,6 +46,37 @@ namespace ArtShare.Controllers
                 Tags = new List<string>{ "Evil Corporation", "Repo Man", "Aftercreditsstringer" },
                 Thumbnail = "http://image.tmdb.org/t/p/w396/juU0imfyYlwfkKFdwE7ZMvLf16u.jpg",
                 Title = "Repo Men"
+            };*/
+
+            /*var model = new Models.MusicDetailsModel()
+            {
+                Artist = "Miley Cyrus",
+                Description = "Wrecking Ball is a song performed by American recording artist Miley Cyrus for her fourth studio album Bangerz (2013). It was released on August 25, 2013, by RCA Records as the second single from the record. It was written by MoZella, Stephan Moccio, Sacha Skarbek, Lukasz Gottwald, and Henry Russell Walter. It was produced by Dr. Luke and Cirkut. Wrecking Ball is a pop ballad which lyrically discusses the deterioration of a relationship; it has been widely speculated to have been inspired by Cyrus' former fiancé Liam Hemsworth.",
+                FileExtension = ".mp3",
+                FileUrl = "http://upload.wikimedia.org/wikipedia/en/thumb/0/06/Miley_Cyrus_-_Wrecking_Ball.jpg/220px-Miley_Cyrus_-_Wrecking_Ball.jpg",
+                Genres = new List<string> { "Pop" },
+                Price = 200,
+                ReleaseDate = new DateTime(2013, 08, 25),
+                Tags = new List<string> { "A tag", "Another tag" },
+                Thumbnail = "http://upload.wikimedia.org/wikipedia/en/thumb/0/06/Miley_Cyrus_-_Wrecking_Ball.jpg/220px-Miley_Cyrus_-_Wrecking_Ball.jpg",
+                Title = "Wrecking Ball",
+                TrackLength = "3:41"
+            };*/
+
+            var model = new Models.BookDetailsModel()
+            {
+                Author = "Arthur Conan Doyle",
+                Description = "A Study in Scarlet is a detective mystery novel written by Sir Arthur Conan Doyle, introducing his new characters, consulting detective Sherlock Holmes and his friend and chronicler, Dr. John Watson, who later became two of the most famous characters in literature. Conan Doyle wrote the story in 1886, and it was published the following year. The book's title derives from a speech given by Holmes to Doctor Watson on the nature of his work, in which he describes the story's murder investigation as his 'study in scarlet': 'There's the scarlet thread of murder running through the colourless skein of life, and our duty is to unravel it, and isolate it, and expose every inch of it.' (A 'study' is a preliminary drawing, sketch or painting done in preparation for a finished piece.)",
+                FileExtension = ".pdf",
+                FileUrl = "http://en.wikipedia.org/wiki/A_Study_in_Scarlet",
+                Genres = new List<string> { "Detective", "Crime", "Mystery", "Novel" },
+                Language = "English",
+                NumberOfPages = 96,
+                Price = 50,
+                ReleaseDate = new DateTime(1887),
+                Tags = new List<string> { "a tag", "Arthur" },
+                Thumbnail = "http://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/ArthurConanDoyle_AStudyInScarlet_annual.jpg/220px-ArthurConanDoyle_AStudyInScarlet_annual.jpg",
+                Title = "A Study in Scarlet"
             };
 
             return View(model);
@@ -79,28 +111,46 @@ namespace ArtShare.Controllers
 
                     case MediaItemTypeDTO.Book:
                         var bookModel = _logic.ExstractBookInformation(dto);
-                        return View(bookModel);
+                        return Book(bookModel);
 
                     case MediaItemTypeDTO.Movie:
-                        var movieModel = _logic.ExstractBookInformation(dto);
-                        return View(movieModel);
+                        var movieModel = _logic.ExstractMovieInformation(dto);
+                        return Movie(movieModel);
 
                     case MediaItemTypeDTO.Music:
-                        var musicModel = _logic.ExstractBookInformation(dto);
-                        return View(musicModel);
+                        var musicModel = _logic.ExstractMusicInformation(dto);
+                        return Music(musicModel);
 
                 }
             }
             catch (FaultException e)
             {
                 TempData["error"] = e;
-                return View();
+                return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
 
+        // GET Details/Book/{id}
+        public ActionResult Book(BookDetailsModel model)
+        {
+            return View(model);
+        }
+
+        // GET Details/Movie/{id}
+        public ActionResult Movie(MovieDetailsModel model)
+        {
+            return View(model);
+        }
+
+        // GET Details/Music/{id}
+        public ActionResult Music(MusicDetailsModel model)
+        {
+            return View(model);
+        }
+        
 
         ///// <summary>
         ///// Build view with Book details model

@@ -15,7 +15,7 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    class DataTransferLogic : IDataTransferLogic
+    internal class DataTransferLogic : IDataTransferLogic
     {
         private readonly IStorageBridge _dbStorage;
         private readonly IFileStorage _fileStorage;
