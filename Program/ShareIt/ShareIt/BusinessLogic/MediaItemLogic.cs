@@ -472,7 +472,7 @@ namespace BusinessLogicLayer
             if (user.Id == -1)
                 throw new InvalidUserException();
             //Validate that user is allowed to update.
-            if(_authLogic.CheckUserAccess(user.Id, media.Id) == AccessRightType.NoAccess && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
+            if(_authLogic.CheckUserAccess(user.Id, media.Id) != AccessRightType.Owner && !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
                 throw new UnauthorizedAccessException();
             //See if there is an item in the db with matching id.
             var entity = _storage.Get<Entity>().FirstOrDefault(x => x.Id == media.Id);
@@ -484,11 +484,11 @@ namespace BusinessLogicLayer
                 ? new List<EntityInfo>()
                 : media.Information.Aggregate(new List<EntityInfo>(), (list, x) =>
                 {
-                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type, Id = x.Id});
+                    if (x != null && x.Data != null) list.Add(new EntityInfo() { Data = x.Data, EntityInfoTypeId = (int)x.Type});
                     return list;
                 });
             //Delete old infos.
-            _storage.Delete<EntityInfo>(entity.EntityInfo);
+            _storage.Delete(entity.EntityInfo);
             //Set type and information to be the new values and update db.
             entity.TypeId = (int)media.Type;
             entity.EntityInfo = information;
