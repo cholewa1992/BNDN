@@ -136,6 +136,7 @@ UpgradeLog*.XML
 *.out
 *.synctex.gz
 *.pdf
+!*/img/*.pdf
 
 # OS generated files
 .DS_Store
