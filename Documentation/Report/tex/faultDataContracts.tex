@@ -18,7 +18,18 @@ We have solved this by defining fault data contracts and then marking which SOAP
 \caption{UnauthorizedClient fault data contract}
 \end{figure}
 
-This allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
+We have defined the following fault data contracts:
+
+\begin{itemize}
+\item AccessRightNotFound
+\item ArgumentFault
+\item MediaItemNotFound
+\item ObjectNotFound
+\item UnauthorizedClient
+\item UnauthorizedUser
+\end{itemize}
+
+This solution allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
 
 \begin{figure}[H]
 \begin{lstlisting}[frame=single]

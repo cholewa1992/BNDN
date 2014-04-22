@@ -13,7 +13,7 @@ Our design goals for the Business Logic Layer was to make it:
 \item Testable
 \end{enumerate}
 
-In order to gain transparency in our Business Logic Layer we decided to use an Abstract Factory pattern with a regular Factory pattern on top to make it possible to gain access to the concrete implementations of the Abstract Factory from outside the Business Logic Layer.
+In order to gain transparency in our Business Logic Layer we decided to use an Abstract Factory pattern with a regular Factory pattern on top. This makes it possible to gain access to the concrete implementations of the Abstract Factory from outside the Business Logic Layer while only exposing one class namely the BusinessLogicEntryFactory.
 
 \begin{landscape}
 
