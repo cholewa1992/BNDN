@@ -35,6 +35,7 @@ namespace ArtShare.Logic
         {
             if (searchResult == null) { throw new ArgumentNullException("searchResult"); }
 
+            var detailsLogic = new DetailsLogic();
             var model = new SearchModel();
             foreach (var pair in searchResult)
             {
@@ -45,15 +46,18 @@ namespace ArtShare.Logic
                     switch ((int) pair.Key)
                     {
                         case (int) MediaItemTypeDTO.Book:
-                            model.Books = mediaItemList;
+                            var books = mediaItemList.Select(item => detailsLogic.ExstractBookInformation(item)).ToList();
+                            model.Books = books;
                             model.NumberOfMatchingBooks = numberOfSearchResults;
                             break;
                         case (int) MediaItemTypeDTO.Music:
-                            model.Music = mediaItemList;
+                            var music = mediaItemList.Select(item => detailsLogic.ExstractMusicInformation(item)).ToList();
+                            model.Music = music;
                             model.NumberOfMatchingMusic = numberOfSearchResults;
                             break;
                         case (int) MediaItemTypeDTO.Movie:
-                            model.Movies = mediaItemList;
+                            var movies = mediaItemList.Select(item => detailsLogic.ExstractMovieInformation(item)).ToList();
+                            model.Movies = movies;
                             model.NumberOfMatchingMovies = numberOfSearchResults;
                             break;
                     }

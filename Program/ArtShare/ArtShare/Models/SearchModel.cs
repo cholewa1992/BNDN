@@ -8,21 +8,21 @@ namespace ArtShare.Models
     {
         //Books
         [Display(Name = "Books")]
-        public List<MediaItemDTO> Books { get; set; }
+        public List<BookDetailsModel> Books { get; set; }
 
         [Display(Name = "Number of matching books")]
         public int NumberOfMatchingBooks { get; set; }
 
         //Music
         [Display(Name = "Music")]
-        public List<MediaItemDTO> Music { get; set; }
+        public List<MusicDetailsModel> Music { get; set; }
 
         [Display(Name = "Number of matching music files")]
         public int NumberOfMatchingMusic { get; set; }
 
         //Movies
         [Display(Name = "Movies")]
-        public List<MediaItemDTO> Movies { get; set; }
+        public List<MovieDetailsModel> Movies { get; set; }
 
         [Display(Name = "Number of matching movies")]
         public int NumberOfMatchingMovies { get; set; }

@@ -108,7 +108,7 @@ namespace ClientUnitTest
         {
             var result = _searchLogic.PrepareSearchModel(_dictionary);
             var actual = result.Books[0];
-            Assert.AreEqual("BookTitle 0", actual.Information[0].Data);
+            Assert.AreEqual("BookTitle 0", actual.Title);
         }
 
         [TestMethod]
