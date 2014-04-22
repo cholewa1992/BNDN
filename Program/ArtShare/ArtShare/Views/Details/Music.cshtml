@@ -1,7 +1,7 @@
 ﻿@model ArtShare.Models.MusicDetailsModel
 
 @{
-    ViewBag.Title = "Stub";
+    ViewBag.Title = Model.Title;
 }
 
 <script>
@@ -27,9 +27,9 @@
     <div class="to-right detail-buttons clearfix">
         @switch (Model.AccessRight)
         {
-            case 0 : <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
-            case 1 : <button class="pure-button button-art">Download</button> break;
-            case 2 : <button class="pure-button button-art">Edit</button> break;
+            case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
+            case 1: <button class="pure-button button-art">Download</button> break;
+            case 2: <button class="pure-button button-art">Download</button><button class="pure-button button-art">Edit</button> break;
         }
     </div>
 

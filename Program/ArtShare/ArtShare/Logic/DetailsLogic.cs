@@ -59,8 +59,22 @@ namespace ArtShare.Logic
         {
             using (var arsc = new AccessRightServiceClient())
             {
-                if (arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.Id == id)) return 1;
+                var r = arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken);
+                if (r.Any(t => t.Id == id)) return 1;
                 if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.Id == id)) return 2;
+
+                using (var authl = new ShareItServices.AuthService.AuthServiceClient())
+                {
+                    if (authl.IsUserAdminOnClient(
+                        new ShareItServices.AuthService.UserDTO
+                        {
+                            Id = requestingUser.Id,
+                            Username = requestingUser.Username,
+                            Password = requestingUser.Password
+                        },
+                            Resources.ClientToken)) { return 2; }
+                }
+
                 return 0;
             }
         }
