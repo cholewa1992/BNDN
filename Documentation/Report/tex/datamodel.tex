@@ -25,11 +25,11 @@
 }
 
 \begin{document}
-When designing the data model there were several considerations to make. Our design goals for the data model was as follows
+When designing the data model there were several considerations to make. Our design goals for the data model were as follows
 \begin{itemize}
-\item Make a generic data model that can suit both the ArtShare and SMU Client.
-\item Make the model as extendible as possible. By this we mean that we can add a new property to eg a \textit{Media item} without having to change the data model. This facilitates more iterative development.
-\item We want to have a data model with as high normal form as possible to avoid redundancy in regards to data space and corruption
+\item Make a generic data model that can suit both the ArtShare and the SMU Client.
+\item Make the model as extensible as possible. By this we mean that we can add a new property to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
+\item We wanted our data model to be in the highest normal form possible to avoid redundancy in regards to data space and corruption
 \end{itemize} 
 
 
@@ -47,7 +47,7 @@ Looking at the requirements for \textit{The System} we identified two major enti
 \label{fig:use case diagram}
 \end{figure}
 
-In order to make the data model flexible and extendible we choose to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
+In order to make the data model flexible and extensible we chose to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
 
 This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively.\\
 
@@ -76,9 +76,9 @@ CREATE TABLE EntityInfo(
 \label{datamodel}
 \end{figure}
 
-Another choice we made was to have an AccessRight relation between \textit{User's} and \textit{Media item's}. We made this choice to facilitate different Access rights to a \textit{Media item} like Owner and Buyer.
+Another choice we made was to have an AccessRight relation between \textit{User}s and \textit{Media item}s. We made this choice to facilitate different access rights to a \textit{Media item} like Owner and Buyer.
 
-Our data model is in 3NF (Third normal form). It's in 3NF and not BCNF (Boyce-Codd normal form) because we have ID's on all entities. An ID for eg \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier in regards to implementation of a generic Data Access Layer.
+Our data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because we have IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier in regards to implementation of a generic Data Access Layer.
 
 The full data model SQL definition can be found in appendix
 
