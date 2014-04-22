@@ -218,7 +218,7 @@ namespace BusinessLogicTests
         }
         #endregion
         #region GetMediaItemInformation
-        [ExpectedException(typeof(FaultException<MediaItemNotFound>))]
+        [ExpectedException(typeof(MediaItemNotFoundException))]
         [TestMethod]
         public void GetMediaItemInformation_InvalidMediaItemId()
         {
@@ -486,7 +486,7 @@ namespace BusinessLogicTests
         }
         #endregion
         #region RateMediaItem
-        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void RateMediaItem_UserIdLessThanOne()
         {
@@ -569,7 +569,7 @@ namespace BusinessLogicTests
 
         }
 
-        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void RateMediaItem_UserIdNotFound()
         {
@@ -717,14 +717,14 @@ namespace BusinessLogicTests
         #endregion
         #region DeleteMediaItem
 
-        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void DeleteMediaItem_UserIdLessThanOne()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.DeleteMediaItem(new UserDTO{Id = -2}, 1, "testClient");
         }
-        [ExpectedException(typeof(FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void DeleteMediaItem_UserNotExisting()
         {
