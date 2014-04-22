@@ -243,29 +243,16 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(requestingUser.Password));
             if (_authLogic.CheckClientToken(clientToken) < 1)
             {
-                var msg = "Client token not valid.";
-                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
-                {
-                    Message = msg
-                }, new FaultReason(msg));
+                throw new InvalidClientException();
             }
             var userId = _authLogic.CheckUserExists(requestingUser);
             if (userId == -1)
             {
-                var msg = "User credentials not valid.";
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
-                {
-                    Message = msg
-                }, new FaultReason(msg));
+                throw new InvalidUserException();
             }
             if (!_authLogic.IsUserAdminOnClient(userId, clientToken) && userId != userToBeDeletedId)
             {
-                var msg = "User not allowed to delete user with id: " + userToBeDeletedId + ",\n" +
-                              "because he is not admin and tying to delete another user than himself.";
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
-                {
-                    Message = msg
-                }, new FaultReason(msg));
+                throw new UnauthorizedUserException();
             }
             _storage.Delete<UserAcc>(userToBeDeletedId);
             return true;

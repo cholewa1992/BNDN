@@ -52,10 +52,7 @@ namespace BusinessLogicLayer
             }
             catch (Exception e)
             {
-                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
-                {
-                    Message = "No media item with id " + mediaItemId + " exists in the database"
-                });
+                throw new MediaItemNotFoundException();
             }
 
             var mediaItem = new MediaItemDTO
@@ -84,10 +81,7 @@ namespace BusinessLogicLayer
                 int userId = _authLogic.CheckUserExists(user);
                 if (userId == -1)
                 {
-                    throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
-                    {
-                        Message = "User credentials not accepted."
-                    });
+                    throw new InvalidUserException();
                 }
                 try
                 {
@@ -320,10 +314,7 @@ namespace BusinessLogicLayer
             int userId = _authLogic.CheckUserExists(user);
             if (userId == -1)
             {
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
-                {
-                    Message = "User credentials not accepted."
-                });
+                throw new InvalidUserException();
             }
 
             //check if the user has already rated this media item
@@ -405,9 +396,7 @@ namespace BusinessLogicLayer
             int userId = _authLogic.CheckUserExists(user);
             if (userId == -1) 
             {
-                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser {
-                    Message = "User credentials not accepted."
-                });
+                throw new InvalidUserException();
             }
 
             var mediaItem = _storage.Get<Entity>().FirstOrDefault(foo => foo.Id == mediaItemId);
