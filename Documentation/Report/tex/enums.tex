@@ -1,5 +1,8 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
+
+\graphicspath{{img/}{../img/}}
+
 http://msdn.microsoft.com/en-us/library/aa347875(v=vs.110).aspx
 When designing the DTOs for the \textit{ShareIt Back End} there was one decision which was particularly impactful. Since the data model was designed to be as generic as possible we needed to decide on how to best reflect this in the DTOs. We considered the following three approaches.
 \begin{itemize}
@@ -16,7 +19,7 @@ However, this approach did not take advantage of the flexibility of the data mod
 \begin{figure}[!h]
 \label{fig:dto_inheritance}
 \centering
-\includegraphics[scale=0.7]{../img/DTOInheritance.pdf}
+\includegraphics[scale=0.7]{DTOInheritance.pdf}
 \caption{DTOs using inheritance}
 \end{figure}
 

@@ -29,16 +29,35 @@ Apart from testability the large amount of interfaces also made it possible for 
 
 \begin{landscape}
 
-\newgeometry{left=1cm,right=-3cm}
+\newgeometry{left=1.5cm,right=-3cm}
 
-\subsection{Class Diagram}
+\subsection{Class Diagrams}
 
-\includegraphics[ scale=1.2]{BusinessLogicLayerDiagram.pdf}
+\begin{figure}[!h]
+\label{fig:BusinessLogic_AbstractFactory}
+\includegraphics[ scale=1.2]{BusinessLogicLayerDiagram1.pdf}
+\caption{Class diagram showing the use of the Abstract Factory pattern}
+\end{figure}
 
 \end{landscape}
 
-The diagram above shows the class structure in the Business Logic Layer. The Entry Factory consists of a single concrete class which in our case is the BusinessLogicEntryFactory class. The BusinessLogicEntryFactory class makes it possible to get hold of the concrete factories without exposing the factories to the Service Layer.
 
-Underneath the Entry Factory lies the Abstract Factory pattern which starts with the Abstract Factory interface which in our case is the IBusinessLogicFactory. This interface specifies a method for creating each of the Abstract Products in this Abstract Factory. The Abstract Products are IAuthLogic, IUserLogic, IMediaItemLogic, IAccessRightLogic and IDataTransferLogic. We then have two concrete implementations of this interface and those are the BusinessLogicFactory and the TestFactory classes. Each of the concrete factories can then produce an instance of a concrete implementation of each Abstract Product. These concrete implementations must implement the Abstract Product interface which contains the methods that are exposed to the Service Layer. But they must also implement an internal interface (ie. IAuthInternalLogic) which specifies methods that are used internally in the Business Logic Layer. These internal interfaces make it possible for the different concrete logic classes to expose methods to one another but not to the Service Layer.
+\newgeometry{left=5.5cm,bottom=1.5cm}
+
+\begin{landscape}
+
+\begin{figure}[!h]
+\label{fig:BusinessLogic_InternalInterfaces}
+\includegraphics[ scale=0.9]{BusinessLogicLayerDiagram2.pdf}
+\caption{Class diagram showing internal interfaces}
+\end{figure}
+
+\end{landscape}
+
+\restoregeometry
+
+The first diagram above shows the class structure in the Business Logic Layer. The Entry Factory consists of a single concrete class which in our case is the BusinessLogicEntryFactory class. The BusinessLogicEntryFactory class makes it possible to get hold of the concrete factories without exposing the factories to the Service Layer.
+
+Underneath the Entry Factory lies the Abstract Factory pattern which starts with the Abstract Factory interface which in our case is the IBusinessLogicFactory. This interface specifies a method for creating each of the Abstract Products in this Abstract Factory. The Abstract Products are IAuthLogic, IUserLogic, IMediaItemLogic, IAccessRightLogic and IDataTransferLogic. We then have two concrete implementations of this interface and those are the BusinessLogicFactory and the TestFactory classes. Each of the concrete factories can then produce an instance of a concrete implementation of each Abstract Product. These concrete implementations must implement the Abstract Product interface which contains the methods that are exposed to the Service Layer. But they must also implement an internal interface (ie. IAuthInternalLogic) which specifies methods that are used internally in the Business Logic Layer as shown in the second diagram above. These internal interfaces make it possible for the different concrete logic classes to expose methods to one another but not to the Service Layer. In our implementation all the logic classes use the authentication methods specified in the IAuthInternalLogic interface to authenticate users, admins and clients.
 
 \end{document}
