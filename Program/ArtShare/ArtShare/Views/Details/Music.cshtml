@@ -57,17 +57,21 @@
             <h4>
                 Genre
             </h4>
-            @foreach (var genre in Model.Genres)
-            {
-                <button class="pure-button">@genre</button>
+            @if (Model.Tags != null) {
+                foreach (var genre in Model.Genres)
+                {
+                    <button class="pure-button">@genre</button>
 
+                }
             }
             <hr />
 
             <h4>Tags</h4>
-            @foreach (var t in Model.Tags)
-            {
-                <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+            @if (Model.Tags != null) {
+                foreach (var t in Model.Tags)
+                {
+                    <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+                }
             }
             <hr />
 

@@ -83,10 +83,6 @@ namespace ArtShare.Controllers
 
         }
 
-
-        //
-        // GET: /Details/
-
         public ActionResult Index(int id)
         {
 
@@ -105,50 +101,62 @@ namespace ArtShare.Controllers
             try
             {
                 dto = _logic.GetMediaItem(id, user);
-
+                object model;
                 switch (dto.Type)
                 {
 
                     case MediaItemTypeDTO.Book:
-                        var bookModel = _logic.ExstractBookInformation(dto);
-                        return Book(bookModel);
+                        model = _logic.ExstractBookInformation(dto);
+                        break;
 
                     case MediaItemTypeDTO.Movie:
-                        var movieModel = _logic.ExstractMovieInformation(dto);
-                        return Movie(movieModel);
+                        model = _logic.ExstractMovieInformation(dto);
+                        break;
 
                     case MediaItemTypeDTO.Music:
-                        var musicModel = _logic.ExstractMusicInformation(dto);
-                        return Music(musicModel);
+                        model = _logic.ExstractMusicInformation(dto);
+                        break;
+                    default: throw new Exception("Dto type not known");
 
                 }
+                TempData["model"] = model;
+                return RedirectToAction(dto.Type.ToString(), "Details", new { id });
             }
             catch (FaultException e)
             {
                 TempData["error"] = e;
                 return RedirectToAction("Index", "Home");
             }
-
-            return RedirectToAction("Index", "Home");
         }
 
-
         // GET Details/Book/{id}
-        public ActionResult Book(BookDetailsModel model)
+        public ActionResult Book(int id)
         {
-            return View(model);
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as BookDetailsModel);
+            }
+            return Index(id);
         }
 
         // GET Details/Movie/{id}
-        public ActionResult Movie(MovieDetailsModel model)
+        public ActionResult Movie(int id)
         {
-            return View(model);
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MovieDetailsModel);
+            }
+            return Index(id);
         }
 
         // GET Details/Music/{id}
-        public ActionResult Music(MusicDetailsModel model)
+        public ActionResult Music(int id)
         {
-            return View(model);
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MusicDetailsModel);
+            }
+            return Index(id);
         }
         
 
