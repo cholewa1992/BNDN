@@ -132,8 +132,8 @@ namespace IntergrationTest
             Assert.IsFalse(al.IsUserAdminOnClient(_mathias, _artShare));
             Assert.IsFalse(al.IsUserAdminOnClient(_jacob, _smu));
 
-            arl.MakeAdmin(_jacob, 3, _artShare); //Making Mathias admin of ArtShare
-            arl.MakeAdmin(_loh, 1, _smu); //Making Jacob admin of SMU client
+            arl.MakeAdmin(_jacob, 3, _artShare); //Making Jacob admin of ArtShare
+            arl.MakeAdmin(_loh, 1, _smu); //Making Loh admin of SMU client
 
             Assert.IsTrue(al.IsUserAdminOnClient(_jacob, _artShare));
             Assert.IsTrue(al.IsUserAdminOnClient(_loh, _smu));
