@@ -101,7 +101,7 @@ namespace ArtShare.Controllers
             try
             {
                 dto = _logic.GetMediaItem(id, user);
-                object model;
+                AbstractDetailsModel model;
                 switch (dto.Type)
                 {
 
@@ -119,6 +119,9 @@ namespace ArtShare.Controllers
                     default: throw new Exception("Dto type not known");
 
                 }
+
+                if(user != null) model.AccessRight = _logic.IsOwnerOfMedia(new ShareItServices.AccessRightService.UserDTO { Username = user.Username, Password = user.Password }, id);
+
                 TempData["model"] = model;
                 return RedirectToAction(dto.Type.ToString(), "Details", new { id });
             }

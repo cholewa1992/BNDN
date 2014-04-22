@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
@@ -54,7 +55,23 @@ namespace ShareIt
             try
             {
                 return _factory.CreateMediaItemLogic().GetMediaItemInformation(mediaItemId, user, clientToken);
-            } 
+            }
+            catch (MediaItemNotFoundException e)
+            {
+                var message = "No media item with id " + mediaItemId + " exists in the database";
+                throw new FaultException<MediaItemNotFound>(new MediaItemNotFound
+                {
+                    Message = message
+                }, new FaultReason(message));
+            }
+            catch (InvalidUserException e)
+            {
+                var msg = "User credentials not accepted.";
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = msg
+                }, new FaultReason(msg));
+            }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
@@ -182,6 +199,14 @@ namespace ShareIt
             {
                 _factory.CreateMediaItemLogic().RateMediaItem(user, mediaItemId, rating, clientToken);
             }
+            catch (InvalidUserException e)
+            {
+                var msg = "User credentials not accepted.";
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = msg
+                }, new FaultReason(msg));
+            }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
@@ -219,6 +244,14 @@ namespace ShareIt
             try
             {
                 _factory.CreateMediaItemLogic().DeleteMediaItem(user, mediaItemId, clientToken);
+            }
+            catch (InvalidUserException e)
+            {
+                var msg = "User credentials not accepted.";
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser
+                {
+                    Message = msg
+                }, new FaultReason(msg));
             }
             catch (ArgumentException e)
             {

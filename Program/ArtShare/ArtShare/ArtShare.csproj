@@ -146,6 +146,7 @@
     <Compile Include="Logic\ISearchLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />
+    <Compile Include="Models\AbstractDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MovieDetailsModel.cs" />
     <Compile Include="Models\MusicDetailsModel.cs" />
@@ -292,6 +293,7 @@
     <Content Include="Views\Home\Movies.cshtml" />
     <Content Include="Views\Home\Music.cshtml" />
     <Content Include="Views\Home\Books.cshtml" />
+    <Content Include="Views\Search\SearchMediaItemsOld.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

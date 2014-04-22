@@ -6,6 +6,8 @@ namespace ArtShare.Logic
     public interface IDetailsLogic
     {
 
+        int IsOwnerOfMedia(ShareItServices.AccessRightService.UserDTO requestingUser, int id);
+
         /// <summary>
         /// Purchases a mediaitem to a given user
         /// </summary>

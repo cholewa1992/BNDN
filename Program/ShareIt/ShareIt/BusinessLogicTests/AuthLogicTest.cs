@@ -54,21 +54,21 @@ namespace BusinessLogicTests
                      EntityId = 1,
                      UserId = 1,
                      Expiration = null,
-                     AccessRightTypeId = 1
+                     AccessRightTypeId = 2
                  },
                  new AccessRight()
                  {
                      EntityId = 2,
                      UserId = 1,
                      Expiration = new DateTime(2050,1,1),
-                     AccessRightTypeId = 2
+                     AccessRightTypeId = 1
                  },
                  new AccessRight()
                  {
                      EntityId = 3,
                      UserId = 1,
                      Expiration = new DateTime(2010,1,1),
-                     AccessRightTypeId = 1
+                     AccessRightTypeId = 2
                  },
                  
                  new AccessRightType()

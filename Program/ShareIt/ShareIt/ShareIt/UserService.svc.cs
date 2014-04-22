@@ -205,6 +205,31 @@ namespace ShareIt
                 }
                 return result;
             }
+            catch (InvalidClientException e)
+            {
+                var msg = "Client token not valid.";
+                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient()
+                {
+                    Message = msg
+                }, new FaultReason(msg));
+            }
+            catch (InvalidUserException e)
+            {
+                var msg = "User credentials not valid.";
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = msg
+                }, new FaultReason(msg));
+            }
+            catch (UnauthorizedUserException e)
+            {
+                var msg = "User not allowed to delete user with id: " + acountToBeDeletedId + ",\n" +
+                              "because he is not admin and trying to delete another user than himself.";
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser()
+                {
+                    Message = msg
+                }, new FaultReason(msg));
+            }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault();
