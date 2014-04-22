@@ -156,3 +156,6 @@ ehthumbs.db
 *.iso
 *.jar
 *.tar
+
+#White listing#
+!Documentation/Report/img/*.pdf
