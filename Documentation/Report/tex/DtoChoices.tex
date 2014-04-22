@@ -1,0 +1,52 @@
+\documentclass[../report.tex]{subfiles}
+
+
+\begin{document}
+
+
+\section{Data Transfer Flow}
+
+DTO(Data Transfer Objects) are widely used for storing application domain data through the control flow. The alternative to encapsulating the data in objects is passing it around as native typed arguments.
+
+\begin{itemize}
+\item DTO passing
+\subitem \texttt{public void CheckUserExists(UserDTO dto)}
+
+\item Native type passing
+\subitem \texttt{public void CheckUserExists(string username, string password)}
+\end{itemize}
+
+There are several advantages to using DTOs
+
+\begin{itemize}
+\item Readability. When there is a need for many informations the method signatures will grow huge when using native type arguments.
+\item Code reuse. Properties passed are specified in the DTO class and not in every method signature.
+\item Property name consensus. The names of DTO properties are specified in the class, and one does not have to work with multiple argument names which might differ from signature to signature, but only the chosen name for the DTO argument.
+\end{itemize}
+
+We have chosen to use DTOs mainly for the readability and code reuse, later realizing one flaw in our DTO design as described in the next subsection.
+
+
+\subsection{DTO structure}
+
+Our DTOs are implemented to encapsulate application domain data over software situation data.
+
+For example our UserDTO encapsulates application domain data in the way that it holds all properties associated with a user. This means that an invoker of \texttt{CheckUserExists(UserDTO dto)} does not know what properties are needed in the DTO.
+
+With the proper service documentation this has not caused too many headaches, and that together with our deadline made us keep this implementation.
+
+If we were to change our implementation we would either
+
+\begin{itemize}
+\item Change signatures of methods not needing all DTO information to take native type arguments instead. For example \texttt{CheckUserExists(string username, string password)}
+\item Use software situation DTOs like UserCredentialDTO containing a username and password
+\end{itemize}
+
+
+\subsection{DTO exposing in services}
+
+Our back-end DTOs are exposed as DataContracts through our WCF services. This means that an implementing client will know our DTO classes and our DTO transfer flow will reach all the way to any client who can then choose to use the DTOs in any way.
+
+A user implementing our services can experience some type problems with our DTOs. For example the same UserDTO datacontract exposed by two different services will have different namespaces, and so are not interchangeable. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/} 
+
+\end{document}
