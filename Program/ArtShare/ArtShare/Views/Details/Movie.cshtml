@@ -25,8 +25,12 @@
 
     </h1>
     <div class="to-right detail-buttons clearfix">
-        <button class="pure-button button-art">Buy</button>
-        <button class="pure-button button-art">Download</button>
+        @switch (Model.AccessRight)
+        {
+            case 0: <button class="pure-button button-art">Buy</button> break;
+            case 1: <button class="pure-button button-art">Download</button> break;
+            case 2: <button class="pure-button button-art">Edit</button> break;
+        }
         <button class="pure-button button-art">Edit</button>
     </div>
 
@@ -57,29 +61,35 @@
             <h4>
                 Genre
             </h4>
-            @foreach (var genre in Model.Genres)
-            {
-                <button class="pure-button">@genre</button>
+            @if (Model.Genres != null) {
+                foreach (var genre in Model.Genres)
+                {
+                    <button class="pure-button">@genre</button>
 
+                }
             }
             <hr />
 
             <h4>Tags</h4>
-            @foreach (var t in Model.Tags)
-            {
-                <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+            @if (Model.Tags != null) {
+                foreach (var t in Model.Tags)
+                {
+                    <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+                }
             }
             <hr />
 
             <h4>Cast</h4>
             <ul class="list-group">
-                @foreach (var p in Model.CastMembers)
-                {
-                    <li class="list-group-item">
-                        <a href="#">
-                            @p
-                        </a>
-                    </li>
+                @if (Model.CastMembers != null) {
+                    foreach (var p in Model.CastMembers)
+                    {
+                        <li class="list-group-item">
+                            <a href="#">
+                                @p
+                            </a>
+                        </li>
+                    }
                 }
             </ul>
             <hr />

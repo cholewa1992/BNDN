@@ -7,7 +7,6 @@ using ArtShare.Models;
 using ArtShare.Properties;
 using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
-using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -41,7 +40,7 @@ namespace ArtShare.Logic
         /// <param name="id">Id of item to retrieve</param>
         /// <param name="requestingUser"></param>
         /// <returns>Retrieved media item</returns>
-        public MediaItemDTO GetMediaItem(int id, UserDTO requestingUser)
+        public MediaItemDTO GetMediaItem(int id, ShareItServices.MediaItemService.UserDTO requestingUser)
         {
 
             MediaItemDTO dto;
@@ -50,9 +49,21 @@ namespace ArtShare.Logic
             using (var ms = new MediaItemServiceClient())
             {
                 dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
+
             }
 
+
             return dto;
+        }
+
+        public int IsOwnerOfMedia(ShareItServices.AccessRightService.UserDTO requestingUser, int id)
+        {
+            using (var arsc = new AccessRightServiceClient())
+            {
+                if (arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.Id == id)) return 1;
+                if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.Id == id)) return 2;
+                return 0;
+            }
         }
 
         ///// <summary>

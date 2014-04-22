@@ -25,9 +25,12 @@
 
     </h1>
     <div class="to-right detail-buttons clearfix">
-        <button class="pure-button button-art">Buy</button>
-        <button class="pure-button button-art">Download</button>
-        <button class="pure-button button-art">Edit</button>
+        @switch (Model.AccessRight)
+        {
+            case 0: <button class="pure-button button-art">Buy</button> break;
+            case 1: <button class="pure-button button-art">Download</button> break;
+            case 2: <button class="pure-button button-art">Edit</button> break;
+        }
     </div>
 
 </legend>
@@ -57,17 +60,21 @@
             <h4>
                 Genre
             </h4>
-            @foreach (var genre in Model.Genres)
-            {
-                <button class="pure-button">@genre</button>
+            @if (Model.Genres != null) { 
+                foreach (var genre in Model.Genres)
+                {
+                    <button class="pure-button">@genre</button>
 
+                }
             }
             <hr />
 
             <h4>Tags</h4>
-            @foreach (var t in Model.Tags)
-            {
-                <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+            @if (Model.Tags != null) {
+                foreach (var t in Model.Tags)
+                {
+                    <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+                }
             }
             <hr />
 
