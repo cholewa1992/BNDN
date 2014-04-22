@@ -39,7 +39,8 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentException>(mediaItemId > 0);
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
-            if (_authLogic.CheckClientToken(clientToken) == -1)
+            int clientId = _authLogic.CheckClientToken(clientToken);
+            if (clientId == -1)
             {
                 throw new InvalidCredentialException("Invalid client token");
             }
@@ -48,7 +49,7 @@ namespace BusinessLogicLayer
 
             try
             {
-                entity = (from m in _storage.Get<Entity>() where m.Id == mediaItemId select m).First();
+                entity = _storage.Get<Entity>().First(foo => foo.Id == mediaItemId && foo.ClientId == clientId);
             }
             catch (Exception e)
             {
