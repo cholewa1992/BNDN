@@ -2,7 +2,9 @@
 \begin{document}
 
 \subsection{Multiple services}
-We decided to make multiple services instead of one to maintain a high cohesion in the different services. The idea is that it is very clear what the responsibility of each service is - both for the users of the service (\textit{Client}s) and for other developers. This makes it easy for the \textit{Client}s to figure out which service to use and it will make it easier to find specific operations instead of having to look through one bloated service. It introduces a problem with our Data Transfer Objects which are not shared between the different services. This will be described in section \textcolor{red}{?? Update this reference to DTO section}. 
+We decided to make multiple services instead of one to maintain a high cohesion in the different services. The idea is that it is very clear what the responsibility of each service is - both for the users of the service (\textit{Client}s) and for other developers. This makes it easy for the \textit{Client}s to figure out which service to use and it will make it more convenient to find specific operations instead of having to look through one bloated service. Multiple services instead of one also allows for separate, dedicated front-ends that would target just certain parts of the whole system. 
+
+It introduces a problem with our Data Transfer Objects which are not shared between the different services though. This will be described in section \textcolor{red}{?? Update this reference to DTO section}. 
 
 \subsection{Service responsibilities}
 As mentioned in the previous section, there are five different services, which are responsible for different parts of the system. 

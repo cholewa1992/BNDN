@@ -1,20 +1,4 @@
 \documentclass[../report.tex]{subfiles}
-\usepackage{listings}
-\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
-\definecolor{greencomments}{rgb}{0,0.5,0}
-\definecolor{redstrings}{rgb}{0.9,0,0}
-\lstset{language=[Sharp]C,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  breakatwhitespace=true,
-  escapeinside={(*@}{@*)},
-  commentstyle=\color{greencomments},
-  keywordstyle=\color{bluekeywords},
-  stringstyle=\color{redstrings},
-  basicstyle=\ttfamily
-}
 
 \begin{document}
 \section{Error handling}
@@ -22,7 +6,8 @@ In a WCF service exceptions are serialized to XML and passed to the client in a 
 
 We have solved this by defining fault data contracts and then marking which SOAP faults each operation throws so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient which is thrown when the client is not recognized by the system and looks like this:
 
-\begin{lstlisting}
+\begin{figure}[H]
+\begin{lstlisting}[frame=single]
     [DataContract]
     public class UnauthorizedClient
     {
@@ -30,15 +15,20 @@ We have solved this by defining fault data contracts and then marking which SOAP
         public string Message { get; set; }
     }
 \end{lstlisting}
+\caption{UnauthorizedClient fault data contract}
+\end{figure}
 
 This allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
 
-\begin{lstlisting}
+\begin{figure}[H]
+\begin{lstlisting}[frame=single]
     var fault = new UnauthorizedClient();
     fault.Message = "The Client is not authorized to perform this request.";
     throw new FaultException<UnauthorizedClient>(fault, 
         new FaultReason(fault.Message));
 \end{lstlisting}
+\caption{Example body of catch-block}
+\end{figure}
 
 This decision was mainly made because we initially expected the SMU students to write their client in Javascript and HTML5. We later found that they decided to go with a .NET client and therefore this decision was somewhat unnecessary. 
 
