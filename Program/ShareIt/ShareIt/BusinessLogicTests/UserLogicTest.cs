@@ -576,7 +576,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (FaultException<UnauthorizedClient>))]
+        [ExpectedException(typeof (InvalidClientException))]
         public void DeleteUser_InvalidClientToken_UnauthorizedClient()
         {
             _testUser.Id = 1;
@@ -586,7 +586,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof (UnauthorizedUserException))]
         public void DeleteUser_InvalidUserCredentials_UnauthorizedUser()
         {
             _testUser.Id = 1;
@@ -596,7 +596,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (FaultException<UnauthorizedUser>))]
+        [ExpectedException(typeof (UnauthorizedUserException))]
         public void DeleteUser_UserDeletingOtherUser_UnauthorizedUser()
         {
             var userToBeDeleted = new UserDTO {Id = 2, Username = "DeleteMe", Password = "del1234"};

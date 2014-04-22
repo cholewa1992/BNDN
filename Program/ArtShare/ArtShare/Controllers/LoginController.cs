@@ -33,14 +33,22 @@ namespace ArtShare.Controllers
                 model.LoggedIn = model.User.Id > 0;
             }
 
-            var userCookie = new HttpCookie("user");
-            userCookie["id"] = model.User.Id + "";
-            userCookie["username"] = model.User.Username;
-            userCookie.Expires.AddDays(365);
-            HttpContext.Response.Cookies.Add(userCookie);
+            if (model.LoggedIn)
+            {
 
-            return RedirectToAction("Index", "Home");
-            return View(model);
+                var userCookie = new HttpCookie("user");
+                userCookie["id"] = model.User.Id + "";
+                userCookie["username"] = model.User.Username;
+                userCookie["password"] = model.User.Password;
+                userCookie.Expires.AddDays(365);
+                HttpContext.Response.Cookies.Add(userCookie);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["error"] = "Username or password was incorrect";
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         public ActionResult Logout()

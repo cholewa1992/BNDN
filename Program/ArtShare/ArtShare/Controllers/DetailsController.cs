@@ -92,7 +92,9 @@ namespace ArtShare.Controllers
             {
                 user = new UserDTO()
                 {
-                    Username = Request.Cookies["user"].Values["username"]
+                    Id = int.Parse(Request.Cookies["user"].Values["id"]),
+                    Username = Request.Cookies["user"].Values["username"],
+                    Password = Request.Cookies["user"].Values["password"]
                 };
             }
 
@@ -120,7 +122,7 @@ namespace ArtShare.Controllers
 
                 }
 
-                if(user != null) model.AccessRight = _logic.IsOwnerOfMedia(new ShareItServices.AccessRightService.UserDTO { Username = user.Username, Password = user.Password }, id);
+                if(user != null) model.AccessRight = _logic.IsOwnerOfMedia(new ShareItServices.AccessRightService.UserDTO { Id = user.Id, Username = user.Username, Password = user.Password }, id);
 
                 TempData["model"] = model;
                 return RedirectToAction(dto.Type.ToString(), "Details", new { id });
