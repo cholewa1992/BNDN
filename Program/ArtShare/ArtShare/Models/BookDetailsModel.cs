@@ -6,9 +6,8 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public class BookDetailsModel
+    public class BookDetailsModel : AbstractDetailsModel
     {
-
         public int ProductId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -22,6 +21,6 @@ namespace ArtShare.Models
         public DateTime? ReleaseDate { get; set; }
         public string Language { get; set; }
         public float? Price { get; set; }
-
+        public int AccessRight { get; set; }
     }
 }
