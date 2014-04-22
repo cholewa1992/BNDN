@@ -396,7 +396,7 @@ namespace IntergrationTest
             var mediaItem = result.Single().Value.MediaItemList.Single();
             mediaItem.Information.Single(t => t.Type == InformationTypeDTO.Title).Data = "Lord of the Rings two";
 
-            mil.UpdateMediaItem(_mathias, mediaItem, _artShare);
+            mil.UpdateMediaItem(_jacob, mediaItem, _artShare);
 
             result = mil.FindMediaItemRange(1, 1, null, "Lord of the Rings two", _artShare);
             Assert.AreEqual(1, result.Single().Value.MediaItemList.Single().Id);

@@ -27,7 +27,7 @@
     <div class="to-right detail-buttons clearfix">
         @switch (Model.AccessRight)
         {
-            case 0: <button class="pure-button button-art">Buy</button> break;
+            case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
             case 1: <button class="pure-button button-art">Download</button> break;
             case 2: <button class="pure-button button-art">Edit</button> break;
         }
@@ -35,7 +35,44 @@
 
 </legend>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Are you sure want to purchase @Html.DisplayFor(model => model.Title)? </h4>
+            </div>
+            <div class="modal-body">
+                <h4>Summary:</h4>
 
+                <table class="table">
+                    <tr>
+                        <td><strong>@Html.DisplayNameFor(model => model.Title)</strong></td>
+                        <td>@Html.DisplayFor(model => model.Title)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@Html.DisplayNameFor(model => model.Author)</strong></td>
+                        <td>@Html.DisplayFor(model => model.Author)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@Html.DisplayNameFor(model => model.Description)</strong></td>
+                        <td>@Html.DisplayFor(model => model.Description)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@Html.DisplayNameFor(model => model.Price)</strong></td>
+                        <td>@Html.DisplayFor(model => model.Price)</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="media-details">
