@@ -136,7 +136,6 @@ UpgradeLog*.XML
 *.out
 *.synctex.gz
 *.pdf
-!*/img/*.pdf
 
 # OS generated files
 .DS_Store
@@ -157,3 +156,6 @@ ehthumbs.db
 *.iso
 *.jar
 *.tar
+
+#White listing#
+!*/img/*.pdf
