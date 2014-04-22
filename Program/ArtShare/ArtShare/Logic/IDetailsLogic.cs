@@ -12,13 +12,13 @@ namespace ArtShare.Logic
         /// <param name="mediaId">media item to purchase</param>
         /// <param name="requestingUser">logged in user</param>
         /// <returns>bool of whether it succeeded</returns>
-        bool PurchaseItem(int mediaId, int requestingUser);
+        bool PurchaseItem(int mediaId, ShareItServices.AccessRightService.UserDTO requestingUser);
 
         /// <summary>
         /// Retrieves a mediaitem
         /// </summary>
         /// <param name="id">Id of item to retrieve</param>
-        /// <param name="requestingUser1"></param>
+        /// <param name="requestingUser"></param>
         /// <returns>Retrieved media item</returns>
         MediaItemDTO GetMediaItem(int id, UserDTO requestingUser);
 

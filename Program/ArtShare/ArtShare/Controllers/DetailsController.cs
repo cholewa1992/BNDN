@@ -31,7 +31,7 @@ namespace ArtShare.Controllers
         {
 
             /*var model = new Models.MovieDetailsModel()
-            {
+            {b
                 AvgRating = 4,
                 CastMembers = new List<string>{ "Jude Law", "Forest Whitaker", "Alice Braga", "Liev Schrieber" },
                 Description = "In the near future, when artificial human organs can be bought on credit, one man makes a living by repossessing organs their users can't pay for. What happens when the best repo man in the business can't make payments on his own artificial heart?",
@@ -250,11 +250,12 @@ namespace ArtShare.Controllers
         public ActionResult PurchaseItem(int mediaId)
         {
 
-            int userId = -1;
+            var userDto = new ShareItServices.AccessRightService.UserDTO();
 
             if (Request.Cookies["user"] != null)
             {
-                userId = int.Parse(Request.Cookies["user"].Values["id"]);
+                userDto.Username = Request.Cookies["user"].Values["username"];
+                userDto.Password = Request.Cookies["user"].Values["password"];
             }
             else
             {
@@ -264,14 +265,14 @@ namespace ArtShare.Controllers
 
             try
             {
-                _logic.PurchaseItem(mediaId, userId);
-                //TODO Redirect to download
-                return View();
+                _logic.PurchaseItem(mediaId, userDto);
+                TempData["success"] = "Item purchased!";
+                return Index(mediaId);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                return View();
+                TempData["error"] = e;
+                return Index(mediaId);
             }
 
 
