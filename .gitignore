@@ -158,4 +158,4 @@ ehthumbs.db
 *.tar
 
 #White listing#
-!*/img/*.pdf
+!Documentation/Report/img/*.pdf
