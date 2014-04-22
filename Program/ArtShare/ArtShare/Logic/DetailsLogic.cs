@@ -19,15 +19,14 @@ namespace ArtShare.Logic
         /// <param name="mediaId">media item to purchase</param>
         /// <param name="requestingUser">logged in user</param>
         /// <returns>bool of whether it succeeded</returns>
-        public bool PurchaseItem(int mediaId, int requestingUser)
+        public bool PurchaseItem(int mediaId, ShareItServices.AccessRightService.UserDTO requestingUser)
         {
 
-            var requestingUserDto = new ShareItServices.AccessRightService.UserDTO() {Id = requestingUser}; //TODO Review - UserDTO should contain correct username/password of user who wishes to purchase.
             bool result;
 
             using (var ars = new AccessRightServiceClient())
             {
-                result = ars.Purchase(requestingUserDto, mediaId, null, Resources.ClientToken); //TODO Review - Setting expiration to null, Updated service reference to get newest contract.
+                result = ars.Purchase(requestingUser, mediaId, null, Resources.ClientToken);
             }
 
             return result;
