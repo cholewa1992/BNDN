@@ -159,3 +159,4 @@ ehthumbs.db
 
 #White listing#
 !Documentation/Report/img/*.pdf
+!Documentation/Report/tex/img/*.pdf
