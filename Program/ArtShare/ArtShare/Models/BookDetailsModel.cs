@@ -24,6 +24,5 @@ namespace ArtShare.Models
         public int AccessRight { get; set; }
         public float AvgRating { get; set; }
         public int RatingsGiven { get; set; }
-        public float UserRating { get; set; }
     }
 }
