@@ -146,6 +146,7 @@
     <Compile Include="Logic\IDetailsLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
+    <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\IDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

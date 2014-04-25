@@ -1,12 +1,28 @@
-﻿
+﻿@model ArtShare.Models.UploadModel
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Upload Files</h2>
 
-<div class="fileinput fileinput-new" data-provides="fileinput">
-    <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-    <span class="fileinput-filename"></span>
-    <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-</div>
+<!--<form method="post">
+    <div class="fileinput fileinput-new" data-provides="fileinput">
+        <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
+        <span class="fileinput-filename"></span>
+        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+    </div>
+
+    <input type="hidden" name="id" value="17" />
+    <button type="submit" class="btn btn-success">Upload</button>
+</form>-->
+
+@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="fileinput fileinput-new" data-provides="fileinput">
+        <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="File" required></span>
+        <span class="fileinput-filename"></span>
+        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Upload</button>
+}
