@@ -103,7 +103,7 @@ namespace ArtShare.Controllers
             try
             {
                 dto = _logic.GetMediaItem(id, user);
-                AbstractDetailsModel model;
+                IDetailsModel model;
                 switch (dto.Type)
                 {
 

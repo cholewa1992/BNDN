@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public class MusicDetailsModel : AbstractDetailsModel
+    public class MusicDetailsModel : IDetailsModel
     {
         public int ProductId { get; set; } 
         public string Title { get; set; }
@@ -21,5 +21,7 @@ namespace ArtShare.Models
         public string TrackLength { get; set; }
         public float? Price { get; set; }
         public int AccessRight { get; set; }
+        public float AvgRating { get; set; }
+        public int RatingsGiven { get; set; }
     }
 }

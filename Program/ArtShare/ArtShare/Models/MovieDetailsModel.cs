@@ -22,6 +22,7 @@ namespace ArtShare.Models
         public string Runtime { get; set; }
         public List<string> CastMembers { get; set; }
         public float AvgRating { get; set; }
+        public int RatingsGiven { get; set; }
         public string Language { get; set; }
         public float? Price { get; set; }
         public int AccessRight { get; set; }
