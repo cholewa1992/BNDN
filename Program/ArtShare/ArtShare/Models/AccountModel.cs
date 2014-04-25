@@ -2,7 +2,7 @@
 
 namespace ArtShare.Models
 {
-    public class UpdateAccountModel
+    public class AccountModel
     {
 
         [Display(Name = "User Name")]

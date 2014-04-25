@@ -8,6 +8,6 @@ namespace ArtShare.Logic
     {
         void RegisterAccount(RegisterModel model);
         void DeleteAccount(int id);
-        void UpdateAccountInformation(UpdateAccountModel model);
+        void UpdateAccountInformation(AccountModel model);
     }
 }

@@ -153,7 +153,7 @@
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Models\SearchModel.cs" />
-    <Compile Include="Models\UpdateAccountModel.cs" />
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

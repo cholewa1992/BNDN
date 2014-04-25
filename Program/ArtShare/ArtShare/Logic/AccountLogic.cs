@@ -38,7 +38,7 @@ namespace ArtShare.Logic
             throw new System.NotImplementedException();
         }
 
-        public void UpdateAccountInformation(UpdateAccountModel model)
+        public void UpdateAccountInformation(AccountModel model)
         {
             throw new System.NotImplementedException();
         }
