@@ -1,3 +1,5 @@
+%Remember to update the class diagram - at the moment we use BusinessLogicFacade instead of BusinessLogicEntryFactory. The solid arrow from service layer to businesslogicfacade should be dotted.
+
 \documentclass[../report.tex]{subfiles}
 \begin{document}
 
@@ -5,7 +7,7 @@
 
 \subsection{Business Logic Layer Design}
 
-Our design goals for the Business Logic Layer was to make it:
+Our design goals for the Business Logic Layer were to make it:
 \begin{enumerate}
 \item Transparent
 \item Supportable
@@ -15,9 +17,9 @@ Our design goals for the Business Logic Layer was to make it:
 
 In order to gain transparency in our Business Logic Layer we decided to use an Abstract Factory pattern with a regular Factory pattern on top. This makes it possible to gain access to the concrete implementations of the Abstract Factory from the Service Layer while only exposing one concrete class, namely the BusinessLogicEntryFactory. The Service Layer can use the BusinessLogicEntryFactory to get an instance of any of the concrete factories in the Abstract Factory. When it has gotten a concrete factory it cannot see which factory it is using since all the concrete factories have the type IBusinessLogicFactory, nor will it be able to see what concrete product the factory produces.
 
-This makes our Business Logic Layer reasonably transparent. We could have gone for a very transparent design with a Facade pattern for instance. This would mean exposing one concrete class like we do now, but not exposing any interfaces. The way to access the Business Logic Layer would then be by calling a method in the facade class which then delegates the work to other classes in the Business Logic Layer. This would having a method in the facade class for each method in our entire Business Logic Layer making it enormously bloated which works against some of the other goals we are trying to achieve. So we went with the Entry Factory solution because it gives us some of the properties of a Facade Pattern without making a hugely bloated class
+This makes our Business Logic Layer reasonably transparent. We could have gone for a very transparent design with a Facade pattern for instance. This would mean exposing one concrete class like we do now, but not exposing any interfaces. The way to access the Business Logic Layer would then be by calling a method in the facade class which then delegates the work to other classes in the Business Logic Layer. This would involve having a method in the facade class for each method in our entire Business Logic Layer making it enormously bloated which works against some of the other goals we are trying to achieve. So we went with the Entry Factory solution because it gives us some of the properties of a Facade Pattern without making a hugely bloated class.
 
-The Abstract Factory also helps with the supportability of our Business Logic Layer. The nature of an Abstract Factory makes it very easy to add support for new things by just adding a new factory. In our case the Entry Factory would also have to be updated with a method for creating the new type of factory. Adding completely new functionality is a bit more difficult since the Abstract Factory and/or the Abstract Products interface has to be changed. 
+The Abstract Factory also helps with the supportability of our Business Logic Layer. The nature of an Abstract Factory makes it very easy to add support for new things by just adding a new factory. In our case the Entry Factory would also have to be updated with a method for creating the new type of factory. Adding completely new functionality is a bit more difficult since the Abstract Factory and/or the Abstract Products interface have to be changed. 
 
 The type of Abstract Factory we have implemented is a very standard kind. We went for this because it is a very reliable kind of Abstract factory compared to a more flexible version which uses parameters in the operations that create objects\footnote{http://www.silversoft.net/docs/dp/hires/pat3afso.htm}. That way of making an Abstract Factory is much less reliable since there is no type security for the products produced by the factories. This can be a big problem for the one who has to use the Abstract Factory.
 
@@ -34,9 +36,9 @@ Apart from testability the large amount of interfaces also made it possible for 
 \subsection{Class Diagrams}
 
 \begin{figure}[!h]
-\label{fig:BusinessLogic_AbstractFactory}
 \includegraphics[ scale=1.2]{BusinessLogicLayerDiagram1.pdf}
 \caption{Class diagram showing the use of the Abstract Factory pattern}
+\label{fig:BusinessLogic_AbstractFactory}
 \end{figure}
 
 \end{landscape}
@@ -47,17 +49,17 @@ Apart from testability the large amount of interfaces also made it possible for 
 \begin{landscape}
 
 \begin{figure}[!h]
-\label{fig:BusinessLogic_InternalInterfaces}
 \includegraphics[ scale=0.9]{BusinessLogicLayerDiagram2.pdf}
 \caption{Class diagram showing internal interfaces}
+\label{fig:BusinessLogic_InternalInterfaces}
 \end{figure}
 
 \end{landscape}
 
 \restoregeometry
 
-The first diagram above shows the class structure in the Business Logic Layer. The Entry Factory consists of a single concrete class which in our case is the BusinessLogicEntryFactory class. The BusinessLogicEntryFactory class makes it possible to get hold of the concrete factories without exposing the factories to the Service Layer.
+Figure \ref{fig:BusinessLogic_AbstractFactory} above shows the class structure in the Business Logic Layer. The Entry Factory consists of a single concrete class which in our case is the BusinessLogicEntryFactory class. The BusinessLogicEntryFactory class makes it possible to get hold of the concrete factories without exposing the factories to the Service Layer.
 
-Underneath the Entry Factory lies the Abstract Factory pattern which starts with the Abstract Factory interface which in our case is the IBusinessLogicFactory. This interface specifies a method for creating each of the Abstract Products in this Abstract Factory. The Abstract Products are IAuthLogic, IUserLogic, IMediaItemLogic, IAccessRightLogic and IDataTransferLogic. We then have two concrete implementations of this interface and those are the BusinessLogicFactory and the TestFactory classes. Each of the concrete factories can then produce an instance of a concrete implementation of each Abstract Product. These concrete implementations must implement the Abstract Product interface which contains the methods that are exposed to the Service Layer. But they must also implement an internal interface (ie. IAuthInternalLogic) which specifies methods that are used internally in the Business Logic Layer as shown in the second diagram above. These internal interfaces make it possible for the different concrete logic classes to expose methods to one another but not to the Service Layer. In our implementation all the logic classes use the authentication methods specified in the IAuthInternalLogic interface to authenticate users, admins and clients.
+Underneath the Entry Factory lies the Abstract Factory pattern which starts with the Abstract Factory interface which in our case is the IBusinessLogicFactory. This interface specifies a method for creating each of the Abstract Products in this Abstract Factory. The Abstract Products are IAuthLogic, IUserLogic, IMediaItemLogic, IAccessRightLogic and IDataTransferLogic. We then have two concrete implementations of this interface and those are the BusinessLogicFactory and the TestFactory classes. Each of the concrete factories can then produce an instance of a concrete implementation of each Abstract Product. These concrete implementations must implement the Abstract Product interface which contains the methods that are exposed to the Service Layer. But they must also implement an internal interface (ie. IAuthInternalLogic) which specifies methods that are used internally in the Business Logic Layer as shown in figure \ref{fig:BusinessLogic_InternalInterfaces} above. These internal interfaces make it possible for the different concrete logic classes to expose methods to one another but not to the Service Layer. In our implementation all the logic classes use the authentication methods specified in the IAuthInternalLogic interface to authenticate users, admins and clients.
 
 \end{document}
