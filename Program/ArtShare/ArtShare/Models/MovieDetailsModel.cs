@@ -21,7 +21,7 @@ namespace ArtShare.Models
         public DateTime? ReleaseDate { get; set; }
         public string Runtime { get; set; }
         public List<string> CastMembers { get; set; }
-        public float AvgRating { get; set; }
+        public double AvgRating { get; set; }
         public int RatingsGiven { get; set; }
         public string Language { get; set; }
         public float? Price { get; set; }

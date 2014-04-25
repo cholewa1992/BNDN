@@ -283,5 +283,33 @@ namespace ArtShare.Controllers
 
         }
 
+        public ActionResult RateMediaItem(int mediaId, int rating)
+        {
+            var userDto = new UserDTO();
+
+            if (Request.Cookies["user"] != null)
+            {
+                userDto.Username = Request.Cookies["user"].Values["username"];
+                userDto.Password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                RedirectToAction("Index", "Login");
+            }
+
+            try
+            {
+                _logic.RateMediaItem(userDto, mediaId, rating);
+                TempData["success"] = "Item has been rated!";
+                return Index(mediaId);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e;
+                return Index(mediaId);
+            }
+        }
     }
+
+
 }

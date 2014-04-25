@@ -7,6 +7,7 @@ using ArtShare.Models;
 using ArtShare.Properties;
 using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
+using UserDTO = ShareItServices.AccessRightService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -212,6 +213,8 @@ namespace ArtShare.Logic
 
             model.ProductId = dto.Id;
             model.FileExtension = dto.FileExtension;
+            model.AvgRating = dto.AverageRating;
+            model.RatingsGiven = dto.NumberOfRatings;
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)
@@ -304,6 +307,8 @@ namespace ArtShare.Logic
 
             model.ProductId = dto.Id;
             model.FileExtension = dto.FileExtension;
+            model.AvgRating = dto.AverageRating;
+            model.RatingsGiven = dto.NumberOfRatings;
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)
@@ -380,7 +385,6 @@ namespace ArtShare.Logic
                         model.Title = v.Data;
                         break;
 
-
                 }
             }
 
@@ -401,6 +405,8 @@ namespace ArtShare.Logic
 
             model.ProductId = dto.Id;
             model.FileExtension = dto.FileExtension;
+            model.AvgRating = dto.AverageRating;
+            model.RatingsGiven = dto.NumberOfRatings;
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)
@@ -466,12 +472,24 @@ namespace ArtShare.Logic
                     case InformationTypeDTO.TrackLength:
                         model.TrackLength = v.Data;
                         break;
-
+                    
                 }
+                
             }
 
             return model;
 
         }
+        
+        public bool RateMediaItem(ShareItServices.MediaItemService.UserDTO user, int mediaItemId, int rating)
+        {
+            if (user == null) { throw new ArgumentNullException("user"); }
+            using (var client = new MediaItemServiceClient())
+            {
+                client.RateMediaItem(user, mediaItemId, rating, Resources.ClientToken);
+            }
+            return true;
+        }
+
     }
 }

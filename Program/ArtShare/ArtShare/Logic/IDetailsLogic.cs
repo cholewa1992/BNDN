@@ -116,5 +116,14 @@ namespace ArtShare.Logic
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
         MusicDetailsModel ExstractMusicInformation(MediaItemDTO dto);
+
+        /// <summary>
+        /// Rates a media item. If the user has already rated the media item, the rating is updated.
+        /// </summary>
+        /// <param name="userDto">The user who wishes to rate the media item</param>
+        /// <param name="mediaId">The id of the media item to be rated</param>
+        /// <param name="rating">The rating (1-10)</param> 
+        /// <returns></returns>
+        bool RateMediaItem(UserDTO userDto, int mediaId, int rating);
     }
 }

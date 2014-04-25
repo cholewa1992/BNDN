@@ -108,6 +108,12 @@ namespace ClientUnitTest
             Assert.AreEqual(null, result.ReleaseDate);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RateMediaItem_UserIsNull_ArgumentNullException()
+        {
+            _logic.RateMediaItem(null, 1, 10);
+        }
 
     }
 }
