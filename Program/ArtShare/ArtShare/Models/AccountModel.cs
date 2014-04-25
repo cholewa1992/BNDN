@@ -4,12 +4,17 @@ namespace ArtShare.Models
 {
     public class AccountModel
     {
-
-        [Display(Name = "User Name")]
         public string Username { get; set; }
 
-        [Display(Name = "Password")]
         public string Password { get; set; }
+
+        public string Email { get; set; }
+
+        public string Firstname { get; set; }
+
+        public string Lastname { get; set; }
+
+        public string Location { get; set; }
 
     }
 }
