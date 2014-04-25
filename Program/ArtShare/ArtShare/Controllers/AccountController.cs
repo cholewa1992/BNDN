@@ -38,7 +38,34 @@ namespace ArtShare.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+
+            var modelStub = new AccountModel
+            {
+                Id = 29,
+                Username = "9cki",
+                Email = "nhjo@itu.dk",
+                Firstname = "Nicki",
+                Lastname = "Jørgensen",
+                Location = "The Univers",
+            };
+
+            TempData["model"] = modelStub;
+
+            return View(modelStub);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var model = TempData["model"];
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(AccountModel am)
+        {
+            // You get the new model, now edit it!
+            TempData["success"] = "You have edited something";
+            return RedirectToAction("Details", new { am.Id } );
         }
 
         //

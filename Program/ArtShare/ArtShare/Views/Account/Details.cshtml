@@ -1,0 +1,37 @@
+﻿@model ArtShare.Models.AccountModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<legend class="clearfix">
+    <h1 class="to-left clear">
+        @Html.DisplayFor(model => model.Username)
+    </h1>
+   
+    <div class="to-right detail-buttons clearfix">
+        <button class="pure-button button-art" onclick="window.location.href='/Account/Edit/@Model.Id'">Edit</button>
+    </div>
+
+</legend>
+
+<div class="col-md-3">
+    <h4>@Html.DisplayNameFor(model => model.Email)</h4>
+    <a href="mailto:@Html.DisplayFor(model => model.Email)">@Html.DisplayFor(model => model.Email)</a>
+</div>
+
+<div class="col-md-3">
+    <h4>@Html.DisplayNameFor(model => model.Firstname)</h4>
+    @Html.DisplayFor(model => model.Firstname)
+</div>
+
+<div class="col-md-3">
+    <h4>@Html.DisplayNameFor(model => model.Lastname)</h4>
+    @Html.DisplayFor(model => model.Lastname)
+</div>
+
+<div class="col-md-3">
+    <h4>@Html.DisplayNameFor(model => model.Location)</h4>
+    @Html.DisplayFor(model => model.Location)
+</div>
+

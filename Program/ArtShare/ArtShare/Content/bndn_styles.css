@@ -20,10 +20,6 @@ p, pre{
     margin:1em 0;
 }
 
-dt{
-    margin-top: 8px;
-}
-
 #container {
    min-height:100%;
    position:relative;
@@ -306,6 +302,8 @@ header nav ul li div{
     bottom: 0;
     right: 0;
 }
+
+/* Account Details */
 
 
 /* Footer */
