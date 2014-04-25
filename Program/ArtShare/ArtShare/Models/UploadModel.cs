@@ -7,6 +7,10 @@ namespace ArtShare.Models
     {
         public HttpPostedFileBase File { get; set; }
 
+        public HttpPostedFileBase Thumbnail { get; set; }
+
+        public IDetailsModel Details { get; set; }
+
 
     }
 }

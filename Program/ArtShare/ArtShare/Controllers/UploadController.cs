@@ -23,13 +23,7 @@ namespace ArtShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Use your file here
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    um.File.InputStream.CopyTo(memoryStream);
-
-                    TempData["success"] = "LEL" + memoryStream.Length.ToString();
-                }
+                TempData["success"] = um.File.FileName;
             }
 
             
