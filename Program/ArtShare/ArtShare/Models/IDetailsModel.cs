@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public interface AbstractDetailsModel
+    public interface IDetailsModel
     {
         int ProductId { get; set; }
         string Title { get; set; }
@@ -17,5 +17,8 @@ namespace ArtShare.Models
         List<string> Genres { get; set; }
         float? Price { get; set; }
         int AccessRight { get; set; }
+        float AvgRating { get; set; }
+        int RatingsGiven { get; set; }
+
     }
 }

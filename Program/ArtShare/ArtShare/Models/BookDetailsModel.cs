@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public class BookDetailsModel : AbstractDetailsModel
+    public class BookDetailsModel : IDetailsModel
     {
         public int ProductId { get; set; }
         public string Title { get; set; }

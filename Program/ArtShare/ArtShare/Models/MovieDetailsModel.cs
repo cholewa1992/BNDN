@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public class MovieDetailsModel : AbstractDetailsModel
+    public class MovieDetailsModel : IDetailsModel
     {
 
         public int ProductId { get; set; }
