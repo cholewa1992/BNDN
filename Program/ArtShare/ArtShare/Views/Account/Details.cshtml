@@ -10,7 +10,7 @@
     </h1>
    
     <div class="to-right detail-buttons clearfix">
-        <button class="pure-button button-art" onclick="window.location.href='/Account/Edit/@Model.Id'">Edit</button>
+        <button class="pure-button button-art" onclick="window.location.href='/Account/Edit/@Model.Id'">Edit Information</button>
     </div>
 
 </legend>
@@ -35,3 +35,14 @@
     @Html.DisplayFor(model => model.Location)
 </div>
 
+<div style="margin-top:20px;">&nbsp;</div>
+
+<h3>Purchase History</h3>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Mediaitem</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+</table>

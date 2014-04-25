@@ -41,7 +41,8 @@
                         </li>
                         @if (Request.Cookies["user"] != null) { 
                             <li><button class="btn-success pure-button" onclick="window.location.href='/Account/Details/@Request.Cookies["user"].Values["id"]'">@Request.Cookies["user"].Values["username"]'s Account</button></li>
-                            <li><button class="btn-danger pure-button" onclick="window.location.href='/Login/Logout'">Logout</button></li>
+                            <li><button class="pure-button button-art" onclick="window.location.href='/Upload'">Upload</button></li>
+                            <li><button class="pure-button button-art" onclick="window.location.href='/Login/Logout'">Logout</button></li>
                         }
                         else
                         {
