@@ -276,11 +276,9 @@ namespace ArtShare.Controllers
             }
             catch (Exception e)
             {
-                TempData["error"] = e;
+                TempData["error"] = e.Message;
                 return Index(mediaId);
             }
-
-
         }
 
         public ActionResult RateMediaItem(int mediaId, int rating)
@@ -305,10 +303,98 @@ namespace ArtShare.Controllers
             }
             catch (Exception e)
             {
-                TempData["error"] = e;
+                TempData["error"] = e.Message;
                 return Index(mediaId);
             }
         }
+
+        public ActionResult EditBook(BookDetailsModel bookDetails)
+        {
+
+            var userDto = new ShareItServices.MediaItemService.UserDTO();
+
+            if (Request.Cookies["user"] != null)
+            {
+                userDto.Username = Request.Cookies["user"].Values["username"];
+                userDto.Password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                RedirectToAction("Index", "Login");
+            }
+
+
+            try
+            {
+                _logic.EditBook(bookDetails, userDto);
+                TempData["success"] = "The book's information has been updated";
+                return Index(bookDetails.ProductId);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return Index(bookDetails.ProductId);
+            }
+        }
+
+        public ActionResult EditMovie(MovieDetailsModel movieDetails)
+        {
+
+            var userDto = new ShareItServices.MediaItemService.UserDTO();
+
+            if (Request.Cookies["user"] != null)
+            {
+                userDto.Username = Request.Cookies["user"].Values["username"];
+                userDto.Password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                RedirectToAction("Index", "Login");
+            }
+
+
+            try
+            {
+                _logic.EditMovie(movieDetails, userDto);
+                TempData["success"] = "The movie's information has been updated";
+                return Index(movieDetails.ProductId);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return Index(movieDetails.ProductId);
+            }
+        }
+
+        public ActionResult EditMusic(MusicDetailsModel musicDetails)
+        {
+
+            var userDto = new ShareItServices.MediaItemService.UserDTO();
+
+            if (Request.Cookies["user"] != null)
+            {
+                userDto.Username = Request.Cookies["user"].Values["username"];
+                userDto.Password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                RedirectToAction("Index", "Login");
+            }
+
+
+            try
+            {
+                _logic.EditMusic(musicDetails, userDto);
+                TempData["success"] = "The music's information has been updated";
+                return Index(musicDetails.ProductId);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return Index(musicDetails.ProductId);
+            }
+        }
+
     }
 
 

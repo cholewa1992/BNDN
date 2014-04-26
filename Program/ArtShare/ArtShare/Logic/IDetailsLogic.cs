@@ -41,12 +41,11 @@ namespace ArtShare.Logic
         bool DeleteBook(int id, int requestingUser);
 
         /// <summary>
-        /// Updates a book. All previous information will be deleted, and supplied information added
+        /// Updates a book's information. All previous information will be deleted, and supplied information added
         /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        bool EditBook(BookDetailsModel model, int requestingUser);
+        /// <param name="bookModel">The model containing all the information the book will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        void EditBook(BookDetailsModel bookModel, ShareItServices.MediaItemService.UserDTO user);
 
         /// <summary>
         /// Retrieves details about a given Movie and returns it in a Movie model
@@ -65,12 +64,11 @@ namespace ArtShare.Logic
         bool DeleteMovie(int id, int requestingUser);
 
         /// <summary>
-        /// Updates a Movie. All previous information will be deleted, and supplied information added
+        /// Updates a movie's information. All previous information will be deleted, and supplied information added
         /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        bool EditMovie(MovieDetailsModel model, int requestingUser);
+        /// <param name="movieModel">The model containing all the information the movie will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        void EditMovie(MovieDetailsModel movieModel, ShareItServices.MediaItemService.UserDTO user);
 
         /// <summary>
         /// Retrieves details about given Music and returns it in a Music model
@@ -89,12 +87,11 @@ namespace ArtShare.Logic
         bool DeleteMusic(int id, int requestingUser);
 
         /// <summary>
-        /// Updates a Music item. All previous information will be deleted, and supplied information added
+        /// Updates a music's information. All previous information will be deleted, and supplied information added
         /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        bool EditMusic(MusicDetailsModel model, int requestingUser);
+        /// <param name="musicModel">The model containing all the information the music will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        void EditMusic(MusicDetailsModel musicModel, ShareItServices.MediaItemService.UserDTO user);
 
         /// <summary>
         /// Puts information from service dto into a model
