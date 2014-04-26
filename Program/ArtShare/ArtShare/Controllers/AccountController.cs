@@ -13,7 +13,7 @@ namespace ArtShare.Controllers
     public class AccountController : Controller
     {
 
-        private IAccountLogic accountLogic;
+        private s accountLogic;
 
         public AccountController()
         {
