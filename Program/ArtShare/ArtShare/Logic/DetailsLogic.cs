@@ -56,7 +56,7 @@ namespace ArtShare.Logic
             return dto;
         }
 
-        public int IsOwnerOfMedia(ShareItServices.AccessRightService.UserDTO requestingUser, int id)
+        public int CheckAccessRights(ShareItServices.AccessRightService.UserDTO requestingUser, int id)
         {
             using (var arsc = new AccessRightServiceClient())
             {

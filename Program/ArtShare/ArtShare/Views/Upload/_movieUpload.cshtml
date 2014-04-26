@@ -1,0 +1,79 @@
+﻿@model ArtShare.Models.MovieDetailsModel
+
+
+
+<div class="col-md-5">
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Title)</h4>
+        @Html.TextBoxFor(m => m.Title, new { placeholder = "Title", required = "true", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Description)</h4>
+        @Html.TextBoxFor(m => m.Description, new { placeholder = "Description", required = "true", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Director)</h4>
+        @Html.TextBoxFor(m => m.Director, new { placeholder = "Director", required = "true", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.ReleaseDate)</h4>
+        @Html.TextBoxFor(m => m.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type="date" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Runtime)</h4>
+        @Html.TextBoxFor(m => m.Runtime, new { placeholder = "Runtime", required = "true", @class = "form-control" })
+    </div>
+
+
+
+</div>
+
+<div class="col-md-2"></div>
+
+<div class="col-md-5">
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Language)</h4>
+        @Html.TextBoxFor(m => m.Language, new { placeholder = "Language", required = "true", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Price)</h4>
+        @Html.TextBoxFor(m => m.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0.0", step = "0.1"})
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Tags)</h4>
+        @Html.TextBoxFor(m => m.Tags[0], new { placeholder = "Tags", required = "false", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <h4>@Html.DisplayNameFor(model => model.Genres)</h4>
+        @Html.TextBoxFor(m => m.Genres[0], new { placeholder = "Genres", required = "false", @class = "form-control" })
+    </div>
+
+</div>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-success to-right">Upload</button>
+</div>
+
+<script>
+    function addTags() {
+        var elem = document.createElement('input');
+
+        elem.type = "text";
+        elem.className = "form-control";
+        elem.placeholder = "@Html.DisplayNameFor(model => model.Tags)";
+        elem.required = true;
+
+
+        $('tags').append(elem);
+        //document.getElementById('tags').appendChild(elem);
+    }
+</script>

@@ -100,6 +100,22 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="CanDownload">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" minOccurs="0" name="user" nillable="true" type="q10:UserDTO" />
+            <xs:element minOccurs="0" name="mediaItemId" type="xs:int" />
+            <xs:element minOccurs="0" name="clientToken" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CanDownloadResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="CanDownloadResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:schema>
     <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="anyType" nillable="true" type="xs:anyType" />
@@ -342,17 +358,17 @@
   <wsdl:message name="IAccessRightService_Delete_ArgumentFaultFault_FaultMessage">
     <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q6:ArgumentFault" />
   </wsdl:message>
+  <wsdl:message name="IAccessRightService_Delete_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:UnauthorizedClient" />
+  </wsdl:message>
   <wsdl:message name="IAccessRightService_Delete_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:UnauthorizedUser" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q8:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Delete_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q8:FaultException" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q9:FaultException" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Delete_AccessRightNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:AccessRightNotFound" />
-  </wsdl:message>
-  <wsdl:message name="IAccessRightService_Delete_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q10:UnauthorizedClient" />
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q10:AccessRightNotFound" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_EditExpiration_InputMessage">
     <wsdl:part name="parameters" element="tns:EditExpiration" />
@@ -360,20 +376,20 @@
   <wsdl:message name="IAccessRightService_EditExpiration_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditExpirationResponse" />
   </wsdl:message>
-  <wsdl:message name="IAccessRightService_EditExpiration_AccessRightNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q11:AccessRightNotFound" />
-  </wsdl:message>
-  <wsdl:message name="IAccessRightService_EditExpiration_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q12:ArgumentFault" />
-  </wsdl:message>
-  <wsdl:message name="IAccessRightService_EditExpiration_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q13:UnauthorizedUser" />
-  </wsdl:message>
   <wsdl:message name="IAccessRightService_EditExpiration_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q14:FaultException" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q11:FaultException" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_EditExpiration_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q15:UnauthorizedClient" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q12:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_EditExpiration_AccessRightNotFoundFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q13:AccessRightNotFound" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_EditExpiration_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q14:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_EditExpiration_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q15:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Purchase_InputMessage">
     <wsdl:part name="parameters" element="tns:Purchase" />
@@ -381,17 +397,17 @@
   <wsdl:message name="IAccessRightService_Purchase_OutputMessage">
     <wsdl:part name="parameters" element="tns:PurchaseResponse" />
   </wsdl:message>
-  <wsdl:message name="IAccessRightService_Purchase_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q16:FaultException" />
-  </wsdl:message>
   <wsdl:message name="IAccessRightService_Purchase_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q17:ArgumentFault" />
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q16:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Purchase_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:UnauthorizedUser" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q17:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Purchase_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q19:UnauthorizedClient" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_Purchase_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q19:FaultException" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_Purchase_MediaItemNotFoundFault_FaultMessage">
     <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q20:MediaItemNotFound" />
@@ -405,17 +421,17 @@
   <wsdl:message name="IAccessRightService_GetPurchaseHistory_FaultExceptionFault_FaultMessage">
     <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q21:FaultException" />
   </wsdl:message>
-  <wsdl:message name="IAccessRightService_GetPurchaseHistory_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q22:UnauthorizedClient" />
-  </wsdl:message>
-  <wsdl:message name="IAccessRightService_GetPurchaseHistory_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q23:UnauthorizedUser" />
-  </wsdl:message>
   <wsdl:message name="IAccessRightService_GetPurchaseHistory_ObjectNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q24:ObjectNotFound" />
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q22:ObjectNotFound" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_GetPurchaseHistory_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q25:ArgumentFault" />
+    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q23:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_GetPurchaseHistory_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q24:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_GetPurchaseHistory_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q25:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_GetUploadHistory_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUploadHistory" />
@@ -423,20 +439,38 @@
   <wsdl:message name="IAccessRightService_GetUploadHistory_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUploadHistoryResponse" />
   </wsdl:message>
-  <wsdl:message name="IAccessRightService_GetUploadHistory_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q26:UnauthorizedClient" />
-  </wsdl:message>
-  <wsdl:message name="IAccessRightService_GetUploadHistory_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q27:UnauthorizedUser" />
+  <wsdl:message name="IAccessRightService_GetUploadHistory_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q26:FaultException" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_GetUploadHistory_ObjectNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q28:ObjectNotFound" />
+    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q27:ObjectNotFound" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_GetUploadHistory_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q28:UnauthorizedUser" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_GetUploadHistory_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q29:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IAccessRightService_GetUploadHistory_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q29:ArgumentFault" />
+    <wsdl:part xmlns:q30="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q30:ArgumentFault" />
   </wsdl:message>
-  <wsdl:message name="IAccessRightService_GetUploadHistory_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q30="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q30:FaultException" />
+  <wsdl:message name="IAccessRightService_CanDownload_InputMessage">
+    <wsdl:part name="parameters" element="tns:CanDownload" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_CanDownload_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CanDownloadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_CanDownload_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q31="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q31:UnauthorizedUser" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_CanDownload_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q32="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q32:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_CanDownload_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q33="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q33:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccessRightService_CanDownload_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q34="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q34:FaultException" />
   </wsdl:message>
   <wsdl:portType name="IAccessRightService">
     <wsdl:operation name="MakeAdmin">
@@ -452,46 +486,54 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/Delete" message="tns:IAccessRightService_Delete_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/DeleteResponse" message="tns:IAccessRightService_Delete_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_Delete_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_Delete_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_Delete_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_Delete_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteAccessRightNotFoundFault" name="AccessRightNotFoundFault" message="tns:IAccessRightService_Delete_AccessRightNotFoundFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/DeleteUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_Delete_UnauthorizedClientFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="EditExpiration">
       <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/EditExpiration" message="tns:IAccessRightService_EditExpiration_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationResponse" message="tns:IAccessRightService_EditExpiration_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_EditExpiration_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_EditExpiration_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationAccessRightNotFoundFault" name="AccessRightNotFoundFault" message="tns:IAccessRightService_EditExpiration_AccessRightNotFoundFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_EditExpiration_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_EditExpiration_UnauthorizedUserFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_EditExpiration_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/EditExpirationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_EditExpiration_UnauthorizedClientFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="Purchase">
       <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/Purchase" message="tns:IAccessRightService_Purchase_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseResponse" message="tns:IAccessRightService_Purchase_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_Purchase_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_Purchase_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_Purchase_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_Purchase_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_Purchase_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/PurchaseMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IAccessRightService_Purchase_MediaItemNotFoundFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetPurchaseHistory">
       <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistory" message="tns:IAccessRightService_GetPurchaseHistory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryResponse" message="tns:IAccessRightService_GetPurchaseHistory_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_GetPurchaseHistory_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_GetPurchaseHistory_UnauthorizedClientFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_GetPurchaseHistory_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryObjectNotFoundFault" name="ObjectNotFoundFault" message="tns:IAccessRightService_GetPurchaseHistory_ObjectNotFoundFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_GetPurchaseHistory_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_GetPurchaseHistory_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetPurchaseHistoryUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_GetPurchaseHistory_UnauthorizedUserFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetUploadHistory">
       <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistory" message="tns:IAccessRightService_GetUploadHistory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryResponse" message="tns:IAccessRightService_GetUploadHistory_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_GetUploadHistory_UnauthorizedClientFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_GetUploadHistory_UnauthorizedUserFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryObjectNotFoundFault" name="ObjectNotFoundFault" message="tns:IAccessRightService_GetUploadHistory_ObjectNotFoundFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_GetUploadHistory_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_GetUploadHistory_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryObjectNotFoundFault" name="ObjectNotFoundFault" message="tns:IAccessRightService_GetUploadHistory_ObjectNotFoundFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_GetUploadHistory_UnauthorizedUserFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_GetUploadHistory_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/GetUploadHistoryArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_GetUploadHistory_ArgumentFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CanDownload">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccessRightService/CanDownload" message="tns:IAccessRightService_CanDownload_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccessRightService/CanDownloadResponse" message="tns:IAccessRightService_CanDownload_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/CanDownloadUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAccessRightService_CanDownload_UnauthorizedUserFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/CanDownloadUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IAccessRightService_CanDownload_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/CanDownloadArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAccessRightService_CanDownload_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccessRightService/CanDownloadFaultExceptionFault" name="FaultExceptionFault" message="tns:IAccessRightService_CanDownload_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IAccessRightService" type="tns:IAccessRightService">
@@ -531,6 +573,9 @@
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
@@ -539,9 +584,6 @@
       </wsdl:fault>
       <wsdl:fault name="AccessRightNotFoundFault">
         <soap:fault use="literal" name="AccessRightNotFoundFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="EditExpiration">
@@ -552,6 +594,12 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="AccessRightNotFoundFault">
         <soap:fault use="literal" name="AccessRightNotFoundFault" namespace="" />
       </wsdl:fault>
@@ -560,12 +608,6 @@
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="FaultExceptionFault">
-        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="Purchase">
@@ -576,9 +618,6 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="FaultExceptionFault">
-        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
@@ -587,6 +626,9 @@
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="MediaItemNotFoundFault">
         <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
@@ -603,17 +645,17 @@
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="UnauthorizedUserFault">
-        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="ObjectNotFoundFault">
         <soap:fault use="literal" name="ObjectNotFoundFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetUploadHistory">
@@ -624,14 +666,35 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ObjectNotFoundFault">
+        <soap:fault use="literal" name="ObjectNotFoundFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="ObjectNotFoundFault">
-        <soap:fault use="literal" name="ObjectNotFoundFault" namespace="" />
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CanDownload">
+      <soap:operation soapAction="http://tempuri.org/IAccessRightService/CanDownload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />

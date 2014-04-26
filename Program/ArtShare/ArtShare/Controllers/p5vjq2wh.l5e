@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using ArtShare.Logic;
+using ArtShare.Models;
+using Microsoft.Ajax.Utilities;
+using ShareItServices.UserService;
+
+namespace ArtShare.Controllers
+{
+    public class AccountController : Controller
+    {
+
+        private IAccountLogic _accountLogic;
+
+        public AccountController()
+        {
+            _accountLogic = new AccountLogic();
+        }
+
+        public AccountController(IAccountLogic logic)
+        {
+            _accountLogic = logic;
+        }
+
+        //
+        // GET: /Account/
+
+        public ActionResult Index()
+        {
+            return RedirectToAction("Register");
+        }
+
+        //
+        // GET: /Account/Details/5
+
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                if (Request.Cookies["user"] == null)
+                {
+                    TempData["error"] = "You have to login to see you profil page";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View(_accountLogic.GetAccountInformation(
+                    Request.Cookies["user"].Values["username"],
+                    Request.Cookies["user"].Values["password"],
+                    id));
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            return Details(id);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(AccountModel am)
+        {
+            //Checking if a user is loggedin
+            if (Request.Cookies["user"] == null)
+            {
+                TempData["error"] = "You have to login to see you profil page";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (Request.Cookies["user"].Values["username"] != am.Username)
+            {
+                TempData["error"] = "A user can only edit his own account";
+                return RedirectToAction("Details", new { am.Id });
+            }
+
+            am.Password = string.IsNullOrWhiteSpace(am.Password) ? Request.Cookies["user"].Values["password"] : am.Password;
+
+            _accountLogic.UpdateAccountInformation(Request.Cookies["user"].Values["username"],Request.Cookies["user"].Values["password"], am);
+
+            var model = new Logic.LoginLogic().Login(am.Username, am.Password);
+
+            if (!model.LoggedIn) { 
+                TempData["error"] = "Failed to login again"; 
+                return RedirectToAction("Index", "Home"); 
+            }
+
+            var userCookie = new HttpCookie("user");
+            userCookie["id"] = model.User.Id + "";
+            userCookie["username"] = model.User.Username;
+            userCookie["password"] = model.User.Password;
+            userCookie.Expires.AddDays(365);
+            HttpContext.Response.Cookies.Add(userCookie);
+
+            // You get the new model, now edit it!
+            TempData["success"] = "Your profile was successfully updated";
+            return RedirectToAction("Details", new { am.Id } );
+        }
+
+        //
+        // GET: /Account/Create
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+
+        [HttpPost]
+        public ActionResult Register(RegisterModel model)
+        {
+            try
+            {
+                _accountLogic.RegisterAccount(model);
+                TempData["success"] = "You user account was successfully created. You can now login";
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception e)
+            {
+                model.Error = e.Message;
+                TempData["error"] = e.Message;
+                return View(model);
+            }
+        }
+    }
+}

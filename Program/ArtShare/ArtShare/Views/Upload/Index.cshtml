@@ -1,99 +1,12 @@
-﻿@model ArtShare.Models.MovieDetailsModel
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Upload Files</h2>
-
-<!--<form method="post">
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-        <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
-        <span class="fileinput-filename"></span>
-        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-    </div>
-
-    <input type="hidden" name="id" value="17" />
-    <button type="submit" class="btn btn-success">Upload</button>
-</form>-->
-
-@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
-{
-    
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-        <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change File</span><input type="file" name="File" required></span>
-        <span class="fileinput-filename" id="fileName"></span>
-        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-    </div>
-    
-    <br />
-
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-            <img data-src="holder.js/100%x100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTkwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijk1IiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE5MHgxNDA8L3RleHQ+PC9zdmc+" alt="hej">
-        </div>
-        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-        <div>
-            <span class="btn btn-default btn-file"><span class="fileinput-new">Select Thumbnail</span><span class="fileinput-exists">Change Thumbnail</span><input type="file" name="Thumbnail"></span>
-            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-        </div>
-    </div>
-    
-    <hr />
-    <div class="form-horizontal">
-
-        <div style="margin-top: 20px;">&nbsp;</div>
-
-        <div class="col-md-5" id="book" >
-        
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.Title)</label>
-                <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                </div>
-            </div>
-
-            
-        </div>
-    </div>    
-    
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-success">Upload</button>
-        </div>
-    </div>
-    
-}
 
 
-
-<script>
-    //var movie_div = document.getElementById("movie");
-    //var music_div = document.getElementById("music");
-    var book_div = document.getElementById("book");
-
-    var filename = document.getElementById("fileName");
-
-    function chooseType() {
-
-       // movie_div.style.display = "none";
-        //music_div.style.display = "none";
-        book_div.style.display = "none";
-
-        alert("hej");
-
-        switch (Path.GetExtension(filename.innerHTML)) {
-            case ".jpg":
-                book_div.style.display = "block";
-            default:
-
-        }
-    }
-
-</script>
+<div class="is-center upload">
+    <h2>Upload Files</h2>
+    <div class="col-md-4"><button class="btn btn-default" onclick="window.location.href='Movie'"><span class="glyphicon glyphicon-film"></span></button></div>
+    <div class="col-md-4"><button class="btn btn-default" onclick="window.location.href='Music'"><span class="glyphicon glyphicon-music"></span></button></div>
+    <div class="col-md-4"><button class="btn btn-default" onclick="window.location.href='Book'"><span class="glyphicon glyphicon-book"></span></button></div>
+</div>
