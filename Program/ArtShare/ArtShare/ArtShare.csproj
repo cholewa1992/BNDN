@@ -140,12 +140,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
-    <Compile Include="Logic\AccountLogicStub.cs" />
     <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
     <Compile Include="Logic\IDetailsLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
     <Compile Include="Logic\ITransferLogic.cs" />
+    <Compile Include="Logic\LoginLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
     <Compile Include="Logic\TransferLogic.cs" />
     <Compile Include="Models\UploadBookModel.cs" />
