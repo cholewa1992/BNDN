@@ -8,7 +8,7 @@ namespace ServiceTests
     [TestClass]
     public class AuthServiceTest
     {
-        readonly AuthService _authService = new AuthService(BusinessLogicFacade.GetTestFactory());
+        readonly AuthService _authService = new AuthService(BusinessLogicEntryFactory.GetTestFactory());
 
 
         [TestMethod]

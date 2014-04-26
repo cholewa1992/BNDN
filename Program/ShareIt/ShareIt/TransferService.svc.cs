@@ -26,7 +26,7 @@ namespace ShareIt
         /// </summary>
         public TransferService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory();
+            _factory = BusinessLogicEntryFactory.GetBusinessFactory();
         }
         /// <summary>
         /// Construct a TransferService object which uses a specified IBusinessLogicFactory.

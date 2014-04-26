@@ -12,7 +12,7 @@ namespace ServiceTests
     [TestClass]
     public class MediaItemServiceTest
     {
-        private MediaItemService _mediaItemService = new MediaItemService(BusinessLogicFacade.GetTestFactory());
+        private MediaItemService _mediaItemService = new MediaItemService(BusinessLogicEntryFactory.GetTestFactory());
 
         [TestMethod]
         public void TestGetMediaItemValidId_FileExtension()

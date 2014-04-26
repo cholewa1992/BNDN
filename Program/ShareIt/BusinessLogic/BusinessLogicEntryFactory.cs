@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer
 {
-    public static class BusinessLogicFacade
+    public static class BusinessLogicEntryFactory
     {
         public static IBusinessLogicFactory GetTestFactory()
         {

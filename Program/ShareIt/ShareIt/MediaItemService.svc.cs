@@ -30,7 +30,7 @@ namespace ShareIt
         /// </summary>
         public MediaItemService()
         {
-            _factory = BusinessLogicFacade.GetBusinessFactory(); //Remember to change this
+            _factory = BusinessLogicEntryFactory.GetBusinessFactory(); //Remember to change this
         }
 
         /// <summary>

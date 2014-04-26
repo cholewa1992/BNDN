@@ -125,7 +125,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AccessRightLogic_MakeAdmin()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
             var al = blf.CreateAuthLogic();
             
@@ -142,7 +142,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AccessRightLogic_DeleteAccessRight()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
 
             using (var db = new RentIt08Entities())
@@ -162,7 +162,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AccessRightLogic_Purchase()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
             arl.Purchase(_mathias, 1, DateTime.Now.AddDays(1), _artShare);
 
@@ -175,7 +175,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AccessRightLogic_EditExpiration()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var arl = blf.CreateAccessRightLogic();
 
             DateTime? dt;
@@ -202,7 +202,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AuthLogic_CheckClientExists()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var al = blf.CreateAuthLogic();
             Assert.IsTrue(al.CheckClientExists(new ClientDTO{Name = "SMU", Token = _smu}));
             Assert.IsFalse(al.CheckClientExists(new ClientDTO{Name = "SMU", Token = _artShare}));
@@ -212,7 +212,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AuthLogic_CheckUserExists()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var al = blf.CreateAuthLogic();
             Assert.AreEqual(1, al.CheckUserExists(_jacob, _artShare));
             Assert.AreEqual(1, al.CheckUserExists(_jacob, _smu));
@@ -222,7 +222,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_AuthLogic_IsUserAdminOnClient()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var al = blf.CreateAuthLogic();
             Assert.IsTrue(al.IsUserAdminOnClient(_jacob, _artShare));
             Assert.IsFalse(al.IsUserAdminOnClient(_jacob, _smu));
@@ -241,7 +241,7 @@ namespace IntergrationTest
                 Assert.IsFalse(db.UserAcc.Any(t => t.Username == "Thomas" && t.Password == "3421"));
             }
 
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var ul = blf.CreateUserLogic();
             ul.CreateAccount(new UserDTO {Username = "Thomas", Password = "3421"}, _artShare);
 
@@ -259,7 +259,7 @@ namespace IntergrationTest
                 Assert.IsTrue(db.UserAcc.Any(t => t.Username == _mathias.Username && t.Password == _mathias.Password));
             }
 
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var ul = blf.CreateUserLogic();
             ul.DeleteUser(_jacob, 3, _artShare);
 
@@ -272,7 +272,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_UserLogic_GetAccountInformation()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var ul = blf.CreateUserLogic();
             var info = ul.GetAccountInformation(_jacob, 1, _artShare);
 
@@ -291,7 +291,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_UserLogic_UpdateAccountInformation()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var ul = blf.CreateUserLogic();
 
             var newUser = new UserDTO
@@ -326,7 +326,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_MediaItemLogic_RateMediaItem()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
 
             using (var db = new RentIt08Entities())
@@ -345,7 +345,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_MediaItemLogic_DeleteMediaItem()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
 
             using (var db = new RentIt08Entities())
@@ -364,7 +364,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_MediaItemLogic_GetMediaItemInformation()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
             var result = mil.GetMediaItemInformation(1, _mathias, _artShare);
             Assert.AreEqual("Lord of the Rings" ,result.Information.Single(t => t.Type == InformationTypeDTO.Title).Data);
@@ -375,7 +375,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_MediaItemLogic_FindMediaItemRange()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
 
             mil.FindMediaItemRange(1,3, null, null, _artShare);
@@ -387,7 +387,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_MediaItemLogic_UpdateMediaItem()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
 
             var result = mil.FindMediaItemRange(1, 1, null, "Lord of the Rings", _artShare);
@@ -407,7 +407,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_DataTransferLogic_GetMediaStream()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var dtl = blf.CreateDataTransferLogic();
 
             Assert.IsFalse(File.Exists("files/user_3/2.m4a"));
@@ -438,7 +438,7 @@ namespace IntergrationTest
         [TestMethod]
         public void IntegrationTest_DataTransferLogic_SaveThumbnail()
         {
-            var blf = BusinessLogicFacade.GetBusinessFactory();
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var dtl = blf.CreateDataTransferLogic();
             Assert.IsFalse(File.Exists("img/thumbnail_1.jpg"));
             dtl.SaveThumbnail(_artShare, _jacob, 1, ".jpg",

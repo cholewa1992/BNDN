@@ -123,7 +123,7 @@
     <Compile Include="AccessRightLogic.cs" />
     <Compile Include="AuthLogic.cs" />
     <Compile Include="BusinessFactory.cs" />
-    <Compile Include="BusinessLogicFacade.cs" />
+    <Compile Include="BusinessLogicEntryFactory.cs" />
     <Compile Include="DataMappers\IMediaItemMapper.cs" />
     <Compile Include="DataMappers\MediaItemMapper.cs" />
     <Compile Include="DTO\AccessRightDTO.cs" />
