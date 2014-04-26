@@ -19,23 +19,10 @@ namespace ArtShare.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
-            //Creates a new model
-            var model = new LoginModel();
-
-            //Opens a AuthServiceClient
-            using (var client = new AuthServiceClient())
-            {
-                //Creating user object
-                model.User = new UserDTO {Username = username, Password = password};
-                //Validating user
-                model.User.Id = client.ValidateUser(model.User, Properties.Resources.ClientToken);
-                //If the user was validated, set LoggedIn property to true
-                model.LoggedIn = model.User.Id > 0;
-            }
+            var model = new Logic.LoginLogic().Login(username, password);
 
             if (model.LoggedIn)
             {
-
                 var userCookie = new HttpCookie("user");
                 userCookie["id"] = model.User.Id + "";
                 userCookie["username"] = model.User.Username;
@@ -62,7 +49,6 @@ namespace ArtShare.Controllers
                 };
                 Response.Cookies.Add(user);
             }
-
             return RedirectToAction("Index", "Home");
         }
     }

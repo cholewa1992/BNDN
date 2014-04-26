@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace ArtShare.Models
 {
@@ -17,6 +19,14 @@ namespace ArtShare.Models
         public string Lastname { get; set; }
 
         public string Location { get; set; }
+
+        public List<PurchaseDTO> PurchaseHistory { set; get; }
+
+        public class PurchaseDTO
+        {
+            public int MediaItemId { get; set; }
+            public string Title { set; get; }
+        }
 
     }
 }
