@@ -13,16 +13,17 @@ namespace ArtShare.Controllers
     public class AccountController : Controller
     {
 
-        private IAccountLogic accountLogic;
+        private IAccountLogic _accountLogic;
+
 
         public AccountController()
         {
-            accountLogic = new AccountLogic();
+            _accountLogic = new AccountLogic();
         }
 
         public AccountController(IAccountLogic logic)
         {
-            accountLogic = logic;
+            _accountLogic = logic;
         }
 
         //
@@ -38,34 +39,86 @@ namespace ArtShare.Controllers
 
         public ActionResult Details(int id)
         {
-
-            var modelStub = new AccountModel
+            try
             {
-                Id = 29,
-                Username = "9cki",
-                Email = "nhjo@itu.dk",
-                Firstname = "Nicki",
-                Lastname = "Jørgensen",
-                Location = "The Univers",
-            };
+                //Checking that the user is logged in
+                if (Request.Cookies["user"] == null)
+                {
+                    TempData["error"] = "You have to login to see you profil page";
+                    return RedirectToAction("Index", "Home");
+                }
 
-            TempData["model"] = modelStub;
-
-            return View(modelStub);
+                //Fetching and passing Account model to view
+                return View(_accountLogic.GetAccountInformation(
+                    Request.Cookies["user"].Values["username"],
+                    Request.Cookies["user"].Values["password"],
+                    id));
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public ActionResult Edit(int id)
         {
-            var model = TempData["model"];
-            return View(model);
+            return Details(id);
         }
 
         [HttpPost]
         public ActionResult Edit(AccountModel am)
         {
-            // You get the new model, now edit it!
-            TempData["success"] = "You have edited something";
-            return RedirectToAction("Details", new { am.Id } );
+            try
+            {
+                //Checking if a user is logged in
+                if (Request.Cookies["user"] == null)
+                {
+                    TempData["error"] = "You have to login to see you profil page";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //Checking if a the user editing is the user being edited
+                //NOTE: This restricting is only here beacuse it's not possbile for an admin to edit a user with the current backend
+                if (Request.Cookies["user"].Values["username"] != am.Username)
+                {
+                    TempData["error"] = "A user can only edit his own account";
+                    return RedirectToAction("Details", new { am.Id });
+                }
+
+                //Checking if the user changed his password, otherwise the current password is beging used
+                am.Password = string.IsNullOrWhiteSpace(am.Password) ? Request.Cookies["user"].Values["password"] : am.Password;
+
+                //Sending a request to the backend
+                _accountLogic.UpdateAccountInformation(Request.Cookies["user"].Values["username"], Request.Cookies["user"].Values["password"], am);
+
+                //Logging in again (Is case the password was changed
+                var model = new Logic.LoginLogic().Login(am.Username, am.Password);
+
+                //Showing an exception if the user is not re-loggedin
+                if (!model.LoggedIn)
+                {
+                    TempData["error"] = "Failed to login again - Something went horribly wrong";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //Setting cookie with the new password
+                var userCookie = new HttpCookie("user");
+                userCookie["id"] = model.User.Id + "";
+                userCookie["username"] = model.User.Username;
+                userCookie["password"] = model.User.Password;
+                userCookie.Expires.AddDays(365);
+                HttpContext.Response.Cookies.Add(userCookie);
+
+                //Sending the user back to the Account details page
+                TempData["success"] = "Your profile was successfully updated";
+                return RedirectToAction("Details", new { am.Id });
+            }
+            catch(Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //
@@ -84,8 +137,8 @@ namespace ArtShare.Controllers
         {
             try
             {
-                accountLogic.RegisterAccount(model);
-
+                _accountLogic.RegisterAccount(model);
+                TempData["success"] = "You user account was successfully created. You can now login";
                 return RedirectToAction("Index", "Home");
             }
             catch(Exception e)
@@ -95,10 +148,5 @@ namespace ArtShare.Controllers
                 return View(model);
             }
         }
-
-        
-
-
-
     }
 }
