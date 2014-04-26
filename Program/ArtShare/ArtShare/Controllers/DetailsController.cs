@@ -122,7 +122,7 @@ namespace ArtShare.Controllers
 
                 }
 
-                if(user != null) model.AccessRight = _logic.IsOwnerOfMedia(new ShareItServices.AccessRightService.UserDTO { Id = user.Id, Username = user.Username, Password = user.Password }, id);
+                if(user != null) model.AccessRight = _logic.CheckAccessRights(new ShareItServices.AccessRightService.UserDTO { Id = user.Id, Username = user.Username, Password = user.Password }, id);
 
                 TempData["model"] = model;
                 return RedirectToAction(dto.Type.ToString(), "Details", new { id });

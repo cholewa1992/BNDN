@@ -150,21 +150,21 @@
       <xs:element name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
       <xs:simpleType name="UserInformationTypeDTO">
         <xs:restriction base="xs:string">
-          <xs:enumeration value="Firstname">
+          <xs:enumeration value="Email">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
               </xs:appinfo>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Lastname">
+          <xs:enumeration value="Firstname">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
               </xs:appinfo>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Email">
+          <xs:enumeration value="Lastname">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
@@ -189,18 +189,18 @@
       <xs:element name="ArrayOfUserDTO" nillable="true" type="tns:ArrayOfUserDTO" />
     </xs:schema>
     <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:complexType name="ArgumentFault">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
       <xs:complexType name="UnauthorizedClient">
         <xs:sequence>
           <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="UnauthorizedClient" nillable="true" type="tns:UnauthorizedClient" />
+      <xs:complexType name="ArgumentFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
       <xs:complexType name="UnauthorizedUser">
         <xs:sequence>
           <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
@@ -272,14 +272,14 @@
   <wsdl:message name="IUserService_CreateAccount_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q1:UnauthorizedClient" />
+  </wsdl:message>
   <wsdl:message name="IUserService_CreateAccount_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q1:ArgumentFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IUserService_CreateAccount_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q2:FaultException" />
-  </wsdl:message>
-  <wsdl:message name="IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q3:UnauthorizedClient" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q3:FaultException" />
   </wsdl:message>
   <wsdl:message name="IUserService_GetAccountInformation_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAccountInformation" />
@@ -287,17 +287,17 @@
   <wsdl:message name="IUserService_GetAccountInformation_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAccountInformationResponse" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q4:UnauthorizedUser" />
-  </wsdl:message>
   <wsdl:message name="IUserService_GetAccountInformation_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q5:UnauthorizedClient" />
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q4:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAccountInformation_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q5:FaultException" />
   </wsdl:message>
   <wsdl:message name="IUserService_GetAccountInformation_ArgumentFaultFault_FaultMessage">
     <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q6:ArgumentFault" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetAccountInformation_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q7:FaultException" />
+  <wsdl:message name="IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IUserService_UpdateAccounInformation_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateAccounInformation" />
@@ -305,14 +305,14 @@
   <wsdl:message name="IUserService_UpdateAccounInformation_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdateAccounInformationResponse" />
   </wsdl:message>
-  <wsdl:message name="IUserService_UpdateAccounInformation_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q8:ArgumentFault" />
-  </wsdl:message>
   <wsdl:message name="IUserService_UpdateAccounInformation_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:UnauthorizedUser" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q8:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IUserService_UpdateAccounInformation_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q10:UnauthorizedClient" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:UnauthorizedClient" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_UpdateAccounInformation_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q10:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IUserService_UpdateAccounInformation_FaultExceptionFault_FaultMessage">
     <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q11:FaultException" />
@@ -323,17 +323,17 @@
   <wsdl:message name="IUserService_GetAllUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetAllUsers_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q12:UnauthorizedUser" />
-  </wsdl:message>
   <wsdl:message name="IUserService_GetAllUsers_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q13:UnauthorizedClient" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q12:UnauthorizedClient" />
   </wsdl:message>
-  <wsdl:message name="IUserService_GetAllUsers_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q14:ArgumentFault" />
+  <wsdl:message name="IUserService_GetAllUsers_UnauthorizedUserFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q13:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IUserService_GetAllUsers_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q15:FaultException" />
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q14:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IUserService_GetAllUsers_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q15:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IUserService_DeleteAccount_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteAccount" />
@@ -341,14 +341,14 @@
   <wsdl:message name="IUserService_DeleteAccount_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteAccountResponse" />
   </wsdl:message>
-  <wsdl:message name="IUserService_DeleteAccount_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q16:ArgumentFault" />
+  <wsdl:message name="IUserService_DeleteAccount_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q16:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IUserService_DeleteAccount_UnauthorizedUserFault_FaultMessage">
     <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q17:UnauthorizedUser" />
   </wsdl:message>
-  <wsdl:message name="IUserService_DeleteAccount_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:UnauthorizedClient" />
+  <wsdl:message name="IUserService_DeleteAccount_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IUserService_DeleteAccount_FaultExceptionFault_FaultMessage">
     <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q19:FaultException" />
@@ -357,40 +357,40 @@
     <wsdl:operation name="CreateAccount">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/CreateAccount" message="tns:IUserService_CreateAccount_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/CreateAccountResponse" message="tns:IUserService_CreateAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_CreateAccount_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_CreateAccount_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/CreateAccountUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_CreateAccount_UnauthorizedClientFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountInformation">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetAccountInformation" message="tns:IUserService_GetAccountInformation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationResponse" message="tns:IUserService_GetAccountInformation_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_GetAccountInformation_UnauthorizedClientFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_GetAccountInformation_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_GetAccountInformation_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_GetAccountInformation_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAccountInformationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_GetAccountInformation_UnauthorizedUserFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="UpdateAccounInformation">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformation" message="tns:IUserService_UpdateAccounInformation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationResponse" message="tns:IUserService_UpdateAccounInformation_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_UpdateAccounInformation_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_UpdateAccounInformation_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_UpdateAccounInformation_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_UpdateAccounInformation_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/UpdateAccounInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_UpdateAccounInformation_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetAllUsers" message="tns:IUserService_GetAllUsers_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetAllUsersResponse" message="tns:IUserService_GetAllUsers_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_GetAllUsers_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_GetAllUsers_UnauthorizedClientFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_GetAllUsers_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_GetAllUsers_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_GetAllUsers_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetAllUsersArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_GetAllUsers_ArgumentFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccount">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/DeleteAccount" message="tns:IUserService_DeleteAccount_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/DeleteAccountResponse" message="tns:IUserService_DeleteAccount_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_DeleteAccount_ArgumentFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_DeleteAccount_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IUserService_DeleteAccount_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IUserService_DeleteAccount_UnauthorizedUserFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountArgumentFaultFault" name="ArgumentFaultFault" message="tns:IUserService_DeleteAccount_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/DeleteAccountFaultExceptionFault" name="FaultExceptionFault" message="tns:IUserService_DeleteAccount_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
@@ -404,14 +404,14 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetAccountInformation">
@@ -422,17 +422,17 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="UnauthorizedUserFault">
-        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="FaultExceptionFault">
-        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="UpdateAccounInformation">
@@ -443,14 +443,14 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
@@ -464,17 +464,17 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="UnauthorizedUserFault">
-        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      <wsdl:fault name="UnauthorizedUserFault">
+        <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="DeleteAccount">
@@ -485,14 +485,14 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
