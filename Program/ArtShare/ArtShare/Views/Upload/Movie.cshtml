@@ -1,20 +1,10 @@
-﻿@model ArtShare.Models.UploadModel
+﻿@model ArtShare.Models.UploadMovieModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Upload Movie";
 }
 
-<h2>Upload Files</h2>
+<h2>Upload Movie</h2>
 
-<!--<form method="post">
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-        <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
-        <span class="fileinput-filename"></span>
-        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-    </div>
-
-    <input type="hidden" name="id" value="17" />
-    <button type="submit" class="btn btn-success">Upload</button>
-</form>-->
 @using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
 {
     <div class="col-md-4">
@@ -40,22 +30,68 @@
     <div class="col-md-8">
         <div class="form-horizontal">
 
-            <div id="movie" style="display:none;">
-                @Html.Partial("_MovieUpload")
+            <div class="col-md-5">
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Title)</h4>
+                    @Html.TextBoxFor(m => m.Details.Title, new { placeholder = "Title", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Description)</h4>
+                    @Html.TextBoxFor(m => m.Details.Description, new { placeholder = "Description", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Director)</h4>
+                    @Html.TextBoxFor(m => m.Details.Director, new { placeholder = "Director", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.ReleaseDate)</h4>
+                    @Html.TextBoxFor(m => m.Details.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Runtime)</h4>
+                    @Html.TextBoxFor(m => m.Details.Runtime, new { placeholder = "Runtime", required = "true", @class = "form-control" })
+                </div>
+
+
+
             </div>
 
-            <div id="book">
-                @Html.Partial("_MovieUpload")
+            <div class="col-md-2"></div>
+
+            <div class="col-md-5">
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Language)</h4>
+                    @Html.TextBoxFor(m => m.Details.Language, new { placeholder = "Language", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Price)</h4>
+                    @Html.TextBoxFor(m => m.Details.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0.0", step = "0.1" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Tags)</h4>
+                    @Html.TextBoxFor(m => m.Details.Tags[0], new { placeholder = "Tags", required = "false", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Genres)</h4>
+                    @Html.TextBoxFor(m => m.Details.Genres[0], new { placeholder = "Genres", required = "false", @class = "form-control" })
+                </div>
+
             </div>
 
-            <div id="music" style="display:none;">
-                @Html.Partial("_MovieUpload")
+            <div class="form-group">
+                <button type="submit" class="btn btn-success to-right">Upload</button>
             </div>
-
         </div>
     </div>
 
-    <button type="submit">Hej</button>
 }
 
 

@@ -26,14 +26,14 @@ namespace ArtShare.Logic
 
 
 
-        public int UploadFile(IUploadModel model, UserDTO user)
+        public int UploadFile(IUploadModel model, UserDTO user, IDetailsModel details)
         {
             Func<IDetailsModel, MediaItemDTO> mapper = MapDefault;
-            var detailsType = model.Details.GetType();
+            var detailsType = details.GetType();
             if(_mappingDictionary.ContainsKey(detailsType))
-                mapper = _mappingDictionary[model.GetType()];
+                mapper = _mappingDictionary[details.GetType()];
 
-            var metaData = mapper(model.Details);
+            var metaData = mapper(details);
             int result = -1;
             using (var proxy = new TransferServiceClient())
             {
@@ -52,6 +52,8 @@ namespace ArtShare.Logic
         #region Information Mappers
         private void MapTags(MediaItemDTO result, List<string> tags)
         {
+            if (tags == null)
+                return;
             foreach (var tag in tags)
             {
                 if(!string.IsNullOrWhiteSpace(tag))
@@ -65,6 +67,8 @@ namespace ArtShare.Logic
 
         private void MapGenres(MediaItemDTO result, List<string> genres)
         {
+            if (genres == null)
+                return;
             foreach (var genre in genres)
             {
                 if(!string.IsNullOrWhiteSpace(genre))
@@ -99,7 +103,7 @@ namespace ArtShare.Logic
         private void MapDescription(MediaItemDTO dto, string desc)
         {
             if (!string.IsNullOrWhiteSpace(desc))
-                dto.Information.Add(new MediaItemInformationDTO { Data = desc, Type = InformationTypeDTO.Title });
+                dto.Information.Add(new MediaItemInformationDTO { Data = desc, Type = InformationTypeDTO.Description });
         }
 
         private void MapTrackLength(MediaItemDTO result, string trackLength)
@@ -154,6 +158,8 @@ namespace ArtShare.Logic
 
         private void MapCastMembers(MediaItemDTO result, List<string> castMembers)
         {
+            if (castMembers == null)
+                return;
             foreach (var castMember in castMembers)
             {
                 if(!string.IsNullOrWhiteSpace(castMember))
@@ -185,11 +191,21 @@ namespace ArtShare.Logic
                 });
         }
 
+        private void MapRuntime(MediaItemDTO result, string runtime)
+        {
+            if (!string.IsNullOrWhiteSpace(runtime))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = runtime,
+                    Type = InformationTypeDTO.Runtime
+                });
+        }
+
         #endregion
         #region DTO Mappers
         private MediaItemDTO MapDefault(IDetailsModel model)
         {
-            var result = new MediaItemDTO();
+            var result = new MediaItemDTO { Information = new List<MediaItemInformationDTO>()};
             MapDescription(result, model.Description);
             MapTitle(result, model.Title);
             MapPrice(result, model.Price);
@@ -200,6 +216,7 @@ namespace ArtShare.Logic
         private MediaItemDTO MapMusic(IDetailsModel model)
         {
             var result = MapDefault(model);
+            result.Type = MediaItemTypeDTO.Music;
             var music = (MusicDetailsModel) model;
             MapArtist(result, music.Artist);
             MapReleaseDate(result, music.ReleaseDate);
@@ -210,7 +227,9 @@ namespace ArtShare.Logic
         private MediaItemDTO MapMovie(IDetailsModel model)
         {
             var result = MapDefault(model);
+            result.Type = MediaItemTypeDTO.Movie;
             var movie = (MovieDetailsModel) model;
+            MapRuntime(result, movie.Runtime);
             MapReleaseDate(result, movie.ReleaseDate);
             MapCastMembers(result, movie.CastMembers);
             MapDirector(result, movie.Director);
@@ -221,6 +240,7 @@ namespace ArtShare.Logic
         private MediaItemDTO MapBook(IDetailsModel model)
         {
             var result = MapDefault(model);
+            result.Type = MediaItemTypeDTO.Book;
             var book = (BookDetailsModel) model;
             MapReleaseDate(result, book.ReleaseDate);
             MapLanguage(result, book.Language);

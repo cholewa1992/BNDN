@@ -5,12 +5,9 @@ namespace ArtShare.Models
 {
     public interface IUploadModel
     {
-        public HttpPostedFileBase File { get; set; }
+        HttpPostedFileBase File { get; set; }
 
-        public HttpPostedFileBase Thumbnail { get; set; }
-
-        public IDetailsModel Details { get; set; }
-
+        HttpPostedFileBase Thumbnail { get; set; }
 
     }
 }

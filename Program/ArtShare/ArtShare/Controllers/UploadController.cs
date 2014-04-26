@@ -33,8 +33,23 @@ namespace ArtShare.Controllers
             return View();
         }
 
+        public ActionResult Movie()
+        {
+            return View();
+        }
+
+        public ActionResult Music()
+        {
+            return View();
+        }
+
+        public ActionResult Book()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult Upload(IUploadModel um)
+        public ActionResult Upload(UploadMovieModel um)
         {
             if (ModelState.IsValid)
             {
@@ -50,18 +65,18 @@ namespace ArtShare.Controllers
                     }
                     else
                     {
-                        RedirectToAction("Index", "Login");
+                        return RedirectToAction("Index", "Login");
                     }
 
-                    result = _logic.UploadFile(um, user);
+                    result = _logic.UploadFile(um, user, um.Details);
                 }
                 catch (FaultException e)
                 {
                     TempData["Error"] = e.Message;
-                    RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 if (result > 0)
-                    RedirectToAction("Index", "Details", new {result});
+                    return RedirectToAction("Index", "Details", new {result});
             }
 
             return RedirectToAction("Index", "Home");
