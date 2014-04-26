@@ -9,7 +9,7 @@ namespace ArtShare.Logic
 {
     public interface ITransferLogic
     {
-        int UploadFile(UploadModel model, UserDTO user);
+        int UploadFile(IUploadModel model, UserDTO user);
     }
 
 }

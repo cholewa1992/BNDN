@@ -34,7 +34,7 @@ namespace ArtShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(UploadModel um)
+        public ActionResult Upload(IUploadModel um)
         {
             if (ModelState.IsValid)
             {

@@ -26,7 +26,7 @@ namespace ArtShare.Logic
 
 
 
-        public int UploadFile(UploadModel model, UserDTO user)
+        public int UploadFile(IUploadModel model, UserDTO user)
         {
             Func<IDetailsModel, MediaItemDTO> mapper = MapDefault;
             var detailsType = model.Details.GetType();

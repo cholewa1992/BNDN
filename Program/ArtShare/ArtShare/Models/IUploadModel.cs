@@ -3,7 +3,7 @@ using System.Web;
 
 namespace ArtShare.Models
 {
-    public class UploadModel
+    public interface IUploadModel
     {
         public HttpPostedFileBase File { get; set; }
 
