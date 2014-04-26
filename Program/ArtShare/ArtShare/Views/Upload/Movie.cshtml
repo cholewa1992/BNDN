@@ -5,7 +5,7 @@
 
 <h2>Upload Movie</h2>
 
-@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+@using (Html.BeginForm("UploadMovie", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
 {
     <div class="col-md-4">
         <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -22,7 +22,7 @@
             </div>
             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
             <div>
-                <span class="btn btn-default btn-file"><span class="fileinput-new">Select Thumbnail</span><span class="fileinput-exists">Change Thumbnail</span><input type="file" name="Thumbnail"></span>
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Select Thumbnail</span><span class="fileinput-exists">Change Thumbnail</span><input type="file" name="Thumbnail" required></span>
                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
             </div>
         </div>
@@ -71,7 +71,7 @@
 
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.Details.Price)</h4>
-                    @Html.TextBoxFor(m => m.Details.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0"})
+                    @Html.TextBoxFor(m => m.Details.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0", max = int.MaxValue})
                 </div>
 
                 <div class="form-group">

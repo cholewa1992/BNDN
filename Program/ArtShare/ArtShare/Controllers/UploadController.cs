@@ -49,7 +49,7 @@ namespace ArtShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(UploadMovieModel um)
+        public ActionResult UploadMovie(UploadMovieModel um)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,75 @@ namespace ArtShare.Controllers
                     return RedirectToAction("Index");
                 }
                 if (result > 0)
-                    return RedirectToAction("Index", "Details", new {result});
+                    return RedirectToAction("Index", "Details", new {id = result});
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult UploadMusic(UploadMusicModel um)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = 0;
+                try
+                {
+                    var userCookie = Request.Cookies["user"];
+                    var user = new UserDTO();
+                    if (userCookie != null)
+                    {
+                        user.Username = userCookie["username"];
+                        user.Password = userCookie["password"];
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+
+                    result = _logic.UploadFile(um, user, um.Details);
+                }
+                catch (FaultException e)
+                {
+                    TempData["Error"] = e.Message;
+                    return RedirectToAction("Index");
+                }
+                if (result > 0)
+                    return RedirectToAction("Index", "Details", new { id = result });
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult UploadBook(UploadBookModel um)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = 0;
+                try
+                {
+                    var userCookie = Request.Cookies["user"];
+                    var user = new UserDTO();
+                    if (userCookie != null)
+                    {
+                        user.Username = userCookie["username"];
+                        user.Password = userCookie["password"];
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+
+                    result = _logic.UploadFile(um, user, um.Details);
+                }
+                catch (FaultException e)
+                {
+                    TempData["Error"] = e.Message;
+                    return RedirectToAction("Index");
+                }
+                if (result > 0)
+                    return RedirectToAction("Index", "Details", new { id = result });
             }
 
             return RedirectToAction("Index", "Home");

@@ -1,1 +1,95 @@
 ﻿@model ArtShare.Models.UploadBookModel
+@{
+    ViewBag.Title = "Upload Book";
+}
+
+<h2>Upload Book</h2>
+
+@using (Html.BeginForm("UploadBook", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+{
+    <div class="col-md-4">
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+            <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change File</span><input type="file" name="File" required onchange="chooseType()"></span>
+            <span class="fileinput-filename" id="fileName"></span>
+            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+        </div>
+
+        <br />
+
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                <img data-src="holder.js/100%x100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTkwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijk1IiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE5MHgxNDA8L3RleHQ+PC9zdmc+" alt="hej">
+            </div>
+            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+            <div>
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Select Thumbnail</span><span class="fileinput-exists">Change Thumbnail</span><input type="file" name="Thumbnail" required></span>
+                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-horizontal">
+
+            <div class="col-md-5">
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Title)</h4>
+                    @Html.TextBoxFor(m => m.Details.Title, new { placeholder = "Title", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Description)</h4>
+                    @Html.TextBoxFor(m => m.Details.Description, new { placeholder = "Description", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Author)</h4>
+                    @Html.TextBoxFor(m => m.Details.Author, new { placeholder = "Author", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.ReleaseDate)</h4>
+                    @Html.TextBoxFor(m => m.Details.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.NumberOfPages)</h4>
+                    @Html.TextBoxFor(m => m.Details.NumberOfPages, new { placeholder = "NumberOfPages", required = "true", @class = "form-control", type="number", min="0", max = int.MaxValue })
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-5">
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Language)</h4>
+                    @Html.TextBoxFor(m => m.Details.Language, new { placeholder = "Language", required = "true", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Price)</h4>
+                    @Html.TextBoxFor(m => m.Details.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0" , max = int.MaxValue})
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Tags)</h4>
+                    @Html.TextBoxFor(m => m.Details.Tags[0], new { placeholder = "Tags", required = "false", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <h4>@Html.DisplayNameFor(model => model.Details.Genres)</h4>
+                    @Html.TextBoxFor(m => m.Details.Genres[0], new { placeholder = "Genres", required = "false", @class = "form-control" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success to-right">Upload</button>
+            </div>
+        </div>
+    </div>
+
+}
