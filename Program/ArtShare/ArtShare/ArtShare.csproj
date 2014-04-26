@@ -302,6 +302,12 @@
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
+	<Content Include="Views\Upload\_MovieUpload.cshtml" />
+    <Content Include="Views\Upload\_BookUpload.cshtml" />
+    <Content Include="Views\Upload\Movie.cshtml" />
+    <Content Include="Views\Upload\Book.cshtml" />
+    <Content Include="Views\Upload\Music.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
