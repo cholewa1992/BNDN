@@ -103,6 +103,7 @@ namespace ArtShare.Controllers
                     }
 
                     result = _logic.UploadFile(um, user, um.Details);
+                    
                 }
                 catch (FaultException e)
                 {
@@ -114,6 +115,7 @@ namespace ArtShare.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+            
         }
 
         [HttpPost]

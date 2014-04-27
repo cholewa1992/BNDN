@@ -22,14 +22,14 @@ namespace ClientUnitTest
         private static Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SetupDictionary()
         {
             var dictionary = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
-            var bookArray = new MediaItemDTO[4];
+            var bookList = new List<MediaItemDTO>();
             for (int i = 0; i <= 3; i++)
             {
-                bookArray[i] = new MediaItemDTO
+                bookList.Add(new MediaItemDTO
                 {
                     Id = i,
                     Type = MediaItemTypeDTO.Book,
-                    Information = new MediaItemInformationDTO[] 
+                    Information = new List<MediaItemInformationDTO>
                     {
                         new MediaItemInformationDTO
                         {
@@ -37,17 +37,17 @@ namespace ClientUnitTest
                             Data = "BookTitle " + i
                         }
                     }
-                };
+                });
             }
 
-            var movieArray = new MediaItemDTO[4];
+            var movieList = new List<MediaItemDTO>();
             for (int i = 0; i <= 3; i++)
             {
-                movieArray[i] = new MediaItemDTO
+                movieList.Add(new MediaItemDTO
                 {
                     Id = i,
                     Type = MediaItemTypeDTO.Movie,
-                    Information = new MediaItemInformationDTO[] 
+                    Information = new List<MediaItemInformationDTO> 
                     {
                         new MediaItemInformationDTO
                         {
@@ -55,17 +55,17 @@ namespace ClientUnitTest
                             Data = "MovieTitle " + i
                         }
                     }
-                };
+                });
             }
 
-            var musicArray = new MediaItemDTO[4];
+            var musicList = new List<MediaItemDTO>();
             for (int i = 0; i <= 3; i++)
             {
-                musicArray[i] = new MediaItemDTO
+                musicList.Add(new MediaItemDTO
                 {
                     Id = i,
                     Type = MediaItemTypeDTO.Music,
-                    Information = new MediaItemInformationDTO[] 
+                    Information = new List<MediaItemInformationDTO> 
                     {
                         new MediaItemInformationDTO
                         {
@@ -73,23 +73,23 @@ namespace ClientUnitTest
                             Data = "MusicTitle " + i
                         }
                     }
-                };
+                });
             }
 
             dictionary.Add(MediaItemTypeDTO.Book, new MediaItemSearchResultDTO
             {
                 NumberOfSearchResults = 4,
-                MediaItemList = bookArray
+                MediaItemList = bookList
             });
             dictionary.Add(MediaItemTypeDTO.Movie, new MediaItemSearchResultDTO
             {
                 NumberOfSearchResults = 4,
-                MediaItemList = movieArray
+                MediaItemList = movieList
             });
             dictionary.Add(MediaItemTypeDTO.Music, new MediaItemSearchResultDTO
             {
                 NumberOfSearchResults = 4,
-                MediaItemList = musicArray
+                MediaItemList = musicList
             });
 
             return dictionary;
@@ -127,7 +127,7 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
-        public void PrepareSearchModel_BookArrayNull_ArgumentNullException()
+        public void PrepareSearchModel_BookListNull_ArgumentNullException()
         {
             var newDict = _dictionary;
             newDict[MediaItemTypeDTO.Book] = null;

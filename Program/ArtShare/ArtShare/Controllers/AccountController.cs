@@ -149,7 +149,7 @@ namespace ArtShare.Controllers
             }
         }
 
-        public ActionResult GetAllUsers()
+        public ActionResult UserList()
         {
             string username = "";
             string password = "";
@@ -167,6 +167,33 @@ namespace ArtShare.Controllers
             try
             {
                 return View(_accountLogic.GetAllUsers(username, password));
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public ActionResult DeleteUser(int id)
+        {
+            string username = "";
+            string password = "";
+            if (Request.Cookies["user"] != null)
+            {
+                username = Request.Cookies["user"].Values["username"];
+                password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                TempData["error"] = "An admin must be logged in to delete a user";
+                RedirectToAction("Index", "Login");
+            }
+            try
+            {
+                _accountLogic.DeleteAccount(username, password, id);
+                TempData["success"] = "Account with id " + id + " was deleted";
+                return RedirectToAction("UserList", "Account");
             }
             catch (Exception e)
             {

@@ -48,6 +48,18 @@ namespace ArtShare.Logic
             return result;
         }
 
+        public DownloadModel DownloadFile(UserDTO user, int mediaItem)
+        {
+            string fileExtension;
+            Stream fileStream;
+
+            using (var ts = new TransferServiceClient())
+            {
+                ts.DownloadMedia(user, mediaItem, Resources.ClientToken, out fileExtension, out fileStream);
+            }
+
+            return new DownloadModel() {Stream = fileStream, FileExtension = fileExtension};
+        }
 
         #region Information Mappers
         private void MapTags(MediaItemDTO result, List<string> tags)
