@@ -1,4 +1,4 @@
-﻿
+﻿@model ArtShare.Models.SearchModel
 @{
     ViewBag.Title = "Index";
 }
@@ -10,14 +10,37 @@
 <div class="featured">
     <div class="well featured_container is-center">
 
-        <img src="~/Content/img/thumbnail_01.jpg" draggable="false" />
-
-
-        <img src="~/Content/img/thumbnail_02.jpg" draggable="false" />
-
-
-        <img src="~/Content/img/thumbnail_03.jpg" draggable="false" />
-
+        @if (Model.Movies != null)
+        {
+            foreach (var m in Model.Movies)
+            {
+                <a href="/Details/@m.ProductId"><img src="@m.Thumbnail" draggable="false" width="200" /></a>
+            }
+        }
         
+    </div>
+
+    <div class="well featured_container is-center">
+
+        @if (Model.Music != null)
+        {
+            foreach (var m in Model.Music)
+            {
+                <img src="@m.Thumbnail" draggable="false" width="200"/>
+            }
+        }
+
+    </div>
+
+    <div class="well featured_container is-center">
+
+        @if (Model.Books != null)
+        {
+            foreach (var m in Model.Books)
+            {
+                <img src="@m.Thumbnail" draggable="false" width="200" />
+            }
+        }
+
     </div>
 </div>

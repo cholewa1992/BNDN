@@ -161,12 +161,17 @@ namespace ArtShare.Controllers
             else
             {
                 TempData["error"] = "An admin must be logged in to get a list of all users";
-                RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
 
             try
             {
                 return View(_accountLogic.GetAllUsers(username, password));
+            }
+            catch (ArgumentNullException e)
+            {
+                TempData["error"] = "An admin must be logged in to get a list of all users - Internal";
+                return RedirectToAction("Index", "Login");
             }
             catch (Exception e)
             {
@@ -187,13 +192,18 @@ namespace ArtShare.Controllers
             else
             {
                 TempData["error"] = "An admin must be logged in to delete a user";
-                RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
             try
             {
                 _accountLogic.DeleteAccount(username, password, id);
                 TempData["success"] = "Account with id " + id + " was deleted";
                 return RedirectToAction("UserList", "Account");
+            }
+            catch (ArgumentNullException e)
+            {
+                TempData["error"] = "An admin must be logged in to get a delete a user";
+                return RedirectToAction("Index", "Login");
             }
             catch (Exception e)
             {
