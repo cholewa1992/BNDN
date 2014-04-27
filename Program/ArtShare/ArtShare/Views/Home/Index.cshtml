@@ -2,30 +2,36 @@
 @{
     ViewBag.Title = "Index";
 }
+<script>
+    $('.Collage').collagePlus();
+</script>
 
 <div class="is-center page-header">
     <h1>ARTSHARE</h1>
 </div>
 <div class="row">
     <div class="featured-container is-center">
-
-        @if (Model.Movies != null)
-        {
-            foreach (var m in Model.Movies)
+        <div class="Collage">
+            @if (Model.Movies != null)
             {
+                foreach (var m in Model.Movies)
+                {
 
-                <div class="col-md-2">
-                    <a href="/Details/@m.ProductId" class="thumbnail">
-                        <div class="image-container">
-                            <img src="@m.Thumbnail">
+                    <img src="@m.Thumbnail" />
+
+                    <!--<div class="col-md-2">
+                        <a href="/Details/@m.ProductId" class="thumbnail">
+                            <div class="image-container">
+                                <img src="@m.Thumbnail">
+                            </div>
+                        </a>
+                        <div class="caption">
+                            @m.Title
                         </div>
-                    </a>
-                    <div class="caption">
-                        @m.Title
-                    </div>
-                </div>
+                    </div>-->
+                }
             }
-        }
+        </div>
 
     </div>
 </div>
