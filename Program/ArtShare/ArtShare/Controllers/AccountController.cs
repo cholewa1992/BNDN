@@ -174,6 +174,5 @@ namespace ArtShare.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-        }
     }
 }
