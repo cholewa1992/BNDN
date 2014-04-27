@@ -148,5 +148,32 @@ namespace ArtShare.Controllers
                 return View(model);
             }
         }
+
+        public ActionResult GetAllUsers()
+        {
+            string username = "";
+            string password = "";
+            if (Request.Cookies["user"] != null)
+            {
+                username = Request.Cookies["user"].Values["username"];
+                password = Request.Cookies["user"].Values["password"];
+            }
+            else
+            {
+                TempData["error"] = "An admin must be logged in to get a list of all users";
+                RedirectToAction("Index", "Login");
+            }
+
+            try
+            {
+                return View(_accountLogic.GetAllUsers(username, password));
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        }
     }
 }
