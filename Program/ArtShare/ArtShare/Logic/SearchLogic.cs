@@ -12,7 +12,7 @@ using ShareItServices.MediaItemService;
 namespace ArtShare.Logic
 {
     public class SearchLogic : ISearchLogic
-    {
+    {    
         public SearchModel SearchMediaItems(int from, int to, string searchKey)
         {
             using (var client = new MediaItemServiceClient())
@@ -27,6 +27,24 @@ namespace ArtShare.Logic
             using (var client = new MediaItemServiceClient())
             {
                 var searchResult = client.SearchMediaItemsByType(from, to, type, searchKey, Resources.ClientToken);
+                return PrepareSearchModel(searchResult);
+            }
+        }
+
+        public SearchModel GetMediaItems(int from, int to)
+        {
+            using (var client = new MediaItemServiceClient())
+            {
+                var searchResult = client.GetMediaItems(from, to, Resources.ClientToken);
+                return PrepareSearchModel(searchResult);
+            }
+        }
+
+        public SearchModel GetMediaItemsByType(int from, int to, MediaItemTypeDTO type)
+        {
+            using (var client = new MediaItemServiceClient())
+            {
+                var searchResult = client.GetMediaItemsByType(from, to, type, Resources.ClientToken);
                 return PrepareSearchModel(searchResult);
             }
         }

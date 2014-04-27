@@ -12,5 +12,7 @@ namespace ArtShare.Logic
     {
         SearchModel SearchMediaItems(int from, int to, string searchKey);
         SearchModel SearchMediaItemsByType(int from, int to, MediaItemTypeDTO type, string searchKey);
+        SearchModel GetMediaItems(int from, int to);
+        SearchModel GetMediaItemsByType(int from, int to, MediaItemTypeDTO type);
     }
 }
