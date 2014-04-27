@@ -14,7 +14,7 @@
                     foreach(var m in Model.Movies){
                         <tr onclick="window.location.href='../Details/@m.ProductId'">
                             <td><span class="glyphicon glyphicon-film"></span></td>
-                            <td><span class="to-left">@m.Title (@m.ReleaseDate)</span></td>
+                            <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
                     }
                 }
@@ -32,7 +32,7 @@
                     {
                         <tr onclick="window.location.href='../Details/@m.ProductId'">
                             <td><span class="glyphicon glyphicon-film"></span></td>
-                            <td><span class="to-left">@m.Title (@m.ReleaseDate.Value.Year)</span></td>
+                            <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
                     }
                 }
@@ -50,7 +50,7 @@
                     {
                         <tr onclick="window.location.href='../Details/@m.ProductId'">
                             <td><span class="glyphicon glyphicon-film"></span></td>
-                            <td><span class="to-left">@m.Title (@m.ReleaseDate.Value.Year)</span></td>
+                            <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
                     }
                 }
