@@ -24,8 +24,6 @@ namespace ArtShare.Logic
             };
         }
 
-
-
         public int UploadFile(IUploadModel model, UserDTO user, IDetailsModel details)
         {
             Func<IDetailsModel, MediaItemDTO> mapper = MapDefault;
@@ -48,9 +46,8 @@ namespace ArtShare.Logic
             return result;
         }
 
-        public DownloadModel DownloadFile(UserDTO user, int mediaItem)
+        public Stream DownloadFile(UserDTO user, int mediaItem, out string fileExtension)
         {
-            string fileExtension;
             Stream fileStream;
 
             using (var ts = new TransferServiceClient())
@@ -58,7 +55,7 @@ namespace ArtShare.Logic
                 ts.DownloadMedia(user, mediaItem, Resources.ClientToken, out fileExtension, out fileStream);
             }
 
-            return new DownloadModel() {Stream = fileStream, FileExtension = fileExtension};
+            return fileStream;
         }
 
         #region Information Mappers

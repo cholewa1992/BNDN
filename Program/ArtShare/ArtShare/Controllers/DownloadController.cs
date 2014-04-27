@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,27 +28,32 @@ namespace ArtShare.Controllers
         //
         // GET: /Download/5
 
-        public ActionResult Index(int mediaItem, string fileName)
+        public ActionResult Index(int id)
         {
 
             //Checking that the user is logged in
-            if (Request.Cookies["user"] == null)
+            var userCookie = Request.Cookies["user"];
+            if (userCookie == null)
             {
-                TempData["error"] = "You have to login to see you profil page";
+                TempData["error"] = "You have to be logged in to download files.";
                 return RedirectToAction("Index", "Home");
             }
 
-            var user = new UserDTO() { Username = Request.Cookies["user"].Values["username"], Password = Request.Cookies["user"].Values["password"] };
-
-            var model = _logic.DownloadFile(user, mediaItem);
-
-            var resp = HttpContext.Response;
-
-            resp.ContentType = "application/octet-stream";
-            resp.AddHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-            resp.AddHeader("Content-Length", model.Stream.Length.ToString());
-
-            return View();
+            var user = new UserDTO() { Username = userCookie["username"], Password = userCookie["password"] };
+            string fileName = TempData["fileName"] as string;
+            try
+            {
+                string fileExtension;
+                var stream = _logic.DownloadFile(user, id, out fileExtension);
+                fileName = fileName + fileExtension;
+                return File(stream, MimeMapping.GetMimeMapping(fileName), fileName);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e;
+                return RedirectToAction("Index", "Details", new {id = id});
+            }
+            
         }
 
     }
