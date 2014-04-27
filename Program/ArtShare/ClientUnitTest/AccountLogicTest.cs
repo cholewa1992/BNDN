@@ -13,17 +13,17 @@ namespace ClientUnitTest
         private AccountLogic _accountLogic = new AccountLogic();
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteAccount_UsernameNull_ArgumentNullException()
         {
-            _accountLogic.GetAllUsers(null, "password");
+            _accountLogic.DeleteAccount(null, "password", 1);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteAccount_PasswordNull_ArgumentNullException()
         {
-            _accountLogic.GetAllUsers("username", null);
+            _accountLogic.DeleteAccount("username", null, 1);
         }
 
         [TestMethod]
