@@ -659,6 +659,16 @@ namespace ArtShare.Logic
                 });
         }
 
+        public void MapThumbnail(MediaItemDTO result, string thumbnail)
+        {
+            if (!string.IsNullOrWhiteSpace(thumbnail))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = thumbnail,
+                    Type = InformationTypeDTO.Thumbnail
+                });
+        }
+
         #endregion
         #region DTO Mappers
         public MediaItemDTO MapDefault(IDetailsModel model)
@@ -671,6 +681,7 @@ namespace ArtShare.Logic
             MapPrice(result, model.Price);
             MapGenres(result, model.Genres);
             MapTags(result, model.Tags);
+            MapThumbnail(result, model.Thumbnail);
             return result;
         }
         public MediaItemDTO MapMusic(MusicDetailsModel music)
