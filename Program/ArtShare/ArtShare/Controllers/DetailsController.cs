@@ -322,6 +322,24 @@ namespace ArtShare.Controllers
             return Edit(id);
         }
 
+        public ActionResult EditMovie(int id)
+        {
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MovieDetailsModel);
+            }
+            return Edit(id);
+        }
+
+        public ActionResult EditMusic(int id)
+        {
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MusicDetailsModel);
+            }
+            return Edit(id);
+        }
+
         public ActionResult Edit(int id)
         {
 
@@ -347,15 +365,15 @@ namespace ArtShare.Controllers
                 {
 
                     case MediaItemTypeDTO.Book:
-                        model = _logic.ExstractBookInformation(dto);
+                        model = _logic.ExtractBookInformation(dto);
                         break;
 
                     case MediaItemTypeDTO.Movie:
-                        model = _logic.ExstractMovieInformation(dto);
+                        model = _logic.ExtractMovieInformation(dto);
                         break;
 
                     case MediaItemTypeDTO.Music:
-                        model = _logic.ExstractMusicInformation(dto);
+                        model = _logic.ExtractMusicInformation(dto);
                         break;
                     default: throw new Exception("Dto type not known");
 

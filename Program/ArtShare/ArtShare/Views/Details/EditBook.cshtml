@@ -42,7 +42,12 @@
 
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.ReleaseDate)</h4>
-                    @Html.TextBoxFor(m => m.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date" })
+                    @Html.TextBoxFor(m => m.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date", value =  })
+                </div>
+
+                <div class="form-group">
+                    <h4>ReleaseDate</h4>
+                    <input class="form-control" data-val="true" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" required="true" type="date" value="@Model.ReleaseDate.Value.ToShortDateString()">
                 </div>
 
                 <div class="form-group">
@@ -81,7 +86,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success to-right">Upload</button>
+                <button type="submit" class="btn btn-success to-right">Update</button>
             </div>
         </div>
     </div>
