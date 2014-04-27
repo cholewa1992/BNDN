@@ -116,21 +116,21 @@
       <xs:element name="UserInformationDTO" nillable="true" type="tns:UserInformationDTO" />
       <xs:simpleType name="UserInformationTypeDTO">
         <xs:restriction base="xs:string">
-          <xs:enumeration value="Firstname">
+          <xs:enumeration value="Email">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
               </xs:appinfo>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Lastname">
+          <xs:enumeration value="Firstname">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
               </xs:appinfo>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Email">
+          <xs:enumeration value="Lastname">
             <xs:annotation>
               <xs:appinfo>
                 <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
@@ -154,20 +154,6 @@
         </xs:sequence>
       </xs:complexType>
       <xs:element name="ClientDTO" nillable="true" type="tns:ClientDTO" />
-    </xs:schema>
-    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:complexType name="UnauthorizedUser">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="UnauthorizedUser" nillable="true" type="tns:UnauthorizedUser" />
-      <xs:complexType name="ArgumentFault">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
     </xs:schema>
     <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.ServiceModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.ServiceModel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
@@ -226,6 +212,20 @@
       </xs:complexType>
       <xs:element name="Exception" nillable="true" type="tns:Exception" />
     </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="UnauthorizedUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UnauthorizedUser" nillable="true" type="tns:UnauthorizedUser" />
+      <xs:complexType name="ArgumentFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
+    </xs:schema>
   </wsdl:types>
   <wsdl:message name="IAuthService_ValidateUser_InputMessage">
     <wsdl:part name="parameters" element="tns:ValidateUser" />
@@ -233,14 +233,14 @@
   <wsdl:message name="IAuthService_ValidateUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:ValidateUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IAuthService_ValidateUser_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q1:FaultException" />
+  </wsdl:message>
   <wsdl:message name="IAuthService_ValidateUser_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q1:UnauthorizedUser" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IAuthService_ValidateUser_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:ArgumentFault" />
-  </wsdl:message>
-  <wsdl:message name="IAuthService_ValidateUser_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q3:FaultException" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q3:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IAuthService_CheckClientExists_InputMessage">
     <wsdl:part name="parameters" element="tns:CheckClientExists" />
@@ -270,9 +270,9 @@
     <wsdl:operation name="ValidateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IAuthService/ValidateUser" message="tns:IAuthService_ValidateUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAuthService/ValidateUserResponse" message="tns:IAuthService_ValidateUser_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAuthService/ValidateUserFaultExceptionFault" name="FaultExceptionFault" message="tns:IAuthService_ValidateUser_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAuthService/ValidateUserUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IAuthService_ValidateUser_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAuthService/ValidateUserArgumentFaultFault" name="ArgumentFaultFault" message="tns:IAuthService_ValidateUser_ArgumentFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IAuthService/ValidateUserFaultExceptionFault" name="FaultExceptionFault" message="tns:IAuthService_ValidateUser_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="CheckClientExists">
       <wsdl:input wsaw:Action="http://tempuri.org/IAuthService/CheckClientExists" message="tns:IAuthService_CheckClientExists_InputMessage" />
@@ -297,14 +297,14 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="UnauthorizedUserFault">
         <soap:fault use="literal" name="UnauthorizedUserFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="FaultExceptionFault">
-        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="CheckClientExists">

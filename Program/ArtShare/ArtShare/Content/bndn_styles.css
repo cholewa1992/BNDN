@@ -309,6 +309,19 @@ header nav ul li div{
 
 /* Upload */
 
+.upload span{
+    font-size: 5em;
+}
+
+.upload div{
+    height: 150px;
+}
+
+.upload button{
+    width: 100%;
+    height: 100%;
+}
+
 /* Footer */
 
 footer{

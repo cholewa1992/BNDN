@@ -11,7 +11,7 @@ namespace ClientUnitTest
     public class AccountControllerTest
     {
 
-        AccountController ac = new AccountController(new AccountLogicStub());
+        AccountController ac = new AccountController(new AccountLogic());
 
         [TestMethod]
         public void Register_ExceptionThrown_ErrorSet()

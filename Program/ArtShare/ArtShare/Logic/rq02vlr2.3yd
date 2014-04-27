@@ -1,0 +1,98 @@
+﻿using System.IO;
+using System.Web.Mvc;
+using ArtShare.Models;
+using ShareItServices.UserService;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ArtShare.Logic
+{
+    public class AccountLogic: IAccountLogic
+    {
+
+
+
+        public void RegisterAccount(RegisterModel model)
+        {
+            
+            if (model.Password != model.RetypePassword)
+            {
+                throw new InvalidDataException("Retyped password does not match");
+            }
+
+            var user = new UserDTO()
+            {
+                Username = model.Username,
+                Password = model.Password
+            };
+            
+            using (var us = new UserServiceClient())
+            {
+                us.CreateAccount(user, Properties.Resources.ClientToken);
+            }
+
+        }
+
+
+        public void DeleteAccount(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateAccountInformation(AccountModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+
+        public AccountModel GetAccountInformation(string username, string password, int userId)
+        {
+            
+            using (var us = new UserServiceClient())
+            {
+
+                var user = us.GetAccountInformation(new UserDTO { Username = username, Password = password }, userId, Properties.Resources.ClientToken);
+
+                return new AccountModel
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Information.Single(t => t.Type == UserInformationTypeDTO.Email).Data, 
+                    Firstname = "Jacob",
+                    Lastname = "Cholewa",
+                    Location = "Denmark"
+                };
+            }
+        }
+
+
+        private UserDTO PassUserInformation(FormCollection collection)
+        {
+            return new UserDTO()
+            {
+                Username = collection["username"],
+                Password = collection["password"]
+            };
+        }
+
+        private UserDTO PassRequestingUserInformation(FormCollection collection)
+        {
+            return new UserDTO()
+            {
+                Username = collection["username"],
+                Password = collection["password"]
+            };
+        }        
+    }
+
+    public static class ArrayExtention
+    {
+        public static IList<T> ToArrayList<T> (this T[] array ){
+            var list = new List<T>();
+            foreach (var e in array) list.Add(e);
+            return list;
+        }
+    }
+}

@@ -417,6 +417,38 @@
       </xs:complexType>
       <xs:element name="ArrayOfMediaItemDTO" nillable="true" type="tns:ArrayOfMediaItemDTO" />
     </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="MediaItemNotFound">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MediaItemNotFound" nillable="true" type="tns:MediaItemNotFound" />
+      <xs:complexType name="UnauthorizedClient">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UnauthorizedClient" nillable="true" type="tns:UnauthorizedClient" />
+      <xs:complexType name="ArgumentFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
+      <xs:complexType name="AccessRightNotFound">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AccessRightNotFound" nillable="true" type="tns:AccessRightNotFound" />
+      <xs:complexType name="UnauthorizedUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UnauthorizedUser" nillable="true" type="tns:UnauthorizedUser" />
+    </xs:schema>
     <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.ServiceModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.ServiceModel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
       <xs:complexType name="FaultException">
@@ -474,38 +506,6 @@
       </xs:complexType>
       <xs:element name="Exception" nillable="true" type="tns:Exception" />
     </xs:schema>
-    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:complexType name="ArgumentFault">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="ArgumentFault" nillable="true" type="tns:ArgumentFault" />
-      <xs:complexType name="UnauthorizedClient">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="UnauthorizedClient" nillable="true" type="tns:UnauthorizedClient" />
-      <xs:complexType name="MediaItemNotFound">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="MediaItemNotFound" nillable="true" type="tns:MediaItemNotFound" />
-      <xs:complexType name="AccessRightNotFound">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="AccessRightNotFound" nillable="true" type="tns:AccessRightNotFound" />
-      <xs:complexType name="UnauthorizedUser">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:element name="UnauthorizedUser" nillable="true" type="tns:UnauthorizedUser" />
-    </xs:schema>
     <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.DTO" />
       <xs:complexType name="ArrayOfKeyValueOfMediaItemTypeDTOMediaItemSearchResultDTOgjhVqOwo">
@@ -534,17 +534,17 @@
   <wsdl:message name="IMediaItemService_GetMediaItemInformation_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetMediaItemInformationResponse" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q1:FaultException" />
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_MediaItemNotFoundFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q1:MediaItemNotFound" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q2:ArgumentFault" />
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q2:FaultException" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItemInformation_UnauthorizedClientFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q3:UnauthorizedClient" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItemInformation_MediaItemNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q4:MediaItemNotFound" />
+  <wsdl:message name="IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q4:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItems_InputMessage">
     <wsdl:part name="parameters" element="tns:GetMediaItems" />
@@ -552,17 +552,17 @@
   <wsdl:message name="IMediaItemService_GetMediaItems_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetMediaItemsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItems_MediaItemNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q5:MediaItemNotFound" />
-  </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItems_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q6:FaultException" />
+  <wsdl:message name="IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q5:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItems_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:UnauthorizedClient" />
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q6:UnauthorizedClient" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q8:ArgumentFault" />
+  <wsdl:message name="IMediaItemService_GetMediaItems_MediaItemNotFoundFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q7:MediaItemNotFound" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItems_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q8:FaultException" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItemsByType_InputMessage">
     <wsdl:part name="parameters" element="tns:GetMediaItemsByType" />
@@ -573,14 +573,14 @@
   <wsdl:message name="IMediaItemService_GetMediaItemsByType_ArgumentFaultFault_FaultMessage">
     <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q9:ArgumentFault" />
   </wsdl:message>
+  <wsdl:message name="IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q10:FaultException" />
+  </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItemsByType_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q10:UnauthorizedClient" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q11:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_GetMediaItemsByType_MediaItemNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q11:MediaItemNotFound" />
-  </wsdl:message>
-  <wsdl:message name="IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q12:FaultException" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q12:MediaItemNotFound" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_SearchMediaItems_InputMessage">
     <wsdl:part name="parameters" element="tns:SearchMediaItems" />
@@ -588,11 +588,11 @@
   <wsdl:message name="IMediaItemService_SearchMediaItems_OutputMessage">
     <wsdl:part name="parameters" element="tns:SearchMediaItemsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q13:ArgumentFault" />
-  </wsdl:message>
   <wsdl:message name="IMediaItemService_SearchMediaItems_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q14:FaultException" />
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q13:FaultException" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q14:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_SearchMediaItems_UnauthorizedClientFault_FaultMessage">
     <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q15:UnauthorizedClient" />
@@ -609,14 +609,14 @@
   <wsdl:message name="IMediaItemService_SearchMediaItemsByType_FaultExceptionFault_FaultMessage">
     <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q17:FaultException" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:ArgumentFault" />
-  </wsdl:message>
   <wsdl:message name="IMediaItemService_SearchMediaItemsByType_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q19:UnauthorizedClient" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q18:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_SearchMediaItemsByType_MediaItemNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q20:MediaItemNotFound" />
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q19:MediaItemNotFound" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q20:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_RateMediaItem_InputMessage">
     <wsdl:part name="parameters" element="tns:RateMediaItem" />
@@ -624,11 +624,11 @@
   <wsdl:message name="IMediaItemService_RateMediaItem_OutputMessage">
     <wsdl:part name="parameters" element="tns:RateMediaItemResponse" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_RateMediaItem_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q21:UnauthorizedClient" />
-  </wsdl:message>
   <wsdl:message name="IMediaItemService_RateMediaItem_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q22:ArgumentFault" />
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q21:ArgumentFault" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_RateMediaItem_UnauthorizedClientFault_FaultMessage">
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q22:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_RateMediaItem_FaultExceptionFault_FaultMessage">
     <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q23:FaultException" />
@@ -639,23 +639,23 @@
   <wsdl:message name="IMediaItemService_DeleteMediaItem_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteMediaItemResponse" />
   </wsdl:message>
-  <wsdl:message name="IMediaItemService_DeleteMediaItem_ArgumentFaultFault_FaultMessage">
-    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q24:ArgumentFault" />
-  </wsdl:message>
   <wsdl:message name="IMediaItemService_DeleteMediaItem_FaultExceptionFault_FaultMessage">
-    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q25:FaultException" />
+    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/System.ServiceModel" name="detail" element="q24:FaultException" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_DeleteMediaItem_AccessRightNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q26:AccessRightNotFound" />
+    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q25:AccessRightNotFound" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_DeleteMediaItem_UnauthorizedClientFault_FaultMessage">
-    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q27:UnauthorizedClient" />
+    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q26:UnauthorizedClient" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_DeleteMediaItem_UnauthorizedUserFault_FaultMessage">
-    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q28:UnauthorizedUser" />
+    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q27:UnauthorizedUser" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_DeleteMediaItem_MediaItemNotFoundFault_FaultMessage">
-    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q29:MediaItemNotFound" />
+    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q28:MediaItemNotFound" />
+  </wsdl:message>
+  <wsdl:message name="IMediaItemService_DeleteMediaItem_ArgumentFaultFault_FaultMessage">
+    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/BusinessLogicLayer.FaultDataContracts" name="detail" element="q29:ArgumentFault" />
   </wsdl:message>
   <wsdl:message name="IMediaItemService_UpdateMediaItemInformation_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateMediaItemInformation" />
@@ -667,32 +667,32 @@
     <wsdl:operation name="GetMediaItemInformation">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformation" message="tns:IMediaItemService_GetMediaItemInformation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationResponse" message="tns:IMediaItemService_GetMediaItemInformation_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_GetMediaItemInformation_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_GetMediaItemInformation_MediaItemNotFoundFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemInformation_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_GetMediaItemInformation_UnauthorizedClientFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemInformationArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItemInformation_ArgumentFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetMediaItems">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItems" message="tns:IMediaItemService_GetMediaItems_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsResponse" message="tns:IMediaItemService_GetMediaItems_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_GetMediaItems_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_GetMediaItems_MediaItemNotFoundFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItems_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_GetMediaItems_UnauthorizedClientFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItems_ArgumentFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetMediaItemsByType">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByType" message="tns:IMediaItemService_GetMediaItemsByType_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeResponse" message="tns:IMediaItemService_GetMediaItemsByType_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_GetMediaItemsByType_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_GetMediaItemsByType_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_GetMediaItemsByType_MediaItemNotFoundFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/GetMediaItemsByTypeFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_GetMediaItemsByType_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="SearchMediaItems">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItems" message="tns:IMediaItemService_SearchMediaItems_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsResponse" message="tns:IMediaItemService_SearchMediaItems_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_SearchMediaItems_FaultExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItems_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_SearchMediaItems_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_SearchMediaItems_MediaItemNotFoundFault_FaultMessage" />
     </wsdl:operation>
@@ -700,26 +700,26 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByType" message="tns:IMediaItemService_SearchMediaItemsByType_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeResponse" message="tns:IMediaItemService_SearchMediaItemsByType_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_SearchMediaItemsByType_FaultExceptionFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_SearchMediaItemsByType_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_SearchMediaItemsByType_MediaItemNotFoundFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/SearchMediaItemsByTypeArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_SearchMediaItemsByType_ArgumentFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="RateMediaItem">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItem" message="tns:IMediaItemService_RateMediaItem_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemResponse" message="tns:IMediaItemService_RateMediaItem_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_RateMediaItem_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_RateMediaItem_ArgumentFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_RateMediaItem_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/RateMediaItemFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_RateMediaItem_FaultExceptionFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="DeleteMediaItem">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItem" message="tns:IMediaItemService_DeleteMediaItem_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemResponse" message="tns:IMediaItemService_DeleteMediaItem_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_DeleteMediaItem_ArgumentFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemFaultExceptionFault" name="FaultExceptionFault" message="tns:IMediaItemService_DeleteMediaItem_FaultExceptionFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemAccessRightNotFoundFault" name="AccessRightNotFoundFault" message="tns:IMediaItemService_DeleteMediaItem_AccessRightNotFoundFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemUnauthorizedClientFault" name="UnauthorizedClientFault" message="tns:IMediaItemService_DeleteMediaItem_UnauthorizedClientFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemUnauthorizedUserFault" name="UnauthorizedUserFault" message="tns:IMediaItemService_DeleteMediaItem_UnauthorizedUserFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemMediaItemNotFoundFault" name="MediaItemNotFoundFault" message="tns:IMediaItemService_DeleteMediaItem_MediaItemNotFoundFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMediaItemService/DeleteMediaItemArgumentFaultFault" name="ArgumentFaultFault" message="tns:IMediaItemService_DeleteMediaItem_ArgumentFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="UpdateMediaItemInformation">
       <wsdl:input wsaw:Action="http://tempuri.org/IMediaItemService/UpdateMediaItemInformation" message="tns:IMediaItemService_UpdateMediaItemInformation_InputMessage" />
@@ -736,17 +736,17 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="MediaItemNotFoundFault">
+        <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="MediaItemNotFoundFault">
-        <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMediaItems">
@@ -757,17 +757,17 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="MediaItemNotFoundFault">
         <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMediaItemsByType">
@@ -781,14 +781,14 @@
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
+      <wsdl:fault name="FaultExceptionFault">
+        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="MediaItemNotFoundFault">
         <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="FaultExceptionFault">
-        <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="SearchMediaItems">
@@ -799,11 +799,11 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
@@ -823,14 +823,14 @@
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="UnauthorizedClientFault">
         <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="MediaItemNotFoundFault">
         <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="RateMediaItem">
@@ -841,11 +841,11 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="UnauthorizedClientFault">
-        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="ArgumentFaultFault">
         <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="UnauthorizedClientFault">
+        <soap:fault use="literal" name="UnauthorizedClientFault" namespace="" />
       </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
@@ -859,9 +859,6 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ArgumentFaultFault">
-        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
-      </wsdl:fault>
       <wsdl:fault name="FaultExceptionFault">
         <soap:fault use="literal" name="FaultExceptionFault" namespace="" />
       </wsdl:fault>
@@ -876,6 +873,9 @@
       </wsdl:fault>
       <wsdl:fault name="MediaItemNotFoundFault">
         <soap:fault use="literal" name="MediaItemNotFoundFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ArgumentFaultFault">
+        <soap:fault use="literal" name="ArgumentFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="UpdateMediaItemInformation">

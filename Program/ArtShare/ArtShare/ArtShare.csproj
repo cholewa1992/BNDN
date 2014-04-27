@@ -140,13 +140,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AccountLogic.cs" />
-    <Compile Include="Logic\AccountLogicStub.cs" />
     <Compile Include="Logic\DetailsLogic.cs" />
     <Compile Include="Logic\IAccountLogic.cs" />
     <Compile Include="Logic\IDetailsLogic.cs" />
     <Compile Include="Logic\ISearchLogic.cs" />
+    <Compile Include="Logic\ITransferLogic.cs" />
+    <Compile Include="Logic\LoginLogic.cs" />
     <Compile Include="Logic\SearchLogic.cs" />
-    <Compile Include="Models\UploadModel.cs" />
+    <Compile Include="Logic\TransferLogic.cs" />
+    <Compile Include="Models\UploadBookModel.cs" />
+    <Compile Include="Models\UploadMusicModel.cs" />
+    <Compile Include="Models\UploadMovieModel.cs" />
+    <Compile Include="Models\IUploadModel.cs" />
     <Compile Include="Models\BookDetailsModel.cs" />
     <Compile Include="Models\IDetailsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -300,6 +305,9 @@
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
+    <Content Include="Views\Upload\Movie.cshtml" />
+    <Content Include="Views\Upload\Book.cshtml" />
+    <Content Include="Views\Upload\Music.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

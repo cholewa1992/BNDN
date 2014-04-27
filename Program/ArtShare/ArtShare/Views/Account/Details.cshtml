@@ -36,13 +36,19 @@
 </div>
 
 <div style="margin-top:100px;">&nbsp;</div>
-
-<h3>Purchase History</h3>
-<table class="table table-responsive">
-    <thead>
-        <tr>
-            <th>Mediaitem</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-</table>
+@if (Model.PurchaseHistory != null) {
+    <h3>Purchase History</h3>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Media items</th>
+            </tr>
+            @foreach (var mi in Model.PurchaseHistory)
+            {
+            <tr>
+                <td>@mi.Title</td>
+            </tr>  
+            }        
+        </thead>
+    </table>
+}

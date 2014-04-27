@@ -7,7 +7,6 @@ using ArtShare.Models;
 using ArtShare.Properties;
 using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
-using UserDTO = ShareItServices.AccessRightService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -55,7 +54,7 @@ namespace ArtShare.Logic
             return dto;
         }
 
-        public int IsOwnerOfMedia(ShareItServices.AccessRightService.UserDTO requestingUser, int id)
+        public int CheckAccessRights(ShareItServices.AccessRightService.UserDTO requestingUser, int id)
         {
             using (var arsc = new AccessRightServiceClient())
             {
@@ -109,17 +108,6 @@ namespace ArtShare.Logic
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Updates a book. All previous information will be deleted, and supplied information added
-        /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        public bool EditBook(BookDetailsModel model, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
-
 
         ///// <summary>
         ///// Retrieves details about a given Movie and returns it in a Movie model
@@ -146,16 +134,6 @@ namespace ArtShare.Logic
         /// <param name="requestingUser">User requesting deletion</param>
         /// <returns>a bool of whether deletion succeeded</returns>
         public bool DeleteMovie(int id, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Updates a Movie. All previous information will be deleted, and supplied information added
-        /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        public bool EditMovie(MovieDetailsModel model, int requestingUser)
         {
             throw new NotImplementedException();
         }
@@ -186,16 +164,6 @@ namespace ArtShare.Logic
         /// <param name="requestingUser">User requesting deletion</param>
         /// <returns>a bool of whether deletion succeeded</returns>
         public bool DeleteMusic(int id, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Updates a Music item. All previous information will be deleted, and supplied information added
-        /// </summary>
-        /// <param name="model">New information to add</param>
-        /// <param name="requestingUser">The user requesting an edit</param>
-        /// <returns>a bool of whether the edit succeeded</returns>
-        public bool EditMusic(MusicDetailsModel model, int requestingUser)
         {
             throw new NotImplementedException();
         }
@@ -489,6 +457,249 @@ namespace ArtShare.Logic
             }
             return true;
         }
+
+        /// <summary>
+        /// Updates a book's information. All previous information will be deleted, and supplied information added
+        /// </summary>
+        /// <param name="bookModel">The model containing all the information the book will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        public void EditBook(BookDetailsModel bookModel, ShareItServices.MediaItemService.UserDTO user)
+        {
+            using (var mis = new MediaItemServiceClient())
+            {
+                var updatedBookDTO = MapBook(bookModel);
+
+                mis.UpdateMediaItemInformation(user, updatedBookDTO, Resources.ClientToken);
+            }
+        }
+
+        /// <summary>
+        /// Updates a movie's information. All previous information will be deleted, and supplied information added
+        /// </summary>
+        /// <param name="movieModel">The model containing all the information the movie will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        public void EditMovie(MovieDetailsModel movieModel, ShareItServices.MediaItemService.UserDTO user)
+        {
+            using (var mis = new MediaItemServiceClient())
+            {
+                var updatedMovieDTO = MapMovie(movieModel);
+
+                mis.UpdateMediaItemInformation(user, updatedMovieDTO, Resources.ClientToken);
+            }
+        }
+
+        /// <summary>
+        /// Updates a music's information. All previous information will be deleted, and supplied information added
+        /// </summary>
+        /// <param name="musicModel">The model containing all the information the music will have after the update</param>
+        /// <param name="user">The Username and Password of the User requesting the operation</param>
+        public void EditMusic(MusicDetailsModel musicModel, ShareItServices.MediaItemService.UserDTO user)
+        {
+            using (var mis = new MediaItemServiceClient())
+            {
+                var updatedMusicDTO = MapMusic(musicModel);
+
+                mis.UpdateMediaItemInformation(user, updatedMusicDTO, Resources.ClientToken);
+            }
+        }
+
+        #region Information Mappers
+        private void MapTags(MediaItemDTO result, List<string> tags)
+        {
+            if (tags == null)
+                return;
+            foreach (var tag in tags)
+            {
+                if (!string.IsNullOrWhiteSpace(tag))
+                    result.Information.Add(new MediaItemInformationDTO
+                    {
+                        Data = tag,
+                        Type = InformationTypeDTO.KeywordTag
+                    });
+            }
+        }
+
+        private void MapGenres(MediaItemDTO result, List<string> genres)
+        {
+            if (genres == null)
+                return;
+            foreach (var genre in genres)
+            {
+                if (!string.IsNullOrWhiteSpace(genre))
+                    result.Information.Add(new MediaItemInformationDTO
+                    {
+                        Data = genre,
+                        Type = InformationTypeDTO.Genre
+                    });
+            }
+        }
+
+        private void MapPrice(MediaItemDTO result, float? price)
+        {
+            if (price != null)
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = price.ToString(),
+                    Type = InformationTypeDTO.Price
+                });
+        }
+
+        private void MapTitle(MediaItemDTO result, string title)
+        {
+            if (!string.IsNullOrWhiteSpace(title))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = title,
+                    Type = InformationTypeDTO.Title
+                });
+        }
+
+        private void MapDescription(MediaItemDTO dto, string desc)
+        {
+            if (!string.IsNullOrWhiteSpace(desc))
+                dto.Information.Add(new MediaItemInformationDTO { Data = desc, Type = InformationTypeDTO.Description });
+        }
+
+        private void MapTrackLength(MediaItemDTO result, string trackLength)
+        {
+            if (!string.IsNullOrWhiteSpace(trackLength))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = trackLength,
+                    Type = InformationTypeDTO.TrackLength
+                });
+        }
+
+        private void MapReleaseDate(MediaItemDTO result, DateTime? releaseDate)
+        {
+            if (releaseDate != null)
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = releaseDate.ToString(),
+                    Type = InformationTypeDTO.ReleaseDate
+                });
+        }
+
+        private void MapArtist(MediaItemDTO result, string artist)
+        {
+            if (!string.IsNullOrWhiteSpace(artist))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = artist,
+                    Type = InformationTypeDTO.Artist
+                });
+        }
+
+        private void MapLanguage(MediaItemDTO result, string language)
+        {
+            if (!string.IsNullOrWhiteSpace(language))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = language,
+                    Type = InformationTypeDTO.Language
+                });
+        }
+
+        private void MapDirector(MediaItemDTO result, string director)
+        {
+            if (!string.IsNullOrWhiteSpace(director))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = director,
+                    Type = InformationTypeDTO.Director
+                });
+        }
+
+        private void MapCastMembers(MediaItemDTO result, List<string> castMembers)
+        {
+            if (castMembers == null)
+                return;
+            foreach (var castMember in castMembers)
+            {
+                if (!string.IsNullOrWhiteSpace(castMember))
+                    result.Information.Add(new MediaItemInformationDTO
+                    {
+                        Data = castMember,
+                        Type = InformationTypeDTO.CastMember
+                    });
+            }
+        }
+
+        private void MapNumberOfPages(MediaItemDTO result, int? numberOfPages)
+        {
+            if (numberOfPages != null)
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = numberOfPages.ToString(),
+                    Type = InformationTypeDTO.NumberOfPages
+                });
+        }
+
+        private void MapAuthor(MediaItemDTO result, string author)
+        {
+            if (!string.IsNullOrWhiteSpace(author))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = author,
+                    Type = InformationTypeDTO.Author
+                });
+        }
+
+        private void MapRuntime(MediaItemDTO result, string runtime)
+        {
+            if (!string.IsNullOrWhiteSpace(runtime))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = runtime,
+                    Type = InformationTypeDTO.Runtime
+                });
+        }
+
+        #endregion
+        #region DTO Mappers
+        private MediaItemDTO MapDefault(IDetailsModel model)
+        {
+            var result = new MediaItemDTO { Information = new List<MediaItemInformationDTO>() };
+            MapDescription(result, model.Description);
+            MapTitle(result, model.Title);
+            MapPrice(result, model.Price);
+            MapGenres(result, model.Genres);
+            MapTags(result, model.Tags);
+            return result;
+        }
+        private MediaItemDTO MapMusic(MusicDetailsModel music)
+        {
+            var result = MapDefault(music);
+            result.Type = MediaItemTypeDTO.Music;
+            MapArtist(result, music.Artist);
+            MapReleaseDate(result, music.ReleaseDate);
+            MapTrackLength(result, music.TrackLength);
+            return result;
+        }
+
+        private MediaItemDTO MapMovie(MovieDetailsModel movie)
+        {
+            var result = MapDefault(movie);
+            result.Type = MediaItemTypeDTO.Movie;
+            MapRuntime(result, movie.Runtime);
+            MapReleaseDate(result, movie.ReleaseDate);
+            MapCastMembers(result, movie.CastMembers);
+            MapDirector(result, movie.Director);
+            MapLanguage(result, movie.Language);
+            return result;
+        }
+
+        private MediaItemDTO MapBook(BookDetailsModel book)
+        {
+            var result = MapDefault(book);
+            result.Type = MediaItemTypeDTO.Book;
+            MapReleaseDate(result, book.ReleaseDate);
+            MapLanguage(result, book.Language);
+            MapAuthor(result, book.Author);
+            MapNumberOfPages(result, book.NumberOfPages);
+            return result;
+        }
+        #endregion
 
     }
 }
