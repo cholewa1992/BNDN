@@ -38,9 +38,16 @@ namespace ArtShare.Logic
         }
 
 
-        public void DeleteAccount(int id)
+        public void DeleteAccount(string username, string password, int id)
         {
-            throw new System.NotImplementedException();
+            if (username == null) { throw new ArgumentNullException("username"); }
+            if (password == null) { throw new ArgumentNullException("password"); }
+
+            using (var client = new UserServiceClient())
+            {
+                var admin = new UserDTO { Username = username, Password = password };
+                client.DeleteAccount(admin, id, Properties.Resources.ClientToken);
+            }
         }
 
         /// <summary>
