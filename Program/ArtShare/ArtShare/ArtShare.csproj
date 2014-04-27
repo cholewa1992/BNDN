@@ -309,6 +309,7 @@
     <Content Include="Views\Upload\Movie.cshtml" />
     <Content Include="Views\Upload\Book.cshtml" />
     <Content Include="Views\Upload\Music.cshtml" />
+    <Content Include="Views\Account\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

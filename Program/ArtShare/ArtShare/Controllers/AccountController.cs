@@ -149,7 +149,7 @@ namespace ArtShare.Controllers
             }
         }
 
-        public ActionResult GetAllUsers()
+        public ActionResult UserList()
         {
             string username = "";
             string password = "";
