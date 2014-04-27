@@ -150,6 +150,7 @@
     <Compile Include="Logic\SearchLogic.cs" />
     <Compile Include="Logic\TransferLogic.cs" />
     <Compile Include="Models\DownloadModel.cs" />
+    <Compile Include="Models\FeaturedModel.cs" />
     <Compile Include="Models\UploadBookModel.cs" />
     <Compile Include="Models\UploadMusicModel.cs" />
     <Compile Include="Models\UploadMovieModel.cs" />
