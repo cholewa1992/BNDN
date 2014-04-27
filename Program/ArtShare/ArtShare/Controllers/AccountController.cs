@@ -170,7 +170,7 @@ namespace ArtShare.Controllers
             }
             catch (ArgumentNullException e)
             {
-                TempData["error"] = "An admin must be logged in to get a list of all users";
+                TempData["error"] = "An admin must be logged in to get a list of all users - Internal";
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception e)

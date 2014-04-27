@@ -98,21 +98,21 @@ namespace ArtShare.Logic
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        BookDetailsModel ExstractBookInformation(MediaItemDTO dto);
+        BookDetailsModel ExtractBookInformation(MediaItemDTO dto);
 
         /// <summary>
         /// Puts information from service dto into a model
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        MovieDetailsModel ExstractMovieInformation(MediaItemDTO dto);
+        MovieDetailsModel ExtractMovieInformation(MediaItemDTO dto);
 
         /// <summary>
         /// Puts information from service dto into a model
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        MusicDetailsModel ExstractMusicInformation(MediaItemDTO dto);
+        MusicDetailsModel ExtractMusicInformation(MediaItemDTO dto);
 
         /// <summary>
         /// Rates a media item. If the user has already rated the media item, the rating is updated.

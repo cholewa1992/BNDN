@@ -64,17 +64,17 @@ namespace ArtShare.Logic
                     switch ((int) pair.Key)
                     {
                         case (int) MediaItemTypeDTO.Book:
-                            var books = mediaItemList.Select(item => detailsLogic.ExstractBookInformation(item)).ToList();
+                            var books = mediaItemList.Select(item => detailsLogic.ExtractBookInformation(item)).ToList();
                             model.Books = books;
                             model.NumberOfMatchingBooks = numberOfSearchResults;
                             break;
                         case (int) MediaItemTypeDTO.Music:
-                            var music = mediaItemList.Select(item => detailsLogic.ExstractMusicInformation(item)).ToList();
+                            var music = mediaItemList.Select(item => detailsLogic.ExtractMusicInformation(item)).ToList();
                             model.Music = music;
                             model.NumberOfMatchingMusic = numberOfSearchResults;
                             break;
                         case (int) MediaItemTypeDTO.Movie:
-                            var movies = mediaItemList.Select(item => detailsLogic.ExstractMovieInformation(item)).ToList();
+                            var movies = mediaItemList.Select(item => detailsLogic.ExtractMovieInformation(item)).ToList();
                             model.Movies = movies;
                             model.NumberOfMatchingMovies = numberOfSearchResults;
                             break;

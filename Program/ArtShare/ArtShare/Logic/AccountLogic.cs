@@ -182,13 +182,13 @@ namespace ArtShare.Logic
 
         public AccountModel ExtractAccountInformation(UserDTO user)
         {
-            if(user == null) { throw new ArgumentNullException("user"); }
+           if(user == null) { throw new ArgumentNullException("user"); }
 
-            //Fetching information
-            var email = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Email);
-            var firstname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Firstname);
-            var lastname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Lastname);
-            var location = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Location);
+             //Fetching information
+            var email = user.Information != null ? user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Email) : null;
+            var firstname = user.Information != null ? user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Firstname) : null;
+            var lastname = user.Information != null ? user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Lastname) : null;
+            var location = user.Information != null ? user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Location) : null;
 
             return new AccountModel
             {
