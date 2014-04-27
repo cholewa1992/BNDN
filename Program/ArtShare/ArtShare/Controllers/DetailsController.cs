@@ -137,10 +137,14 @@ namespace ArtShare.Controllers
         // GET Details/Book/{id}
         public ActionResult Book(int id)
         {
+            BookDetailsModel model;
             if (TempData["model"] != null)
             {
-                return View(TempData["model"] as BookDetailsModel);
+                model = TempData["model"] as BookDetailsModel;
+                TempData["fileName"] = model.Title;
+                return  View(model);
             }
+
             return Index(id);
         }
 

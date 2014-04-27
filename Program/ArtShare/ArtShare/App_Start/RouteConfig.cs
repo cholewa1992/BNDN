@@ -20,6 +20,12 @@ namespace ArtShare
             );
 
             routes.MapRoute(
+                "download",
+                "Download/{id}",
+                new { controller = "Download", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 "movies",
                 "Movies/{id}",
                 new { controller = "Home", action = "Movies", id = UrlParameter.Optional }
