@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Web.Mvc;
 using ArtShare.Models;
 using ShareItServices.UserService;
@@ -36,9 +38,16 @@ namespace ArtShare.Logic
         }
 
 
-        public void DeleteAccount(int id)
+        public void DeleteAccount(string username, string password, int id)
         {
-            throw new System.NotImplementedException();
+            if (username == null) { throw new ArgumentNullException("username"); }
+            if (password == null) { throw new ArgumentNullException("password"); }
+
+            using (var client = new UserServiceClient())
+            {
+                var admin = new UserDTO { Username = username, Password = password };
+                client.DeleteAccount(admin, id, Properties.Resources.ClientToken);
+            }
         }
 
         /// <summary>
@@ -141,6 +150,42 @@ namespace ArtShare.Logic
                     Lastname = lastname != null ? lastname.Data : "",
                     Location = location != null ? location.Data : ""
                 };
+            }
+        }
+
+        public UserListModel GetAllUsers(string username, string password)
+        {
+            if (username == null) { throw new ArgumentNullException("username"); }
+            if (password == null) { throw new ArgumentNullException("password"); }
+
+            using (var client = new UserServiceClient())
+            {
+                var admin = new UserDTO {Username = username, Password = password};
+                var users = client.GetAllUsers(admin, Properties.Resources.ClientToken);
+                
+                var model = new UserListModel { Users = new List<AccountModel>() };
+
+                foreach (var user in users)
+                {
+                    var account = new AccountModel
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        Password = user.Password,
+                        Email = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Email).
+                            Select(foo => foo.Data).FirstOrDefault(),
+                        Firstname = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Firstname).
+                            Select(foo => foo.Data).FirstOrDefault(),
+                        Lastname = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Lastname).
+                            Select(foo => foo.Data).FirstOrDefault(),
+                        Location = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Location).
+                            Select(foo => foo.Data).FirstOrDefault()
+                    };
+
+                    model.Users.Add(account);
+                }
+
+                return model;
             }
         }
 

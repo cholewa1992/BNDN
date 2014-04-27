@@ -1,0 +1,42 @@
+﻿@model ArtShare.Models.UserListModel
+@{
+    ViewBag.Title = "UserList";
+}
+
+<h2>UserList</h2>
+
+<table class="table table-striped">
+    <thread>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                First name
+            </th>
+            <th>
+                Last name
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach (var UserAcc in Model.Users)
+        {
+            <tr>
+                <td>@UserAcc.Id</td>
+                <td>@UserAcc.Username</td>
+                <td>@UserAcc.Firstname</td>
+                <td>@UserAcc.Lastname</td>
+                <td>@UserAcc.Email</td>
+                <td><a href="~/Account/DeleteUser/@UserAcc.Id"><i class="glyphicon glyphicon-remove"></i></a></td>
+            </tr>
+        }  
+    </tbody>
+</table>
