@@ -108,15 +108,15 @@ namespace ArtShare.Controllers
                 {
 
                     case MediaItemTypeDTO.Book:
-                        model = _logic.ExstractBookInformation(dto);
+                        model = _logic.ExtractBookInformation(dto);
                         break;
 
                     case MediaItemTypeDTO.Movie:
-                        model = _logic.ExstractMovieInformation(dto);
+                        model = _logic.ExtractMovieInformation(dto);
                         break;
 
                     case MediaItemTypeDTO.Music:
-                        model = _logic.ExstractMusicInformation(dto);
+                        model = _logic.ExtractMusicInformation(dto);
                         break;
                     default: throw new Exception("Dto type not known");
 
@@ -285,6 +285,7 @@ namespace ArtShare.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult RateMediaItem(int mediaId, int rating)
         {
             var userDto = new UserDTO();
@@ -385,7 +386,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit book details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -414,7 +416,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit movie details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -443,7 +446,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit music details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -452,6 +456,11 @@ namespace ArtShare.Controllers
                 _logic.EditMusic(musicDetails, userDto);
                 TempData["success"] = "The music's information has been updated";
                 return Index(musicDetails.ProductId);
+            }
+            catch (ArgumentException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {

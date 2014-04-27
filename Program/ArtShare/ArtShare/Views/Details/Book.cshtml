@@ -4,8 +4,6 @@
     ViewBag.Title = Model.Title;
 }
 
-<div id="response"></div>
-
 <script>
     function rate(val) {
         document.getElementById("choice").textContent = "Rated " + val + " / 10";
@@ -20,19 +18,21 @@
 
 
 
+
 <legend class="clearfix">
     <h1 class="to-left clear">
         @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small>
+
     </h1>
     <div class="to-right detail-buttons clearfix">
         @switch (Model.AccessRight)
         {
             case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
-            case 1: <button class="pure-button button-art" onclick="window.location.href='/Download/@Html.DisplayFor(model => model.ProductId)'">Download</button> break;
-            case 2: <button class="pure-button button-art" onclick="window.location.href='/Download/@Html.DisplayFor(model => model.ProductId)'">Download</button><button class="pure-button button-art">Edit</button> break;
+            case 1: <button class="pure-button button-art" onclick="window.location.href='/Download/@Html.DisplayFor(model => model.ProductId)?fileName=@Html.DisplayFor(model => model.Title)'">Download</button> break;
+            case 2: <button class="pure-button button-art" onclick="window.location.href='/Download/@Html.DisplayFor(model => model.ProductId)?fileName=@Html.DisplayFor(model => model.Title)'">Download</button><button class="pure-button button-art">Edit</button> break;
         }
     </div>
-    <!--<button class="pure-button button-art" onclick="window.open('/Download/@Html.DisplayFor(model => model.ProductId)')">Download</button>-->
+    <button class="pure-button button-art" onclick="window.open('/Download/@Html.DisplayFor(model => model.ProductId)?fileName=@Html.DisplayFor(model => model.Title)')">Download</button>
 
 </legend>
 
@@ -52,7 +52,6 @@
                         <td><strong>@Html.DisplayNameFor(model => model.Title)</strong></td>
                         <td>@Html.DisplayFor(model => model.Title)</td>
                     </tr>
-
                     <tr>
                         <td><strong>@Html.DisplayNameFor(model => model.Author)</strong></td>
                         <td>@Html.DisplayFor(model => model.Author)</td>
@@ -82,18 +81,21 @@
         <div class="col-md-3">
             <img src="@Html.DisplayFor(model => model.Thumbnail)" />
             <div class="is-center">
-                <span class="star-rating ">
-                    <input type="radio" name="rating" value="1" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="2" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="3" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="4" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="5" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="6" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="7" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="8" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="9" onclick="rate(this.value);"><i></i>
-                    <input type="radio" name="rating" value="10" onclick="rate(this.value);"><i></i>
-                </span><br />
+                <form method="post" action="/Details/RateMediaItem">
+                    <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
+                    <span class="star-rating">
+                        <input type="radio" name="rating" value="1" onclick="submit();"/><i></i>
+                        <input type="radio" name="rating" value="2" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="3" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="4" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="5" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="6" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="7" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="8" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="9" onclick="submit();"><i></i>
+                        <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
+                    </span><br />
+                </form>
                 <small id="choice"></small>
             </div>
         </div>

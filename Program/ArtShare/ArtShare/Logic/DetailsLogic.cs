@@ -174,7 +174,7 @@ namespace ArtShare.Logic
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        public BookDetailsModel ExstractBookInformation(MediaItemDTO dto)
+        public BookDetailsModel ExtractBookInformation(MediaItemDTO dto)
         {
             var model = new BookDetailsModel();
 
@@ -268,7 +268,7 @@ namespace ArtShare.Logic
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        public MovieDetailsModel ExstractMovieInformation(MediaItemDTO dto)
+        public MovieDetailsModel ExtractMovieInformation(MediaItemDTO dto)
         {
             var model = new MovieDetailsModel();
 
@@ -365,7 +365,7 @@ namespace ArtShare.Logic
         /// </summary>
         /// <param name="dto">service dto</param>
         /// <returns>model</returns>
-        public MusicDetailsModel ExstractMusicInformation(MediaItemDTO dto)
+        public MusicDetailsModel ExtractMusicInformation(MediaItemDTO dto)
         {
 
             var model = new MusicDetailsModel();
@@ -504,7 +504,7 @@ namespace ArtShare.Logic
         }
 
         #region Information Mappers
-        private void MapTags(MediaItemDTO result, List<string> tags)
+        public void MapTags(MediaItemDTO result, List<string> tags)
         {
             if (tags == null)
                 return;
@@ -519,7 +519,7 @@ namespace ArtShare.Logic
             }
         }
 
-        private void MapGenres(MediaItemDTO result, List<string> genres)
+        public void MapGenres(MediaItemDTO result, List<string> genres)
         {
             if (genres == null)
                 return;
@@ -534,7 +534,7 @@ namespace ArtShare.Logic
             }
         }
 
-        private void MapPrice(MediaItemDTO result, float? price)
+        public void MapPrice(MediaItemDTO result, float? price)
         {
             if (price != null)
                 result.Information.Add(new MediaItemInformationDTO
@@ -544,7 +544,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapTitle(MediaItemDTO result, string title)
+        public void MapTitle(MediaItemDTO result, string title)
         {
             if (!string.IsNullOrWhiteSpace(title))
                 result.Information.Add(new MediaItemInformationDTO
@@ -554,13 +554,17 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapDescription(MediaItemDTO dto, string desc)
+        public void MapDescription(MediaItemDTO dto, string desc)
         {
             if (!string.IsNullOrWhiteSpace(desc))
-                dto.Information.Add(new MediaItemInformationDTO { Data = desc, Type = InformationTypeDTO.Description });
+                dto.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = desc, 
+                    Type = InformationTypeDTO.Description
+                });
         }
 
-        private void MapTrackLength(MediaItemDTO result, string trackLength)
+        public void MapTrackLength(MediaItemDTO result, string trackLength)
         {
             if (!string.IsNullOrWhiteSpace(trackLength))
                 result.Information.Add(new MediaItemInformationDTO
@@ -570,7 +574,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapReleaseDate(MediaItemDTO result, DateTime? releaseDate)
+        public void MapReleaseDate(MediaItemDTO result, DateTime? releaseDate)
         {
             if (releaseDate != null)
                 result.Information.Add(new MediaItemInformationDTO
@@ -580,7 +584,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapArtist(MediaItemDTO result, string artist)
+        public void MapArtist(MediaItemDTO result, string artist)
         {
             if (!string.IsNullOrWhiteSpace(artist))
                 result.Information.Add(new MediaItemInformationDTO
@@ -590,7 +594,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapLanguage(MediaItemDTO result, string language)
+        public void MapLanguage(MediaItemDTO result, string language)
         {
             if (!string.IsNullOrWhiteSpace(language))
                 result.Information.Add(new MediaItemInformationDTO
@@ -600,7 +604,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapDirector(MediaItemDTO result, string director)
+        public void MapDirector(MediaItemDTO result, string director)
         {
             if (!string.IsNullOrWhiteSpace(director))
                 result.Information.Add(new MediaItemInformationDTO
@@ -610,7 +614,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapCastMembers(MediaItemDTO result, List<string> castMembers)
+        public void MapCastMembers(MediaItemDTO result, List<string> castMembers)
         {
             if (castMembers == null)
                 return;
@@ -625,7 +629,7 @@ namespace ArtShare.Logic
             }
         }
 
-        private void MapNumberOfPages(MediaItemDTO result, int? numberOfPages)
+        public void MapNumberOfPages(MediaItemDTO result, int? numberOfPages)
         {
             if (numberOfPages != null)
                 result.Information.Add(new MediaItemInformationDTO
@@ -635,7 +639,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapAuthor(MediaItemDTO result, string author)
+        public void MapAuthor(MediaItemDTO result, string author)
         {
             if (!string.IsNullOrWhiteSpace(author))
                 result.Information.Add(new MediaItemInformationDTO
@@ -645,7 +649,7 @@ namespace ArtShare.Logic
                 });
         }
 
-        private void MapRuntime(MediaItemDTO result, string runtime)
+        public void MapRuntime(MediaItemDTO result, string runtime)
         {
             if (!string.IsNullOrWhiteSpace(runtime))
                 result.Information.Add(new MediaItemInformationDTO
@@ -657,9 +661,11 @@ namespace ArtShare.Logic
 
         #endregion
         #region DTO Mappers
-        private MediaItemDTO MapDefault(IDetailsModel model)
+        public MediaItemDTO MapDefault(IDetailsModel model)
         {
             var result = new MediaItemDTO { Information = new List<MediaItemInformationDTO>() };
+            if (model.ProductId <= 0) { throw new ArgumentException("Invalid product ID"); }
+            result.Id = model.ProductId;
             MapDescription(result, model.Description);
             MapTitle(result, model.Title);
             MapPrice(result, model.Price);
@@ -667,7 +673,7 @@ namespace ArtShare.Logic
             MapTags(result, model.Tags);
             return result;
         }
-        private MediaItemDTO MapMusic(MusicDetailsModel music)
+        public MediaItemDTO MapMusic(MusicDetailsModel music)
         {
             var result = MapDefault(music);
             result.Type = MediaItemTypeDTO.Music;
@@ -677,7 +683,7 @@ namespace ArtShare.Logic
             return result;
         }
 
-        private MediaItemDTO MapMovie(MovieDetailsModel movie)
+        public MediaItemDTO MapMovie(MovieDetailsModel movie)
         {
             var result = MapDefault(movie);
             result.Type = MediaItemTypeDTO.Movie;
@@ -689,7 +695,7 @@ namespace ArtShare.Logic
             return result;
         }
 
-        private MediaItemDTO MapBook(BookDetailsModel book)
+        public MediaItemDTO MapBook(BookDetailsModel book)
         {
             var result = MapDefault(book);
             result.Type = MediaItemTypeDTO.Book;

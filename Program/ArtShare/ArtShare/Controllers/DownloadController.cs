@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -28,7 +29,7 @@ namespace ArtShare.Controllers
         //
         // GET: /Download/5
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, string fileName)
         {
 
             //Checking that the user is logged in
@@ -40,7 +41,9 @@ namespace ArtShare.Controllers
             }
 
             var user = new UserDTO() { Username = userCookie["username"], Password = userCookie["password"] };
-            string fileName = TempData["fileName"] as string;
+            //Default filename to the id
+            if (String.IsNullOrWhiteSpace(fileName))
+                fileName = id.ToString(CultureInfo.InvariantCulture);
             try
             {
                 string fileExtension;
@@ -50,7 +53,7 @@ namespace ArtShare.Controllers
             }
             catch (Exception e)
             {
-                TempData["error"] = e;
+                TempData["error"] = e.Message;
                 return RedirectToAction("Index", "Details", new {id = id});
             }
             

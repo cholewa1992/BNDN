@@ -8,37 +8,65 @@
 </div>
 
 <div class="featured">
-    <div class="well featured_container is-center">
+    <div class="featured_container is-center">
 
         @if (Model.Movies != null)
         {
             foreach (var m in Model.Movies)
             {
-                <a href="/Details/@m.ProductId"><img src="@m.Thumbnail" draggable="false" width="200" /></a>
+                
+                        <div class="col-md-2">
+                            <a href="/Details/@m.ProductId" class="thumbnail">
+                                <img data-src="holder.js/100%x180" src="@m.Thumbnail">
+                            </a>
+                            <div class="caption">
+                                @m.Title
+                            </div>
+                        </div>
             }
         }
         
     </div>
-
-    <div class="well featured_container is-center">
+    
+    <hr />
+    <div style="margin-top: 10px"></div>
+    <div class="featured_container is-center">
 
         @if (Model.Music != null)
         {
             foreach (var m in Model.Music)
             {
-                <img src="@m.Thumbnail" draggable="false" width="200"/>
+
+                <div class="col-md-2">
+                    <a href="/Details/@m.ProductId" class="thumbnail">
+                        <img data-src="holder.js/100%x180" src="@m.Thumbnail">
+                    </a>
+                    <div class="caption">
+                        @m.Title
+                    </div>
+                </div>
             }
         }
 
     </div>
 
-    <div class="well featured_container is-center">
+    <hr />
+
+    <div class="featured_container is-center">
 
         @if (Model.Books != null)
         {
             foreach (var m in Model.Books)
             {
-                <img src="@m.Thumbnail" draggable="false" width="200" />
+
+                <div class="col-md-2">
+                    <a href="/Details/@m.ProductId" class="thumbnail">
+                        <img data-src="holder.js/100%x180" src="@m.Thumbnail">
+                    </a>
+                    <div class="caption">
+                        @m.Title
+                    </div>
+                </div>
             }
         }
 

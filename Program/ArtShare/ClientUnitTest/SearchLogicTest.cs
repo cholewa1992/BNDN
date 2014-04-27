@@ -10,11 +10,11 @@ namespace ClientUnitTest
     public class SearchLogicTest
     {
         private SearchLogic _searchLogic = new SearchLogic();
-        private static Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> _dictionary;
+        private Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> _dictionary;
 
         #region Setup
-        [ClassInitialize]
-        public static void SetupClass(TestContext context)
+        [TestInitialize]
+        public void Setup()
         {
             _dictionary = SetupDictionary();
         }
