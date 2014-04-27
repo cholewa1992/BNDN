@@ -104,11 +104,7 @@ namespace ArtShare.Logic
                 //Calling the client service
                 var user = us.GetAccountInformation(new UserDTO { Username = username, Password = password }, userId, Properties.Resources.ClientToken);
 
-                //Fetching information
-                var email = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Email);
-                var firstname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Firstname);
-                var lastname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Lastname);
-                var location = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Location);
+                var accountModel = ExtractAccountInformation(user);
 
                 #region Purchase history fetch
                 List<AccountModel.PurchaseDTO> purchaseHistory;
@@ -140,16 +136,9 @@ namespace ArtShare.Logic
                 }
                 #endregion
 
-                //Returning new accountmodel DTO
-                return new AccountModel
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = email != null ? email.Data : "",
-                    Firstname = firstname != null ? firstname.Data : "",
-                    Lastname = lastname != null ? lastname.Data : "",
-                    Location = location != null ? location.Data : ""
-                };
+                //Returning accountmodel
+                accountModel.PurchaseHistory = purchaseHistory;
+                return accountModel;
             }
         }
 
@@ -164,25 +153,9 @@ namespace ArtShare.Logic
                 var users = client.GetAllUsers(admin, Properties.Resources.ClientToken);
                 
                 var model = new UserListModel { Users = new List<AccountModel>() };
-
                 foreach (var user in users)
                 {
-                    var account = new AccountModel
-                    {
-                        Id = user.Id,
-                        Username = user.Username,
-                        Password = user.Password,
-                        Email = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Email).
-                            Select(foo => foo.Data).FirstOrDefault(),
-                        Firstname = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Firstname).
-                            Select(foo => foo.Data).FirstOrDefault(),
-                        Lastname = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Lastname).
-                            Select(foo => foo.Data).FirstOrDefault(),
-                        Location = user.Information.Where(foo => foo.Type == UserInformationTypeDTO.Location).
-                            Select(foo => foo.Data).FirstOrDefault()
-                    };
-
-                    model.Users.Add(account);
+                    model.Users.Add(ExtractAccountInformation(user));
                 }
 
                 return model;
@@ -205,6 +178,28 @@ namespace ArtShare.Logic
                 Username = collection["username"],
                 Password = collection["password"]
             };
-        }        
+        }
+
+        public AccountModel ExtractAccountInformation(UserDTO user)
+        {
+            if(user == null) { throw new ArgumentNullException("user"); }
+
+            //Fetching information
+            var email = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Email);
+            var firstname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Firstname);
+            var lastname = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Lastname);
+            var location = user.Information.SingleOrDefault(t => t.Type == UserInformationTypeDTO.Location);
+
+            return new AccountModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = email != null ? email.Data : "",
+                Firstname = firstname != null ? firstname.Data : "",
+                Lastname = lastname != null ? lastname.Data : "",
+                Location = location != null ? location.Data : ""
+            };
+        }
     }
 }
