@@ -168,13 +168,20 @@ header nav ul li div{
 }
 
 .image-container{
-    width: 212px;
+    width: 100%;
     height: 159px;
     overflow: hidden;
 }
 
 .featured-container img{
     height: 100%;
+}
+
+@media (max-width: 992px){
+    .featured-container img{
+        height: auto;
+        width: 100%;
+    }
 }
 
 /* Media */
@@ -281,6 +288,10 @@ header nav ul li div{
 .detail-buttons{
     padding-top: 30px;
     font-size: 14px;
+}
+
+.detail-buttons button{
+    margin-right: 10px;
 }
 
 /* Search */
