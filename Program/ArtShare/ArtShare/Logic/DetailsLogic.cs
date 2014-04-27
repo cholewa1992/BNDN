@@ -59,8 +59,8 @@ namespace ArtShare.Logic
             using (var arsc = new AccessRightServiceClient())
             {
                 var r = arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken);
-                if (r.Any(t => t.Id == id)) return 1;
-                if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.Id == id)) return 2;
+                if (r.Any(t => t.MediaItemId == id)) return 1;
+                if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.MediaItemId == id)) return 2;
 
                 using (var authl = new ShareItServices.AuthService.AuthServiceClient())
                 {
@@ -659,6 +659,16 @@ namespace ArtShare.Logic
                 });
         }
 
+        public void MapThumbnail(MediaItemDTO result, string thumbnail)
+        {
+            if (!string.IsNullOrWhiteSpace(thumbnail))
+                result.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = thumbnail,
+                    Type = InformationTypeDTO.Thumbnail
+                });
+        }
+
         #endregion
         #region DTO Mappers
         public MediaItemDTO MapDefault(IDetailsModel model)
@@ -671,6 +681,7 @@ namespace ArtShare.Logic
             MapPrice(result, model.Price);
             MapGenres(result, model.Genres);
             MapTags(result, model.Tags);
+            MapThumbnail(result, model.Thumbnail);
             return result;
         }
         public MediaItemDTO MapMusic(MusicDetailsModel music)

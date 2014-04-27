@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using ArtShare.Logic;
 using ArtShare.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,18 +14,18 @@ namespace ClientUnitTest
     {
 
 
-        private DetailsLogic _logic = new DetailsLogic();
+        private readonly DetailsLogic _logic = new DetailsLogic();
 
 
         [TestMethod]
         public void ExtractionBookDto_Title_BookModelWithTitle()
         {
 
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
-                Information = new List<MediaItemInformationDTO>()
+                Information = new List<MediaItemInformationDTO>
                 {
-                    new MediaItemInformationDTO()
+                    new MediaItemInformationDTO
                     {
                         Type = InformationTypeDTO.Title,
                         Data = "BookTitle"
@@ -45,16 +43,16 @@ namespace ClientUnitTest
         public void ExtractionMovieDto_TwoCasts_ListOfTwoCasts()
         {
 
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
-                Information = new List<MediaItemInformationDTO>()
+                Information = new List<MediaItemInformationDTO>
                 {
-                    new MediaItemInformationDTO()
+                    new MediaItemInformationDTO
                     {
                         Type = InformationTypeDTO.CastMember,
                         Data = "Member1"
                     },
-                    new MediaItemInformationDTO()
+                    new MediaItemInformationDTO
                     {
                         Type = InformationTypeDTO.CastMember,
                         Data = "Member2"
@@ -72,11 +70,11 @@ namespace ClientUnitTest
         public void ExtractionBookDto__ReleaseDateString_CorrectParse()
         {
 
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
-                Information = new List<MediaItemInformationDTO>()
+                Information = new List<MediaItemInformationDTO>
                 {
-                    new MediaItemInformationDTO()
+                    new MediaItemInformationDTO
                     {
                         Type = InformationTypeDTO.ReleaseDate,
                         Data = "1/1/2014"
@@ -94,11 +92,11 @@ namespace ClientUnitTest
         public void ExtractionBookDto__InvalidReleaseDateString_PropertyIsNull()
         {
             
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
-                Information = new List<MediaItemInformationDTO>()
+                Information = new List<MediaItemInformationDTO>
                 {
-                    new MediaItemInformationDTO()
+                    new MediaItemInformationDTO
                     {
                         Type = InformationTypeDTO.ReleaseDate,
                         Data = "1/1//2000019"
@@ -123,7 +121,7 @@ namespace ClientUnitTest
         public void AvgRatingExtraction__ValidProperty_CorrectExtraction()
         {
 
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 AverageRating = 5.5,
                 Information = new List<MediaItemInformationDTO>()
@@ -137,7 +135,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTags_AddOneTag()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -156,7 +154,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTags_AddNoTags()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -172,7 +170,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapGenres_AddOneGenre()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -191,7 +189,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapGenres_AddMultipleGenres()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -210,7 +208,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapGenres_AddNoGenres()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -226,7 +224,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapPrice_AddPrice()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -242,7 +240,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapPrice_AddNullPrice()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -258,7 +256,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTitle_AddTitle()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -274,7 +272,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTitle_AddEmptyTitle()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -290,7 +288,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapDescription_AddDescription()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -306,7 +304,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapDescription_AddEmptyDescription()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -322,7 +320,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTrackLength_AddTrackLength()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -338,7 +336,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapTrackLength_AddEmptyTrackLength()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -354,7 +352,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapReleaseDate_AddReleaseDate()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -370,7 +368,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapReleaseDate_AddNullReleaseDate()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -386,7 +384,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapArtist_AddArtist()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -402,7 +400,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapArtist_AddEmptyArtist()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -418,7 +416,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapLanguage_AddLanguage()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -434,7 +432,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapLanguage_AddEmptyLanguage()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -450,7 +448,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapDirector_AddDirector()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -466,7 +464,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapDirector_AddEmptyDirector()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -482,7 +480,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapCastMembers_AddOneCastMember()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -501,7 +499,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapCastMembers_AddNoCastMembers()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -517,7 +515,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapNumberOfPages_AddNumberOfPages()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -533,7 +531,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapNumberOfPages_AddNullNumberOfPages()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -549,7 +547,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapAuthor_AddAuthor()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -565,7 +563,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapAuthor_AddEmptyAuthor()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -581,7 +579,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapRuntime_AddRuntime()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -597,7 +595,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapRuntime_AddEmptyRuntime()
         {
-            var dto = new MediaItemDTO()
+            var dto = new MediaItemDTO
             {
                 Information = new List<MediaItemInformationDTO>()
             };
@@ -611,22 +609,55 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
+        public void MapThumbnail_AddThumbnail()
+        {
+            var dto = new MediaItemDTO
+            {
+                Information = new List<MediaItemInformationDTO>()
+            };
+
+            var thumbnail = "TestThumbnail";
+
+            _logic.MapThumbnail(dto, thumbnail);
+
+            Assert.AreEqual("TestThumbnail", dto.Information.Where(x => x.Type == InformationTypeDTO.Thumbnail)
+                .Select(x => x.Data).FirstOrDefault());
+        }
+
+        [TestMethod]
+        public void MapThumbnail_AddEmptyThumbnail()
+        {
+            var dto = new MediaItemDTO
+            {
+                Information = new List<MediaItemInformationDTO>()
+            };
+
+            var thumbnail = "";
+
+            _logic.MapThumbnail(dto, thumbnail);
+
+            Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Thumbnail)
+                .Select(x => x).Count());
+        }
+
+        [TestMethod]
         public void MapDefault_AllDefaultFieldsFilled()
         {
-            var model = new BookDetailsModel()
+            var model = new BookDetailsModel
             {
                 ProductId = 1,
                 Description = "TestDescription",
                 Title = "TestTitle",
-                Genres = new List<string>()
+                Genres = new List<string>
                 {
                     "TestGenre"
                 },
                 Price = 10,
-                Tags = new List<string>()
+                Tags = new List<string>
                 {
                     "TestTags"
-                }
+                },
+                Thumbnail = "TestThumbnail"
             };
 
             var result = _logic.MapDefault(model);
@@ -647,12 +678,15 @@ namespace ClientUnitTest
             Assert.AreEqual(model.Tags.FirstOrDefault(), result.Information
                 .Where(x => x.Type == InformationTypeDTO.KeywordTag)
                 .Select(x => x.Data).FirstOrDefault());
+            Assert.AreEqual(model.Thumbnail, result.Information
+                .Where(x => x.Type == InformationTypeDTO.Thumbnail)
+                .Select(x => x.Data).FirstOrDefault());
         }
 
         [TestMethod]
         public void MapMusic_AllMusicFieldsFilled()
         {
-            var model = new MusicDetailsModel()
+            var model = new MusicDetailsModel
             {
                 ProductId = 2,
                 Artist = "TestArtist",
@@ -676,11 +710,11 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapMovie_AllMovieFieldsFilled()
         {
-            var model = new MovieDetailsModel()
+            var model = new MovieDetailsModel
             {
                 ProductId = 2,
                 Runtime = "124",
-                CastMembers = new List<string>()
+                CastMembers = new List<string>
                 {
                     "TestCastMember"
                 },
@@ -709,7 +743,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void MapBook_AllBookFieldsFilled()
         {
-            var model = new BookDetailsModel()
+            var model = new BookDetailsModel
             {
                 ProductId = 2,
                 ReleaseDate = new DateTime(2000, 01, 01),

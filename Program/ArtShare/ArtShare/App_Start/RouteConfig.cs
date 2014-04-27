@@ -14,6 +14,12 @@ namespace ArtShare
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "purchase",
+                "Details/PurchaseItem",
+                new { controller = "Details", action = "PurchaseItem" }
+            );
+
+            routes.MapRoute(
                 "rate",
                 "Details/RateMediaItem",
                 new { controller = "Details", action = "RateMediaItem"}
