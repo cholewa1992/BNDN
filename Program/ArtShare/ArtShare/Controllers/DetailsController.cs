@@ -285,6 +285,7 @@ namespace ArtShare.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult RateMediaItem(int mediaId, int rating)
         {
             var userDto = new UserDTO();
