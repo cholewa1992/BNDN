@@ -313,6 +313,85 @@ namespace ArtShare.Controllers
             }
         }
 
+        public ActionResult EditBook(int id)
+        {
+            if (TempData["model"] != null)
+            {
+                return View( TempData["model"] as BookDetailsModel);
+            }
+            return Edit(id);
+        }
+
+        public ActionResult EditMovie(int id)
+        {
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MovieDetailsModel);
+            }
+            return Edit(id);
+        }
+
+        public ActionResult EditMusic(int id)
+        {
+            if (TempData["model"] != null)
+            {
+                return View(TempData["model"] as MusicDetailsModel);
+            }
+            return Edit(id);
+        }
+
+        public ActionResult Edit(int id)
+        {
+
+            UserDTO user = null;
+
+            if (Request.Cookies["user"] != null)
+            {
+                user = new UserDTO()
+                {
+                    Id = int.Parse(Request.Cookies["user"].Values["id"]),
+                    Username = Request.Cookies["user"].Values["username"],
+                    Password = Request.Cookies["user"].Values["password"]
+                };
+            }
+
+            MediaItemDTO dto;
+
+            try
+            {
+                dto = _logic.GetMediaItem(id, user);
+                IDetailsModel model;
+                switch (dto.Type)
+                {
+
+                    case MediaItemTypeDTO.Book:
+                        model = _logic.ExtractBookInformation(dto);
+                        break;
+
+                    case MediaItemTypeDTO.Movie:
+                        model = _logic.ExtractMovieInformation(dto);
+                        break;
+
+                    case MediaItemTypeDTO.Music:
+                        model = _logic.ExtractMusicInformation(dto);
+                        break;
+                    default: throw new Exception("Dto type not known");
+
+                }
+
+                if (user != null) model.AccessRight = _logic.CheckAccessRights(new ShareItServices.AccessRightService.UserDTO { Id = user.Id, Username = user.Username, Password = user.Password }, id);
+
+                TempData["model"] = model;
+                return RedirectToAction("Edit" + dto.Type.ToString(), "Details", new { id });
+            }
+            catch (FaultException e)
+            {
+                TempData["error"] = e;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
         public ActionResult EditBook(BookDetailsModel bookDetails)
         {
 
