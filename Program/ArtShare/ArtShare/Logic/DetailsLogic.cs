@@ -557,7 +557,11 @@ namespace ArtShare.Logic
         public void MapDescription(MediaItemDTO dto, string desc)
         {
             if (!string.IsNullOrWhiteSpace(desc))
-                dto.Information.Add(new MediaItemInformationDTO { Data = desc, Type = InformationTypeDTO.Description });
+                dto.Information.Add(new MediaItemInformationDTO
+                {
+                    Data = desc, 
+                    Type = InformationTypeDTO.Description
+                });
         }
 
         public void MapTrackLength(MediaItemDTO result, string trackLength)
@@ -660,6 +664,7 @@ namespace ArtShare.Logic
         public MediaItemDTO MapDefault(IDetailsModel model)
         {
             var result = new MediaItemDTO { Information = new List<MediaItemInformationDTO>() };
+            if (model.ProductId <= 0) { throw new ArgumentException("Invalid product ID"); }
             result.Id = model.ProductId;
             MapDescription(result, model.Description);
             MapTitle(result, model.Title);

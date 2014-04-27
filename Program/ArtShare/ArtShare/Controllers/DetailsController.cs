@@ -324,7 +324,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit book details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -353,7 +354,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit movie details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -382,7 +384,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "Login to edit music details";
+                return RedirectToAction("Index", "Login");
             }
 
 
@@ -391,6 +394,11 @@ namespace ArtShare.Controllers
                 _logic.EditMusic(musicDetails, userDto);
                 TempData["success"] = "The music's information has been updated";
                 return Index(musicDetails.ProductId);
+            }
+            catch (ArgumentException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
