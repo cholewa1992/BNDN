@@ -4,6 +4,8 @@
     ViewBag.Title = Model.Title;
 }
 
+<div id="response"></div>
+
 <script>
     function rate(val) {
         document.getElementById("choice").textContent = "Rated " + val + " / 10";
@@ -18,11 +20,9 @@
 
 
 
-
 <legend class="clearfix">
     <h1 class="to-left clear">
         @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small>
-
     </h1>
     <div class="to-right detail-buttons clearfix">
         @switch (Model.AccessRight)
@@ -32,7 +32,7 @@
             case 2: <button class="pure-button button-art" onclick="window.location.href='/Download/@Html.DisplayFor(model => model.ProductId)'">Download</button><button class="pure-button button-art">Edit</button> break;
         }
     </div>
-    <button class="pure-button button-art" onclick="window.open('/Download/@Html.DisplayFor(model => model.ProductId)')">Download</button>
+    <!--<button class="pure-button button-art" onclick="window.open('/Download/@Html.DisplayFor(model => model.ProductId)')">Download</button>-->
 
 </legend>
 
@@ -52,6 +52,7 @@
                         <td><strong>@Html.DisplayNameFor(model => model.Title)</strong></td>
                         <td>@Html.DisplayFor(model => model.Title)</td>
                     </tr>
+
                     <tr>
                         <td><strong>@Html.DisplayNameFor(model => model.Author)</strong></td>
                         <td>@Html.DisplayFor(model => model.Author)</td>
