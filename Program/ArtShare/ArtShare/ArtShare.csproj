@@ -240,6 +240,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\bndn_styles.css" />
     <Content Include="Content\pure.css" />
+    <None Include="Properties\PublishProfiles\LocalMerrild.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
