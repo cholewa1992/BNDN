@@ -86,7 +86,7 @@ namespace ClientUnitTest
 
             var result = _logic.ExtractMovieInformation(dto);
 
-            Assert.AreEqual("01-01-2014 00:00:00", result.ReleaseDate.ToString());
+            Assert.AreEqual(new DateTime(2014, 1, 1), result.ReleaseDate);
         }
 
 
@@ -177,15 +177,34 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = new List<string>
+            var genres = new List<string>
             {
                 "TestGenre"
             };
 
-            _logic.MapGenres(dto, tags);
+            _logic.MapGenres(dto, genres);
 
             Assert.AreEqual("TestGenre", dto.Information.Where(x => x.Type == InformationTypeDTO.Genre)
                 .Select(x => x.Data).FirstOrDefault());
+        }
+
+        [TestMethod]
+        public void MapGenres_AddMultipleGenres()
+        {
+            var dto = new MediaItemDTO()
+            {
+                Information = new List<MediaItemInformationDTO>()
+            };
+
+            var genres = new List<string>
+            {
+                "TestGenre", "TestGenre1", "TestGenre2"
+            };
+
+            _logic.MapGenres(dto, genres);
+
+            Assert.AreEqual(3, dto.Information.Where(x => x.Type == InformationTypeDTO.Genre)
+                .Select(x => x).Count());
         }
 
         [TestMethod]
@@ -196,9 +215,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = new List<string>();
+            var genres = new List<string>();
 
-            _logic.MapGenres(dto, tags);
+            _logic.MapGenres(dto, genres);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Genre)
                 .Select(x => x).Count());
@@ -212,9 +231,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = 10;
+            var price = 10;
 
-            _logic.MapPrice(dto, tags);
+            _logic.MapPrice(dto, price);
 
             Assert.AreEqual("10", dto.Information.Where(x => x.Type == InformationTypeDTO.Price)
                 .Select(x => x.Data).FirstOrDefault());
@@ -228,9 +247,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            float? tags = null;
+            float? price = null;
 
-            _logic.MapPrice(dto, tags);
+            _logic.MapPrice(dto, price);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Price)
                 .Select(x => x).Count());
@@ -244,9 +263,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestTitle";
+            var title = "TestTitle";
 
-            _logic.MapTitle(dto, tags);
+            _logic.MapTitle(dto, title);
 
             Assert.AreEqual("TestTitle", dto.Information.Where(x => x.Type == InformationTypeDTO.Title)
                 .Select(x => x.Data).FirstOrDefault());
@@ -260,9 +279,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var title = "";
 
-            _logic.MapTitle(dto, tags);
+            _logic.MapTitle(dto, title);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Title)
                 .Select(x => x).Count());
@@ -276,9 +295,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestDescription";
+            var description = "TestDescription";
 
-            _logic.MapDescription(dto, tags);
+            _logic.MapDescription(dto, description);
 
             Assert.AreEqual("TestDescription", dto.Information.Where(x => x.Type == InformationTypeDTO.Description)
                 .Select(x => x.Data).FirstOrDefault());
@@ -292,9 +311,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var description = "";
 
-            _logic.MapDescription(dto, tags);
+            _logic.MapDescription(dto, description);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Description)
                 .Select(x => x).Count());
@@ -308,9 +327,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestTrackLength";
+            var trackLength = "TestTrackLength";
 
-            _logic.MapTrackLength(dto, tags);
+            _logic.MapTrackLength(dto, trackLength);
 
             Assert.AreEqual("TestTrackLength", dto.Information.Where(x => x.Type == InformationTypeDTO.TrackLength)
                 .Select(x => x.Data).FirstOrDefault());
@@ -324,9 +343,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var trackLength = "";
 
-            _logic.MapTrackLength(dto, tags);
+            _logic.MapTrackLength(dto, trackLength);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.TrackLength)
                 .Select(x => x).Count());
@@ -340,11 +359,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = new DateTime(2000, 01, 01);
+            var releaseDate = new DateTime(2000, 01, 01);
 
-            _logic.MapReleaseDate(dto, tags);
+            _logic.MapReleaseDate(dto, releaseDate);
 
-            Assert.AreEqual(tags.ToString(), dto.Information.Where(x => x.Type == InformationTypeDTO.ReleaseDate)
+            Assert.AreEqual(releaseDate.ToString(), dto.Information.Where(x => x.Type == InformationTypeDTO.ReleaseDate)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -356,9 +375,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            DateTime? tags = null;
+            DateTime? releaseDate = null;
 
-            _logic.MapReleaseDate(dto, tags);
+            _logic.MapReleaseDate(dto, releaseDate);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.ReleaseDate)
                 .Select(x => x).Count());
@@ -372,11 +391,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestArtist";
+            var artist = "TestArtist";
 
-            _logic.MapArtist(dto, tags);
+            _logic.MapArtist(dto, artist);
 
-            Assert.AreEqual("TestArtist", dto.Information.Where(x => x.Type == InformationTypeDTO.Artist)
+            Assert.AreEqual(artist, dto.Information.Where(x => x.Type == InformationTypeDTO.Artist)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -388,9 +407,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var artist = "";
 
-            _logic.MapArtist(dto, tags);
+            _logic.MapArtist(dto, artist);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Artist)
                 .Select(x => x).Count());
@@ -404,11 +423,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestLanguage";
+            var language = "TestLanguage";
 
-            _logic.MapLanguage(dto, tags);
+            _logic.MapLanguage(dto, language);
 
-            Assert.AreEqual("TestLanguage", dto.Information.Where(x => x.Type == InformationTypeDTO.Language)
+            Assert.AreEqual(language, dto.Information.Where(x => x.Type == InformationTypeDTO.Language)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -420,9 +439,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var language = "";
 
-            _logic.MapLanguage(dto, tags);
+            _logic.MapLanguage(dto, language);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Language)
                 .Select(x => x).Count());
@@ -436,11 +455,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestDirector";
+            var director = "TestDirector";
 
-            _logic.MapDirector(dto, tags);
+            _logic.MapDirector(dto, director);
 
-            Assert.AreEqual("TestDirector", dto.Information.Where(x => x.Type == InformationTypeDTO.Director)
+            Assert.AreEqual(director, dto.Information.Where(x => x.Type == InformationTypeDTO.Director)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -452,9 +471,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var director = "";
 
-            _logic.MapDirector(dto, tags);
+            _logic.MapDirector(dto, director);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Director)
                 .Select(x => x).Count());
@@ -468,12 +487,12 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = new List<string>
+            var castMember = new List<string>
             {
                 "TestCastMember"
             };
 
-            _logic.MapCastMembers(dto, tags);
+            _logic.MapCastMembers(dto, castMember);
 
             Assert.AreEqual("TestCastMember", dto.Information.Where(x => x.Type == InformationTypeDTO.CastMember)
                 .Select(x => x.Data).FirstOrDefault());
@@ -487,9 +506,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = new List<string>();
+            var castMember = new List<string>();
 
-            _logic.MapCastMembers(dto, tags);
+            _logic.MapCastMembers(dto, castMember);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.CastMember)
                 .Select(x => x).Count());
@@ -503,9 +522,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = 100;
+            var pages = 100;
 
-            _logic.MapNumberOfPages(dto, tags);
+            _logic.MapNumberOfPages(dto, pages);
 
             Assert.AreEqual("100", dto.Information.Where(x => x.Type == InformationTypeDTO.NumberOfPages)
                 .Select(x => x.Data).FirstOrDefault());
@@ -519,9 +538,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            int? tags = null;
+            int? pages = null;
 
-            _logic.MapNumberOfPages(dto, tags);
+            _logic.MapNumberOfPages(dto, pages);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.NumberOfPages)
                 .Select(x => x).Count());
@@ -535,11 +554,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestAuthor";
+            var author = "TestAuthor";
 
-            _logic.MapAuthor(dto, tags);
+            _logic.MapAuthor(dto, author);
 
-            Assert.AreEqual("TestAuthor", dto.Information.Where(x => x.Type == InformationTypeDTO.Author)
+            Assert.AreEqual(author, dto.Information.Where(x => x.Type == InformationTypeDTO.Author)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -551,9 +570,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var author = "";
 
-            _logic.MapAuthor(dto, tags);
+            _logic.MapAuthor(dto, author);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Author)
                 .Select(x => x).Count());
@@ -567,11 +586,11 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "TestRuntime";
+            var runtime = "TestRuntime";
 
-            _logic.MapRuntime(dto, tags);
+            _logic.MapRuntime(dto, runtime);
 
-            Assert.AreEqual("TestRuntime", dto.Information.Where(x => x.Type == InformationTypeDTO.Runtime)
+            Assert.AreEqual(runtime, dto.Information.Where(x => x.Type == InformationTypeDTO.Runtime)
                 .Select(x => x.Data).FirstOrDefault());
         }
 
@@ -583,9 +602,9 @@ namespace ClientUnitTest
                 Information = new List<MediaItemInformationDTO>()
             };
 
-            var tags = "";
+            var runtime = "";
 
-            _logic.MapRuntime(dto, tags);
+            _logic.MapRuntime(dto, runtime);
 
             Assert.AreEqual(0, dto.Information.Where(x => x.Type == InformationTypeDTO.Runtime)
                 .Select(x => x).Count());

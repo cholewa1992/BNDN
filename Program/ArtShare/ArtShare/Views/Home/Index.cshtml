@@ -6,39 +6,74 @@
 <div class="is-center page-header">
     <h1>ARTSHARE</h1>
 </div>
-
-<div class="featured">
-    <div class="well featured_container is-center">
+<div class="row">
+    <div class="featured-container is-center">
 
         @if (Model.Movies != null)
         {
             foreach (var m in Model.Movies)
             {
-                <a href="/Details/@m.ProductId"><img src="@m.Thumbnail" draggable="false" width="200" /></a>
+
+                <div class="col-md-2">
+                    <a href="/Details/@m.ProductId" class="thumbnail">
+                        <div class="image-container">
+                            <img src="@m.Thumbnail">
+                        </div>
+                    </a>
+                    <div class="caption">
+                        @m.Title
+                    </div>
+                </div>
             }
         }
-        
-    </div>
 
-    <div class="well featured_container is-center">
+    </div>
+</div>
+
+    <hr />
+<div class="row">
+    <div class="featured-container is-center">
 
         @if (Model.Music != null)
         {
             foreach (var m in Model.Music)
             {
-                <img src="@m.Thumbnail" draggable="false" width="200"/>
+
+                <div class="col-md-2">
+                    <a href="/Details/@m.ProductId" class="thumbnail">
+                        <div class="image-container">
+                            <img src="@m.Thumbnail">
+                        </div>
+                    </a>
+                    <div class="caption">
+                        @m.Title
+                    </div>
+                </div>
             }
         }
 
     </div>
+</div>
 
-    <div class="well featured_container is-center">
+    <hr />
+
+<div class="row">
+    <div class="featured-container is-center">
 
         @if (Model.Books != null)
         {
             foreach (var m in Model.Books)
             {
-                <img src="@m.Thumbnail" draggable="false" width="200" />
+                <div class="col-md-2">
+                    <a href="/Details/@m.ProductId" class="thumbnail">
+                        <div class="image-container">
+                            <img src="@m.Thumbnail">
+                        </div>
+                    </a>
+                    <div class="caption">
+                        @m.Title
+                    </div>
+                </div>
             }
         }
 

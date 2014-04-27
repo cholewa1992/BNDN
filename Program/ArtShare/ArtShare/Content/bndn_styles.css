@@ -163,12 +163,18 @@ header nav ul li div{
     margin-left: 200px;
 }
 
-.featured_container{
-
+.featured-container{
+    margin-bottom: 20px;
 }
 
-.featured_container img{
-    padding: 8px;
+.image-container{
+    width: 212px;
+    height: 159px;
+    overflow: hidden;
+}
+
+.featured-container img{
+    height: 100%;
 }
 
 /* Media */
