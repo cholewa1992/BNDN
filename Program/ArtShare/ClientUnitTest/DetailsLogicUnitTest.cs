@@ -22,7 +22,7 @@ namespace ClientUnitTest
 
             var dto = new MediaItemDTO()
             {
-                Information = new[]
+                Information = new List<MediaItemInformationDTO>()
                 {
                     new MediaItemInformationDTO()
                     {
@@ -44,7 +44,7 @@ namespace ClientUnitTest
 
             var dto = new MediaItemDTO()
             {
-                Information = new[]
+                Information = new List<MediaItemInformationDTO>()
                 {
                     new MediaItemInformationDTO()
                     {
@@ -71,7 +71,7 @@ namespace ClientUnitTest
 
             var dto = new MediaItemDTO()
             {
-                Information = new[]
+                Information = new List<MediaItemInformationDTO>()
                 {
                     new MediaItemInformationDTO()
                     {
@@ -93,7 +93,7 @@ namespace ClientUnitTest
             
             var dto = new MediaItemDTO()
             {
-                Information = new[]
+                Information = new List<MediaItemInformationDTO>()
                 {
                     new MediaItemInformationDTO()
                     {
@@ -115,5 +115,19 @@ namespace ClientUnitTest
             _logic.RateMediaItem(null, 1, 10);
         }
 
+
+        [TestMethod]
+        public void AvgRatingExstraction__ValidProperty_CorrectExstraction()
+        {
+
+            var dto = new MediaItemDTO()
+            {
+                AverageRating = 5.5
+            };
+
+            var result = _logic.ExstractMovieInformation(dto);
+
+            Assert.AreEqual(5.5, result.AvgRating);
+        }
     }
 }
