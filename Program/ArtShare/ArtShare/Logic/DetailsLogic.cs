@@ -49,7 +49,6 @@ namespace ArtShare.Logic
             using (var ms = new MediaItemServiceClient())
             {
                 dto = ms.GetMediaItemInformation(id, requestingUser, Resources.ClientToken);
-
             }
 
 
