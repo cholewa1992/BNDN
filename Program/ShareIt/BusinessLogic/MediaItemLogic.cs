@@ -111,6 +111,162 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
+        /// Helper method used by FindMediaItemRange. Gets a range of media items.
+        /// </summary>
+        /// <param name="from">Where the range must begin</param>
+        /// <param name="to">Where the range must end</param>
+        /// <param name="clientToken">The token used to verify the client</param>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
+        private Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> 
+            GetMediaItems(int from, int to, string clientToken, int clientId)
+        {
+            var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
+
+            var typeGroups = _storage.Get<Entity>().
+                        Where(item => item.ClientId == clientId).
+                        OrderBy(a => a.Id).
+                        GroupBy(a => a.TypeId);
+
+            foreach (var typeGroup in typeGroups)
+            {
+                var mediaItemSearchResult = new MediaItemSearchResultDTO();
+                mediaItemSearchResult.NumberOfSearchResults = typeGroup.Count();
+                var realGroup = typeGroup.Skip(from).Take(to - from);
+                var itemList = realGroup.Select(item => GetMediaItemInformation(item.Id, null, clientToken)).ToList();
+                if (typeGroup.Key != null)
+                {
+                    if (itemList.Count > 0)
+                    {
+                        mediaItemSearchResult.MediaItemList = itemList;
+                        result.Add((MediaItemTypeDTO)typeGroup.Key, mediaItemSearchResult);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("MediaItemType was not recognized");
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Helper method used by FindMediaItemRange. Gets a range of media items by type.
+        /// </summary>
+        /// <param name="from">Where the range must begin</param>
+        /// <param name="to">Where the range must end</param>
+        /// <param name="mediaType">The type of the media item. E.g. MediaItemType.Book for books</param>
+        /// <param name="clientToken">The token used to verify the client</param>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
+        private Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> 
+            GetMediaItemsByType(int from, int to, MediaItemTypeDTO mediaType, string clientToken, int clientId)
+        {
+            var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
+            var mediaItems = _storage.Get<Entity>().
+                        Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId).
+                        OrderBy(a => a.Id);
+
+            var mediaItemSearchResult = new MediaItemSearchResultDTO();
+            mediaItemSearchResult.NumberOfSearchResults = mediaItems.Count();
+
+            var realMediaItems = mediaItems.Skip(from).Take(to - from);
+
+            var list = new List<MediaItemDTO>();
+            foreach (var mediaItem in realMediaItems)
+            {
+                list.Add(GetMediaItemInformation(mediaItem.Id, null, clientToken));
+            }
+            
+            mediaItemSearchResult.MediaItemList = list;
+            result.Add(mediaType, mediaItemSearchResult);
+            return result;
+        }
+
+        /// <summary>
+        /// Helper method used by FindMediaItemRange. Gets a range of media items matching a search key.
+        /// </summary>
+        /// <param name="from">Where the range must begin</param>
+        /// <param name="to">Where the range must end</param>
+        /// <param name="searchKey">The search keyword</param>
+        /// <param name="clientToken">The token used to verify the client</param>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
+        private Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> 
+            SearchMediaItems(int from, int to, string searchKey, string clientToken, int clientId)
+        {
+            var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
+            var typeGroups = _storage.Get<EntityInfo>().
+                        Where(ei => ei.Data.Contains(searchKey) && ei.Entity.ClientId == clientId).
+                        GroupBy(ei => ei.Entity.TypeId);
+
+            foreach (var type in typeGroups)
+            {
+                var mediaItemSearchResult = new MediaItemSearchResultDTO();
+                var mediaItemGroup = type.GroupBy(ei => ei.EntityId).OrderBy(group => group.Count());
+                mediaItemSearchResult.NumberOfSearchResults = mediaItemGroup.Count();
+                var typeRange = mediaItemGroup.Skip(from).Take(to - from);
+
+                var list = new List<MediaItemDTO>();
+                foreach (var item in typeRange)
+                {
+                    list.Add(GetMediaItemInformation(item.Key, null, clientToken));
+                }
+                if (type.Key != null)
+                {
+                    if (list.Count > 0)
+                    {
+                        mediaItemSearchResult.MediaItemList = list;
+                        result.Add((MediaItemTypeDTO)type.Key, mediaItemSearchResult);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("MediaItemType was not recognized");
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Helper method used by FindMediaItemRange. Gets a range of media items of a specific type
+        /// matching a search key.
+        /// </summary>
+        /// <param name="from">Where the range must begin</param>
+        /// <param name="to">Where the range must end</param>
+        /// <param name="mediaType">The type of the media item. E.g. MediaItemType.Book for books</param>
+        /// <param name="searchKey">The search keyword</param>
+        /// <param name="clientToken">The token used to verify the client</param>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>A Dictionary where each MediaItemType is a key with a value of a list of MediaItem</returns>
+        private Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO> SearchMediaItemsByType
+            (int from, int to, MediaItemTypeDTO mediaType, string searchKey, string clientToken, int clientId)
+        {
+            var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
+            var mediaItems = _storage.Get<EntityInfo>().
+                        Where(info => info.Data.Contains(searchKey)
+                                        && info.Entity.TypeId == (int)mediaType
+                                        && info.Entity.ClientId == clientId).
+                        GroupBy(info => info.EntityId).
+                        OrderBy(group => group.Count());
+
+            var mediaItemSearchResult = new MediaItemSearchResultDTO();
+            mediaItemSearchResult.NumberOfSearchResults = mediaItems.Count();
+
+            var mediaItemRange = mediaItems.Skip(from).Take(to - from);
+
+            var list = new List<MediaItemDTO>();
+            foreach (var mediaItem in mediaItemRange)
+            {
+                list.Add(GetMediaItemInformation(mediaItem.Key, null, clientToken));
+            }
+
+            mediaItemSearchResult.MediaItemList = list;
+            result.Add(mediaType, mediaItemSearchResult);
+            return result;
+        }
+
+        /// <summary>
         /// Finds a specific range of media items of a specific media type matching the search keyword.
         /// The media type and the search keyword are optional.
         /// 
@@ -154,138 +310,15 @@ namespace BusinessLogicLayer
 
             if (isAllMediaTypes)
             {
-                #region No searchkey & all media types
-                if (isSearchKeyNullOrEmpty) //No searchkey & all media types
-                {
-                    var groups = _storage.Get<Entity>().
-                        Where(item => item.ClientId == clientId).
-                        OrderBy(a => a.Id).
-                        GroupBy((a) => a.TypeId);
-                    
-                    foreach (var group in groups)
-                    {
-                        var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                        mediaItemSearchResultDTO.NumberOfSearchResults = group.Count();
-                        var realGroup = group.Skip(from).Take(to - from);
-                        var list = new List<MediaItemDTO>();
-                        foreach (var item in realGroup)
-                        {
-                            list.Add(GetMediaItemInformation(item.Id, null, clientToken));
-                        }
-                        if (@group.Key != null)
-                        {
-                            if (list.Count > 0)
-                            {
-                                mediaItemSearchResultDTO.MediaItemList = list;
-                                result.Add((MediaItemTypeDTO)@group.Key, mediaItemSearchResultDTO);
-                            }
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("MediaItemType was not recognized");
-                        }
-                    }
-                }
-                #endregion
-
-                #region Searchkey & all media types
-                else //Searchkey & all media types
-                {
-                    var typeGroups = _storage.Get<EntityInfo>().
-                        Where(ei => ei.Data.Contains(searchKey) && ei.Entity.ClientId == clientId).
-                        GroupBy(ei => ei.Entity.TypeId);
-                    
-                    foreach (var type in typeGroups)
-                    {
-                        var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                        var mediaItemGroup = type.GroupBy(ei => ei.EntityId).OrderBy(group => group.Count());
-                        mediaItemSearchResultDTO.NumberOfSearchResults = mediaItemGroup.Count();
-                        var typeRange = mediaItemGroup.Skip(from).Take(to - from);
-
-                        var list = new List<MediaItemDTO>();
-                        foreach (var item in typeRange)
-                        {
-                            list.Add(GetMediaItemInformation(item.Key, null, clientToken));
-                        }
-                        if (type.Key != null)
-                        {
-                            if (list.Count > 0)
-                            {
-                                mediaItemSearchResultDTO.MediaItemList = list;
-                                result.Add((MediaItemTypeDTO)type.Key, mediaItemSearchResultDTO);
-                            }
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("MediaItemType was not recognized");
-                        }
-                    }
-                }
+                result = isSearchKeyNullOrEmpty //If no searchKey: GetMediaItems. Else SearchMediaItems
+                    ? GetMediaItems(from, to, clientToken, clientId) 
+                    : SearchMediaItems(from, to, searchKey, clientToken, clientId);
             }
-                #endregion
-
-            else //A specific media type
+            else
             {
-                #region A specific media type
-                if (isSearchKeyNullOrEmpty) //No searchkey & specific media type
-                {
-                    var mediaItems = _storage.Get<Entity>().
-                        Where(item => item.TypeId == (int)mediaType && item.ClientId == clientId).
-                        OrderBy(a => a.Id);
-
-                    var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                    mediaItemSearchResultDTO.NumberOfSearchResults = mediaItems.Count();
-
-                    var realMediaItems = mediaItems.Skip(from).Take(to - from);
-
-                    var list = new List<MediaItemDTO>();
-                    foreach (var mediaItem in realMediaItems)
-                    {
-                        list.Add(GetMediaItemInformation(mediaItem.Id, null, clientToken));
-                    }
-                    if (mediaType != null)
-                    {
-                        mediaItemSearchResultDTO.MediaItemList = list;
-                        result.Add((MediaItemTypeDTO)mediaType, mediaItemSearchResultDTO);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("MediaItemType was not recognized");
-                    }
-                }
-                #endregion
-
-                #region Searchkey & specific media type
-                else //Searchkey & specific media type
-                {
-                    var mediaItems = _storage.Get<EntityInfo>().
-                        Where(info => info.Data.Contains(searchKey)
-                                        && info.Entity.TypeId == (int)mediaType
-                                        && info.Entity.ClientId == clientId).
-                        GroupBy(info => info.EntityId).
-                        OrderBy(group => group.Count());
-
-                    var mediaItemSearchResultDTO = new MediaItemSearchResultDTO();
-                    mediaItemSearchResultDTO.NumberOfSearchResults = mediaItems.Count();
-
-                    var mediaItemRange = mediaItems.Skip(from).Take(to - from);
-
-                    var list = new List<MediaItemDTO>();
-                    foreach (var mediaItem in mediaItemRange)
-                    {
-                        list.Add(GetMediaItemInformation(mediaItem.Key, null, clientToken));
-                    }
-                    if (mediaType != null)
-                    {
-                        mediaItemSearchResultDTO.MediaItemList = list;
-                        result.Add((MediaItemTypeDTO)mediaType, mediaItemSearchResultDTO);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("MediaItemType was not recognized");
-                    }
-                }
-                #endregion
+                result = isSearchKeyNullOrEmpty //If no searchKey: GetMediaItemsByType. Else SearchMediaItemsByType
+                    ? GetMediaItemsByType(from, to, (MediaItemTypeDTO) mediaType, clientToken, clientId)
+                    : SearchMediaItemsByType(from, to, (MediaItemTypeDTO) mediaType, searchKey, clientToken, clientId);
             }
             return result;
         }
