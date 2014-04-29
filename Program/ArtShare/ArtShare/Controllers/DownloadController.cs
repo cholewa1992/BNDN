@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArtShare.ActionResults;
 using ArtShare.Logic;
 using ShareItServices.TransferService;
 
@@ -47,9 +48,13 @@ namespace ArtShare.Controllers
             try
             {
                 string fileExtension;
-                var stream = _logic.DownloadFile(user, id, out fileExtension);
+                long fileLength;
+                var stream = _logic.DownloadFile(user, id, out fileExtension, out fileLength);
                 fileName = fileName + fileExtension;
-                return File(stream, MimeMapping.GetMimeMapping(fileName), fileName);
+
+                var result = new StreamedFileResult(stream, MimeMapping.GetMimeMapping(fileName), fileName);
+                result.FileSize = fileLength;
+                return result;
             }
             catch (Exception e)
             {

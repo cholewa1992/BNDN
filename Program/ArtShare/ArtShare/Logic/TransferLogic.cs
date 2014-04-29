@@ -46,13 +46,13 @@ namespace ArtShare.Logic
             return result;
         }
 
-        public Stream DownloadFile(UserDTO user, int mediaItem, out string fileExtension)
+        public Stream DownloadFile(UserDTO user, int mediaItem, out string fileExtension, out long fileLength)
         {
             Stream fileStream;
 
             using (var ts = new TransferServiceClient())
             {
-                ts.DownloadMedia(user, mediaItem, Resources.ClientToken, out fileExtension, out fileStream);
+                fileLength = ts.DownloadMedia(user, mediaItem, Resources.ClientToken, out fileExtension, out fileStream);
             }
 
             return fileStream;

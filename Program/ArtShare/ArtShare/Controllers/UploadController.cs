@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.Configuration;
+using System.ServiceModel;
+using System.Web.Configuration;
 using System.Web.Routing;
 using ArtShare.Logic;
 using ArtShare.Models;
@@ -8,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArtShare.Properties;
 using ShareItServices.TransferService;
 
 namespace ArtShare.Controllers
@@ -54,20 +57,16 @@ namespace ArtShare.Controllers
             if (ModelState.IsValid)
             {
                 int result = 0;
+                var userCookie = Request.Cookies["user"];
+                if (userCookie == null)
+                    return RedirectToAction("Index", "Login");
+                
+                var user = new UserDTO();
+                user.Username = userCookie["username"];
+                user.Password = userCookie["password"];
+
                 try
                 {
-                    var userCookie = Request.Cookies["user"];
-                    var user = new UserDTO();
-                    if (userCookie != null)
-                    {
-                        user.Username = userCookie["username"];
-                        user.Password = userCookie["password"];
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Login");
-                    }
-
                     result = _logic.UploadFile(um, user, um.Details);
                 }
                 catch (FaultException e)
@@ -88,20 +87,15 @@ namespace ArtShare.Controllers
             if (ModelState.IsValid)
             {
                 int result = 0;
+                var userCookie = Request.Cookies["user"];
+                if (userCookie == null)
+                    return RedirectToAction("Index", "Login");
+
+                var user = new UserDTO();
+                user.Username = userCookie["username"];
+                user.Password = userCookie["password"];
                 try
                 {
-                    var userCookie = Request.Cookies["user"];
-                    var user = new UserDTO();
-                    if (userCookie != null)
-                    {
-                        user.Username = userCookie["username"];
-                        user.Password = userCookie["password"];
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Login");
-                    }
-
                     result = _logic.UploadFile(um, user, um.Details);
                     
                 }
@@ -124,20 +118,15 @@ namespace ArtShare.Controllers
             if (ModelState.IsValid)
             {
                 int result = 0;
+                var userCookie = Request.Cookies["user"];
+                if (userCookie == null)
+                    return RedirectToAction("Index", "Login");
+
+                var user = new UserDTO();
+                user.Username = userCookie["username"];
+                user.Password = userCookie["password"];
                 try
                 {
-                    var userCookie = Request.Cookies["user"];
-                    var user = new UserDTO();
-                    if (userCookie != null)
-                    {
-                        user.Username = userCookie["username"];
-                        user.Password = userCookie["password"];
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Login");
-                    }
-
                     result = _logic.UploadFile(um, user, um.Details);
                 }
                 catch (FaultException e)

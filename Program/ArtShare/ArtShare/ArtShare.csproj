@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResults\StreamedFileResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -248,6 +249,7 @@
     <Content Include="Content\bndn_styles.css" />
     <Content Include="Content\pure.css" />
     <None Include="Properties\PublishProfiles\LocalMerrild.pubxml" />
+    <None Include="Properties\PublishProfiles\WebDeploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

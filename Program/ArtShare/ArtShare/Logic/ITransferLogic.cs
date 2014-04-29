@@ -11,7 +11,7 @@ namespace ArtShare.Logic
     public interface ITransferLogic
     {
         int UploadFile(IUploadModel model, UserDTO user, IDetailsModel details);
-        Stream DownloadFile(UserDTO user, int mediaItem, out string fileExtension);
+        Stream DownloadFile(UserDTO user, int mediaItem, out string fileExtension, out long fileLength);
     }
 
 }
