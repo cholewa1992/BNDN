@@ -300,6 +300,7 @@ namespace ArtShare.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult EditMusic(MusicDetailsModel musicDetails)
         {
 
