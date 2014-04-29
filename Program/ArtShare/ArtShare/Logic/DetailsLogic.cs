@@ -150,6 +150,11 @@ namespace ArtShare.Logic
             model.FileExtension = dto.FileExtension;
             model.AvgRating = dto.AverageRating;
             model.RatingsGiven = dto.NumberOfRatings;
+            if (dto.Owner != null)
+            {
+                model.UploaderName = dto.Owner.Username;
+                model.UploaderId = dto.Owner.Id;
+            }
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)
@@ -244,6 +249,11 @@ namespace ArtShare.Logic
             model.FileExtension = dto.FileExtension;
             model.AvgRating = dto.AverageRating;
             model.RatingsGiven = dto.NumberOfRatings;
+            if (dto.Owner != null)
+            {
+                model.UploaderName = dto.Owner.Username;
+                model.UploaderId = dto.Owner.Id; 
+            }
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)
@@ -342,6 +352,11 @@ namespace ArtShare.Logic
             model.FileExtension = dto.FileExtension;
             model.AvgRating = dto.AverageRating;
             model.RatingsGiven = dto.NumberOfRatings;
+            if (dto.Owner != null)
+            {
+                model.UploaderName = dto.Owner.Username;
+                model.UploaderId = dto.Owner.Id;
+            }
 
             // Pass data from service DTO to model
             foreach (var v in dto.Information)

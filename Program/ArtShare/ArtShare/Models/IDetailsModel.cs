@@ -19,6 +19,7 @@ namespace ArtShare.Models
         int AccessRight { get; set; }
         double AvgRating { get; set; }
         int RatingsGiven { get; set; }
-
+        string UploaderName { get; set; }
+        int UploaderId { get; set; }
     }
 }
