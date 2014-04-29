@@ -172,7 +172,8 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "In order to rate an item you must be logged in.";
+                return RedirectToAction("Index", "Login");
             }
 
             try

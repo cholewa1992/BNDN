@@ -1,4 +1,5 @@
-﻿@model ArtShare.Models.MusicDetailsModel
+﻿@using System.Diagnostics
+@model ArtShare.Models.MusicDetailsModel
 
 @{
     ViewBag.Title = Model.Title;
@@ -79,24 +80,41 @@
     <div class="row">
         <div class="col-md-3">
             <img src="@Html.DisplayFor(model => model.Thumbnail)" />
-            <div class="is-center">
-                <form method="post" action="/Details/RateMediaItem">
-                    <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
+            @if (Model.RatingsGiven > 0)
+            {
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Average Rating:</strong> @Model.AvgRating</li>
+                    <li class="list-group-item"><strong>Ratings Cast:</strong> @Model.RatingsGiven</li>
+                </ul>
+            }else
+            {
+                <div class="is-center">
+                    <strong>Not yet rated</strong>
+                </div>
+                
+            }
+            @*Only show the rating form if the user is "buyer" / AccessRight = 1*@
+            @if (Model.AccessRight == 1)
+            {
+                <div class="is-center">
+                    <form method="post" action="/Details/RateMediaItem">
+                        <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
 
-                    <span class="star-rating ">
-                        <input type="radio" name="rating" value="1" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="2" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="3" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="4" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="5" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="6" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="7" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="8" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="9" onclick="submit()"><i></i>
-                        <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
-                    </span><br />
-                </form>
-            </div>
+                        <span class="star-rating ">
+                            <input type="radio" name="rating" value="1" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="2" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="3" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="4" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="5" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="6" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="7" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="8" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="9" onclick="submit()"><i></i>
+                            <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
+                        </span><br />
+                    </form>
+                </div>
+            }
         </div>
         <div class="col-md-5">
             <h4>Description</h4>
@@ -105,7 +123,8 @@
             <h4>
                 Genre
             </h4>
-            @if (Model.Tags != null) {
+            @if (Model.Tags != null)
+            {
                 foreach (var genre in Model.Genres)
                 {
                     <button class="pure-button">@genre</button>
@@ -115,7 +134,8 @@
             <hr />
 
             <h4>Tags</h4>
-            @if (Model.Tags != null) {
+            @if (Model.Tags != null)
+            {
                 foreach (var t in Model.Tags)
                 {
                     <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
@@ -129,7 +149,7 @@
             <!-- SPACER -->
         </div>
         <div class="col-md-3">
-            <h4>Movie Info</h4>
+            <h4>Music Info</h4>
             <ul class="list-group">
                 <li class="list-group-item">
                     <strong>@Html.DisplayNameFor(model => model.Artist)</strong> <br />
@@ -137,7 +157,10 @@
                 </li>
                 <li class="list-group-item">
                     <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong> <br />
-                    @Html.DisplayFor(model => model.ReleaseDate)
+                    @if (Model.ReleaseDate.HasValue)
+                    {
+                        @Model.ReleaseDate.Value.ToShortDateString()
+                    }
                 </li>
                 <li class="list-group-item">
                     <strong>@Html.DisplayNameFor(model => model.TrackLength)</strong> <br />
@@ -156,10 +179,10 @@
                     <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />
                     $@Html.DisplayFor(model => model.Price)
                 </li>
-                <li class="list-group-item">
+@*                <li class="list-group-item">
                     <strong>Status</strong> <br />
                     Owner / Buyer / Something
-                </li>
+                </li>*@
             </ul>
 
 
