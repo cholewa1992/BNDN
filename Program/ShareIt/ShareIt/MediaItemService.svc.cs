@@ -207,11 +207,29 @@ namespace ShareIt
                     Message = msg
                 }, new FaultReason(msg));
             }
+            catch (ArgumentNullException ae)
+            {
+                if (ae.ParamName.Equals("user"))
+                {
+                    string msg = "Log in to rate a media item";
+                    var fault = new UnauthorizedUser() {Message = msg};
+                    throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+                }
+                if (ae.ParamName.Equals("clientToken"))
+                {
+                    string msg = "Invalid client token";
+                    var fault = new UnauthorizedClient {Message = msg};
+                    throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
+                }
+
+                throw new FaultException(new FaultReason(ae.Message));
+            }
             catch (ArgumentException ae)
             {
                 var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
+            
             catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
