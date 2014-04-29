@@ -47,7 +47,7 @@ namespace BusinessLogicLayer
             }
 
             // Check if the user is already stored in the DB
-            if (_storage.Get<UserAcc>().Any(x => x.Username == user.Username))
+            if (_storage.Get<UserAcc>().Any(x => x.Username.ToLower() == user.Username.ToLower()))
             {
                 throw new Exception("Username already in use");
             }
