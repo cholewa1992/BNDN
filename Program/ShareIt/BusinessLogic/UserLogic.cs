@@ -100,10 +100,7 @@ namespace BusinessLogicLayer
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
 
-            if ((requestingUser.Id == -1 && (requestingUser.Id != targetUserId)) && (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
-            {
-                throw new UnauthorizedAccessException();
-            }
+            bool sendPassword = requestingUser.Id == targetUserId || _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken);
 
             try
             {
@@ -112,15 +109,13 @@ namespace BusinessLogicLayer
               {
                   Id = user.Id,
                   Username = user.Username,
-                  Password = user.Password,
+                  Password = sendPassword ? user.Password : null,
                   Information = user.UserInfo.Select(t => new UserInformationDTO
                   {
                       Data = t.Data,
                       Type = (UserInformationTypeDTO)t.UserInfoType
                   })
               };
-
-                
 
               return targetUser;
             }
