@@ -1,0 +1,80 @@
+\documentclass[]{article}
+\usepackage{hyperref}
+
+\title{Review of group 7's report}
+\author{Asbj\o rn Fjelbro Steffensen (afjs@itu.dk)\\ Thomas Stoy Dragsb\ae k (thst@itu.dk)\\ Nicki Hjorth J\o rgensen (nhjo@itu.dk)\\ Jacob Benjamin Cholewa (jbec@itu.dk)\\ Jakob Merrild (jmer@itu.dk)\\ Mathias Kindsholm Pedersen (mkin@itu.dk)}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{What was reviewed}
+Initial draft of the report that group 7\footnote{\url{https://wiki.smu.edu.sg/is411/2013T2-ITU-SMU\_Group\_wikis\#Team\_7}} is working on for the course Software Development in Large Teams with International Collaboration (BNDN). This included an introduction, sections on the proposed system and architecture, a test strategy and a section on the SMU collaboration.
+\section*{What was approved}
+\begin{itemize}
+\item Nice todo list
+\item Good structure of the report
+\item Great that you are encrypting passwords
+\item Good deployment diagram
+\end{itemize}
+\section*{What was not approved}
+\begin{itemize}
+\item \textbf{Overall}
+	\begin{itemize}
+	\item Missing a glossary
+	\item Missing a business case
+	\item Missing a conclusion
+	\item Agree on terms to use. E.g. ``program''/``client'' and ``mediums/media'' \\
+	\end{itemize}
+
+\item \textbf{Introduction}
+	\begin{itemize}
+	\item The report is not a result of the collaboration, but a part of it
+	\item Instead of refering to Netflix, try to explain what the service is
+	\item Move the text from the footnote into the section
+	\end{itemize}
+
+\item \textbf{Proposed system}
+	\begin{itemize}
+	\item This section should not describe actual implementations. Instead it should give an overview of what the system is supposed to do.
+	\item Consider including all of your requirements in the text
+	\item Use ``must'' instead of ``should''
+	\item It would make sense to split up some of the requirements, e.g. ``Administrator users should be able to add, update and delete media'' is basically three requirements.
+	\item It would be a good idea to divide the non-functional requirements into a server section and a client section
+	\item Some of the non-functional requirements are functional, e.g. ``The user should be able to access his account page from all views'' could be rewritten as ``Without prior knowledge of the client, a user must be able to navigate to his account page within 1 minute''
+	\item Add ``inactivity'' to the glossary	
+	\end{itemize}
+
+\item \textbf{Proposed architecture}
+	\begin{itemize}
+	\item Argument for your choice of architecture (consider alternatives)
+	\item Consider renaming the ``Data Storage Layer'' to ``Data Access Layer''
+	\item Describe the different layers (include class diagrams)
+	\item Write ER diagram instead of diagram
+	\item The database design section is difficult to understand without looking in the appendix. Consider including a simple diagram without properties in the text
+	\item Use ``Data Access Layer'' instead of ``Database Communication Layer''
+	\item The Facebook-authentication could be described better to avoid confusion
+	\end{itemize}
+
+\item \textbf{Test strategy}
+	\begin{itemize}
+	\item The overview does not give an overview of what to expect from this chapter. Consider moving the contents of this section to chapter 6
+	\item In the section about roles and responsibilities you should just argument for your choices and save the reflection for later
+	\item It is unclear whether section 4.3 is about back-ends or clients in different browsers
+	\item The argument of using Nunit is vague as unit tests in a perfect world has only one assert
+	\item Include ``not'' in the first line of section 4.5
+	\item Regression testing does not only involve running all tests after fixing errors but also after adding new functionality.
+	\item It would be a good idea to consider Integration Testing
+	\item Consider using test cases to ensure that all requirements have been met
+	\end{itemize}
+
+\item \textbf{SMU collaboration}
+	\begin{itemize}
+	\item Section 6.1 should be split into an Overview section and an Issues section
+	\item Consider dividing the Issues section into subsections, e.g. Communication, Culture, ...
+	\item The paragraph at the bottom of page 21 is more of a summary/reflection than an issue
+	\item There seems to have been a lot of communication issues. Consider writing a section on your agreements on the communication (who attends, how do we communicate, how often, ...)
+	\end{itemize}
+\end{itemize}
+\end{document}

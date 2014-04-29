@@ -90,6 +90,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -110,6 +111,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -130,6 +132,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -150,6 +153,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -165,11 +169,12 @@ namespace BusinessLogicTests
         public void CreateAccount_PasswordTooLong()
         {
             _testUser.Username = "John44";
-            _testUser.Password = "IF***ingLoveScience-ItsSooooAmazingHorseSteamBoatWilly";
+            _testUser.Password = new string('-', 51); //a string with 51 characters
 
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -190,6 +195,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -210,6 +216,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(_testUser, "testClient");
+                Assert.Fail("Expected ArgumentException");
             }
             catch (ArgumentException ae)
             {
@@ -241,6 +248,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(anotherUser, "testClient");
+                Assert.Fail("Expected exception");
             }
             catch (Exception e)
             {
@@ -266,6 +274,7 @@ namespace BusinessLogicTests
             try
             {
                 _userLogic.CreateAccount(anotherUser, "testClient");
+                Assert.Fail("Expected exception");
             }
             catch (Exception e)
             {
