@@ -4,23 +4,6 @@
     ViewBag.Title = Model.Title;
 }
 
-<script>
-    function rate(val) {
-        document.getElementById("choice").textContent = "Rated " + val + " / 10";
-    }
-
-    $(':radio').change(
-  function () {
-      $('.choice').text(this.value + ' stars');
-  }
-)
-    $('.star').rating('required', true )
-
-</script>
-
-
-
-
 <legend class="clearfix">
     <h1 class="to-left clear">
         @Html.DisplayFor(model => model.Title) <small>(@Html.DisplayFor(model => model.Author))</small>
@@ -81,17 +64,27 @@
     <div class="row">
         <div class="col-md-3">
             <img src="@Html.DisplayFor(model => model.Thumbnail)" />
-            @Model.AvgRating
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Average Rating:</strong> @Model.AvgRating</li>
+                <li class="list-group-item"><strong>Ratings Cast:</strong> @Model.RatingsGiven</li>
+            </ul>
             <div class="is-center">
                 <form method="post" action="/Details/RateMediaItem">
                     <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
-                    <input name="star" type="radio" class="star" /> 
-                    <input name="star" type="radio" class="star" /> 
-                    <input name="star" type="radio" class="star" checked="checked" /> 
-                    <input name="star" type="radio" class="star" /> 
-                    <input name="star" type="radio" class="star" />
+
+                    <span class="star-rating ">
+                        <input type="radio" name="rating" value="1" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="2" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="3" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="4" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="5" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="6" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="7" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="8" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="9" onclick="submit()"><i></i>
+                        <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
+                    </span><br />
                 </form>
-                <small id="choice"></small>
             </div>
         </div>
         <div class="col-md-5">

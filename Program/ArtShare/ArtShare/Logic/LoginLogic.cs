@@ -9,6 +9,12 @@ namespace ArtShare.Logic
 {
     public class LoginLogic
     {
+        /// <summary>
+        /// Logged a user into the system
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="password">The password</param>
+        /// <returns>A LoginModel containing the user and the users logged in state</returns>
         public LoginModel Login(string username, string password)
         {
             //Creates a new model
