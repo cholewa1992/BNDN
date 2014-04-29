@@ -1,7 +1,22 @@
-﻿
+﻿@model ArtShare.Models.SearchModel
 @{
     ViewBag.Title = "Books";
 }
 
 <h2>Books</h2>
+
+<section class="Collage effect-parent">
+
+    @if (Model.Books != null)
+    {
+        foreach (var m in Model.Books)
+        {
+
+            <div class="Image_Wrapper" data-caption="@m.Title" onclick="window.location.href = '/Details/@m.ProductId'" style="cursor:pointer">
+                <img src="@m.Thumbnail">
+            </div>
+        }
+    }
+
+</section>
 

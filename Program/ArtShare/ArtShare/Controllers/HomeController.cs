@@ -38,27 +38,39 @@ namespace ArtShare.Controllers
 
         public ActionResult Movies()
         {
-            return View();
+            var model = _searchLogic.GetMediaItemsByType(1, 100, ShareItServices.MediaItemService.MediaItemTypeDTO.Movie);
+
+            model.Movies = GetFeaturedItems<MovieDetailsModel>(model.Movies);
+
+            return View(model);
         }
 
         public ActionResult Music()
         {
-            return View();
+            var model = _searchLogic.GetMediaItemsByType(1, 100, ShareItServices.MediaItemService.MediaItemTypeDTO.Music);
+
+            model.Music = GetFeaturedItems<MusicDetailsModel>(model.Music);
+
+            return View(model);
         }
 
         public ActionResult Books()
         {
-            return View();
+            var model = _searchLogic.GetMediaItemsByType(1, 100, ShareItServices.MediaItemService.MediaItemTypeDTO.Book);
+
+            model.Books = GetFeaturedItems<BookDetailsModel>(model.Books);
+
+            return View(model);
         }
 
         private List<T> GetFeaturedItems<T> (List<T> list) where T : IDetailsModel
         {
             List<T> returnList = new List<T>();
             
-            if(list.Count > 6){
+            if(list != null && list.Count > 10){
                 
 
-                for(var i = 0; i < 6; i++){
+                for(var i = 0; i < 10; i++){
 
                     bool found = false;
                     while(!found){
