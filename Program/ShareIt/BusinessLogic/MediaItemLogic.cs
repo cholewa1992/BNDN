@@ -61,8 +61,24 @@ namespace BusinessLogicLayer
                 Id = entity.Id,
                 Information = new List<MediaItemInformationDTO>(),
                 Type = (MediaItemTypeDTO)entity.TypeId,
-                FileExtension = Path.GetExtension(entity.FilePath)
+                FileExtension = Path.GetExtension(entity.FilePath),
+                Owner = new UserDTO()
+                {
+                    
+                }
             };
+            var ownerRights = entity.AccessRight.SingleOrDefault(x => x.AccessRightTypeId == (int)AccessRightType.Owner);
+            if (ownerRights != null)
+            {
+                int ownerId = ownerRights.UserId;
+                string ownerName = ownerRights.UserAcc.Username;
+                mediaItem.Owner = new UserDTO()
+                {
+                    Id = ownerId,
+                    Username = ownerName
+                };
+            }
+            
             var informationList = new List<MediaItemInformationDTO>();
 
             // Add UserInformation to the temporary list object
