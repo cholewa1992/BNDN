@@ -218,14 +218,23 @@ namespace BusinessLogicTests
         }
         #endregion
         #region GetMediaItemInformation
+
+        [TestMethod]
+        [ExpectedException(typeof (ArgumentException))]
+        public void GetMediaItemInformation_InvalidMediaItemId()
+        {
+            const int mediaItemId = -5;
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
+        }
+
         [ExpectedException(typeof(MediaItemNotFoundException))]
         [TestMethod]
-        public void GetMediaItemInformation_InvalidMediaItemId()
+        public void GetMediaItemInformation_MediaItemNotFound()
         {
             const int mediaItemId = 202020;
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
-            Assert.Fail("Expected ArgumentException");   
         }
 
         [TestMethod]
@@ -237,7 +246,7 @@ namespace BusinessLogicTests
 
             MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
 
-            Assert.AreEqual(m.Id, mediaItemId);
+            Assert.AreEqual(mediaItemId, m.Id);
 
         }
 
@@ -248,16 +257,9 @@ namespace BusinessLogicTests
             var mediaItemId = 2;
 
             MediaItemDTO m = mediaItemLogic.GetMediaItemInformation(mediaItemId, null, "testClient");
-
-            var list = new List<String>();
-
-            foreach (var info in m.Information)
-            {
-                list.Add(info.Data);
-            }
-
-            Assert.AreEqual(list[0], "Book2");
-            Assert.AreEqual(list[1], "Description2");
+            
+            Assert.AreEqual("Book2", m.Information.Where(x => x.Type == InformationTypeDTO.Title).Select(x => x.Data).FirstOrDefault());
+            Assert.AreEqual("Description2", m.Information.Where(x => x.Type == InformationTypeDTO.Description).Select(x => x.Data).FirstOrDefault());
         }
 
         [TestMethod]
@@ -302,6 +304,14 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             var mediaItem = mediaItemLogic.GetMediaItemInformation(3, user1, "testClient");
             Assert.IsNull(mediaItem.ExpirationDate); //TODO Note that Expiration date is null when there is no access AND when access right never expires
+        }
+
+        [TestMethod]
+        public void GetMediaItemInformation_NotRated_RatingNull()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            var mediaItem = mediaItemLogic.GetMediaItemInformation(3, user1, "testClient");
+            Assert.AreEqual(0, mediaItem.AverageRating);
         }
 
         #endregion
@@ -462,15 +472,24 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void FindMediaItemRange_ValidMediaItemTypeValidSearchKey()
+        public void FindMediaItemRange_ValidMediaItemTypeValidSearchKey_TotalMatches()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int from = 1;
             const int to = 3;
             var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "2", "testClient");
             const int numberOfMoviesThatMatchesSearchKey = 2; 
-            var movieList = dictionary[MediaItemTypeDTO.Movie];
-            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, movieList.MediaItemList.Count);
+            Assert.AreEqual(numberOfMoviesThatMatchesSearchKey, dictionary[MediaItemTypeDTO.Movie].NumberOfSearchResults);
+        }
+
+        [TestMethod]
+        public void FindMediaItemRange_ValidMediaItemTypeValidSearchKey_InformationCount()
+        {
+            var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
+            const int from = 1;
+            const int to = 3;
+            var dictionary = mediaItemLogic.FindMediaItemRange(from, to, MediaItemTypeDTO.Movie, "2", "testClient");
+            Assert.AreEqual(3, dictionary[MediaItemTypeDTO.Movie].MediaItemList[0].Information.Count());
         }
 
         [TestMethod]
