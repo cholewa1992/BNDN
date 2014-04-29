@@ -23,7 +23,12 @@ namespace ArtShare.Controllers
             _logic = detailsLogic;
         }
 
-
+        /// <summary>
+        /// Show details view of media item with given Id
+        /// </summary>
+        /// <param name="id">The media item Id</param>
+        /// <returns>The action result (view) to show</returns>
+        /// /// GET Details/{id}
         public ActionResult Index(int id)
         {
 
@@ -73,7 +78,12 @@ namespace ArtShare.Controllers
             }
         }
 
-        // GET Details/Book/{id}
+        /// <summary>
+        /// Showing book with given id
+        /// </summary>
+        /// <param name="id">The books id</param>
+        /// <returns>The action result (view) to show</returns>
+        /// GET Details/Book/{id}
         public ActionResult Book(int id)
         {
             if (TempData["model"] != null)
@@ -84,7 +94,14 @@ namespace ArtShare.Controllers
             return Index(id);
         }
 
-        // GET Details/Movie/{id}
+        
+        
+        /// <summary>
+        /// Showing movie with given id
+        /// </summary>
+        /// <param name="id">The movies id</param>
+        /// <returns>The action result (view) to show</returns>
+        /// GET Details/Movie/{id}
         public ActionResult Movie(int id)
         {
             if (TempData["model"] != null)
@@ -94,7 +111,12 @@ namespace ArtShare.Controllers
             return Index(id);
         }
 
-        // GET Details/Music/{id}
+        /// <summary>
+        /// Showing track with given id
+        /// </summary>
+        /// <param name="id">The tracks id</param>
+        /// <returns>The action result (view) to show</returns>
+        /// GET Details/Music/{id}
         public ActionResult Music(int id)
         {
             if (TempData["model"] != null)
@@ -104,7 +126,11 @@ namespace ArtShare.Controllers
             return Index(id);
         }
         
-        
+        /// <summary>
+        /// Purcahses an media item
+        /// </summary>
+        /// <param name="mediaId">The id of the media to buy</param>
+        /// <returns>The action result (view) to show</returns>
         public ActionResult PurchaseItem(int mediaId)
         {
 
