@@ -2,6 +2,9 @@
 
 namespace ArtShare.Models
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     public class RegisterModel
     {
         [Display(Name = "User Name")]

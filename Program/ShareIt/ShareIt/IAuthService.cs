@@ -12,7 +12,9 @@ using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IAuthService" in both code and config file together.
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     [ServiceContract]
     public interface IAuthService
     {

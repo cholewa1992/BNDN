@@ -10,6 +10,9 @@ using ShareItServices.UserService;
 
 namespace ArtShare.Controllers
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     public class AccountController : Controller
     {
 

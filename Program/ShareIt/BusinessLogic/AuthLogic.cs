@@ -10,6 +10,9 @@ using Client = BusinessLogicLayer.DTO.ClientDTO;
 
 namespace BusinessLogicLayer
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     internal class AuthLogic: IAuthInternalLogic
     {
 

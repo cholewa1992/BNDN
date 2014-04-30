@@ -5,6 +5,9 @@ using Client = BusinessLogicLayer.DTO.ClientDTO;
 
 namespace BusinessLogicLayer.Stub
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     public class AuthLogicStub: IAuthInternalLogic
     {
 

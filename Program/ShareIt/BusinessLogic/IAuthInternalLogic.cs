@@ -3,6 +3,9 @@ using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     internal interface IAuthInternalLogic: IAuthLogic
     {
         AccessRightType CheckUserAccess(int userId, int mediaItemId);

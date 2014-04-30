@@ -8,6 +8,9 @@ using ArtShare.Models;
 
 namespace ArtShare.Controllers
 {
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     public class DetailsController : Controller
     {
 

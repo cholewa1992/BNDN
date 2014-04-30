@@ -14,6 +14,9 @@ namespace ShareIt
     /// <summary>
     /// This service exposes validation of user and client credentials
     /// </summary>
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// </author>
     public class AuthService : IAuthService
     {
         private readonly IBusinessLogicFactory _factory = BusinessLogicEntryFactory.GetBusinessFactory();

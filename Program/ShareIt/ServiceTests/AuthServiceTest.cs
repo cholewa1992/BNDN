@@ -5,6 +5,7 @@ using ShareIt;
 
 namespace ServiceTests
 {
+
     [TestClass]
     public class AuthServiceTest
     {
