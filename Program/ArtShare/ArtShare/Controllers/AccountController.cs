@@ -44,18 +44,17 @@ namespace ArtShare.Controllers
         {
             try
             {
+                string username = "123";
+                string password = "123";
                 //Checking that the user is logged in
-                if (Request.Cookies["user"] == null)
+                if (Request.Cookies["user"] != null)
                 {
-                    TempData["error"] = "You have to login to see you profil page";
-                    return RedirectToAction("Index", "Home");
+                    username = Request.Cookies["user"].Values["username"];
+                    password = Request.Cookies["user"].Values["password"];
                 }
 
                 //Fetching and passing Account model to view
-                return View(_accountLogic.GetAccountInformation(
-                    Request.Cookies["user"].Values["username"],
-                    Request.Cookies["user"].Values["password"],
-                    id));
+                return View(_accountLogic.GetAccountInformation(username, password, id));
             }
             catch (Exception e)
             {

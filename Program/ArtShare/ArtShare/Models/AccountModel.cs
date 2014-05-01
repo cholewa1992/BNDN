@@ -20,6 +20,8 @@ namespace ArtShare.Models
 
         public string Location { get; set; }
 
+        public bool CanEdit { set; get; }
+
         public List<PurchaseDTO> PurchaseHistory { set; get; }
         public List<PurchaseDTO> UploadHistory { set; get; }
 
