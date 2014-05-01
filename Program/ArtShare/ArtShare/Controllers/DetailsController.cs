@@ -368,8 +368,36 @@ namespace ArtShare.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            TempData["success"] = "Delete was called.";
-            return RedirectToAction("Index", "Home");
+            UserDTO user = ValidateUser();
+            if (user == null)
+            {
+                TempData["error"] = "You must be logged in as an admin to delete.";
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                if (_logic.DeleteDetails(user, id))
+                {
+                    TempData["success"] = "Media Item with Id: " + id + " was deleted.";
+                    return RedirectToAction("Index", "Home");
+                }
+                TempData["error"] = "You must be an admin to delete data.";
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
+           
+        }
+
+        private UserDTO ValidateUser()
+        {
+            var userCookie = Request.Cookies["user"];
+            if (userCookie == null)
+                return null;
+            return new UserDTO {Username = userCookie["username"], Password = userCookie["password"]};
         }
     }
 

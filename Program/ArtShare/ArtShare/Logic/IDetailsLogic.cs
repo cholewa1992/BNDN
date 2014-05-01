@@ -32,13 +32,6 @@ namespace ArtShare.Logic
         /// <returns>Book model with requested information</returns>
         //BookDetailsModel GetBookDetailsModel(int id, int? requestingUser);
 
-        /// <summary>
-        /// Deletes a book
-        /// </summary>
-        /// <param name="id">Book to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        bool DeleteBook(int id, int requestingUser);
 
         /// <summary>
         /// Updates a book's information. All previous information will be deleted, and supplied information added
@@ -56,14 +49,6 @@ namespace ArtShare.Logic
         //MovieDetailsModel GetMovieDetailsModel(int id, int? requestingUser);
 
         /// <summary>
-        /// Deletes a Movie
-        /// </summary>
-        /// <param name="id">Movie to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        bool DeleteMovie(int id, int requestingUser);
-
-        /// <summary>
         /// Updates a movie's information. All previous information will be deleted, and supplied information added
         /// </summary>
         /// <param name="movieModel">The model containing all the information the movie will have after the update</param>
@@ -77,14 +62,6 @@ namespace ArtShare.Logic
         /// <param name="requestingUser">Id of the user requesting the details</param>
         /// <returns>Music model with requested information</returns>
         //MusicDetailsModel GetMusicDetailsModel(int id, int? requestingUser);
-
-        /// <summary>
-        /// Deletes a Music Item
-        /// </summary>
-        /// <param name="id">Music to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        bool DeleteMusic(int id, int requestingUser);
 
         /// <summary>
         /// Updates a music's information. All previous information will be deleted, and supplied information added
@@ -122,5 +99,12 @@ namespace ArtShare.Logic
         /// <param name="rating">The rating (1-10)</param> 
         /// <returns></returns>
         bool RateMediaItem(UserDTO userDto, int mediaId, int rating);
+        /// <summary>
+        /// Delete the details of a media item.
+        /// </summary>
+        /// <param name="user">The user who wishes to delete the item</param>
+        /// <param name="mediaToDeleteId">The id of the item to be deleted.</param>
+        /// <returns></returns>
+        bool DeleteDetails(UserDTO user, int mediaToDeleteId);
     }
 }

@@ -7,6 +7,7 @@ using ArtShare.Models;
 using ArtShare.Properties;
 using ShareItServices.AccessRightService;
 using ShareItServices.MediaItemService;
+using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
@@ -84,18 +85,6 @@ namespace ArtShare.Logic
             }
         }
 
-        /// <summary>
-        /// Deletes a book
-        /// </summary>
-        /// <param name="id">Book to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        public bool DeleteBook(int id, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
-
-
         ///// <summary>
         ///// Retrieves details about a given Movie and returns it in a Movie model
         ///// </summary>
@@ -114,27 +103,6 @@ namespace ArtShare.Logic
 
         //    return ExstractMovieInformation(serviceDTO);
         //}
-        /// <summary>
-        /// Deletes a Movie
-        /// </summary>
-        /// <param name="id">Movie to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        public bool DeleteMovie(int id, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Deletes a Music Item
-        /// </summary>
-        /// <param name="id">Music to delete</param>
-        /// <param name="requestingUser">User requesting deletion</param>
-        /// <returns>a bool of whether deletion succeeded</returns>
-        public bool DeleteMusic(int id, int requestingUser)
-        {
-            throw new NotImplementedException();
-        }
 
 
         /// <summary>
@@ -437,6 +405,22 @@ namespace ArtShare.Logic
             using (var client = new MediaItemServiceClient())
             {
                 client.RateMediaItem(user, mediaItemId, rating, Resources.ClientToken);
+            }
+            return true;
+        }
+
+        public bool DeleteDetails(UserDTO user, int mediaToDeleteId)
+        {
+            var accessUser = new ShareItServices.AccessRightService.UserDTO
+            {
+                Username = user.Username,
+                Password = user.Password
+            };
+            if (CheckAccessRights(accessUser, mediaToDeleteId) != 3)
+                return false;
+            using (var proxy = new MediaItemServiceClient())
+            {
+                proxy.DeleteMediaItem(user, mediaToDeleteId, Resources.ClientToken);
             }
             return true;
         }
