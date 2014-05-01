@@ -196,7 +196,10 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <strong>Uploader</strong> <br />
-                    @Html.ActionLink(Model.UploaderName, "Details", "Account", new {id = Model.UploaderId}, null)
+                    @if (Model.UploaderName != null && Model.UploaderId != 0)
+                    {
+                        @Html.ActionLink(Model.UploaderName, "Details", "Account", new { id = Model.UploaderId }, null)
+                    }
                 </li>
                 <li class="list-group-item">
                     <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />
