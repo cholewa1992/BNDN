@@ -5,9 +5,15 @@
 
 <h2>Upload Movie</h2>
 
-@using (Html.BeginForm("EditMovie", "Details", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
-{
-    @Html.HiddenFor(model => model.ProductId)    
+@using (Html.BeginForm("EditMovie", "Details", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" })) {
+
+    @Html.HiddenFor(model => model.ProductId)
+    @Html.HiddenFor(model => model.Thumbnail)
+    @Html.HiddenFor(model => model.UploaderId)
+    @Html.HiddenFor(model => model.UploaderName)
+    @Html.HiddenFor(model => model.FileUrl)
+    @Html.HiddenFor(model => model.FileExtension)  
+  
     <div class="col-md-8">
         <div class="form-horizontal">
 

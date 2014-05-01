@@ -7,7 +7,13 @@
 
 @using (Html.BeginForm("EditBook", "Details", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" })) {   
     
-    @Html.HiddenFor(model => model.ProductId)    
+    @Html.HiddenFor(model => model.ProductId)
+    @Html.HiddenFor(model => model.Thumbnail)
+    @Html.HiddenFor(model => model.UploaderId)
+    @Html.HiddenFor(model => model.UploaderName)
+    @Html.HiddenFor(model => model.FileUrl)
+    @Html.HiddenFor(model => model.FileExtension)
+
     <div class="col-md-8">
         <div class="form-horizontal">
 
@@ -74,3 +80,31 @@
     </div>
 
 }
+
+<script>
+    var movie_div = document.getElementById("movie");
+    var music_div = document.getElementById("music");
+    var book_div = document.getElementById("book");
+
+    var filename = document.getElementById("fileName");
+
+    function chooseType() {
+        setTimeout(function () {
+
+
+            movie_div.style.display = "none";
+            music_div.style.display = "none";
+            book_div.style.display = "none";
+
+            var f = fileName.innerHTML;
+
+            switch (f.substr(f.length - 4, f.length)) {
+                case ".jpg":
+                    book_div.style.display = "block";
+                default:
+
+            }
+        }, 0);
+    }
+
+</script>
