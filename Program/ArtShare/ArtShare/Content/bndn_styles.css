@@ -95,6 +95,13 @@ header{
     outline: none;
 }
 
+@media (max-width: 1000px){
+    .search input[type="text"]:focus {
+        width: 175px;
+    }
+
+}
+
 .search-button{
     position: absolute;
     background: url(img/search_black.png) no-repeat;
@@ -113,7 +120,6 @@ header{
 
 
 /* Navbar */
-
 header nav{
 	float: right;
 	padding-top:20px;
@@ -155,10 +161,6 @@ header nav ul li div{
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
 border-color: transparent;
 border: 0px;
-}
-
-.navbar-right button{
-    margin-right: 5px;
 }
 
 .navbar-right .search{
