@@ -181,7 +181,9 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <strong>Uploader</strong> <br />
-                    @Html.DisplayFor(m => m.UploaderName)
+                    <a href="../../Account/Details/@Model.UploaderId">
+                        @Html.DisplayFor(m => m.UploaderName)
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />

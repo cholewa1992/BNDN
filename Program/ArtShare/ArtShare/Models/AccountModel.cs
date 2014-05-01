@@ -21,11 +21,13 @@ namespace ArtShare.Models
         public string Location { get; set; }
 
         public List<PurchaseDTO> PurchaseHistory { set; get; }
+        public List<PurchaseDTO> UploadHistory { set; get; }
 
         public class PurchaseDTO
         {
             public int MediaItemId { get; set; }
             public string Title { set; get; }
+            public string Thumbnail { set; get; }
         }
 
     }

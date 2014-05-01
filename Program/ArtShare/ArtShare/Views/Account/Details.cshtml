@@ -36,19 +36,71 @@
 </div>
 
 <div style="margin-top:100px;">&nbsp;</div>
-@if (Model.PurchaseHistory != null) {
+@if (Model.PurchaseHistory != null && Model.PurchaseHistory.Any(t => !string.IsNullOrWhiteSpace(t.Title)))
+{
     <h3>Purchase History</h3>
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>Media items</th>
-            </tr>
-            @foreach (var mi in Model.PurchaseHistory)
-            {
-            <tr>
-                <td>@mi.Title</td>
-            </tr>  
-            }        
-        </thead>
-    </table>
+    <div class="table-responsive">
+        <table class="table footable metro-white footable-loaded no-paging" data-page-size="7">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Thumbnail</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PurchaseHistory.Where(t => !string.IsNullOrWhiteSpace(t.Title)))
+                {
+                    <tr>
+                        <td>
+                            <br />
+                            @item.Title
+                        </td>
+                        <td>
+                            <img id="MainContent1_repPeople_image2_0" src="@item.Thumbnail" style="width:80px;">
+                        </td>
+                        <td>
+                            <br>
+                            <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
+<div style="margin-top:100px;">&nbsp;</div>
+@if (Model.UploadHistory != null && Model.UploadHistory.Any(t => !string.IsNullOrWhiteSpace(t.Title)))
+{
+    <h3>Upload History</h3>
+    <div class="table-responsive">
+        <table class="table footable metro-white footable-loaded no-paging" data-page-size="7">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Thumbnail</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UploadHistory.Where(t => !string.IsNullOrWhiteSpace(t.Title)))
+                {
+                    <tr>
+                        <td>
+                            <br />
+                            @item.Title
+                        </td>
+                        <td>
+                            <img id="MainContent1_repPeople_image2_0" src="@item.Thumbnail" style="width:80px;">
+                        </td>
+                        <td>
+                            <br>
+                            <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+

@@ -13,9 +13,6 @@ namespace ArtShare.Logic
 {
     public class AccountLogic: IAccountLogic
     {
-
-
-
         public void RegisterAccount(RegisterModel model)
         {
             
@@ -34,9 +31,7 @@ namespace ArtShare.Logic
             {
                 us.CreateAccount(user, Properties.Resources.ClientToken);
             }
-
         }
-
 
         public void DeleteAccount(string username, string password, int id)
         {
@@ -47,6 +42,17 @@ namespace ArtShare.Logic
             {
                 var admin = new UserDTO { Username = username, Password = password };
                 client.DeleteAccount(admin, id, Properties.Resources.ClientToken);
+            }
+        }
+
+        public bool HasRightToEdit(string username, string password, int userId)
+        {
+            using(var us = new UserServiceClient()){
+                if(userId == new LoginLogic().Login(username, password).User.Id) return true;
+
+                using(var ars = new ShareItServices.AuthService.AuthServiceClient()){
+                    return ars.IsUserAdminOnClient(new ShareItServices.AuthService.UserDTO{Username = username, Password = password}, Properties.Resources.ClientToken);
+                }
             }
         }
 
@@ -89,7 +95,6 @@ namespace ArtShare.Logic
             }
         }
 
-
         /// <summary>
         /// Fetching a users account information
         /// </summary>
@@ -106,38 +111,93 @@ namespace ArtShare.Logic
 
                 var accountModel = ExtractAccountInformation(user);
 
-                #region Purchase history fetch
-                List<AccountModel.PurchaseDTO> purchaseHistory;
-
-                using (var ars = new ShareItServices.AccessRightService.AccessRightServiceClient()){
-                    purchaseHistory = ars.GetPurchaseHistory(new ShareItServices.AccessRightService.UserDTO { Username = username, Password = password },
-                    userId,
-                    Properties.Resources.ClientToken).Select(t => new AccountModel.PurchaseDTO
+                #region Upload history fetch
+                try
+                {
+                    List<AccountModel.PurchaseDTO> uploadHistory;
+                    using (var ars = new ShareItServices.AccessRightService.AccessRightServiceClient())
                     {
-                        MediaItemId = t.Id
-                    }).ToList();
-
-                    using (var mis = new ShareItServices.MediaItemService.MediaItemServiceClient())
-                    {
-                        foreach (var mi in purchaseHistory)
-                        {
-                            try
+                        uploadHistory = ars.GetUploadHistory(
+                            new ShareItServices.AccessRightService.UserDTO { Username = username, Password = password },
+                            userId,
+                            Properties.Resources.ClientToken
+                            ).Select(t => new AccountModel.PurchaseDTO
                             {
-                                mi.Title = mis.GetMediaItemInformation
-                                    (mi.MediaItemId,
-                                    new ShareItServices.MediaItemService.UserDTO { Username = username, Password = password },
-                                    Properties.Resources.ClientToken).Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Title).Data;
-                            }
-                            catch{
+                                MediaItemId = t.MediaItemId
+                            }).ToList();
 
+                        using (var mis = new ShareItServices.MediaItemService.MediaItemServiceClient())
+                        {
+                            foreach (var mi in uploadHistory)
+                            {
+                                try
+                                {
+                                    var dto = mis.GetMediaItemInformation(
+                                        mi.MediaItemId,
+                                        new ShareItServices.MediaItemService.UserDTO { Username = username, Password = password },
+                                        Properties.Resources.ClientToken);
+
+                                    mi.Title = dto.Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Title).Data;
+                                    mi.Thumbnail = dto.Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Thumbnail).Data;
+                                }
+                                catch
+                                {
+
+                                }
                             }
                         }
                     }
+
+                    accountModel.UploadHistory = uploadHistory;
+                }
+                catch
+                {
+
+                }
+                #endregion
+                #region Purchase history fetch
+                try
+                {
+                    List<AccountModel.PurchaseDTO> purchaseHistory;
+
+                    using (var ars = new ShareItServices.AccessRightService.AccessRightServiceClient())
+                    {
+                        purchaseHistory = ars.GetPurchaseHistory(new ShareItServices.AccessRightService.UserDTO { Username = username, Password = password },
+                        userId,
+                        Properties.Resources.ClientToken).Select(t => new AccountModel.PurchaseDTO
+                        {
+                            MediaItemId = t.MediaItemId
+                        }).ToList();
+
+                        using (var mis = new ShareItServices.MediaItemService.MediaItemServiceClient())
+                        {
+                            foreach (var mi in purchaseHistory)
+                            {
+                                try
+                                {
+                                    var dto = mis.GetMediaItemInformation(
+                                        mi.MediaItemId,
+                                        new ShareItServices.MediaItemService.UserDTO { Username = username, Password = password },
+                                        Properties.Resources.ClientToken);
+
+                                    mi.Title = dto.Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Title).Data;
+                                    mi.Thumbnail = dto.Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Thumbnail).Data;
+                                }
+                                catch
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                    //Returning accountmodel
+                    accountModel.PurchaseHistory = purchaseHistory;
+                }
+                catch
+                {
                 }
                 #endregion
 
-                //Returning accountmodel
-                accountModel.PurchaseHistory = purchaseHistory;
                 return accountModel;
             }
         }
