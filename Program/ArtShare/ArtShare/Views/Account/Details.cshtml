@@ -48,6 +48,7 @@
                     <th>Title</th>
                     <th>Thumbnail</th>
                     <th>Details</th>
+                    <th>Download</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,6 +65,10 @@
                         <td>
                             <br>
                             <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                        </td>
+                        <td>
+                            <br/>
+                            @Html.ActionLink("Download", "Index", "Download", new{id=item.MediaItemId, fileName=item.Title}, new {@class="btn btn-info btn-sm"})
                         </td>
                     </tr>
                 }
@@ -82,6 +87,7 @@
                     <th>Title</th>
                     <th>Thumbnail</th>
                     <th>Details</th>
+                    <th>Download</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +104,10 @@
                         <td>
                             <br>
                             <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                        </td>
+                        <td>
+                            <br/>
+                            @Html.ActionLink("Download", "Index", "Download", new{id=item.MediaItemId, fileName=item.Title}, new {@class="btn btn-info btn-sm"})
                         </td>
                     </tr>
                 }
