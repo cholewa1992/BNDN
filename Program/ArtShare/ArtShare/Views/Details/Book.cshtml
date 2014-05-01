@@ -13,14 +13,23 @@
                                                                                                  })</small>
 
     </h1>
+    
     <div class="to-right detail-buttons clearfix">
-        @switch (Model.AccessRight)
+    @if (Request.Cookies["user"] == null)
+    {
+        <button class="pure-button button-art" onclick=" window.location.href = '/Details/PurchaseItem?mediaId=@Model.ProductId' ">Buy</button>
+    }
+    else
+    {
+        switch (Model.AccessRight)
         {
             case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
             case 1: <button class="pure-button button-art" onclick="window.location.href='/Download/@Model.ProductId?fileName=@Model.Title'">Download</button> break;
             case 2: <button class="pure-button button-art" onclick="window.location.href='/Details/Edit/@Model.ProductId'">Edit</button> goto case 1;
-            case 3: <button type="submit" class="pure-button button-art" data-toggle="modal" data-target="#myModalDelete">Delete</button> goto case 2;
+            case 3: <button class="pure-button button-art" data-toggle="modal" data-target="#myModalDelete">Delete</button> goto case 2;
+
         }
+    }
     </div>
 
 </legend>
@@ -63,7 +72,7 @@
         </div>
     </div>
 </div>
-
+@if(@Model.AccessRight == 3){
 <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -84,7 +93,7 @@
         </div>
     </div>
 </div>
-
+}
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">

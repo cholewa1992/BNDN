@@ -146,7 +146,9 @@ namespace ArtShare.Controllers
             }
             else
             {
-                RedirectToAction("Index", "Login");
+                TempData["error"] = "You must be logged in to purchase an item.";
+                if (Request.UrlReferrer != null) TempData["redirectTo"] = Request.UrlReferrer.ToString();
+                return RedirectToAction("Index", "Login");
             }
 
 

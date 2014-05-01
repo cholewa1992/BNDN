@@ -29,6 +29,8 @@ namespace ArtShare.Controllers
                 userCookie["password"] = model.User.Password;
                 userCookie.Expires.AddDays(365);
                 HttpContext.Response.Cookies.Add(userCookie);
+                if (TempData["redirectTo"] != null)
+                    return Redirect(TempData["redirectTo"] as string);
                 return RedirectToAction("Index", "Home");
             }
             else

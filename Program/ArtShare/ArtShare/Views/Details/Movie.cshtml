@@ -28,14 +28,23 @@
                                                        })</small>
 
     </h1>
+
     <div class="to-right detail-buttons clearfix">
-        @switch (Model.AccessRight)
+    @if (Request.Cookies["user"] == null)
+    {
+        <button class="pure-button button-art" onclick=" window.location.href = '/Details/PurchaseItem?mediaId=@Model.ProductId' ">Buy</button>
+    }
+    else
+    {
+        switch (Model.AccessRight)
         {
             case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
             case 1: <button class="pure-button button-art" onclick="window.location.href='/Download/@Model.ProductId?fileName=@Model.Title'">Download</button> break;
             case 2: <button class="pure-button button-art" onclick="window.location.href='/Details/Edit/@Model.ProductId'">Edit</button> goto case 1;
-            case 3: <button class="pure-button button-art" data-toggle="modal" data-target="#myModalDelete">Delete</button> goto case 2;                                                                                                                                                                                                       
+            case 3: <button class="pure-button button-art" data-toggle="modal" data-target="#myModalDelete">Delete</button> goto case 2;
+
         }
+    }
     </div>
 
 </legend>
@@ -78,24 +87,25 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalDeleteLabel">Are you sure want to delete "@Html.DisplayFor(model => model.Title)"? </h4>
+@if(Model.AccessRight == 3){
+    <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalDeleteLabel">Are you sure want to delete "@Html.DisplayFor(model => model.Title)"? </h4>
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm("Delete", "Details", new {id = Model.ProductId}))
+                    {
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    }            </div>
             </div>
-            <div class="modal-footer">
-                @using (Html.BeginForm("Delete", "Details", new {id = Model.ProductId}))
-                {
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
-                }            </div>
         </div>
     </div>
-</div>
+}
 
 <div class="media-details">
     <div class="row">
