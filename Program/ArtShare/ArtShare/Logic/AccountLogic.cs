@@ -118,7 +118,7 @@ namespace ArtShare.Logic
                     using (var ars = new ShareItServices.AccessRightService.AccessRightServiceClient())
                     {
                         uploadHistory = ars.GetUploadHistory(
-                            new ShareItServices.AccessRightService.UserDTO { Username = username, Password = password },
+                            null,
                             userId,
                             Properties.Resources.ClientToken
                             ).Select(t => new AccountModel.PurchaseDTO
@@ -134,7 +134,7 @@ namespace ArtShare.Logic
                                 {
                                     var dto = mis.GetMediaItemInformation(
                                         mi.MediaItemId,
-                                        new ShareItServices.MediaItemService.UserDTO { Username = username, Password = password },
+                                        null,
                                         Properties.Resources.ClientToken);
 
                                     mi.Title = dto.Information.Single(t => t.Type == ShareItServices.MediaItemService.InformationTypeDTO.Title).Data;
