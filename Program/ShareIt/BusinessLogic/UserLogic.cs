@@ -100,7 +100,7 @@ namespace BusinessLogicLayer
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
 
-            bool sendPassword = requestingUser.Id == targetUserId || _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken);
+            bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
             try
             {
@@ -141,9 +141,9 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException();
             }
 
-            if ((_authLogic.CheckUserExists(requestingUser) == -1 &&
-                 (requestingUser.Username != userToUpdate.Username)) &&
-                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken)))
+            if (_authLogic.CheckUserExists(requestingUser) == -1 ||
+                 ((requestingUser.Username != userToUpdate.Username) &&
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
             {
                 throw new UnauthorizedAccessException();
             }

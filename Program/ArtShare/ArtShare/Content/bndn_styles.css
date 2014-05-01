@@ -52,31 +52,10 @@ header{
     z-index: 999;
 }
 
-header nav{
-	float: right;
-	padding-top:20px;
-	margin-right: 50px;
-}
-
-header nav ul{
-	list-style: none;
-}
-
-header nav ul li {
-    display: inline;
-}
-
-header nav ul li div{
-	display: inline;
-}
-
-.search-topbar{
-	margin-right: 1px;
-}
-
 .logo-header {
     width: 40px;
     height: 40px;
+    margin-top: -15px;
 }
 
 .search{
@@ -95,7 +74,6 @@ header nav ul li div{
     font-size: 14px;
     color: #888;
     width:175px;
-    height: 32px;
     padding: 6px 35px 6px 10px;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
@@ -110,7 +88,6 @@ header nav ul li div{
     border: 0 none;
     color: #2f2f2f;
     width: 300px;
-    height: 32px;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
@@ -125,13 +102,67 @@ header nav ul li div{
     border: 0 none;
     width: 25px;
     height: 25px;
-    top: 0px;
-    right: 8px;
+    top: -1px;
+    right: 2px;
     outline: none;
 }
 
 #error-box{
     z-index: 10;
+}
+
+
+/* Navbar */
+
+header nav{
+	float: right;
+	padding-top:20px;
+	width: 95%;
+    margin: auto;
+}
+
+header nav ul{
+	list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li div{
+	display: inline;
+}
+
+/* Bootstap navbar overwrites */
+.navbar-nav{
+    margin-top: -5px;
+}
+
+.navbar-right{
+    margin-top: 0px;
+}
+
+.navbar-inverse {
+    background-color: inherit;
+    border: 0px;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus {
+    color: #fff;
+    background-color: transparent;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+border-color: transparent;
+border: 0px;
+}
+
+.navbar-right button{
+    margin-right: 5px;
+}
+
+.navbar-right .search{
+    margin-right: 5px;
 }
 
 

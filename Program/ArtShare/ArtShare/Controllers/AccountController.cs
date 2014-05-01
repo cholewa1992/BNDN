@@ -66,7 +66,22 @@ namespace ArtShare.Controllers
 
         public ActionResult Edit(int id)
         {
-            return Details(id);
+            //Checking if a user is logged in
+            if (Request.Cookies["user"] == null)
+            {
+                TempData["error"] = "You have to login";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (_accountLogic.HasRightToEdit(Request.Cookies["user"].Values["username"], Request.Cookies["user"].Values["password"], id)) 
+            { 
+                return Details(id); 
+            }
+            else
+            {
+                TempData["error"] = "You don't have access to this action";
+                return RedirectToAction("Details", "Account", new { id });
+            }
         }
 
         [HttpPost]

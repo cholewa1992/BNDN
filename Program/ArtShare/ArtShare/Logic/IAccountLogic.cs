@@ -12,5 +12,6 @@ namespace ArtShare.Logic
         void UpdateAccountInformation(string username, string password, AccountModel model);
         AccountModel GetAccountInformation(string username, string password, int userId);
         UserListModel GetAllUsers(string username, string password);
+        bool HasRightToEdit(string username, string password, int userId);
     }
 }

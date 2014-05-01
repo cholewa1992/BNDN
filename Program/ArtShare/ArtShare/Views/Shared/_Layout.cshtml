@@ -67,7 +67,55 @@
     <body>
         <div id="container">
             <header>
-                <div class="pure-menu pure-menu-open pure-menu-horizontal to-left">
+                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="~/"><img class="logo-header" src="~/Content/img/logo.png" /></a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li><a href="~/">Home</a></li>
+                                <li><a href="~/Movies">Movies</a></li>
+                                <li><a href="~/Books">Books</a></li>
+                                <li><a href="~/Music">Music</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <div class="search">
+                                        <form role="form" action="~/Search/SearchMediaItems" method="GET">
+                                            <input type="hidden" name="from" value="1" />
+                                            <input type="hidden" name="to" value="10" />
+                                            <input type="text" class="form-control" name="searchKey" placeholder="Search">
+                                            <button class="search-button" type="submit"></button>
+                                        </form>
+                                    </div>
+                                </li>
+                                @if (Request.Cookies["user"] != null)
+                                {
+                                    <li><button class="btn-success btn" onclick="window.location.href='/Account/Details/@Request.Cookies["user"].Values["id"]'">My Account</button></li>
+                                    <li><button class="btn button-art" onclick="window.location.href='/Upload'">Upload</button></li>
+                                    <li><button class="btn button-art" onclick="window.location.href='/Login/Logout'">Logout</button></li>
+                                }
+                                else
+                                {
+                                    <li><button class="button-art pure-button" onclick="window.location.href='/Login'">Login</button></li>
+                                    <li><button class="button-art pure-button" onclick="window.location.href='/Account/Register'">Create Account</button></li>
+                                }
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+
+                <!--<div class="pure-menu pure-menu-open pure-menu-horizontal to-left">
                     <a href="~/" class="pure-menu-heading"><img class="logo-header" src="~/Content/img/logo.png"/></a>
                     <ul>
                         <li><a href="~/">Home</a></li>
@@ -105,7 +153,7 @@
                 @if (Request.Url.PathAndQuery == "/")
                 {
                     // Maybe a jumbo?
-                }
+                }-->
             </header>
 
                 <div class="content-wrapper">

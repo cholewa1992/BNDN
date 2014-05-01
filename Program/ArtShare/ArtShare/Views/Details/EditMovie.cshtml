@@ -3,11 +3,17 @@
     ViewBag.Title = "Edit Movie";
 }
 
-<h2>Upload Movie</h2>
+<h2>Edit Movie</h2>
 
-@using (Html.BeginForm("EditMovie", "Details", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
-{
-    @Html.HiddenFor(model => model.ProductId)    
+@using (Html.BeginForm("EditMovie", "Details", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" })) {
+
+    @Html.HiddenFor(model => model.ProductId)
+    @Html.HiddenFor(model => model.Thumbnail)
+    @Html.HiddenFor(model => model.UploaderId)
+    @Html.HiddenFor(model => model.UploaderName)
+    @Html.HiddenFor(model => model.FileUrl)
+    @Html.HiddenFor(model => model.FileExtension)  
+  
     <div class="col-md-8">
         <div class="form-horizontal">
 
@@ -28,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>@Html.DisplayNameFor(model => model.ReleaseDate)</h4>
+                    <h4>@Html.DisplayNameFor(model => model.ReleaseDate) <small>(Currently: @Model.ReleaseDate.Value.ToShortDateString())</small></h4>
                     @Html.TextBoxFor(m => m.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date" })
                 </div>
 
@@ -36,43 +42,31 @@
                     <h4>@Html.DisplayNameFor(model => model.Runtime)</h4>
                     @Html.TextBoxFor(m => m.Runtime, new { placeholder = "Runtime", required = "true", @class = "form-control" })
                 </div>
-
-
-
             </div>
-
             <div class="col-md-2"></div>
-
             <div class="col-md-5">
-
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.Language)</h4>
                     @Html.TextBoxFor(m => m.Language, new { placeholder = "Language", required = "true", @class = "form-control" })
                 </div>
-
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.Price)</h4>
                     @Html.TextBoxFor(m => m.Price, new { placeholder = "Price", required = "true", @class = "form-control", type = "number", min = "0", max = int.MaxValue})
                 </div>
-
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.Tags)</h4>
                     @Html.TextBoxFor(m => m.Tags[0], new { placeholder = "Tags", required = "false", @class = "form-control" })
                 </div>
-
                 <div class="form-group">
                     <h4>@Html.DisplayNameFor(model => model.Genres)</h4>
                     @Html.TextBoxFor(m => m.Genres[0], new { placeholder = "Genres", required = "false", @class = "form-control" })
                 </div>
-
             </div>
-
             <div class="form-group">
-                <button type="submit" class="btn btn-success to-right">Upload</button>
+                <button type="submit" class="btn btn-success to-right">Save</button>
             </div>
         </div>
     </div>
-
 }
 
 <script>
@@ -100,5 +94,4 @@
             }
         }, 0);
     }
-
 </script>
