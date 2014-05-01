@@ -64,6 +64,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success to-right">Save</button>
+                @Html.ActionLink("Cancel", "Index", new {id = Model.ProductId}, new{@class="btn btn-default to-right", style="margin-right: 10pt"})
             </div>
         </div>
     </div>
