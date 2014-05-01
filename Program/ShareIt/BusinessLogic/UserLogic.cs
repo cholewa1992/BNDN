@@ -93,14 +93,14 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
           
-            //if (_authLogic.CheckClientToken(clientToken) == -1)
-            //{
-            //    throw new InvalidCredentialException();
-            //}
+            if (_authLogic.CheckClientToken(clientToken) == -1)
+            {
+                throw new InvalidCredentialException();
+            }
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
 
-            bool sendPassword = requestingUser.Id == targetUserId || _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken);
+            bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
             try
             {
