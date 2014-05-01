@@ -365,7 +365,12 @@ namespace ArtShare.Controllers
                 return Index(musicDetails.ProductId);
             }
         }
-
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            TempData["success"] = "Delete was called.";
+            return RedirectToAction("Index", "Home");
+        }
     }
 
 
