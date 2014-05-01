@@ -1,4 +1,5 @@
-﻿@model ArtShare.Models.BookDetailsModel
+﻿@using System.Globalization
+@model ArtShare.Models.BookDetailsModel
 @{
     ViewBag.Title = "Edit Book";
 }
@@ -34,8 +35,9 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>@Html.DisplayNameFor(model => model.ReleaseDate) <small>(Currently: @Model.ReleaseDate.Value.ToShortDateString())</small></h4>
-                    @Html.TextBoxFor(m => m.ReleaseDate, new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type = "date" })
+                    @{ string dateValue = Model.ReleaseDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);}
+                    <h4>@Html.DisplayNameFor(model => model.ReleaseDate) </h4>
+                    @Html.TextBoxFor(m => m.ReleaseDate, "{0:yyyy-MM-dd}", new { placeholder = "ReleaseDate", required = "true", @class = "form-control", type= "date"})
                 </div>
 
                 <div class="form-group">
