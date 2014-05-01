@@ -24,7 +24,7 @@
 
     <div class="col-md-4">
         <h4>Music</h4>
-        <table class="table table-striped table-hover search-table">
+        <table class="table table-striped table-hover table-responsive search-table">
             <tbody id="tablebody1">
                 @if (Model.Music != null)
                 {
@@ -32,7 +32,7 @@
                     {
                         <tr onclick="window.location.href='../Details/@m.ProductId'">
                             <td><span class="glyphicon glyphicon-music"></span></td>
-                            <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
+                            <td><span class="to-left">@m.Artist - @m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
                     }
                 }
@@ -50,7 +50,7 @@
                     {
                         <tr onclick="window.location.href='../Details/@m.ProductId'">
                             <td><span class="glyphicon glyphicon-book"></span></td>
-                            <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
+                            <td><span class="to-left">@m.Title by @if(m.Author != null){@m.Author} (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
                     }
                 }
