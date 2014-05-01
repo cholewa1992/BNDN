@@ -93,10 +93,10 @@ namespace BusinessLogicLayer
             Contract.Requires<ArgumentNullException>(clientToken != null);
 
           
-            if (_authLogic.CheckClientToken(clientToken) == -1)
-            {
-                throw new InvalidCredentialException();
-            }
+            //if (_authLogic.CheckClientToken(clientToken) == -1)
+            //{
+            //    throw new InvalidCredentialException();
+            //}
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
 
