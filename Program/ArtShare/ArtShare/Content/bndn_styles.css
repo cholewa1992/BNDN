@@ -301,9 +301,22 @@ header nav ul li div{
     margin-right: 10px;
 }
 
+.col-md-4 {
+    overflow: hidden;
+}
+
 /* Search */
 .search-table{
-    /*border: 1px solid grey;*/
+
+}
+
+.search-table tr td {
+    text-align: left;
+    
+}
+
+.search-table tr td span{
+    display: inline;
 }
 
 .search-table tr:hover {
@@ -404,6 +417,7 @@ footer{
 /* Auxillary classes */
 
 .is-center{ text-align: center; }
+.is-left{ text-align: left;}
 .to-left { float: left; }
 .to-right { float: right; }
 .to-bottom { bottom: 0; }
