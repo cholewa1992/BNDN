@@ -198,6 +198,17 @@ namespace ArtShare.Logic
                 }
                 #endregion
 
+
+                using(var asc = new ShareItServices.AuthService.AuthServiceClient()){
+                 accountModel.CanEdit = 
+                     (accountModel.Username == username && accountModel.Password == password) || 
+                     asc.IsUserAdminOnClient(
+                        new ShareItServices.AuthService.UserDTO { 
+                            Username = username, 
+                            Password = password 
+                        }, Properties.Resources.ClientToken );
+                }
+
                 return accountModel;
             }
         }
