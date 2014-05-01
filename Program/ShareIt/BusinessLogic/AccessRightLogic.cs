@@ -174,14 +174,10 @@ namespace BusinessLogicLayer
         public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
-            Contract.Requires<ArgumentNullException>(user != null);
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Password));
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(user.Username));
             Contract.Requires<ArgumentException>(userId > 0);
             Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(clientToken));
 
             ValidateClientToken(clientToken);
-            user.Id = ValidateUser(user);
 
             try
             {
