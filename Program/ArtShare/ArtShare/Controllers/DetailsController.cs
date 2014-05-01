@@ -260,12 +260,19 @@ namespace ArtShare.Controllers
 
                 if (user != null) model.AccessRight = _logic.CheckAccessRights(new ShareItServices.AccessRightService.UserDTO { Id = user.Id, Username = user.Username, Password = user.Password }, id);
 
+                if (model.AccessRight < 2)
+                {
+                    TempData["error"] = "You are not allowed to edit the details of item " + id;
+                    if (Request.UrlReferrer != null) return Redirect(Request.UrlReferrer.ToString());
+                    return RedirectToAction("Index", "Home");
+                }
+
                 TempData["model"] = model;
                 return RedirectToAction("Edit" + dto.Type.ToString(), "Details", new { id });
             }
             catch (FaultException e)
             {
-                TempData["error"] = e;
+                TempData["error"] = e.Message;
                 return RedirectToAction("Index", "Home");
             }
         }
