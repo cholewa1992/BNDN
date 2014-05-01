@@ -195,6 +195,9 @@ namespace ArtShare.Logic
                             model.NumberOfPages = null;
                         }
                         break;
+                    case InformationTypeDTO.Language:
+                        model.Language = v.Data;
+                        break;
 
                 }
             }
