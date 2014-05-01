@@ -62,23 +62,23 @@ namespace ArtShare.Logic
         /// <returns>0 if no accessright, 1 if buyer and 2 if owner or admin</returns>
         public int CheckAccessRights(ShareItServices.AccessRightService.UserDTO requestingUser, int mediaId)
         {
+            using (var authl = new ShareItServices.AuthService.AuthServiceClient())
+            {
+                if (authl.IsUserAdminOnClient(
+                    new ShareItServices.AuthService.UserDTO
+                    {
+                        Id = requestingUser.Id,
+                        Username = requestingUser.Username,
+                        Password = requestingUser.Password
+                    },
+                        Resources.ClientToken)) { return 3; }
+            }
+
             using (var arsc = new AccessRightServiceClient())
             {
                 var r = arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken);
                 if (r.Any(t => t.MediaItemId == mediaId)) return 1;
                 if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.MediaItemId == mediaId)) return 2;
-
-                using (var authl = new ShareItServices.AuthService.AuthServiceClient())
-                {
-                    if (authl.IsUserAdminOnClient(
-                        new ShareItServices.AuthService.UserDTO
-                        {
-                            Id = requestingUser.Id,
-                            Username = requestingUser.Username,
-                            Password = requestingUser.Password
-                        },
-                            Resources.ClientToken)) { return 2; }
-                }
 
                 return 0;
             }
