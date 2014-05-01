@@ -39,13 +39,14 @@ namespace BusinessLogicTests
             authMoq.Setup(foo => foo.CheckClientToken(It.Is<string>(s => s != "testClient"))).Returns(-1);
             //setup checkUserExists.
             authMoq.Setup(
-                foo =>
-                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" && u.Username == "testUserName")))
-                .Returns(1);
+                foo => foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword"
+                    && u.Username == "testUserName"))).Returns(1);
             authMoq.Setup(
-                foo =>
-                    foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" && u.Username == "testUserName")))
-                .Returns(-1);
+                foo => foo.CheckUserExists(It.Is<UserDTO>(u => u.Password == "testPassword" 
+                        && u.Username == "testAdmin"))).Returns(2);
+            authMoq.Setup(
+                foo => foo.CheckUserExists(It.Is<UserDTO>(u => u.Password != "testPassword" 
+                    && (u.Username == "testUserName" || u.Username == "testAdmin")))).Returns(-1);
             //setup checkUserAccess
             authMoq.Setup(foo => foo.CheckUserAccess(1, 1)).Returns(BusinessLogicLayer.AccessRightType.NoAccess);
             authMoq.Setup(foo => foo.CheckUserAccess(1, 2)).Returns(BusinessLogicLayer.AccessRightType.Owner);
@@ -343,9 +344,42 @@ namespace BusinessLogicTests
             var u = _userLogic.GetAccountInformation(requestingUser, _testUser.Id, "testClient");
 
             Assert.AreEqual("John44", u.Username);
-            Assert.AreEqual("Password", u.Password);
+            //Assert.AreEqual("Password", u.Password);
         }
 
+        [TestMethod]
+        public void GetAccountInformation_AdminRequesting_PasswordReturned()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "helloWorld";
+            _testUser.Id = 1;
+            Assert.IsTrue(_userLogic.CreateAccount(_testUser, "testClient"));
+            var account = _userLogic.GetAccountInformation(
+                new UserDTO {Id = 2, Username = "testAdmin", Password = "testPassword"}, 1, "testClient");
+            Assert.IsNotNull(account.Password);
+        }
+
+        [TestMethod]
+        public void GetAccountInformation_OwnerRequesting_PasswordReturned()
+        {
+            _testUser.Username = "testUserName";
+            _testUser.Password = "testPassword";
+            _testUser.Id = 1;
+            Assert.IsTrue(_userLogic.CreateAccount(_testUser, "testClient"));
+            var account = _userLogic.GetAccountInformation(_testUser, 1, "testClient");
+            Assert.IsNotNull(account.Password);
+        }
+
+        [TestMethod]
+        public void GetAccountInformation_UnknownRequesting_PasswordNotReturned()
+        {
+            _testUser.Username = "John44";
+            _testUser.Password = "helloWorld";
+            _testUser.Id = 1;
+            Assert.IsTrue(_userLogic.CreateAccount(_testUser, "testClient"));
+            var account = _userLogic.GetAccountInformation(new UserDTO { Id = 3 }, 1, "testClient");
+            Assert.IsNull(account.Password);
+        }
         #endregion
 
         #region UpdateAccountInformation
@@ -388,9 +422,73 @@ namespace BusinessLogicTests
 
             var dbResult = _dbStorage.Get<UserAcc>(_testUser.Id);
 
-            Assert.AreEqual(dbResult.Username, _testUser.Username);
-            Assert.AreEqual(dbResult.Password, _testUser.Password);
+            Assert.AreEqual(_testUser.Username, dbResult.Username);
+            Assert.AreEqual(_testUser.Password, dbResult.Password);
 
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
+        public void UpdateAccountInformation_UserTryingToUpdateOtherUser_UnauthorizedAccessException()
+        {
+            _testUser.Id = 1;
+            _testUser.Username = "testUserName";
+            _testUser.Password = "testPassword";
+            _testUser.Information = new List<UserInformationDTO>();
+
+            _userLogic.UpdateAccountInformation(
+                _testUser, new UserDTO {Username = "OtherUser", Password = "Password"}, "testClient");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
+        public void UpdateAccountInformation_UnknownTryingToUpdateOtherUser_UnauthorizedAccessException()
+        {
+            _testUser.Id = 4;
+            _testUser.Username = "unknown";
+            _testUser.Password = "testPassword";
+            _testUser.Information = new List<UserInformationDTO>();
+
+            _userLogic.UpdateAccountInformation(
+                _testUser, new UserDTO { Username = "OtherUser", Password = "Password" }, "testClient");
+        }
+
+        [TestMethod]
+        public void UpdateAccountInformation_AdminTryingToUpdateOtherUser_UserIsUpdated()
+        {
+            _testUser.Id = 2;
+            _testUser.Username = "testAdmin";
+            _testUser.Password = "testPassword";
+
+            var someUser = new UserDTO {Id = 1, Username = "SomeName", Password = "pw", 
+                Information = new List<UserInformationDTO>()};
+            
+            _userLogic.CreateAccount(someUser, "testClient");
+
+            someUser.Password = "NewPassword";
+
+            Assert.IsTrue(_userLogic.UpdateAccountInformation(_testUser, someUser, "testClient"));
+
+            Assert.AreEqual("NewPassword", _dbStorage.Get<UserAcc>(someUser.Id).Password);
+        }
+
+        [TestMethod]
+        public void UpdateAccountInformation_UserTryingToUpdateSelf_UserIsUpdated()
+        {
+            _testUser.Id = 1;
+            _testUser.Username = "testUserName";
+            _testUser.Password = "testPassword";
+            _testUser.Information = new List<UserInformationDTO>();
+
+            _userLogic.CreateAccount(_testUser, "testClient");
+
+            var updatedTestUser = new UserDTO { Id = 1, Username = "testUserName", Password = "NewPassword", 
+                Information = new List<UserInformationDTO>()};
+
+            Assert.IsTrue(_userLogic.UpdateAccountInformation(_testUser, updatedTestUser, "testClient"));
+
+            Assert.AreEqual("NewPassword", _dbStorage.Get<UserAcc>(_testUser.Id).Password);
         }
 
         #endregion

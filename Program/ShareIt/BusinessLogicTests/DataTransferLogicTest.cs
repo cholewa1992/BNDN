@@ -98,6 +98,14 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestSaveMediaThrowsArgumentExceptionWhenFileExtensionIsNull()
+        {
+            var target = new DataTransferLogic(_fileStorage.Object, _dbStorage, _authLogic.Object);
+            target.SaveMedia("token", new UserDTO(), new MediaItemDTO {FileExtension = null}, new MemoryStream());
+        }
+
+        [TestMethod]
         public void TestSaveMediaCallsAddAndUpdateOnStorage()
         {
             int userId = 123;

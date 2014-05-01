@@ -577,15 +577,13 @@ namespace BusinessLogicTests
         [TestMethod]
         public void RateMediaItem_ValidNewRating()
         {
-            
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             const int mediaItemId = 2;
             const int rating = 8;
             const string token = "testClient";
             mediaItemLogic.RateMediaItem(user2, mediaItemId, rating, token);
-            Assert.IsTrue(_dbStorage.Get<Rating>().Any(t => t.UserId == user2.Id && t.EntityId == mediaItemId && t.Value == rating));
-
-
+            Assert.IsTrue(_dbStorage.Get<Rating>().
+                Any(t => t.UserId == user2.Id && t.EntityId == mediaItemId && t.Value == rating));
         }
 
         [ExpectedException(typeof(InvalidUserException))]
@@ -1066,7 +1064,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        public void UpdateMediaItem_MapsTypeFomDTO()
+        public void UpdateMediaItem_MapsTypeFromDTO()
         {
             int mediaId = 12355;
             var authMock = new Mock<IAuthInternalLogic>();
