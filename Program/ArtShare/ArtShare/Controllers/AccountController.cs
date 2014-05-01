@@ -91,11 +91,11 @@ namespace ArtShare.Controllers
                 //Checking if a user is logged in
                 if (Request.Cookies["user"] == null)
                 {
-                    TempData["error"] = "You have to login to see you profil page";
+                    TempData["error"] = "You have to login to edit your profil page";
                     return RedirectToAction("Index", "Home");
                 }
 
-                //Checking if a the user editing is the user being edited
+                //Checking if the user editing is the user being edited
                 //NOTE: This restricting is only here beacuse it's not possbile for an admin to edit a user with the current backend
                 if (Request.Cookies["user"].Values["username"] != am.Username)
                 {
@@ -143,6 +143,7 @@ namespace ArtShare.Controllers
 
         public ActionResult Register()
         {
+            TempData["redirectTo"] = TempData["redirectTo"];
             return View();
         }
 
@@ -155,8 +156,27 @@ namespace ArtShare.Controllers
             try
             {
                 _accountLogic.RegisterAccount(model);
-                TempData["success"] = "You user account was successfully created. You can now login";
-                return RedirectToAction("Index", "Home");
+                TempData["success"] = "You user account was successfully created. Thank you for joining ArtShare.";
+                var login = new LoginLogic().Login(model.Username, model.Password);
+
+                if (login.LoggedIn)
+                {
+                    var userCookie = new HttpCookie("user");
+                    userCookie["id"] = login.User.Id + "";
+                    userCookie["username"] = login.User.Username;
+                    userCookie["password"] = login.User.Password;
+                    userCookie.Expires.AddDays(365);
+                    HttpContext.Response.Cookies.Add(userCookie);
+                    if (TempData["redirectTo"] != null)
+                        return Redirect(TempData["redirectTo"] as string);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["error"] = "Username or password was incorrect";
+                    return RedirectToAction("Index", "Login");
+                }
+                
             }
             catch(Exception e)
             {
