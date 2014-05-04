@@ -22,6 +22,8 @@ namespace ArtShare.Models
 
         public bool CanEdit { set; get; }
 
+        public bool isAdmin { set; get; }
+
         public List<PurchaseDTO> PurchaseHistory { set; get; }
         public List<PurchaseDTO> UploadHistory { set; get; }
 

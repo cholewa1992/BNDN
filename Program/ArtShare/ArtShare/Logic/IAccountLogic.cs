@@ -13,5 +13,6 @@ namespace ArtShare.Logic
         AccountModel GetAccountInformation(string username, string password, int userId);
         UserListModel GetAllUsers(string username, string password);
         bool HasRightToEdit(string username, string password, int userId);
+        bool IsUserAdmin(string usernmae, string password, int userId);
     }
 }

@@ -44,8 +44,8 @@ namespace ArtShare.Controllers
         {
             try
             {
-                string username = "123";
-                string password = "123";
+                string username = "";
+                string password = "";
                 //Checking that the user is logged in
                 if (Request.Cookies["user"] != null)
                 {
@@ -53,8 +53,15 @@ namespace ArtShare.Controllers
                     password = Request.Cookies["user"].Values["password"];
                 }
 
+                var model = _accountLogic.GetAccountInformation(username, password, id);
+
+                if (_accountLogic.IsUserAdmin(username, password, id))
+                {
+                    model.isAdmin = true;
+                }
+
                 //Fetching and passing Account model to view
-                return View(_accountLogic.GetAccountInformation(username, password, id));
+                return View(model);
             }
             catch (Exception e)
             {

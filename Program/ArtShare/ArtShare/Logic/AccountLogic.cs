@@ -272,5 +272,19 @@ namespace ArtShare.Logic
                 Location = location != null ? location.Data : ""
             };
         }
+
+        public bool IsUserAdmin(string username, string password, int userId)
+        {
+            using (var asc = new ShareItServices.AuthService.AuthServiceClient())
+            {
+                    return asc.IsUserAdminOnClient(
+                       new ShareItServices.AuthService.UserDTO
+                       {
+                           Id = userId,
+                           Username = username,
+                           Password = password
+                       }, Properties.Resources.ClientToken);
+            }
+        }
     }
 }

@@ -11,6 +11,10 @@
    
     @if (Model.CanEdit) {
         <div class="to-right detail-buttons clearfix">
+            @if (Model.isAdmin)
+            {
+                <button class="pure-button button-art" onclick="window.location.href='/Account/UserList'">Userlist</button>
+            }
             <button class="pure-button button-art" onclick="window.location.href='/Account/Edit/@Model.Id'">Edit Information</button>
         </div>
     }
