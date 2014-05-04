@@ -1,7 +1,7 @@
 ﻿@model ArtShare.Models.SearchModel
 
 @{
-    ViewBag.Title = "SearchMediaItems";
+    ViewBag.Title = "Search: " + Request.QueryString["searchKey"];
 
     var searchKey = Request.QueryString["searchKey"];
     
