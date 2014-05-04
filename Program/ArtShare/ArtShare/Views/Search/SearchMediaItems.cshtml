@@ -10,8 +10,18 @@
     var prev_from = this_from - 10;
 
     var this_to = int.Parse(Request.QueryString["to"]);
-    var next_to = this_from + 10;
-    var prev_to = this_from - 10;
+    var next_to = this_to + 10;
+
+    int prev_to;
+    if (this_to <= 10)
+    {
+        prev_to = 10;
+    }
+    else
+    {
+        prev_to = this_to - 10;
+    }
+
 }
 
 <h2>Search results for "@Request.Params["searchKey"]"</h2>
