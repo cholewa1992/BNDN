@@ -110,7 +110,14 @@
 <div class="media-details">
     <div class="row">
         <div class="col-md-3">
-            <img src="@Html.DisplayFor(model => model.Thumbnail)" />
+            @if (Model.Thumbnail != null)
+            {
+                <img src="@Model.Thumbnail">
+            }
+            else
+            {
+                <img src="http://placehold.it/300x500" />
+            }
             @if (Model.RatingsGiven > 0)
             {
                 <ul class="list-group">
