@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Stub;
 using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AccessRightType = BusinessLogicLayer.AccessRightType;
@@ -347,10 +348,13 @@ namespace IntergrationTest
         {
             var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var mil = blf.CreateMediaItemLogic();
+            //TODO mock mil's IStorageBridge SaveChanges to always return true
 
             using (var db = new RentIt08Entities())
             {
                 Assert.IsTrue(db.Entity.Any());
+                Assert.IsTrue(db.EntityInfo.Any());
+                Assert.IsTrue(db.AccessRight.Any());
             }
 
             mil.DeleteMediaItem(_jacob, 1, _artShare);
@@ -358,6 +362,8 @@ namespace IntergrationTest
             using (var db = new RentIt08Entities())
             {
                 Assert.IsFalse(db.Entity.Any());
+                Assert.IsFalse(db.EntityInfo.Any());
+                Assert.IsFalse(db.AccessRight.Any());
             }
         }
         

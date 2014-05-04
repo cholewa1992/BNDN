@@ -11,20 +11,18 @@ namespace StorageUnitTest
         [TestMethod]
         public void TestSaveMediaStoresFileAtLocation()
         {
-            //setup
-            var stream = new MemoryStream();
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write("Test");
-                stream.Position = 0;
-                //execution
-                var target = new FileStorage();
-                var result = target.SaveMedia(stream, 1, 1, ".txt");
-                //Assertion
-                Assert.IsTrue(File.Exists(result));
+            byte[] data = System.Text.Encoding.ASCII.GetBytes("This is a sample string");
+            var ms = new MemoryStream();
+            ms.Write(data, 0, data.Length);
+            
+            var target = new FileStorage();
+            var result = target.SaveMedia(ms, 1, 1, ".txt");
+            ms.Close();
 
-                File.Delete(result);
-            }
+            //Assertion
+            Assert.IsTrue(File.Exists(result));
+
+            File.Delete(result);
 
         }
     }

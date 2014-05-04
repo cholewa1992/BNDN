@@ -599,21 +599,7 @@ namespace BusinessLogicTests
 
             Assert.AreEqual(accessRightDTOs.First().UserId, accessRight.UserId);
         }
-
-        [ExpectedException(typeof(UnauthorizedAccessException))]
-        [TestMethod]
-        public void GetUploadHistory_InvalidUser()
-        {
-            var user = new UserDTO()
-            {
-                Id = 1,
-                Password = "invalid",
-                Username = "invalid"
-            };
-
-            accessRightLogic.GetUploadHistory(user, 202020, "testClient");
-        }
-
+        
         [ExpectedException(typeof(InvalidCredentialException))]
         [TestMethod]
         public void GetUploadHistory_InvalidClient()

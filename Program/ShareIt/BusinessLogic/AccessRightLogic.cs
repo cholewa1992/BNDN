@@ -171,7 +171,7 @@ namespace BusinessLogicLayer
             return accessRightDTOs;
         }
 
-        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
+        public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken) 
         {
             //Preconditions
             Contract.Requires<ArgumentException>(userId > 0);
@@ -185,7 +185,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjectNotFoundException("User with id: " + user.Id + " not found.");
+                throw new ObjectNotFoundException("User with id: " + userId + " not found.");
             }
 
             var accessRights = _storage.Get<AccessRight>()
