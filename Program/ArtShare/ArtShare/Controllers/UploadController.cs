@@ -71,13 +71,14 @@ namespace ArtShare.Controllers
                 }
                 catch (FaultException e)
                 {
-                    TempData["Error"] = e.Message;
+                    TempData["error"] = e.Message;
                     return RedirectToAction("Index");
                 }
                 if (result > 0)
+                    TempData["success"] = "Congratulations, your upload was a success. You have been redirected to the newly created details page!";
                     return RedirectToAction("Index", "Details", new {id = result});
             }
-
+            
             return RedirectToAction("Index", "Home");
         }
 
@@ -101,10 +102,11 @@ namespace ArtShare.Controllers
                 }
                 catch (FaultException e)
                 {
-                    TempData["Error"] = e.Message;
+                    TempData["error"] = e.Message;
                     return RedirectToAction("Index");
                 }
                 if (result > 0)
+                    TempData["success"] = "Congratulations, your upload was a success. You have been redirected to the newly created details page!";
                     return RedirectToAction("Index", "Details", new { id = result });
             }
 
@@ -131,10 +133,11 @@ namespace ArtShare.Controllers
                 }
                 catch (FaultException e)
                 {
-                    TempData["Error"] = e.Message;
+                    TempData["error"] = e.Message;
                     return RedirectToAction("Index");
                 }
                 if (result > 0)
+                    TempData["success"] = "Congratulations, your upload was a success. You have been redirected to the newly created details page!";
                     return RedirectToAction("Index", "Details", new { id = result });
             }
 
