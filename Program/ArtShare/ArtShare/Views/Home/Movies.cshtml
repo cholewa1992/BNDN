@@ -12,7 +12,14 @@
         foreach (var m in Model.Movies)
         {
             <div class="Image_Wrapper" data-caption="@m.Title" onclick="window.location.href = '/Details/@m.ProductId'" style="cursor:pointer">
-                <img src="@m.Thumbnail">
+                @if (m.Thumbnail != null)
+                {
+                    <img src="@m.Thumbnail">
+                }
+                else
+                {
+                    <img src="http://placehold.it/350x150" />
+                }
             </div>
         }
     }
