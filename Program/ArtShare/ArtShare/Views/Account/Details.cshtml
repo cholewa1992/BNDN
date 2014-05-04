@@ -42,7 +42,7 @@
 </div>
 
 <div style="margin-top:100px;">&nbsp;</div>
-@if (Model.PurchaseHistory != null && Model.PurchaseHistory.Any(t => !string.IsNullOrWhiteSpace(t.Title)))
+@if (Model.PurchaseHistory != null && Model.PurchaseHistory.Any(t => !string.IsNullOrWhiteSpace(t.Title)) || Model.isAdmin)
 {
     <h3>Purchase History</h3>
     <div class="table-responsive">
