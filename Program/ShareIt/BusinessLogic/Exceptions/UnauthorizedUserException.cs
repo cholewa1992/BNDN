@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Exceptions
             
         }
 
-        public UnauthorizedUserException(string message)
+        public UnauthorizedUserException(string message) : base(message)
         {
             
         }

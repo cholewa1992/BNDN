@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Exceptions
             
         }
 
-        public InvalidClientException(string message)
+        public InvalidClientException(string message): base(message)
         {
             
         }

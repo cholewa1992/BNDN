@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Exceptions
             
         }
 
-        public MediaItemNotFoundException(string message)
+        public MediaItemNotFoundException(string message) : base(message)
         {
             
         }

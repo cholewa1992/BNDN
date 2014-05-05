@@ -107,7 +107,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new InvalidUserException("No user found with id: " + newAdminId);
+                throw new UserNotFoundException("No user found with id: " + newAdminId);
             }
 
             //return if already admin.
@@ -195,7 +195,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new InvalidUserException("User with id: "+ user.Id +" not found.");
+                throw new UserNotFoundException("User with id: "+ user.Id +" not found.");
             }
 
             var accessRights = _storage.Get<AccessRight>()
@@ -229,7 +229,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException)
             {
-                throw new InvalidUserException("User with id: " + userId + " not found.");
+                throw new UserNotFoundException("User with id: " + userId + " not found.");
             }
 
             var accessRights = _storage.Get<AccessRight>()

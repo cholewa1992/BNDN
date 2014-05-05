@@ -83,6 +83,12 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
+            catch (UserNotFoundException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
+            }
             catch (ArgumentNullException e)
             {
                 var fault = new ArgumentFault();
@@ -334,6 +340,12 @@ namespace ShareIt
                 fault.Message = e.Message;
                 throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
+            catch (UserNotFoundException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
+            }
             catch (InvalidOperationException e)
             {
                 var fault = new ObjectNotFound();
@@ -380,6 +392,12 @@ namespace ShareIt
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (InvalidUserException e)
+            {
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
+            }
+            catch (UserNotFoundException e)
             {
                 var fault = new ObjectNotFound();
                 fault.Message = e.Message;

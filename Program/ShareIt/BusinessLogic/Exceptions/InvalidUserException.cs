@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Exceptions
             
         }
 
-        public InvalidUserException(string message)
+        public InvalidUserException(string message) : base(message)
         {
             
         }

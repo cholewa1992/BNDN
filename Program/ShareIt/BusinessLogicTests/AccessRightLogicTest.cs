@@ -232,7 +232,7 @@ namespace BusinessLogicTests
             accessRightLogic.Purchase(user, 202020, null, "testClient");
         }
 
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void Purchase_InvalidUser()
         {
@@ -312,7 +312,7 @@ namespace BusinessLogicTests
             accessRightLogic.MakeAdmin(user, 1, "testClient");
         }
 
-        [ExpectedException(typeof(InvalidUserException))]
+        [ExpectedException(typeof(UserNotFoundException))]
         [TestMethod]
         public void MakeAdmin_UserNotFound()
         {
@@ -326,7 +326,7 @@ namespace BusinessLogicTests
             accessRightLogic.MakeAdmin(user, 202020, "testClient");
         }
 
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void MakeAdmin_InvalidUser()
         {
@@ -403,7 +403,7 @@ namespace BusinessLogicTests
             accessRightLogic.DeleteAccessRight(user, 202020, "testClient");
         }
 
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void DeleteAccessRight_InvalidUser()
         {
@@ -517,7 +517,7 @@ namespace BusinessLogicTests
             accessRightLogic.GetPurchaseHistory(user, 3, "testClient");
         }
 
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void GetPurchaseHistory_InvalidUser()
         {
@@ -712,7 +712,7 @@ namespace BusinessLogicTests
             accessRightLogic.EditExpiration(user, newAR, "testClient");
         }
 
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(InvalidUserException))]
         [TestMethod]
         public void EditExpiration_InvalidUser()
         {

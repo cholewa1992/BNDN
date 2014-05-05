@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
@@ -13,6 +14,10 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// This class handles all User related operations
+    /// </summary>
+    /// <Author>Nicki Jørgensen (nhjo@itu.dk)</Author>
     internal class UserLogic : IUserLogic
     {
 
@@ -100,7 +105,14 @@ namespace BusinessLogicLayer
                 
             bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
-            var user = _storage.Get<UserAcc>().Single(t => t.Id == targetUserId);
+
+            var user = _storage.Get<UserAcc>().SingleOrDefault(t => t.Id == targetUserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException("the target user could not be found.");
+            }
+                
             var targetUser = new UserDTO
             {
                 Id = user.Id,
@@ -144,16 +156,21 @@ namespace BusinessLogicLayer
             }
 
             UserAcc currentUserAcc;
-
-            if (userToUpdate.Id == 0)
+            try
             {
-                currentUserAcc =
-                    (from u in _storage.Get<UserAcc>() where u.Username == userToUpdate.Username select u).First();
+                if (userToUpdate.Id == 0)
+                {
+                    currentUserAcc =
+                        (from u in _storage.Get<UserAcc>() where u.Username == userToUpdate.Username select u).First();
+                }
+                else
+                {
+                    currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
+                }
             }
-            else
+            catch (InvalidOperationException e)
             {
-                currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
-                //TODO should probably not be id
+                throw new UserNotFoundException("The target user could not be found.");
             }
 
             // Attempt to update the user account by inserting it with the same id
