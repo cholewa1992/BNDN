@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <h4>@Html.DisplayNameFor(model => model.Password)</h4>
-            @Html.TextBoxFor(m => m.Password, new { placeholder = "Password", required = "false", @class = "form-control" })
+            @Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "Password", required = "false", @class = "form-control" })
         </div>
 
         <div class="form-group">
@@ -47,11 +47,22 @@
             @Html.TextBoxFor(m => m.Location, new { placeholder = "Location", required = "false", @class = "form-control" })
         </div>
 
+        <hr />
+
+        @if (!Model.isAdmin) { 
+            <div class="form-group">
+                <h4>Current Password</h4>
+                @Html.TextBoxFor(m => m.CurrentPassword, new { type = "password", placeholder = "Current Password", required = "true", @class = "form-control" })
+                <span class="danger">@Html.ValidationMessageFor(m => m.CurrentPassword)</span>
+            </div>
+        }
+
         <div class="to-right">
             <button type="button" class="btn btn-default" onclick="window.location.href='/Account/Details/@Model.Id'">Cancel</button>
             <button type="submit" class="btn btn-success">Save</button>
         </div>
     </div>
+    
 
 }
 

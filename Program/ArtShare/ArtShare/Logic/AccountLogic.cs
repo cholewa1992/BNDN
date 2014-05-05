@@ -221,6 +221,7 @@ namespace ArtShare.Logic
                 }
                 #endregion
 
+                accountModel.isAdmin = IsUserAdmin(user.Username, user.Password, user.Id);
 
                 using(var asc = new ShareItServices.AuthService.AuthServiceClient()){
                  accountModel.CanEdit = 
