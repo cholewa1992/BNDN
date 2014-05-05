@@ -11,9 +11,6 @@ using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
-    /// <summary>
-    /// Logic for media item details
-    /// </summary>
     public class DetailsLogic : IDetailsLogic
     {
 
@@ -63,7 +60,7 @@ namespace ArtShare.Logic
         /// </summary>
         /// <param name="requestingUser">The user DTO of whom to check</param>
         /// <param name="mediaId">The media item id</param>
-        /// <returns>0 if no accessright, 1 if buyer, 2 if owner and 3 if admin</returns>
+        /// <returns>0 if no accessright, 1 if buyer and 2 if owner or admin</returns>
         public int CheckAccessRights(ShareItServices.AccessRightService.UserDTO requestingUser, int mediaId)
         {
             using (var authl = new ShareItServices.AuthService.AuthServiceClient())
@@ -80,10 +77,9 @@ namespace ArtShare.Logic
 
             using (var arsc = new AccessRightServiceClient())
             {
-                if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).
-                    Any(t => t.MediaItemId == mediaId)) return 2;
-                if (arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken).
-                    Any(t => t.MediaItemId == mediaId)) return 1;
+                var r = arsc.GetPurchaseHistory(requestingUser, requestingUser.Id, Resources.ClientToken);
+                if (r.Any(t => t.MediaItemId == mediaId)) return 1;
+                if (arsc.GetUploadHistory(requestingUser, requestingUser.Id, Resources.ClientToken).Any(t => t.MediaItemId == mediaId)) return 2;
 
                 return 0;
             }

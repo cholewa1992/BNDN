@@ -12,12 +12,6 @@ using AccessRightType = BusinessLogicLayer.AccessRightType;
 
 namespace IntergrationTest
 {
-    /// <summary>
-    /// Class for testing DataAccessLayer and Buiness logic intergration
-    /// </summary>
-    /// <author>
-    /// Jacob Cholewa (jbec@itu.dk)
-    /// </author>
     [TestClass]
     public class BuinessLogicDalIntegrationTest
     {

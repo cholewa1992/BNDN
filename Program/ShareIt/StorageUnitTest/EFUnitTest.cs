@@ -5,12 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace StorageUnitTest
 {
-    /// <summary>
-    /// Unit test for testing EF implmentation
-    /// </summary>
-    /// <author>
-    /// Jacob Cholewa (jbec@itu.dk)
-    /// </author>
     [TestClass]
     public class EFUnitTest
     {
@@ -24,6 +18,7 @@ namespace StorageUnitTest
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Asbjørn', '12345678')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Thomas', '87654321')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Mathias', '43218765')");
+
             }
         }
 
@@ -38,7 +33,7 @@ namespace StorageUnitTest
         #endregion
         #region GetTests
         [TestMethod]
-        public void UnitTest_EF_GetUsers()
+        public void EF_GetUsersTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -47,7 +42,7 @@ namespace StorageUnitTest
         }
 
         [TestMethod]
-        public void UnitTest_EF_GetUserUsingWhereTest()
+        public void EF_GetUserUsingWhereTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -58,7 +53,7 @@ namespace StorageUnitTest
         #region Add Tests
 
         [TestMethod]
-        public void UnitTest_EF_AddUserTest()
+        public void EF_AddUserTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -83,7 +78,7 @@ namespace StorageUnitTest
 
         [TestMethod]
         [ExpectedException(typeof(InternalDbException))]
-        public void UnitTest_EF_AddUserTwiceTest()
+        public void EF_AddUserTwiceTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -102,8 +97,7 @@ namespace StorageUnitTest
 
         [TestMethod]
         [ExpectedException(typeof(ChangesWasNotSavedException))]
-        public void UnitTest_EF_AddEmptyUserTest()
-
+        public void EF_AddEmptyUserTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -115,7 +109,7 @@ namespace StorageUnitTest
 
         [TestMethod]
         [ExpectedException(typeof(ChangesWasNotSavedException))]
-        public void UnitTest_EF_AddUserWithOnlyUsername()
+        public void EF_AddUserWithOnlyUsernameTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -127,9 +121,8 @@ namespace StorageUnitTest
             }
         }
         [TestMethod]
-
         [ExpectedException(typeof(ChangesWasNotSavedException))]
-        public void UnitTest_EF_AddUserWithOnlyPassword()
+        public void EF_AddUserWithOnlyPasswordTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -143,7 +136,7 @@ namespace StorageUnitTest
         #endregion
         #region Update Tests
         [TestMethod]
-        public void UnitTest_EF_UpdateUserTest()
+        public void EF_UpdateUserTest()
         {
             using (var db = new RentIt08Entities())
             {
@@ -170,7 +163,7 @@ namespace StorageUnitTest
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void UnitTest_EF_UpdateUserIdTest()
+        public void EF_UpdateUserIdTest()
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -183,7 +176,7 @@ namespace StorageUnitTest
         #endregion
         #region Delete Tests
         [TestMethod]
-        public void UnitTest_EF_DeleteUserTest()
+        public void EF_DeleteUserTest()
         {
             using (var db = new RentIt08Entities())
             {
@@ -210,7 +203,7 @@ namespace StorageUnitTest
 
         [TestMethod]
         [ExpectedException(typeof(ChangesWasNotSavedException))]
-        public void UnitTest_EF_DeleteUserNotInDbTest()
+        public void EF_DeleteUserNotInDbTest()
         {
             using (var db = new RentIt08Entities())
             {
