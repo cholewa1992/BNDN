@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Authentication;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
@@ -13,6 +14,10 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// This class handles all User related operations
+    /// </summary>
+    /// <Author>Nicki Jørgensen (nhjo@itu.dk)</Author>
     internal class UserLogic : IUserLogic
     {
 
@@ -43,13 +48,13 @@ namespace BusinessLogicLayer
             // Check if the clientToken is valid
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidClientException();
             }
 
             // Check if the user is already stored in the DB
             if (_storage.Get<UserAcc>().Any(x => x.Username.ToLower() == user.Username.ToLower()))
             {
-                throw new Exception("Username already in use");
+                throw new ArgumentException("Username already in use");
             }
 
             // Check constraints on username
@@ -64,23 +69,16 @@ namespace BusinessLogicLayer
             //Check constraints on password
             ValidatePassword(user);
 
-            // Attempt to create the user account
-            try
+            // Create the user account
+            var userAcc = new UserAcc
             {
-                var userAcc = new UserAcc
-                {
-                    Username = user.Username,
-                    Password = user.Password,
-                    AccessRight = new Collection<AccessRight>(),
-                    UserInfo = new Collection<UserInfo>(),
-                    ClientAdmin = new Collection<ClientAdmin>()
-                };
-                _storage.Add(userAcc);
-            }
-            catch (Exception)
-            {
-                throw new Exception("The account could not be created");
-            }
+                Username = user.Username,
+                Password = user.Password,
+                AccessRight = new Collection<AccessRight>(),
+                UserInfo = new Collection<UserInfo>(),
+                ClientAdmin = new Collection<ClientAdmin>()
+            };
+            _storage.Add(userAcc);
 
             return true;
         }
@@ -95,34 +93,34 @@ namespace BusinessLogicLayer
           
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidClientException();
             }
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
-
+                
             bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
-            try
-            {
-              var user = _storage.Get<UserAcc>().Single(t => t.Id == targetUserId);
-              var targetUser = new UserDTO
-              {
-                  Id = user.Id,
-                  Username = user.Username,
-                  Password = sendPassword ? user.Password : null,
-                  Information = user.UserInfo.Select(t => new UserInformationDTO
-                  {
-                      Data = t.Data,
-                      Type = (UserInformationTypeDTO)t.UserInfoType
-                  })
-              };
 
-              return targetUser;
-            }
-            catch (Exception e)
+            var user = _storage.Get<UserAcc>().SingleOrDefault(t => t.Id == targetUserId);
+
+            if (user == null)
             {
-                throw new Exception("The requested user could not be found");
+                throw new UserNotFoundException("The target user could not be found.");
             }
+                
+            var targetUser = new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = sendPassword ? user.Password : null,
+                Information = user.UserInfo.Select(t => new UserInformationDTO
+                {
+                    Data = t.Data,
+                    Type = (UserInformationTypeDTO)t.UserInfoType
+                })
+            };
+
+            return targetUser;
         }
 
         public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO userToUpdate, string clientToken)
@@ -138,18 +136,25 @@ namespace BusinessLogicLayer
 
             if (_authLogic.CheckClientToken(clientToken) == -1)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidClientException();
+            }
+
+            if (_authLogic.CheckUserExists(requestingUser) == -1)
+            {
+                throw new InvalidUserException();
             }
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
 
-            if (requestingUser.Id  == -1 || ((requestingUser.Username != userToUpdate.Username) && (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
+            Console.WriteLine(requestingUser.Id);
+
+            if (((requestingUser.Username != userToUpdate.Username) &&
+                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedUserException();
             }
 
             UserAcc currentUserAcc;
-
             try
             {
                 if (userToUpdate.Id == 0)
@@ -160,12 +165,11 @@ namespace BusinessLogicLayer
                 else
                 {
                     currentUserAcc = (from u in _storage.Get<UserAcc>() where u.Id == userToUpdate.Id select u).First();
-                        //TODO should probably not be id
                 }
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-                throw new Exception("User to be updated was not found in the database");
+                throw new UserNotFoundException("The target user could not be found.");
             }
 
             // Attempt to update the user account by inserting it with the same id

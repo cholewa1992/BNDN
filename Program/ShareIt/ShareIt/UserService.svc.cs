@@ -48,11 +48,17 @@ namespace ShareIt
             {
                 return _factory.CreateUserLogic().CreateAccount(user, clientToken);
             }
-            catch (InvalidCredentialException)
+            catch (InvalidClientException)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = "The Client is not authorized to perform this request.";
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(fault.Message));
+            }
+            catch (ArgumentNullException ae)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = ae.Message;
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             catch (ArgumentException ae)
             {
@@ -79,19 +85,18 @@ namespace ShareIt
             {
                 return _factory.CreateUserLogic().GetAccountInformation(requestingUser, targetUserId, clientToken);
             }
-            catch (InvalidCredentialException)
+            catch (InvalidClientException)
             {
                 var fault = new UnauthorizedClient();
                 var msg = "The Client is not authorized to perform this request.";
                 fault.Message = msg;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
             }
-            catch (UnauthorizedAccessException)
+            catch (UserNotFoundException e)
             {
-                var fault = new UnauthorizedUser();
-                var msg = "The User is not authorized to perform this request.";
-                fault.Message = msg;
-                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException ae)
             {
@@ -117,14 +122,21 @@ namespace ShareIt
             {
                 return _factory.CreateUserLogic().UpdateAccountInformation(requestingUser, newUser, clientToken);
             }
-            catch (InvalidCredentialException)
+            catch (InvalidClientException)
             {
                 var fault = new UnauthorizedClient();
                 var msg = "The Client is not authorized to perform this request.";
                 fault.Message = msg;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
             }
-            catch (UnauthorizedAccessException)
+            catch (InvalidUserException)
+            {
+                var fault = new UnauthorizedUser();
+                var msg = "User credentials not accepted.";
+                fault.Message = msg;
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+            }
+            catch (UnauthorizedUserException)
             {
                 var fault = new UnauthorizedUser();
                 var msg = "The User is not authorized to perform this request.";

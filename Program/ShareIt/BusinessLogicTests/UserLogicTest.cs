@@ -306,6 +306,7 @@ namespace BusinessLogicTests
         #region GetAccountInformation tests
 
         [TestMethod]
+        [ExpectedException(typeof(UserNotFoundException))]
         public void GetAccountInformation_targetUserNotFound()
         {
             _testUser.Id = 1;
@@ -316,14 +317,7 @@ namespace BusinessLogicTests
 
             _testUser.Id = 12;
 
-            try
-            {
-                _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
-            }
-            catch (Exception e)
-            {
-                Assert.AreEqual("The requested user could not be found", e.Message);
-            }
+            _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
         }
 
         [TestMethod]
@@ -385,6 +379,7 @@ namespace BusinessLogicTests
         #region UpdateAccountInformation
 
         [TestMethod]
+        [ExpectedException(typeof(UserNotFoundException))]
         public void UpdateAccountInformation_UserNotFoundInDB()
         {
             _testUser.Username = "John44";
@@ -392,44 +387,40 @@ namespace BusinessLogicTests
 
             _userLogic.CreateAccount(_testUser, "testClient");
 
+            _testUser.Username = "invalid";
             _testUser.Id = 12;
 
-            try
-            {
-                _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
-            }
-            catch (Exception e)
-            {
-                Assert.AreEqual("User to be updated was not found in the database", e.Message);
-            }
+            _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
         }
 
         [TestMethod]
         public void UpdateAccountInformation_UserUpdated()
         {
             _testUser.Id = 1;
-            _testUser.Username = "John44";
-            _testUser.Password = "Password";
+            _testUser.Username = "testUserName";
+            _testUser.Password = "testPassword";
             _testUser.Information = new List<UserInformationDTO>();
 
             _userLogic.CreateAccount(_testUser, "testClient");
 
-            _testUser.Password = "NytPassword";
+            var sameUser = new UserDTO();
+            sameUser.Username = "testUserName";
+            sameUser.Password = "NewPassword";
 
-            var shouldBeTrue = _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
+            var shouldBeTrue = _userLogic.UpdateAccountInformation(_testUser, sameUser, "testClient");
 
             Assert.AreEqual(shouldBeTrue, true);
 
             var dbResult = _dbStorage.Get<UserAcc>(_testUser.Id);
 
-            Assert.AreEqual(_testUser.Username, dbResult.Username);
-            Assert.AreEqual(_testUser.Password, dbResult.Password);
+            Assert.AreEqual(sameUser.Username, dbResult.Username);
+            Assert.AreEqual(sameUser.Password, dbResult.Password);
 
         }
 
 
         [TestMethod]
-        [ExpectedException(typeof(UnauthorizedAccessException))]
+        [ExpectedException(typeof(UnauthorizedUserException))]
         public void UpdateAccountInformation_UserTryingToUpdateOtherUser_UnauthorizedAccessException()
         {
             _testUser.Id = 1;
@@ -442,7 +433,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnauthorizedAccessException))]
+        [ExpectedException(typeof(UnauthorizedUserException))]
         public void UpdateAccountInformation_UnknownTryingToUpdateOtherUser_UnauthorizedAccessException()
         {
             _testUser.Id = 4;

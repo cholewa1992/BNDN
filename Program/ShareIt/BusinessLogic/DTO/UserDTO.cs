@@ -19,5 +19,10 @@ namespace BusinessLogicLayer.DTO
 
         [DataMember]
         public IEnumerable<UserInformationDTO> Information { get; set; }
+
+        public UserDTO()
+        {
+            Information = new List<UserInformationDTO>();
+        }
     }
 }
