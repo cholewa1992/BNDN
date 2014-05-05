@@ -149,6 +149,8 @@ namespace BusinessLogicLayer
                 throw new InvalidUserException();
             }
 
+            requestingUser.Id = _authLogic.CheckUserExists(requestingUser, clientToken);
+
             if (((requestingUser.Username != userToUpdate.Username) &&
                 (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
             {
