@@ -7,6 +7,12 @@ using ShareItServices.AuthService;
 
 namespace ArtShare.Logic
 {
+    /// <summary>
+    /// Logic for loggin in a user
+    /// </summary>
+    /// <author>
+    /// Jacob B. Cholewa (jbec@itu.dk)
+    /// </author>
     public class LoginLogic
     {
         /// <summary>
