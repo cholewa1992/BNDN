@@ -76,7 +76,7 @@ namespace ArtShare.Controllers
             }
             catch (FaultException e)
             {
-                TempData["error"] = e;
+                TempData["error"] = e.Message;
                 return RedirectToAction("Index", "Home");
             }
         }

@@ -27,7 +27,10 @@
 <h2>Search results for "@Request.Params["searchKey"]"</h2>
 <span class="is-center">
     <div class="col-md-4">
-        <h4>Movies @if(Model.NumberOfMatchingMovies > 1){<small> @Model.NumberOfMatchingMovies results</small>}</h4>
+        <h4>Movies @if(Model.NumberOfMatchingMovies > 1){<small> @Model.NumberOfMatchingMovies results @if (Model.NumberOfMatchingMovies > 10)
+                                                                                                     {
+                                                                                                         <span>- showing @this_from to @(this_to > Model.NumberOfMatchingMovies ? Model.NumberOfMatchingMovies : this_to)</span>
+                                                                                                     }</small>}</h4>
         <table class="table table-striped table-hover search-table">
             <tbody id="tablebody1">
                 @if(Model.Movies != null){
@@ -47,7 +50,10 @@
     </div>
 
     <div class="col-md-4">
-        <h4>Music @if (Model.NumberOfMatchingMusic > 1){<small> @Model.NumberOfMatchingMusic results</small>}</h4>
+        <h4>Music @if (Model.NumberOfMatchingMusic > 1){<small> @Model.NumberOfMatchingMusic results @if (Model.NumberOfMatchingMusic > 10)
+                                                                                                     {
+                                                                                                         <span>- showing @this_from to @(this_to > Model.NumberOfMatchingMusic ? Model.NumberOfMatchingMusic : this_to)</span>
+                                                                                                     }</small>}</h4>
         <table class="table table-striped table-hover table-responsive search-table">
             <tbody id="tablebody1">
                 @if (Model.Music != null)
@@ -69,7 +75,10 @@
     </div>
 
     <div class="col-md-4">
-        <h4>Books @if (Model.NumberOfMatchingBooks > 1){<small> @Model.NumberOfMatchingBooks results</small>}</h4>
+        <h4>Books @if (Model.NumberOfMatchingBooks > 1){<small> @Model.NumberOfMatchingBooks results @if (Model.NumberOfMatchingBooks > 10)
+                                                                                                     {
+                                                                                                         <span>- showing @this_from to @(this_to > Model.NumberOfMatchingBooks ? Model.NumberOfMatchingBooks : this_to)</span>
+                                                                                                     }</small>}</h4>
         <table class="table table-striped table-hover search-table">
             <tbody id="tablebody1">
                 @if (Model.Books != null)
