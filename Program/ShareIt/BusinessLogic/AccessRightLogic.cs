@@ -11,23 +11,37 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// This class handles CRUD for Access Rights (Relations between Users and Media Items ie. a purchase).
+    /// It also handles making new admins.
+    /// </summary>
+    /// <Author>Asbjørn Steffensen (afjs@itu.dk)</Author>
     internal class AccessRightLogic : IAccessRightInternalLogic
     {
         private readonly IAuthInternalLogic _authLogic;
         private readonly IStorageBridge _storage;
 
         /// <summary>
-        /// Construct a AccessRightLogicStub object which uses a specified IBusinessLogicFactory.
-        /// Should be used for test purposes.
+        /// Construct a AccessRightLogic object which uses a specified IBusinessLogicFactory.
         /// </summary>
-        /// <param name="authLogic"></param>
-        /// <param name="storage"></param>
+        /// <param name="authLogic">An instance of IAuthInternalLogic used for validating users and clients</param>
+        /// <param name="storage">An instance of IStorageBridge used for storing changes to the database</param>
         internal AccessRightLogic(IAuthInternalLogic authLogic, IStorageBridge storage)
         {
             _authLogic = authLogic;
             _storage = storage;
         }
 
+        /// <summary>
+        /// Creates a relation between a User and a Media Item (AccessRight)
+        ///  that gives a User the right to access a Media Item with the authority of a buyer
+        /// </summary>
+        /// <param name="user">The User who requests that the AccessRight is created</param>
+        /// <param name="mediaItemId">The id of the Media Item which the AccessRight is for</param>
+        /// <param name="expiration">The expiration date in the case that the purchase is temporary 
+        /// (a rented Media Item). Value is null if the purchase is permanent</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns></returns>
         public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
             //Preconditions
@@ -47,7 +61,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new InstanceNotFoundException("No Media Item with id "+ mediaItemId +"was found");
+                throw new MediaItemNotFoundException("No Media Item with id "+ mediaItemId + "was found");
             }
 
             var newAccessRight = new AccessRight
@@ -63,6 +77,13 @@ namespace BusinessLogicLayer
             return true;
         }
 
+        /// <summary>
+        /// Gives a new user admin rights
+        /// </summary>
+        /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
+        /// <param name="newAdminId">The id of the user who is the subject of the upgrade</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
             //Preconditions
@@ -77,7 +98,7 @@ namespace BusinessLogicLayer
 
             if (!_authLogic.IsUserAdminOnClient(oldAdmin.Id, clientToken))
             {
-                throw new UnauthorizedAccessException("User does not have access to perform this operation!");
+                throw new UnauthorizedUserException("User does not have access to perform this operation!");
             }
 
             try
@@ -86,7 +107,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new InstanceNotFoundException("No user found with id: " + newAdminId);
+                throw new InvalidUserException("No user found with id: " + newAdminId);
             }
 
             //return if already admin.
@@ -103,6 +124,13 @@ namespace BusinessLogicLayer
             return true;
         }
 
+        /// <summary>
+        /// Deletes an AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
+        /// </summary>
+        /// <param name="admin">The admin trying to delete an AccessRight</param>
+        /// <param name="accessRightId">The id of the AccessRight to be deleted</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool DeleteAccessRight(UserDTO admin, int accessRightId, string clientToken)
         {
             //Preconditions
@@ -117,7 +145,7 @@ namespace BusinessLogicLayer
 
             if (!_authLogic.IsUserAdminOnClient(admin.Id, clientToken))
             {
-                throw new UnauthorizedAccessException("User does not have access to perform this operation!");
+                throw new UnauthorizedUserException("User does not have access to perform this operation!");
             }
             //Check if accessRight exists
             try
@@ -126,7 +154,7 @@ namespace BusinessLogicLayer
             }
             catch(InvalidOperationException e)
             {
-                throw new InstanceNotFoundException("No access right with id " + accessRightId + "was found");
+                throw new AccessRightNotFoundException("No access right with id " + accessRightId + "was found");
             }
             
 
@@ -135,6 +163,14 @@ namespace BusinessLogicLayer
             return true;
         }
 
+        /// <summary>
+        /// Gets all the AccessRights where the AccessRightType is buyer for a given User
+        /// </summary>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
+        /// where the type is buyer</returns>
         public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
         {
             //Preconditions
@@ -150,7 +186,7 @@ namespace BusinessLogicLayer
             if (user.Id != userId &&
                 !_authLogic.IsUserAdminOnClient(user.Id, clientToken))
             {
-                throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
+                throw new UnauthorizedUserException("User does not have access rights to perform this operation!");
             }
             
             try
@@ -159,7 +195,7 @@ namespace BusinessLogicLayer
             }
             catch (InvalidOperationException e)
             {
-                throw new ObjectNotFoundException("User with id: "+ user.Id +" not found.");
+                throw new InvalidUserException("User with id: "+ user.Id +" not found.");
             }
 
             var accessRights = _storage.Get<AccessRight>()
@@ -171,6 +207,14 @@ namespace BusinessLogicLayer
             return accessRightDTOs;
         }
 
+        /// <summary>
+        /// Gets all the AccessRights where the AccessRightType is owner for a given User
+        /// </summary>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
+        /// where the type is owner</returns>
         public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken) 
         {
             //Preconditions
@@ -183,9 +227,9 @@ namespace BusinessLogicLayer
             {
                 _storage.Get<UserAcc>(userId);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
-                throw new ObjectNotFoundException("User with id: " + userId + " not found.");
+                throw new InvalidUserException("User with id: " + userId + " not found.");
             }
 
             var accessRights = _storage.Get<AccessRight>()
@@ -197,6 +241,13 @@ namespace BusinessLogicLayer
             return accessRightDTOs;
         }
 
+        /// <summary>
+        /// Checks to see if a User has the right to download a specific Media Item
+        /// </summary>
+        /// <param name="user">The User who is to be checked to see if he can download the Media Item in question</param>
+        /// <param name="mediaItemId">The Id of the Media Item which is to be checked</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>True if the User is allowed to download the Media Item, False if he is not allowed</returns>
         public bool CanDownload(UserDTO user, int mediaItemId, string clientToken)
         {
             Contract.Requires<ArgumentNullException>(user != null);
@@ -219,6 +270,13 @@ namespace BusinessLogicLayer
             return false;
         }
 
+        /// <summary>
+        /// Edits an already existing AccessRight (a relation betweeen a User and a MediaItem for instance a purchase)
+        /// </summary>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="newAccessRight">The AccessRight containing the new information</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool EditExpiration(UserDTO u, AccessRightDTO newAR, string clientToken)
         {
             //Preconditions
@@ -236,7 +294,7 @@ namespace BusinessLogicLayer
             if (_authLogic.CheckUserAccess(u.Id, newAR.MediaItemId) != AccessRightType.NoAccess &&
                 !_authLogic.IsUserAdminOnClient(u.Id, clientToken))
             {
-                throw new UnauthorizedAccessException("User does not have access rights to perform this operation!");
+                throw new UnauthorizedUserException("User does not have access rights to perform this operation!");
             }
 
             AccessRight oldAR = null;
@@ -245,9 +303,9 @@ namespace BusinessLogicLayer
             {
                 oldAR =_storage.Get<AccessRight>(newAR.Id);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
-                throw new InstanceNotFoundException("No access right with id "+ newAR +"was found");
+                throw new AccessRightNotFoundException("No access right with id "+ newAR +"was found");
             }
 
             if (oldAR != null)
@@ -285,7 +343,7 @@ namespace BusinessLogicLayer
         {
             var result = _authLogic.CheckClientToken(clientToken);
             if (result == -1)
-                throw new InvalidCredentialException("Invalid client token");
+                throw new InvalidClientException("Invalid client token");
             return result;
         }
 
@@ -300,7 +358,7 @@ namespace BusinessLogicLayer
             var result = _authLogic.CheckUserExists(user);
 
             if (result == -1)
-                throw new UnauthorizedAccessException("Invalid User credentials or User does not exist.");
+                throw new InvalidUserException("Invalid User credentials or User does not exist.");
 
             return result;
         }

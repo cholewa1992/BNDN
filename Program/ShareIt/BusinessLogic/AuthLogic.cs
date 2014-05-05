@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Runtime.Remoting.Messaging;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Exceptions;
 using DataAccessLayer;
 using Client = BusinessLogicLayer.DTO.ClientDTO;
 
@@ -142,7 +143,7 @@ namespace BusinessLogicLayer
         public int CheckUserExists(UserDTO user, string clientToken)
         {
             if (CheckClientToken(clientToken) == -1)
-                throw new UnauthorizedAccessException("Invalid ClientToken");
+                throw new InvalidClientException("Invalid ClientToken");
 
             return CheckUserExists(user);
         }

@@ -42,7 +42,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException("Invalid client token");
+                throw new InvalidClientException("Invalid client token");
             }
 
             Entity entity;
@@ -316,7 +316,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException("Invalid client token");
+                throw new InvalidClientException("Invalid client token");
             }
 
             var result = new Dictionary<MediaItemTypeDTO, MediaItemSearchResultDTO>();
@@ -357,7 +357,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException("Invalid client token");
+                throw new InvalidClientException("Invalid client token");
             }
 
             //check if the user exists
@@ -390,7 +390,7 @@ namespace BusinessLogicLayer
                 }
                 else
                 {
-                    throw new InstanceNotFoundException("Media item with id " + mediaItemId + "not found");
+                    throw new MediaItemNotFoundException("Media item with id " + mediaItemId + "not found");
                 }
             }
         }
@@ -439,7 +439,7 @@ namespace BusinessLogicLayer
             int clientId = _authLogic.CheckClientToken(clientToken);
             if (clientId == -1)
             {
-                throw new InvalidCredentialException("Invalid client token");
+                throw new InvalidClientException("Invalid client token");
             }
 
             //check if the user exists
@@ -452,7 +452,7 @@ namespace BusinessLogicLayer
             var mediaItem = _storage.Get<Entity>().FirstOrDefault(foo => foo.Id == mediaItemId);
             if (mediaItem == null)
             {
-                throw new InstanceNotFoundException("Media item with id " + mediaItemId + " was not found");
+                throw new MediaItemNotFoundException("Media item with id " + mediaItemId + " was not found");
             }
 
             var isUserAdmin = _authLogic.IsUserAdminOnClient(userId, clientToken);
@@ -482,7 +482,7 @@ namespace BusinessLogicLayer
             }
             else
             {
-                throw new UnauthorizedAccessException("The user is not allowed to delete this media item");
+                throw new UnauthorizedUserException("The user is not allowed to delete this media item");
             }
         }
         /// <summary>

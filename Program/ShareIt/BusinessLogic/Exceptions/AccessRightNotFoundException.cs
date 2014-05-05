@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Exceptions
 {
-    public class UnauthorizedUserException : Exception
+    public class AccessRightNotFoundException : Exception
     {
-        public UnauthorizedUserException()
+        public AccessRightNotFoundException()
         {
             
         }
 
-        public UnauthorizedUserException(string message)
+        public AccessRightNotFoundException(string message)
         {
             
         }
