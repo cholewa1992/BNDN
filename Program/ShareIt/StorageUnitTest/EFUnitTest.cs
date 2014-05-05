@@ -14,10 +14,30 @@ namespace StorageUnitTest
         {
             using (var db = new RentIt08Entities())
             {
-                db.Database.ExecuteSqlCommand("DELETE FROM UserAcc;");
+                db.Database.ExecuteSqlCommand("TRUNCATE TABLE UserAcc;");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Asbjørn', '12345678')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Thomas', '87654321')");
                 db.Database.ExecuteSqlCommand("INSERT INTO UserAcc (Username, Password) VALUES  ('Mathias', '43218765')");
+
+                db.Database.ExecuteSqlCommand("DELETE FROM Client;");
+                db.Database.ExecuteSqlCommand("INSERT INTO Client (Name, Token) VALUES ('ArtShare', 'abcdefg12345')");
+
+                db.Database.ExecuteSqlCommand("DELETE FROM EntityType;");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityType (Type) VALUES ('Book')");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityType (Type) VALUES ('Movie')");
+
+                //db.Database.ExecuteSqlCommand("DELETE FROM Entity;");
+                //db.Database.ExecuteSqlCommand("INSERT INTO Entity (FilePath, ClientId, TypeId) VALUES ('C:/path', 1, 1)");
+                //db.Database.ExecuteSqlCommand("INSERT INTO Entity (FilePath, ClientId, TypeId) VALUES ('C:/path', 1, 2)");
+
+                db.Database.ExecuteSqlCommand("DELETE FROM EntityInfoType;");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfoType (Name) VALUES ('Title')");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfoType (Name) VALUES ('Description')");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfoType (Name) VALUES ('Language')");
+                db.Database.ExecuteSqlCommand("INSERT INTO EntityInfoType (Name) VALUES ('YearOfPublication')");
+
+                //db.Database.ExecuteSqlCommand("DELETE FROM EntityInfo;");
+                //db.Database.ExecuteSqlCommand("INSERT INTO EntityInfo (Data, EntityId, EntityTypeId) VALUES ('Test data', 2, 1)");
 
             }
         }
@@ -28,6 +48,11 @@ namespace StorageUnitTest
             using (var db = new RentIt08Entities())
             {
                 db.Database.ExecuteSqlCommand("DELETE FROM UserAcc;");
+                db.Database.ExecuteSqlCommand("DELETE FROM Client;");
+                db.Database.ExecuteSqlCommand("DELETE FROM EntityType;");
+                db.Database.ExecuteSqlCommand("DELETE FROM Entity;");
+                db.Database.ExecuteSqlCommand("DELETE FROM EntityInfoType;");
+                db.Database.ExecuteSqlCommand("DELETE FROM EntityInfo");
             }
         }
         #endregion
@@ -225,5 +250,54 @@ namespace StorageUnitTest
             }
         }
         #endregion
+
+        [TestMethod]
+        public void UnitTest_EF_MediaItemAutoIncrement()
+        {
+            using (var db = new EfStorageConnection<RentIt08Entities>())
+            {
+                var mediaItem = new Entity
+                {
+                    FilePath = "C:/path/test",
+                    ClientId = 1,
+                    TypeId = 1
+                };
+
+                db.Add(mediaItem);
+                db.SaveChanges();
+            }
+
+            using (var db = new RentIt08Entities())
+            {
+                const int expected = 3;
+                var result = db.Database.SqlQuery<int>("SELECT id FROM Entity WHERE FilePath = 'C:/path/test'").Single();
+                Assert.AreEqual(expected, result);
+            }
+        }
+
+        [TestMethod]
+        public void UnitTest_EF_MediaItemInformationAutoIncrement()
+        {
+            using (var db = new EfStorageConnection<RentIt08Entities>())
+            {
+                var mediaItemInformation = new EntityInfo
+                {
+                    Data = "Test",
+                    EntityId = 2,
+                    EntityInfoTypeId = 4
+                };
+
+                db.Add(mediaItemInformation);
+                db.SaveChanges();
+            }
+
+            using (var db = new RentIt08Entities())
+            {
+                const int expected = 2;
+                var result = db.Database.SqlQuery<int>("SELECT id FROM EntityInfo WHERE EntityInfoType = 4").Single();
+                Assert.AreEqual(expected, result);
+            }
+        }
     }
+
 }
