@@ -90,22 +90,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Daft-Punk-Technologic" />
-    <None Include="Resources\datamodelRealDb.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\datamodelTestDb.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\datamodel.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\11 Technologic.m4a" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\03 Around The World %28Radio Edit%29.m4a" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Daft-Punk-Technologic.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\testdata.sql" />

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Stub;
 using DataAccessLayer;
+using IntergrationTest.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AccessRightType = BusinessLogicLayer.AccessRightType;
 
@@ -355,7 +357,7 @@ namespace IntergrationTest
         #region Data Transfer Logic tests
 
         [TestMethod]
-        public void IntegrationTest_DataTransferLogic_GetMediaStream()
+        public void IntegrationTest_DataTransferLogic_SaveMediaStream_SavesFile()
         {
             var blf = BusinessLogicEntryFactory.GetBusinessFactory();
             var dtl = blf.CreateDataTransferLogic();
@@ -382,6 +384,63 @@ namespace IntergrationTest
             }, new MemoryStream(Properties.Resources.Technologic));
 
             Assert.IsTrue(File.Exists("files/user_3/2.m4a"));
+        }
+
+        [TestMethod]
+        public void IntegrationTest_DataTransferLogic_SaveMediaStream_UploaderBecomesOwner()
+        {
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
+            var dtl = blf.CreateDataTransferLogic();
+
+            var mediaId = dtl.SaveMedia(_artShare, _mathias, new MediaItemDTO
+            {
+                Type = MediaItemTypeDTO.Music,
+                FileExtension = ".m4a",
+                Information = new List<MediaItemInformationDTO>
+                {
+                    new MediaItemInformationDTO
+                    {
+                        Data = "Technologic",
+                        Type = InformationTypeDTO.Title
+                    },
+                    new MediaItemInformationDTO
+                    {
+                        Data = "Daft Punk",
+                        Type = InformationTypeDTO.Artist
+                    }
+                }
+            }, new MemoryStream(Properties.Resources.Technologic));
+
+            int accessRightTypeId;
+            using (var db = new RentIt08Entities())
+            {
+                accessRightTypeId = db.AccessRight.Single(t => t.EntityId == mediaId && t.UserAcc.Id == 3).AccessRightTypeId;
+            }
+
+            Assert.AreEqual((int) AccessRightType.Owner, accessRightTypeId);
+
+        }
+
+        [TestMethod]
+        public void IntegreationTest_DataTransferLogic_GetMediaStream()
+        {
+            IntegrationTest_DataTransferLogic_SaveMediaStream_SavesFile();
+
+            var blf = BusinessLogicEntryFactory.GetBusinessFactory();
+            var dtl = blf.CreateDataTransferLogic();
+
+            string fileEx;
+            var s = dtl.GetMediaStream(Properties.Resources.ArtShare, _mathias, 2, out fileEx);
+
+
+            using (var reader = new StreamReader(s, Encoding.UTF8))
+            {
+                var file = reader.ReadToEnd();
+
+                Assert.AreEqual(Encoding.UTF8.GetString(Resources.Technologic), file);
+            }
+                                                         
+
         }
 
         
