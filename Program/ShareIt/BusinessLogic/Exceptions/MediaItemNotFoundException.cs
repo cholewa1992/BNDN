@@ -8,14 +8,5 @@ namespace BusinessLogicLayer.Exceptions
 {
     public class MediaItemNotFoundException :Exception
     {
-        public MediaItemNotFoundException()
-        {
-            
-        }
-
-        public MediaItemNotFoundException(string message) : base(message)
-        {
-            
-        }
     }
 }

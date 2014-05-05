@@ -77,7 +77,7 @@ namespace ShareIt
                 var fault = new ArgumentFault {Message = ae.Message};
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient { Message = e.Message };
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
@@ -169,12 +169,12 @@ namespace ShareIt
             {
                 throw new FaultException(new FaultReason("Error when casting the MediaItemType"));
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient {Message = e.Message};
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (MediaItemNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
@@ -198,11 +198,6 @@ namespace ShareIt
             try
             {
                 _factory.CreateMediaItemLogic().RateMediaItem(user, mediaItemId, rating, clientToken);
-            }
-            catch (InvalidClientException ae)
-            {
-                var fault = new UnauthorizedClient { Message = ae.Message };
-                throw new FaultException<UnauthorizedClient>(fault, new FaultReason(ae.Message));
             }
             catch (InvalidUserException e)
             {
@@ -235,7 +230,7 @@ namespace ShareIt
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(ae.Message));
             }
             
-            catch (MediaItemNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
@@ -281,17 +276,17 @@ namespace ShareIt
                 var fault = new ArgumentFault { Message = e.Message };
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient { Message = e.Message };
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (UnauthorizedUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser {Message = e.Message};
                 throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message)); 
             }
-            catch (MediaItemNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound { Message = e.Message };
                 throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));

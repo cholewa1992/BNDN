@@ -306,7 +306,6 @@ namespace BusinessLogicTests
         #region GetAccountInformation tests
 
         [TestMethod]
-        [ExpectedException(typeof(UserNotFoundException))]
         public void GetAccountInformation_targetUserNotFound()
         {
             _testUser.Id = 1;
@@ -317,7 +316,14 @@ namespace BusinessLogicTests
 
             _testUser.Id = 12;
 
-            _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
+            try
+            {
+                _userLogic.GetAccountInformation(_testUser, _testUser.Id, "testClient");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("The requested user could not be found", e.Message);
+            }
         }
 
         [TestMethod]
@@ -379,7 +385,6 @@ namespace BusinessLogicTests
         #region UpdateAccountInformation
 
         [TestMethod]
-        [ExpectedException(typeof(UserNotFoundException))]
         public void UpdateAccountInformation_UserNotFoundInDB()
         {
             _testUser.Username = "John44";
@@ -389,7 +394,14 @@ namespace BusinessLogicTests
 
             _testUser.Id = 12;
 
-            _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
+            try
+            {
+                _userLogic.UpdateAccountInformation(_testUser, _testUser, "testClient");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("User to be updated was not found in the database", e.Message);
+            }
         }
 
         [TestMethod]
@@ -417,7 +429,7 @@ namespace BusinessLogicTests
 
 
         [TestMethod]
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         public void UpdateAccountInformation_UserTryingToUpdateOtherUser_UnauthorizedAccessException()
         {
             _testUser.Id = 1;
@@ -430,7 +442,7 @@ namespace BusinessLogicTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         public void UpdateAccountInformation_UnknownTryingToUpdateOtherUser_UnauthorizedAccessException()
         {
             _testUser.Id = 4;

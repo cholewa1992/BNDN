@@ -119,8 +119,6 @@ namespace ShareIt
         /// <exception cref="FaultException">Thrown when something unexpected happens</exception>
         [FaultContract(typeof(ArgumentFault))]
         [FaultContract(typeof(UnauthorizedClient))]
-        [FaultContract(typeof(UnauthorizedUser))]
-        [FaultContract(typeof(MediaItemNotFound))]
         [FaultContract(typeof(FaultException))]
         [OperationContract]
         void RateMediaItem(UserDTO user, int mediaItemId, int rating, string clientToken);

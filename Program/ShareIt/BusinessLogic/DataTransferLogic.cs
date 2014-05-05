@@ -15,11 +15,6 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    /// <summary>
-    /// This class handles the transfer of media files from the clients to the ShareIt server.
-    /// It also handles the transfer of thumbnail images
-    /// </summary>
-    /// <Author>Jakob Merrild (jmer@itu.dk)(</Author>
     internal class DataTransferLogic : IDataTransferLogic
     {
         private readonly IStorageBridge _dbStorage;

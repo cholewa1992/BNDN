@@ -8,14 +8,6 @@ namespace BusinessLogicLayer.Exceptions
 {
     public class InvalidClientException : Exception
     {
-        public InvalidClientException()
-        {
-            
-        }
-
-        public InvalidClientException(string message): base(message)
-        {
-            
-        }
+        
     }
 }

@@ -11,8 +11,18 @@ using System.Threading.Tasks;
 
 namespace ArtShare.Logic
 {
+    /// <summary>
+    /// Logic for account operation
+    /// </summary>
+    /// <author>
+    /// Jacob B. Cholewa (jbec@itu.dk)
+    /// </author>
     public class AccountLogic: IAccountLogic
     {
+        /// <summary>
+        /// Register a new account
+        /// </summary>
+        /// <param name="model">The model containing the account to register</param>
         public void RegisterAccount(RegisterModel model)
         {
             
@@ -33,6 +43,12 @@ namespace ArtShare.Logic
             }
         }
 
+        /// <summary>
+        /// Delete account
+        /// </summary>
+        /// <param name="username">The username of invoking user</param>
+        /// <param name="password">The username of invoking user</param>
+        /// <param name="id">Id of the user to delete</param>
         public void DeleteAccount(string username, string password, int id)
         {
             if (username == null) { throw new ArgumentNullException("username"); }
@@ -45,6 +61,13 @@ namespace ArtShare.Logic
             }
         }
 
+        /// <summary>
+        /// Checks weather or not a user has access right to edit accountinfo of target user
+        /// </summary>
+        /// <param name="username">The username of invoking user</param>
+        /// <param name="password">The username of invoking user</param>
+        /// <param name="userId">Id of the target user</param>
+        /// <returns>True if invoking user has the right to edit target user</returns>
         public bool HasRightToEdit(string username, string password, int userId)
         {
             using(var us = new UserServiceClient()){
@@ -59,8 +82,8 @@ namespace ArtShare.Logic
         /// <summary>
         /// Update a user account
         /// </summary>
-        /// <param name="username">Users current username</param>
-        /// <param name="password">Users current password</param>
+        /// <param name="username">The username of invoking user</param>
+        /// <param name="password">The username of invoking user</param>
         /// <param name="model">The model to update the account from</param>
         public void UpdateAccountInformation(string username, string password, AccountModel model)
         {
@@ -98,8 +121,8 @@ namespace ArtShare.Logic
         /// <summary>
         /// Fetching a users account information
         /// </summary>
-        /// <param name="username">Fetching users username</param>
-        /// <param name="password">Fetching users password</param>
+        /// <param name="username">The username of invoking user</param>
+        /// <param name="password">The username of invoking user</param>
         /// <param name="userId">The user who's account information to fetch</param>
         /// <returns>An accountmodel containg the users info</returns>
         public AccountModel GetAccountInformation(string username, string password, int userId)
@@ -198,6 +221,7 @@ namespace ArtShare.Logic
                 }
                 #endregion
 
+                accountModel.isAdmin = IsUserAdmin(user.Username, user.Password, user.Id);
 
                 using(var asc = new ShareItServices.AuthService.AuthServiceClient()){
                  accountModel.CanEdit = 
@@ -213,6 +237,12 @@ namespace ArtShare.Logic
             }
         }
 
+        /// <summary>
+        /// Gets a list of all users
+        /// </summary>
+        /// <param name="username">The username of invoking user</param>
+        /// <param name="password">The username of invoking user</param>
+        /// <returns>A list of all users on the client</returns>
         public UserListModel GetAllUsers(string username, string password)
         {
             if (username == null) { throw new ArgumentNullException("username"); }

@@ -134,12 +134,10 @@
     <Compile Include="DTO\UserInformationDTO.cs" />
     <Compile Include="DTO\UserInformationTypeDTO.cs" />
     <Compile Include="DTO\MediaItemSearchResultDTO.cs" />
-    <Compile Include="Exceptions\AccessRightNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidClientException.cs" />
     <Compile Include="Exceptions\InvalidUserException.cs" />
     <Compile Include="Exceptions\MediaItemNotFoundException.cs" />
     <Compile Include="Exceptions\UnauthorizedUserException.cs" />
-    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="FaultDataContracts\ArgumentFault.cs" />
     <Compile Include="FaultDataContracts\MediaItemNotFound.cs" />
     <Compile Include="FaultDataContracts\AccessRightNotFound.cs" />

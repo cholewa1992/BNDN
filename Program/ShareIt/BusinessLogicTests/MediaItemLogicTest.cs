@@ -413,7 +413,7 @@ namespace BusinessLogicTests
             mediaItemLogic.FindMediaItemRange(from, to, null, null, null);
         }
 
-        [ExpectedException(typeof(InvalidClientException))]
+        [ExpectedException(typeof(InvalidCredentialException))]
         [TestMethod]
         public void FindMediaItemRange_ClientTokenInvalid()
         {
@@ -552,7 +552,7 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(user1, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(InvalidClientException))]
+        [ExpectedException(typeof(InvalidCredentialException))]
         [TestMethod]
         public void RateMediaItem_InvalidClientToken()
         {
@@ -598,7 +598,7 @@ namespace BusinessLogicTests
             mediaItemLogic.RateMediaItem(user, mediaItemId, rating, token);
         }
 
-        [ExpectedException(typeof(MediaItemNotFoundException))]
+        [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
         public void RateMediaItem_MediaItemIdNotFound()
         {
@@ -755,7 +755,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.DeleteMediaItem(user1, -2, "testClient");
         }
-        [ExpectedException(typeof(MediaItemNotFoundException))]
+        [ExpectedException(typeof(InstanceNotFoundException))]
         [TestMethod]
         public void DeleteMediaItem_MediaItemIdNotExisting()
         {
@@ -769,7 +769,7 @@ namespace BusinessLogicTests
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.DeleteMediaItem(user1, 1, null);
         }
-        [ExpectedException(typeof(InvalidClientException))]
+        [ExpectedException(typeof(InvalidCredentialException))]
         [TestMethod]
         public void DeleteMediaItem_ClientTokenInvalid()
         {
@@ -806,15 +806,14 @@ namespace BusinessLogicTests
 
             Assert.AreEqual(countBeforeDeleting - 1, countAfterDeleting);
         }
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         [TestMethod]
         public void DeleteMediaItem_BuyerNotAllowed()
         {
             var mediaItemLogic = new MediaItemLogic(_dbStorage, _authLogic);
             mediaItemLogic.DeleteMediaItem(user1, 3, "testClient"); //user 1 has bought item 3
         }
-
-        [ExpectedException(typeof(UnauthorizedUserException))]
+        [ExpectedException(typeof(UnauthorizedAccessException))]
         [TestMethod]
         public void DeleteMediaItem_NoAccessNotAllowed()
         {

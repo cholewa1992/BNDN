@@ -102,41 +102,54 @@ namespace ArtShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                var requestingId = int.Parse(Request.Cookies["user"].Values["id"]);
+                var requestingUsername = Request.Cookies["user"].Values["username"];
+                var requestingPassword = Request.Cookies["user"].Values["password"];
+
+
                 //Checking if the user editing is the user being edited
                 //NOTE: This restricting is only here beacuse it's not possbile for an admin to edit a user with the current backend
-                if (Request.Cookies["user"].Values["username"] != am.Username)
+                if (_accountLogic.IsUserAdmin(requestingUsername, requestingPassword, requestingId) || requestingUsername == am.Username)
+                {
+                    if (Request.Cookies["user"].Values["password"] != am.CurrentPassword && !_accountLogic.IsUserAdmin(requestingUsername, requestingPassword, requestingId))
+                    {
+                        TempData["error"] = "The current password provided was not correct";
+                        return RedirectToAction("Edit", "Details", new { am.Id });
+                    }
+
+                    //Checking if the user changed his password, otherwise the current password is beging used
+                    am.Password = string.IsNullOrWhiteSpace(am.Password) ? Request.Cookies["user"].Values["password"] : am.Password;
+
+                    //Sending a request to the backend
+                    _accountLogic.UpdateAccountInformation(Request.Cookies["user"].Values["username"], Request.Cookies["user"].Values["password"], am);
+
+                    //Logging in again (Is case the password was changed
+                    var model = new Logic.LoginLogic().Login(am.Username, am.Password);
+
+                    //Showing an exception if the user is not re-loggedin
+                    if (!model.LoggedIn)
+                    {
+                        TempData["error"] = "Failed to login again - Something went horribly wrong";
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    //Setting cookie with the new password
+                    var userCookie = new HttpCookie("user");
+                    userCookie["id"] = model.User.Id + "";
+                    userCookie["username"] = model.User.Username;
+                    userCookie["password"] = model.User.Password;
+                    userCookie.Expires.AddDays(365);
+                    HttpContext.Response.Cookies.Add(userCookie);
+
+                    //Sending the user back to the Account details page
+                    TempData["success"] = "Your profile was successfully updated";
+                    return RedirectToAction("Details", new { am.Id });
+                }
+                else
                 {
                     TempData["error"] = "A user can only edit his own account";
                     return RedirectToAction("Details", new { am.Id });
                 }
-
-                //Checking if the user changed his password, otherwise the current password is beging used
-                am.Password = string.IsNullOrWhiteSpace(am.Password) ? Request.Cookies["user"].Values["password"] : am.Password;
-
-                //Sending a request to the backend
-                _accountLogic.UpdateAccountInformation(Request.Cookies["user"].Values["username"], Request.Cookies["user"].Values["password"], am);
-
-                //Logging in again (Is case the password was changed
-                var model = new Logic.LoginLogic().Login(am.Username, am.Password);
-
-                //Showing an exception if the user is not re-loggedin
-                if (!model.LoggedIn)
-                {
-                    TempData["error"] = "Failed to login again - Something went horribly wrong";
-                    return RedirectToAction("Index", "Home");
-                }
-
-                //Setting cookie with the new password
-                var userCookie = new HttpCookie("user");
-                userCookie["id"] = model.User.Id + "";
-                userCookie["username"] = model.User.Username;
-                userCookie["password"] = model.User.Password;
-                userCookie.Expires.AddDays(365);
-                HttpContext.Response.Cookies.Add(userCookie);
-
-                //Sending the user back to the Account details page
-                TempData["success"] = "Your profile was successfully updated";
-                return RedirectToAction("Details", new { am.Id });
             }
             catch(Exception e)
             {

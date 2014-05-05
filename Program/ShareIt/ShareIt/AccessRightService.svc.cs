@@ -17,12 +17,6 @@ namespace ShareIt
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AccessRightService" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select AccessRightService.svc or AccessRightService.svc.cs at the Solution Explorer and start debugging.
-    
-    /// <summary>
-    /// This service handles CRUD for Access Rights (Relations between Users and Media Items ie. a purchase).
-    /// It also handles making new admins.
-    /// </summary>
-    /// <Author>Asbjørn Steffensen (afjs@itu.dk)</Author>
     public class AccessRightService : IAccessRightService
     {
         private IBusinessLogicFactory _factory;
@@ -50,7 +44,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="oldAdmin">The admin who is trying to upgrade another user to admin</param>
         /// <param name="newAdminId">The id of the user who is the subject of the upgrade</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool MakeAdmin(UserDTO oldAdmin, int newAdminId, string clientToken)
         {
@@ -65,41 +59,29 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (UnauthorizedUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
-            catch (InvalidUserException e)
+            catch (InstanceNotFoundException e)
             {
-                var fault = new ObjectNotFound();
+                var fault = new MediaItemNotFound();
                 fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (UserNotFoundException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (ArgumentNullException e)
-            {
-                var fault = new ArgumentFault();
-                fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
+                throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault, new FaultReason("The "+ e.ParamName +" argument is invalid."));
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -112,7 +94,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="admin">The admin trying to delete an AccessRight</param>
         /// <param name="accessRightId">The id of the AccessRight to be deleted</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool Delete(UserDTO admin, int accessRightId, string clientToken)
         {
@@ -127,35 +109,23 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (InvalidUserException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (UnauthorizedUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
-            catch (AccessRightNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new AccessRightNotFound();
                 fault.Message = e.Message;
                 throw new FaultException<AccessRightNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (ArgumentNullException e)
-            {
-                var fault = new ArgumentFault();
-                fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
@@ -174,7 +144,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="user">The User performing the request</param>
         /// <param name="newAccessRight">The AccessRight containing the new information</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="clientToken">Token used to validate the client</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool EditExpiration(UserDTO user, AccessRightDTO newAccessRight, string clientToken)
         {
@@ -189,35 +159,23 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (UnauthorizedUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
-            catch (InvalidUserException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (AccessRightNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new AccessRightNotFound();
                 fault.Message = e.Message;
                 throw new FaultException<AccessRightNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (ArgumentNullException e)
-            {
-                var fault = new ArgumentFault();
-                fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
@@ -232,14 +190,14 @@ namespace ShareIt
         }
 
         /// <summary>
-        /// Creates a relation between a User and a Media Item (AccessRight)
-        ///  that gives a User the right to access a Media Item with the authority of a buyer
+        /// Creates a new AccessRight (a relation betweeen a User and a MediaItem for instance a purchase) where the 
+        /// AccessRightType is buyer.
         /// </summary>
-        /// <param name="user">The User who requests that the AccessRight is created</param>
-        /// <param name="mediaItemId">The id of the Media Item which the AccessRight is for</param>
-        /// <param name="expiration">The expiration date in the case that the purchase is temporary 
-        /// (a rented Media Item). Value is null if the purchase is permanent</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="user">The User performing the request</param>
+        /// <param name="mediaItemId">The id of the MediaItem the User is trying to purchase</param>
+        /// <param name="expiration">The expiration time of the purchase (if the MediaItem is being rented. 
+        ///     Value is Null if it is a permanent purchase).</param>
+        /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>True if the request succeeds. Otherwise it returns a fault.</returns>
         public bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken)
         {
@@ -253,29 +211,23 @@ namespace ShareIt
                 }
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (InvalidUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
             }
-            catch (MediaItemNotFoundException e)
+            catch (InstanceNotFoundException e)
             {
                 var fault = new MediaItemNotFound();
                 fault.Message = e.Message;
                 throw new FaultException<MediaItemNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (ArgumentNullException e)
-            {
-                var fault = new ArgumentFault();
-                fault.Message = e.Message;
-                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
@@ -294,7 +246,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="user">The User performing the request</param>
         /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
         /// where the type is buyer</returns>
         public List<AccessRightDTO> GetPurchaseHistory(UserDTO user, int userId, string clientToken)
@@ -310,13 +262,13 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
             }
-            catch (UnauthorizedUserException e)
+            catch (UnauthorizedAccessException e)
             {
                 var fault = new UnauthorizedUser();
                 fault.Message = e.Message;
@@ -333,18 +285,6 @@ namespace ShareIt
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
-            }
-            catch (InvalidUserException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (UserNotFoundException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (InvalidOperationException e)
             {
@@ -363,7 +303,7 @@ namespace ShareIt
         /// </summary>
         /// <param name="user">The User performing the request</param>
         /// <param name="userId">The Id of the User whose AccessRights will be returned</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <param name="clientToken">The client from which the request originated</param>
         /// <returns>A List of AccessRights which contains all the AccessRights related to the User 
         /// where the type is owner</returns>
         public List<AccessRightDTO> GetUploadHistory(UserDTO user, int userId, string clientToken)
@@ -379,29 +319,29 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (InvalidCredentialException e)
             {
                 var fault = new UnauthorizedClient();
                 fault.Message = e.Message;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(e.Message));
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                var fault = new UnauthorizedUser();
+                fault.Message = e.Message;
+                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(e.Message));
+            }
+            catch (ArgumentNullException e)
+            {
+                var fault = new ArgumentFault();
+                fault.Message = e.Message;
+                throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException e)
             {
                 var fault = new ArgumentFault();
                 fault.Message = e.Message;
                 throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
-            }
-            catch (InvalidUserException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
-            }
-            catch (UserNotFoundException e)
-            {
-                var fault = new ObjectNotFound();
-                fault.Message = e.Message;
-                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (InvalidOperationException e)
             {
@@ -415,13 +355,6 @@ namespace ShareIt
             }
         }
 
-        /// <summary>
-        /// Checks to see if a User has the right to download a specific Media Item
-        /// </summary>
-        /// <param name="user">The User who is to be checked to see if he can download the Media Item in question</param>
-        /// <param name="mediaItemId">The Id of the Media Item which is to be checked</param>
-        /// <param name="clientToken">The token of the client from which the request originated</param>
-        /// <returns>True if the User is allowed to download the Media Item, False if he is not allowed</returns>
         public bool CanDownload(UserDTO user, int mediaItemId, string clientToken)
         {
             bool result;
@@ -430,12 +363,6 @@ namespace ShareIt
                 try
                 {
                     result = logic.CanDownload(user, mediaItemId, clientToken);
-                }
-                catch (ArgumentNullException e)
-                {
-                    var fault = new ArgumentFault();
-                    fault.Message = e.Message;
-                    throw new FaultException<ArgumentFault>(fault, new FaultReason(e.Message));
                 }
                 catch (ArgumentException e)
                 {

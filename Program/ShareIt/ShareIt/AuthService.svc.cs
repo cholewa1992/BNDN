@@ -7,7 +7,6 @@ using System.Text;
 using System.Web.Services;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
@@ -68,15 +67,13 @@ namespace ShareIt
 
                 return result;
             }
-            catch (InvalidClientException e)
+            catch (UnauthorizedAccessException e)
             {
-                throw new FaultException<UnauthorizedClient>(new UnauthorizedClient() { Message = e.Message },
-                    new FaultReason(e.Message));
+                throw new FaultException<UnauthorizedUser>(new UnauthorizedUser() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch(ArgumentException e)
             {
-                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message },
-                    new FaultReason(e.Message));
+                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
@@ -106,8 +103,7 @@ namespace ShareIt
             }
             catch (ArgumentException e)
             {
-                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message },
-                    new FaultReason(e.Message));
+                throw new FaultException<ArgumentFault>(new ArgumentFault() { Message = e.Message }, new FaultReason(e.Message));
             }
             catch (Exception e)
             {
