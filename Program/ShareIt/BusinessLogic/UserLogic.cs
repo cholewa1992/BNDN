@@ -141,9 +141,9 @@ namespace BusinessLogicLayer
                 throw new InvalidCredentialException();
             }
 
-            if (_authLogic.CheckUserExists(requestingUser) == -1 ||
-                 ((requestingUser.Username != userToUpdate.Username) &&
-                (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
+            requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
+
+            if (requestingUser.Id  == -1 || ((requestingUser.Username != userToUpdate.Username) && (!_authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken))))
             {
                 throw new UnauthorizedAccessException();
             }
