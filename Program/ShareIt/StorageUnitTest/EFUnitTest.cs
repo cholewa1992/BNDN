@@ -101,8 +101,13 @@ namespace StorageUnitTest
         }
 
         [TestMethod]
+<<<<<<< HEAD
         [ExpectedException(typeof(InternalDbException))]
         public void UnitTest_EF_AddEmptyUserTest()
+=======
+        [ExpectedException(typeof(ChangesWasNotSavedException))]
+        public void EF_AddEmptyUserTest()
+>>>>>>> 0bb9965b8b0615c193cfc2203a55617fcea4d7d4
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -112,9 +117,15 @@ namespace StorageUnitTest
             }
         }
 
+<<<<<<< HEAD
         [TestMethod]
         [ExpectedException(typeof(InternalDbException))]
         public void UnitTest_EF_AddUserWithOnlyUsernameTest()
+=======
+        [TestMethod]
+        [ExpectedException(typeof(ChangesWasNotSavedException))]
+        public void EF_AddUserWithOnlyUsernameTest()
+>>>>>>> 0bb9965b8b0615c193cfc2203a55617fcea4d7d4
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -126,8 +137,13 @@ namespace StorageUnitTest
             }
         }
         [TestMethod]
+<<<<<<< HEAD
         [ExpectedException(typeof(InternalDbException))]
         public void UnitTest_EF_AddUserWithOnlyPasswordTest()
+=======
+        [ExpectedException(typeof(ChangesWasNotSavedException))]
+        public void EF_AddUserWithOnlyPasswordTest()
+>>>>>>> 0bb9965b8b0615c193cfc2203a55617fcea4d7d4
         {
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
@@ -206,9 +222,15 @@ namespace StorageUnitTest
         }
 
 
+<<<<<<< HEAD
         [TestMethod]
         [ExpectedException(typeof(InternalDbException))]
         public void UnitTest_EF_DeleteUserNotInDbTest()
+=======
+        [TestMethod]
+        [ExpectedException(typeof(ChangesWasNotSavedException))]
+        public void EF_DeleteUserNotInDbTest()
+>>>>>>> 0bb9965b8b0615c193cfc2203a55617fcea4d7d4
         {
             using (var db = new RentIt08Entities())
             {

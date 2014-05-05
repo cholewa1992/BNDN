@@ -72,7 +72,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void UnitTest_StorageBridge_AddFailed()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
+            _mock.Setup(foo => foo.SaveChanges()).Throws<ChangesWasNotSavedException>();
             var sud = new StorageBridge(_mock.Object);
             sud.Add(new UserAcc());
         }
@@ -100,7 +100,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void UnitTest_StorageBridge_UpdateFailed()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
+            _mock.Setup(foo => foo.SaveChanges()).Throws<ChangesWasNotSavedException>();
             var sud = new StorageBridge(_mock.Object);
             sud.Update(_user1);
         }
@@ -118,7 +118,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void UnitTest_StorageBridge_DeleteFailed()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
+            _mock.Setup(foo => foo.SaveChanges()).Throws<ChangesWasNotSavedException>();
             var sud = new StorageBridge(_mock.Object);
             sud.Delete(_user1);
         }
@@ -135,7 +135,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void UnitTest_StorageBridge_DeleteByIdFailed()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
+            _mock.Setup(foo => foo.SaveChanges()).Throws<ChangesWasNotSavedException>();
             var sud = new StorageBridge(_mock.Object);
             sud.Delete<UserAcc>(1);
         }
