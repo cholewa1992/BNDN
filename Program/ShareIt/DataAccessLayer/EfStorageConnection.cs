@@ -81,7 +81,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Saves changes to the context
         /// </summary>
-        /// <returns>true if entities was saved</returns>
+        /// <returns>The number of objects written to the underlying database</returns>
         /// <remarks>
         /// </remarks>
         public int SaveChanges()
@@ -92,23 +92,23 @@ namespace DataAccessLayer
             }
             catch (DbEntityValidationException e)
             {
-                throw new InternalDbException("The entities you tried to save violated a db constraint", e);
+                throw new ChangesWasNotSavedException("The entities you tried to save violated a db constraint", e);
             }
             catch (EntityException e)
             {
-                throw new InternalDbException("The connection to the database failed or timed out", e);
+                throw new ChangesWasNotSavedException("The connection to the database failed or timed out", e);
             }
             catch (DbUpdateConcurrencyException e)
             {
-                throw new InternalDbException("The entity tried updated is not in the database", e);
+                throw new ChangesWasNotSavedException("The entity tried updated is not in the database", e);
             }
             catch (DbUpdateException e)
             {
-                throw new InternalDbException("The data cound not be added to the database. Is it unique?", e);
+                throw new ChangesWasNotSavedException("The data cound not be added to the database. Is it unique?", e);
             }
             catch (Exception e)
             {
-                throw new InternalDbException("The data was not saved due to an unexpected error", e);
+                throw new ChangesWasNotSavedException("The data was not saved due to an unexpected error", e);
             }
         }
 

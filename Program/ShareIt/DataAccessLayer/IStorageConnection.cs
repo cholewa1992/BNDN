@@ -43,7 +43,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Saves changes to the context
         /// </summary>
-        /// <returns>true if entities was saved</returns>
+        /// <returns>The number of objects written to the underlying database</returns>
         int SaveChanges();
     }
 }

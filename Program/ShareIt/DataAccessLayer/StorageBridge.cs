@@ -77,7 +77,7 @@ namespace DataAccessLayer
             _storageConnection.Add(entity);
 
             //Saves the context
-            if (SaveChanges() <= 0) throw new ChangesWasNotSavedException("Changes was not saved"); //Saves the changes to the database
+            SaveChanges();
 
             //Checks that the id has been set
             if (entity.Id == 0) throw new InternalDbException("Id was not set");
@@ -101,7 +101,7 @@ namespace DataAccessLayer
             if (entity.Id <= 0) { throw new InternalDbException("Id was zero or below"); }
             if (entity.Id > int.MaxValue) { throw new InternalDbException("Id was larger than int.MaxValue"); }
             _storageConnection.Update(entity); //Updates the entity
-            if (SaveChanges() <= 0) throw new ChangesWasNotSavedException("Changes was not saved"); //Saves the changes to the database
+            SaveChanges();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace DataAccessLayer
             if (entity.Id <= 0) throw new InternalDbException("Id was zero or below");
             if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
             _storageConnection.Delete(entity); //Deletes the entity
-            if (SaveChanges() != 0) throw new InternalDbException("Something went wrong when saving"); //Saves the changes to the database
+            SaveChanges();
         }
 
         /// <summary>
@@ -153,15 +153,15 @@ namespace DataAccessLayer
                 if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
                 _storageConnection.Delete(entity); //Deletes the entity
             }
-            if (SaveChanges() != 0) throw new InternalDbException("Something went wrong when saving"); //Saves the changes to the database
+            SaveChanges();
         }
 
         /// <summary>
         /// Saves changes to the context
         /// </summary>
-        protected int SaveChanges()
+        protected void SaveChanges()
         {
-            return _storageConnection.SaveChanges();
+            _storageConnection.SaveChanges();
 
         }
 

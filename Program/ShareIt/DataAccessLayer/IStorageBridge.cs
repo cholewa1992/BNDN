@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
+    /// <summary>
+    /// Interface for defining Repo
+    /// </summary>
+    /// <author>
+    /// Jacob Cholewa (jbec@itu.dk)
+    /// </author>
     public interface IStorageBridge : IDisposable
     {
         /// <summary>
