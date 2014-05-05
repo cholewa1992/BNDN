@@ -92,12 +92,11 @@ namespace ShareIt
                 fault.Message = msg;
                 throw new FaultException<UnauthorizedClient>(fault, new FaultReason(msg));
             }
-            catch (InvalidUserException)
+            catch (UserNotFoundException e)
             {
-                var fault = new UnauthorizedUser();
-                var msg = "The User is not authorized to perform this request.";
-                fault.Message = msg;
-                throw new FaultException<UnauthorizedUser>(fault, new FaultReason(msg));
+                var fault = new ObjectNotFound();
+                fault.Message = e.Message;
+                throw new FaultException<ObjectNotFound>(fault, new FaultReason(e.Message));
             }
             catch (ArgumentException ae)
             {

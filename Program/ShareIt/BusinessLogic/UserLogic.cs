@@ -97,11 +97,6 @@ namespace BusinessLogicLayer
             }
 
             requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
-
-            if (requestingUser.Id == -1)
-            {
-                throw new InvalidUserException();
-            }
                 
             bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
@@ -110,7 +105,7 @@ namespace BusinessLogicLayer
 
             if (user == null)
             {
-                throw new UserNotFoundException("the target user could not be found.");
+                throw new UserNotFoundException("The target user could not be found.");
             }
                 
             var targetUser = new UserDTO
