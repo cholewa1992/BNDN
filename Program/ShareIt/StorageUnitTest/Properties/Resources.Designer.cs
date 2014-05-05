@@ -89,5 +89,27 @@ namespace StorageUnitTest.Properties {
                 return ResourceManager.GetString("datamodel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO AccessRightType (Name) VALUES  (&apos;Buyer&apos;)
+        ///INSERT INTO AccessRightType (Name) VALUES  (&apos;Owner&apos;)
+        ///
+        ///
+        ///INSERT INTO UserInfoType (Type) VALUES  (&apos;Email&apos;)
+        ///INSERT INTO UserInfoType (Type) VALUES  (&apos;Firstname&apos;)
+        ///INSERT INTO UserInfoType (Type) VALUES  (&apos;Lastname&apos;)
+        ///INSERT INTO UserInfoType (Type) VALUES  (&apos;Location&apos;)
+        ///
+        ///
+        ///INSERT INTO EntityInfoType (Name) VALUES  (&apos;Title&apos;)
+        ///INSERT INTO EntityInfoType (Name) VALUES  (&apos;Description&apos;)
+        ///INSERT INTO EntityInfoType (Name) VALUES  (&apos;Price&apos;)
+        ///INSERT INTO Entit [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string testdata {
+            get {
+                return ResourceManager.GetString("testdata", resourceCulture);
+            }
+        }
     }
 }
