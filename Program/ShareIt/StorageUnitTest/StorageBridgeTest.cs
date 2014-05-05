@@ -18,7 +18,7 @@ namespace StorageUnitTest
         [TestMethod]
         public void AddTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(1);
             var sud = new StorageBridge(_mock.Object);
             sud.Add(new UserAcc());
         }
@@ -27,7 +27,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void AddFailedTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(false);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
             var sud = new StorageBridge(_mock.Object);
             sud.Add(new UserAcc());
         }
@@ -36,7 +36,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(InternalDbException))]
         public void AddFailedIdNotSetTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(1);
             _mock.Setup(foo => foo.Add(It.IsAny<UserAcc>()));
             var sud = new StorageBridge(_mock.Object);
             sud.Add(new UserAcc());
@@ -45,7 +45,7 @@ namespace StorageUnitTest
         [TestMethod]
         public void UpdateTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(1);
             var sud = new StorageBridge(_mock.Object);
             sud.Update(_user1);
         }
@@ -54,7 +54,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void UpdateFailedTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(false);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
             var sud = new StorageBridge(_mock.Object);
             sud.Update(_user1);
         }
@@ -62,7 +62,7 @@ namespace StorageUnitTest
         [TestMethod]
         public void DeleteTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(1);
             var sud = new StorageBridge(_mock.Object);
             sud.Delete(_user1);
         }
@@ -71,7 +71,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void DeleteFailedTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(false);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
             var sud = new StorageBridge(_mock.Object);
             sud.Delete(_user1);
         }
@@ -79,7 +79,7 @@ namespace StorageUnitTest
         [TestMethod]
         public void DeleteByIdTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(true);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(1);
             var sud = new StorageBridge(_mock.Object);
             sud.Delete<UserAcc>(1);
         }
@@ -88,7 +88,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(ChangesWasNotSavedException))]
         public void DeleteByIdFailedTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(false);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
             var sud = new StorageBridge(_mock.Object);
             sud.Delete<UserAcc>(1);
         }
@@ -97,7 +97,7 @@ namespace StorageUnitTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void DeleteByIdNotFoundFailedTest()
         {
-            _mock.Setup(foo => foo.SaveChanges()).Returns(false);
+            _mock.Setup(foo => foo.SaveChanges()).Returns(0);
             var sud = new StorageBridge(_mock.Object);
             sud.Delete<UserAcc>(4);
         }

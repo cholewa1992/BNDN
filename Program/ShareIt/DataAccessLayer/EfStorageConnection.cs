@@ -84,11 +84,11 @@ namespace DataAccessLayer
         /// <returns>true if entities was saved</returns>
         /// <remarks>
         /// </remarks>
-        public bool SaveChanges()
+        public int SaveChanges()
         {
             try
             {
-                return _ef.SaveChanges() > 0;
+                return  _ef.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {

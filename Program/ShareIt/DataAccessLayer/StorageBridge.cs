@@ -77,7 +77,7 @@ namespace DataAccessLayer
             _storageConnection.Add(entity);
 
             //Saves the context
-            SaveChanges();
+            if (SaveChanges() <= 0) throw new ChangesWasNotSavedException("Changes was not saved"); //Saves the changes to the database
 
             //Checks that the id has been set
             if (entity.Id == 0) throw new InternalDbException("Id was not set");
@@ -101,7 +101,7 @@ namespace DataAccessLayer
             if (entity.Id <= 0) { throw new InternalDbException("Id was zero or below"); }
             if (entity.Id > int.MaxValue) { throw new InternalDbException("Id was larger than int.MaxValue"); }
             _storageConnection.Update(entity); //Updates the entity
-            SaveChanges(); //Saves the changes to the context
+            if (SaveChanges() <= 0) throw new ChangesWasNotSavedException("Changes was not saved"); //Saves the changes to the database
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace DataAccessLayer
             if (entity.Id <= 0) throw new InternalDbException("Id was zero or below");
             if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
             _storageConnection.Delete(entity); //Deletes the entity
-            SaveChanges(); //Saves the changes to the database
+            if (SaveChanges() != 0) throw new InternalDbException("Something went wrong when saving"); //Saves the changes to the database
         }
 
         /// <summary>
@@ -153,18 +153,15 @@ namespace DataAccessLayer
                 if (entity.Id > int.MaxValue) throw new InternalDbException("Id was zero or below");
                 _storageConnection.Delete(entity); //Deletes the entity
             }
-            SaveChanges(); //Saves the changes to the database
+            if (SaveChanges() != 0) throw new InternalDbException("Something went wrong when saving"); //Saves the changes to the database
         }
 
         /// <summary>
         /// Saves changes to the context
         /// </summary>
-        protected void SaveChanges()
+        protected int SaveChanges()
         {
-            if (!_storageConnection.SaveChanges())
-            {
-                throw new ChangesWasNotSavedException();
-            }
+            return _storageConnection.SaveChanges();
 
         }
 

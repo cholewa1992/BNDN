@@ -44,6 +44,6 @@ namespace DataAccessLayer
         /// Saves changes to the context
         /// </summary>
         /// <returns>true if entities was saved</returns>
-        bool SaveChanges();
+        int SaveChanges();
     }
 }
