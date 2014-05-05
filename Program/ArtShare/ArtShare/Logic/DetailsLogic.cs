@@ -11,6 +11,9 @@ using UserDTO = ShareItServices.MediaItemService.UserDTO;
 
 namespace ArtShare.Logic
 {
+    /// <summary>
+    /// Logic for media item details
+    /// </summary>
     public class DetailsLogic : IDetailsLogic
     {
 
