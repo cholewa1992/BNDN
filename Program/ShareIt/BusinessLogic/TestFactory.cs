@@ -7,7 +7,12 @@ using BusinessLogicLayer.Stub;
 
 namespace BusinessLogicLayer
 {
-    class TestFactory : IBusinessLogicFactory
+    /// <summary>
+    /// This class is a concrete implementation of an abstract factory (IBusinessLogicFactory).
+    /// It creates instances of the different logic classes (AuthLogic, UserLogic, 
+    /// AccessRightLogic, DataTransferLogic and MediaItemLogic) used for testing.
+    /// </summary>
+    internal class TestFactory : IBusinessLogicFactory
     {
         public IUserLogic CreateUserLogic()
         {

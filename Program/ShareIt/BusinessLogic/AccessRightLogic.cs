@@ -15,7 +15,7 @@ namespace BusinessLogicLayer
     /// This class handles CRUD for Access Rights (Relations between Users and Media Items ie. a purchase).
     /// It also handles making new admins.
     /// </summary>
-    /// <Author>Asbjørn Steffensen (afjs@itu.dk)</Author>
+    /// <author>Asbjørn Steffensen (afjs@itu.dk)</author>
     internal class AccessRightLogic : IAccessRightInternalLogic
     {
         private readonly IAuthInternalLogic _authLogic;

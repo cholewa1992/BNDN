@@ -17,7 +17,7 @@ namespace BusinessLogicLayer
     /// <summary>
     /// This class handles all User related operations
     /// </summary>
-    /// <Author>Nicki Jørgensen (nhjo@itu.dk)</Author>
+    /// <author>Nicki Jørgensen (nhjo@itu.dk)</author>
     internal class UserLogic : IUserLogic
     {
 
@@ -83,6 +83,13 @@ namespace BusinessLogicLayer
             return true;
         }
 
+        /// <summary>
+        /// This method gets all the account information an account contains and returns it in a UserDTO
+        /// </summary>
+        /// <param name="requestingUser">The user requesting the operation</param>
+        /// <param name="targetUserId">The id of the users whose information should be returned</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>A UserDTO containing all the account information related to the target user</returns>
         public UserDTO GetAccountInformation(UserDTO requestingUser, int targetUserId, string clientToken)
         {
             //Preconditions
@@ -123,6 +130,15 @@ namespace BusinessLogicLayer
             return targetUser;
         }
 
+        /// <summary>
+        /// This method updates the account information of an account. 
+        /// It overrides all the information that the account currently contains with the new information it is given
+        ///  via the userToUpdate contains.
+        /// </summary>
+        /// <param name="requestingUser">The user requesting the operation</param>
+        /// <param name="userToUpdate">A UserDTO containing all the information the account will have after the update</param>
+        /// <param name="clientToken">The token of the client from which the request originated</param>
+        /// <returns>True if the operation is successful, otherwise an exception is thrown</returns>
         public bool UpdateAccountInformation(UserDTO requestingUser, UserDTO userToUpdate, string clientToken)
         {
             //Preconditions
