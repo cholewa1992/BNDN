@@ -64,7 +64,7 @@
                 @foreach (var item in Model.PurchaseHistory.Where(t => !string.IsNullOrWhiteSpace(t.Title)))
                 {
                     <tr>
-                        <td>
+                        <td width="30%">
                             <br />
                             @item.Title
                         </td>
@@ -104,7 +104,7 @@
                 @foreach (var item in Model.UploadHistory.Where(t => !string.IsNullOrWhiteSpace(t.Title)))
                 {
                     <tr>
-                        <td>
+                        <td width="30%">
                             <br />
                             @item.Title
                         </td>
