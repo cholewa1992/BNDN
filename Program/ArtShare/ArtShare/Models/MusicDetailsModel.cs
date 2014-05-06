@@ -16,7 +16,9 @@ namespace ArtShare.Models
         public string FileExtension { get; set; }
         public string FileUrl { get; set; }
         public List<string> Tags { get; set; }
+        public String TagsString { get; set; }
         public List<string> Genres { get; set; }
+        public String GenresString { get; set; }
         public string Artist { get; set; }
         [Display(Name = @"Release Date")]
         public DateTime? ReleaseDate { get; set; }

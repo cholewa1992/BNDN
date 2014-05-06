@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.Web.Mvc;
 using ArtShare.Logic;
+using System.Linq;
 using ShareItServices.MediaItemService;
 using ArtShare.Models;
 
@@ -294,6 +295,8 @@ namespace ArtShare.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            bookDetails.Tags = bookDetails.TagsString.Trim().Trim(',').Split(',').ToList();
+            bookDetails.Genres = bookDetails.GenresString.Trim().Trim(',').Split(',').ToList();
 
             try
             {
@@ -325,6 +328,9 @@ namespace ArtShare.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            movieDetails.Tags = movieDetails.TagsString.Trim().Trim(',').Split(',').ToList();
+            movieDetails.Genres = movieDetails.GenresString.Trim().Trim(',').Split(',').ToList();
+            movieDetails.CastMembers = movieDetails.CastMembersString.Trim().Trim(',').Split(',').ToList();
 
             try
             {
@@ -356,6 +362,8 @@ namespace ArtShare.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            musicDetails.Tags = musicDetails.TagsString.Trim().Trim(',').Split(',').ToList();
+            musicDetails.Genres = musicDetails.GenresString.Trim().Trim(',').Split(',').ToList();
 
             try
             {

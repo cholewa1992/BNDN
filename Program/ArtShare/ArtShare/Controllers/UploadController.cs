@@ -127,6 +127,10 @@ namespace ArtShare.Controllers
                 var user = new UserDTO();
                 user.Username = userCookie["username"];
                 user.Password = userCookie["password"];
+
+                um.Details.Tags = um.Details.TagsString.Trim().Trim(',').Split(',').ToList();
+                um.Details.Genres = um.Details.GenresString.Trim().Trim(',').Split(',').ToList();
+
                 try
                 {
                     result = _logic.UploadFile(um, user, um.Details);

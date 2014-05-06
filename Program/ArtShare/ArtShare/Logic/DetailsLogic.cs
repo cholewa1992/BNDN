@@ -147,6 +147,7 @@ namespace ArtShare.Logic
                         {
                             model.Genres = new List<string>();
                         }
+                        model.GenresString += v.Data + ",";
                         model.Genres.Add(v.Data);
                         break;
 
@@ -155,6 +156,7 @@ namespace ArtShare.Logic
                         {
                             model.Tags = new List<string>();
                         }
+                        model.TagsString += v.Data + ",";
                         model.Tags.Add(v.Data);
                         break;
 
@@ -240,6 +242,7 @@ namespace ArtShare.Logic
                         {
                             model.CastMembers = new List<string>();
                         }
+                        model.CastMembersString += v.Data + ",";
                         model.CastMembers.Add(v.Data);
                         break;
 
@@ -256,6 +259,7 @@ namespace ArtShare.Logic
                         {
                             model.Genres = new List<string>();
                         }
+                        model.GenresString += v.Data + ",";
                         model.Genres.Add(v.Data);
                         break;
 
@@ -264,6 +268,7 @@ namespace ArtShare.Logic
                         {
                             model.Tags = new List<string>();
                         }
+                        model.TagsString += v.Data + ",";
                         model.Tags.Add(v.Data);
                         break;
 
@@ -352,6 +357,7 @@ namespace ArtShare.Logic
                         {
                             model.Genres = new List<string>();
                         }
+                        model.GenresString += v.Data + ",";
                         model.Genres.Add(v.Data);
                         break;
 
@@ -360,6 +366,7 @@ namespace ArtShare.Logic
                         {
                             model.Tags = new List<string>();
                         }
+                        model.TagsString += v.Data + ",";
                         model.Tags.Add(v.Data);
                         break;
 

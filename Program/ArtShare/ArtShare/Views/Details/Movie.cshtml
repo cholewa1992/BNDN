@@ -163,7 +163,7 @@
             @if (Model.Genres != null) {
                 foreach (var genre in Model.Genres)
                 {
-                    <button class="pure-button">@genre</button>
+                    <button class="pure-button marginBottom5">@genre</button>
 
                 }
             }
@@ -173,7 +173,7 @@
             @if (Model.Tags != null) {
                 foreach (var t in Model.Tags)
                 {
-                    <button class="pure-button"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
+                    <button class="pure-button marginBottom5"><span class="glyphicon glyphicon-tag" style="font-size:small"></span> @t </button>
                 }
             }
             <hr />
@@ -184,9 +184,7 @@
                     foreach (var p in Model.CastMembers)
                     {
                         <li class="list-group-item">
-                            <a href="#">
-                                @p
-                            </a>
+                            @p
                         </li>
                     }
                 }

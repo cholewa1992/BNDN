@@ -492,6 +492,7 @@ footer{
 .to-left { float: left; }
 .to-right { float: right; }
 .to-bottom { bottom: 0; }
+.marginBottom5 {margin-bottom: 5px;}
 
 
 

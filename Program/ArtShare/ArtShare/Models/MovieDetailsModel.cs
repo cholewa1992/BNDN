@@ -17,12 +17,15 @@ namespace ArtShare.Models
         public string FileExtension { get; set; }
         public string FileUrl { get; set; }
         public List<string> Tags { get; set; }
+        public String TagsString { get; set; }
         public List<string> Genres { get; set; }
+        public String GenresString { get; set; }
         public string Director { get; set; }
         [Display(Name=@"Release Date")]
         public DateTime? ReleaseDate { get; set; }
         public string Runtime { get; set; }
         public List<string> CastMembers { get; set; }
+        public String CastMembersString { get; set; }
         public double AvgRating { get; set; }
         public int RatingsGiven { get; set; }
         [Display(Name = @"Uploader")]

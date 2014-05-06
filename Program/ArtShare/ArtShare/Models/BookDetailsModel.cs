@@ -16,7 +16,9 @@ namespace ArtShare.Models
         public string FileExtension { get; set; }
         public string FileUrl { get; set; }
         public List<string> Tags { get; set; }
+        public String TagsString { get; set; }
         public List<string> Genres { get; set; }
+        public String GenresString { get; set; }
         [Display(Name=@"Number of pages")]
         public int? NumberOfPages { get; set; }
         public string Author { get; set; }
