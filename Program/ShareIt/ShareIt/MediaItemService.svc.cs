@@ -20,6 +20,7 @@ namespace ShareIt
     /// <summary>
     /// This class implements all action that can be performed on media item information.
     /// </summary>
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     public class MediaItemService : IMediaItemService
     {
         private IBusinessLogicFactory _factory;

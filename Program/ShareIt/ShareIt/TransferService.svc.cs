@@ -17,6 +17,7 @@ namespace ShareIt
     /// <summary>
     /// A service for transfering media.
     /// </summary>
+    /// <author>Jakob Merrild (jmer@itu.dk)</author>
     public class TransferService : ITransferService
     {
         private readonly IBusinessLogicFactory _factory;
