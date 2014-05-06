@@ -15,6 +15,9 @@ using AccessRightType = DataAccessLayer.AccessRightType;
 
 namespace BusinessLogicTests
 {
+    /// <author>
+    /// Asbjørn Steffensen (afjs@itu.dk)
+    /// </author>
     [TestClass]
     public class AccessRightLogicTest
     {

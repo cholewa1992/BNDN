@@ -13,6 +13,7 @@ namespace ShareIt
     /// <summary>
     /// This interface shows available actions that can be performed on media items
     /// </summary>
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     [ServiceContract]
     public interface IMediaItemService
     {

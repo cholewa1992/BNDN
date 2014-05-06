@@ -10,7 +10,9 @@ using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IAccessRightService" in both code and config file together.
+    /// <author>
+    /// Asbjørn Steffensen (afjs@itu.dk)
+    /// </author>
     [ServiceContract]
     public interface IAccessRightService
     {

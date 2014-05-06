@@ -7,7 +7,12 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    class BusinessFactory : IBusinessLogicFactory 
+    /// <summary>
+    /// This class is a concrete implementation of an abstract factory (IBusinessLogicFactory).
+    /// It creates instances of the different logic classes (AuthLogic, UserLogic, 
+    /// AccessRightLogic, DataTransferLogic and MediaItemLogic).
+    /// </summary>
+    internal class BusinessFactory : IBusinessLogicFactory 
     {
         public IUserLogic CreateUserLogic()
         {

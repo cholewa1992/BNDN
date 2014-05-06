@@ -12,6 +12,7 @@ namespace ShareIt
     /// <summary>
     /// A service for transfering media.
     /// </summary>
+    /// <author>Jakob Merrild (jmer@itu.dk)</author>
     [ServiceContract]
     public interface ITransferService
     {

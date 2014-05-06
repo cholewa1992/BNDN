@@ -13,6 +13,10 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// This class handles searching, rating, getting, updating and deleting media items.
+    /// </summary>
+    /// <author>Thomas Dragsbæk (thst@itu.dk), Nicki Jørgensen (nhjo@itu.dk)</author>
     internal class MediaItemLogic : IMediaItemInternalLogic
     {
         private readonly IStorageBridge _storage;

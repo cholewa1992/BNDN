@@ -7,6 +7,9 @@ using BusinessLogicLayer.DTO;
 
 namespace BusinessLogicLayer
 {
+    /// <author>
+    /// Asbjørn Steffensen (afjs@itu.dk)
+    /// </author>
     public interface IAccessRightLogic : IDisposable
     {
         bool Purchase(UserDTO user, int mediaItemId, DateTime? expiration, string clientToken);
