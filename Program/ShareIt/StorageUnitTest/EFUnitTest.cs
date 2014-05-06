@@ -208,12 +208,46 @@ namespace StorageUnitTest
             }
         }
         #endregion
+        #region Auto increment tests
 
 
+        [TestMethod]
+        public void UnitTest_EF_UserAccAutoIncrement()
+        {
+            int maxId;
+            using (var db = new RentIt08Entities())
+            {
+                maxId = db.Database.SqlQuery<int>("SELECT max(id) FROM UserAcc").Single();
+            }
+
+            using (var db = new EfStorageConnection<RentIt08Entities>())
+            {
+                var user = new UserAcc
+                {
+                    Username = "Asbjørn",
+                    Password = "testtesttest"
+                };
+
+                db.Add(user);
+                db.SaveChanges();
+            }
+
+            using (var db = new RentIt08Entities())
+            {
+                var result = db.Database.SqlQuery<int>("SELECT id FROM UserAcc WHERE Username = 'Asbjørn'").Single();
+                Assert.AreEqual(maxId + 1, result);
+            }
+        }
 
         [TestMethod]
           public void UnitTest_EF_MediaItemAutoIncrement()
           {
+              int maxId;
+              using (var db = new RentIt08Entities())
+              {
+                  maxId = db.Database.SqlQuery<int>("SELECT max(id) FROM Entity").Single();
+              }            
+
               using (var db = new EfStorageConnection<RentIt08Entities>())
               {
                   var mediaItem = new Entity
@@ -229,15 +263,20 @@ namespace StorageUnitTest
   
               using (var db = new RentIt08Entities())
               {
-                  const int expected = 2;
                   var result = db.Database.SqlQuery<int>("SELECT id FROM Entity WHERE FilePath = 'C:/path/test'").Single();
-                  Assert.AreEqual(expected, result);
+                  Assert.AreEqual(maxId + 1, result);
               }
           }
 
         [TestMethod]
         public void UnitTest_EF_MediaItemInformationAutoIncrement()
         {
+            int maxId;
+            using (var db = new RentIt08Entities())
+            {
+                maxId = db.Database.SqlQuery<int>("SELECT max(id) FROM EntityInfo").Single();
+            } 
+
             using (var db = new EfStorageConnection<RentIt08Entities>())
             {
                 var mediaItemInformation = new EntityInfo
@@ -253,10 +292,10 @@ namespace StorageUnitTest
 
             using (var db = new RentIt08Entities())
             {
-                const int expected = 4;
                 var result = db.Database.SqlQuery<int>("SELECT id FROM EntityInfo WHERE EntityInfoTypeId = 4").Single();
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(maxId + 1, result);
             }
         }
+        #endregion
     }
 }
