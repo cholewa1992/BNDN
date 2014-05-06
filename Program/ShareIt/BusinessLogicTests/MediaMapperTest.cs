@@ -7,6 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BusinessLogicTests
 {
+    /// <author>
+    /// Jakob Merrild (jmer@itu.dk)
+    /// </author>
     [TestClass]
     public class MediaMapperTest
     {

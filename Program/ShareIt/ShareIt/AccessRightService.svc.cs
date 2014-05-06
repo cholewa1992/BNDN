@@ -15,9 +15,6 @@ using BusinessLogicLayer.FaultDataContracts;
 
 namespace ShareIt
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "AccessRightService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select AccessRightService.svc or AccessRightService.svc.cs at the Solution Explorer and start debugging.
-    
     /// <summary>
     /// This service handles CRUD for Access Rights (Relations between Users and Media Items ie. a purchase).
     /// It also handles making new admins.

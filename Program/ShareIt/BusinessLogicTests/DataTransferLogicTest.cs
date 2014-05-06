@@ -16,6 +16,9 @@ using AccessRightType = BusinessLogicLayer.AccessRightType;
 
 namespace BusinessLogicTests
 {
+    /// <author>
+    /// Jakob Merrild (jmer@itu.dk)
+    /// </author>
     [TestClass]
     public class DataTransferLogicTest
     {
