@@ -58,7 +58,7 @@
         }
 
         <div class="to-right">
-            <button type="button" class="btn btn-default" onclick="window.location.href='/Account/Details/@Model.Id'">Cancel</button>
+            <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Details", new {Id = Model.Id})'">Cancel</button>
             <button type="submit" class="btn btn-success">Save</button>
         </div>
     </div>

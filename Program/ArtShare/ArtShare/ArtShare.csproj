@@ -188,9 +188,30 @@
     <Content Include="Content\bootstrap3-editable\img\loading.gif" />
     <Content Include="Content\bootstrap3-editable\js\bootstrap-editable.js" />
     <Content Include="Content\bootstrap3-editable\js\bootstrap-editable.min.js" />
+    <Content Include="Content\delete.gif" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\search.png" />
+    <Content Include="Content\img\search_black.png" />
+    <Content Include="Content\img\star.svg" />
+    <Content Include="Content\img\star_blue.svg" />
+    <Content Include="Content\img\star_empty.svg" />
+    <Content Include="Content\img\test_thumbnail01.jpg" />
+    <Content Include="Content\img\test_thumbnail02.jpg" />
+    <Content Include="Content\img\test_thumbnail03.jpg" />
+    <Content Include="Content\img\thumbnail_01.jpg" />
+    <Content Include="Content\img\thumbnail_02.jpg" />
+    <Content Include="Content\img\thumbnail_03.jpg" />
     <Content Include="Content\jasny-bootstrap.min.css" />
+    <Content Include="Content\jasny-bootstrap.min.js" />
+    <Content Include="Content\jquery.collageCaption.min.js" />
+    <Content Include="Content\jquery.collagePlus.min.js" />
     <Content Include="Content\jquery.min.js" />
+    <Content Include="Content\jquery.rating.css" />
+    <Content Include="Content\jquery.rating.pack.js" />
+    <Content Include="Content\jquery.removeWhitespace.min.js" />
     <Content Include="Content\normalize.css" />
+    <Content Include="Content\star.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -245,10 +266,16 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\transitions.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\bndn_styles.css" />
     <Content Include="Content\pure.css" />
+    <Content Include="Content\fonts\Bebas.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\LocalMerrild.pubxml" />
     <None Include="Properties\PublishProfiles\WebDeploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
@@ -332,7 +359,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\img\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
@@ -372,7 +398,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>11408</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:63842/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

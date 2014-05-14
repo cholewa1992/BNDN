@@ -35,7 +35,7 @@
             <tbody id="tablebody1">
                 @if(Model.Movies != null){
                     foreach(var m in Model.Movies){
-                        <tr onclick="window.location.href='../Details/@m.ProductId'">
+                        <tr onclick="location.href='@Url.Action("Index", "Details", new{Id = m.ProductId})'">
                             <td><span class="glyphicon glyphicon-film"></span></td>
                             <td><span class="to-left">@m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
@@ -60,7 +60,7 @@
                 {
                     foreach (var m in Model.Music)
                     {
-                        <tr onclick="window.location.href='../Details/@m.ProductId'">
+                        <tr onclick="location.href='@Url.Action("Index", "Details", new{Id = m.ProductId})'">
                             <td><span class="glyphicon glyphicon-music"></span></td>
                             <td><span class="to-left">@m.Artist - @m.Title (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
@@ -85,7 +85,7 @@
                 {
                     foreach (var m in Model.Books)
                     {
-                        <tr onclick="window.location.href='../Details/@m.ProductId'">
+                        <tr onclick="location.href='@Url.Action("Index", "Details", new{Id = m.ProductId})'">
                             <td><span class="glyphicon glyphicon-book"></span></td>
                             <td><span class="to-left">@m.Title by @if(m.Author != null){@m.Author} (@if(m.ReleaseDate != null){@m.ReleaseDate.Value.Year})</span></td>
                         </tr>
