@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Web;
 using System.Web.Mvc;
 using ArtShare.ActionResults;
@@ -55,6 +56,11 @@ namespace ArtShare.Controllers
                 var result = new StreamedFileResult(stream, MimeMapping.GetMimeMapping(fileName), fileName);
                 result.FileSize = fileLength;
                 return result;
+            }
+            catch (FaultException<UnauthorizedUser>)
+            {
+                TempData["error"] = "You need to purchase an item before you can download it.";
+                return RedirectToAction("Index", "Details", new {id});
             }
             catch (Exception e)
             {

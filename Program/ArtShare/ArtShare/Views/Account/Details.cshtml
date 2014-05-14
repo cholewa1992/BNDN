@@ -73,7 +73,7 @@
                         </td>
                         <td>
                             <br>
-                            <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                            @Html.ActionLink("Details", "Index", "Details", new{Id=item.MediaItemId}, new{@class="btn btn-info btn-sm"})
                         </td>
                         <td>
                             <br/>
@@ -113,7 +113,7 @@
                         </td>
                         <td>
                             <br>
-                            <a class="btn btn-info btn-sm" href="../../Details/@item.MediaItemId">Details</a>
+                            @Html.ActionLink("Details", "Index", "Details", new{Id=item.MediaItemId}, new{@class="btn btn-info btn-sm"})
                         </td>
                         <td>
                             <br/>
