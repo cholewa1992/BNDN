@@ -137,9 +137,8 @@
             @if (Model.AccessRight == 1)
             {
                 <div class="is-center">
-                    <form method="post" action="/Details/RateMediaItem">
+                        @using(Html.BeginForm("RateMediaItem","Details", FormMethod.Post)){
                         <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
-
                         <span class="star-rating ">
                             <input type="radio" name="rating" value="1" onclick="submit()"><i></i>
                             <input type="radio" name="rating" value="2" onclick="submit()"><i></i>
@@ -152,7 +151,8 @@
                             <input type="radio" name="rating" value="9" onclick="submit()"><i></i>
                             <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
                         </span><br />
-                    </form>
+                    
+                       }
                 </div>
             }
         </div>

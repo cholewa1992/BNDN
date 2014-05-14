@@ -11,7 +11,7 @@
     {
         foreach (var m in Model.Movies)
         {
-            <div class="Image_Wrapper" data-caption="@m.Title" onclick="window.location.href = '/Details/@m.ProductId'" style="cursor:pointer">
+            <div class="Image_Wrapper" data-caption="@m.Title" onclick="location.href='@Url.Action("Index", "Details", new{Id = m.ProductId})'" style="cursor:pointer">
                 @if (m.Thumbnail != null)
                 {
                     <img src="@m.Thumbnail">

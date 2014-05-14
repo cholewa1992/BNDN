@@ -103,14 +103,18 @@
 
         @if (Request.QueryString["from"] != "1")
         {
-            <li class="previous"><a href="/Search/SearchMediaItems?from=@prev_from&to=@prev_to&searchKey=@searchKey">Previous</a></li>
+            <li class="previous">
+                @Html.ActionLink("Previous", "SearchMediaItems", new {from = prev_from, to = prev_to, searchKey});    
+            </li>         
         }
         
         @if (Model.NumberOfMatchingMovies > this_to ||
         Model.NumberOfMatchingMusic > this_to ||
         Model.NumberOfMatchingBooks > this_to)
         {
-            <li class="next"><a href="/Search/SearchMediaItems?from=@next_from&to=@next_to&searchKey=@searchKey">Next</a></li>
+            <li class="next">
+                @Html.ActionLink("Next", "SearchMediaItems", new { from = next_from, to = next_to, searchKey });
+            </li>
         }
     </ul>
 </span>

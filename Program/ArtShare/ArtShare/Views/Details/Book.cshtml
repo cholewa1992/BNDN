@@ -96,6 +96,7 @@
 }
 <div class="media-details">
     <div class="row">
+        
         <div class="col-md-3">
             @if (Model.Thumbnail != null)
             {
@@ -123,9 +124,8 @@
             @if (Model.AccessRight == 1)
             {
                 <div class="is-center">
-                    <form method="post" action="/Details/RateMediaItem">
+                    @using(Html.BeginForm("RateMediaItem","Details", FormMethod.Post)){
                         <input type="hidden" name="mediaId" value="@Html.DisplayFor(model => model.ProductId)" />
-
                         <span class="star-rating ">
                             <input type="radio" name="rating" value="1" onclick="submit()"><i></i>
                             <input type="radio" name="rating" value="2" onclick="submit()"><i></i>
@@ -138,7 +138,8 @@
                             <input type="radio" name="rating" value="9" onclick="submit()"><i></i>
                             <input type="radio" name="rating" value="10" onclick="submit()"><i></i>
                         </span><br />
-                    </form>
+                    
+                       }
                 </div>
             }
         </div>
@@ -168,8 +169,6 @@
                 }
             }
             <hr />
-
-
         </div>
         <div class="col-md-1">
             <!-- SPACER -->
@@ -212,18 +211,10 @@
                     <strong>@Html.DisplayNameFor(model => model.Price)</strong> <br />
                     $@Html.DisplayFor(model => model.Price)
                 </li>
-@*                <li class="list-group-item">
-                    <strong>Status</strong> <br />
-                    Owner / Buyer / Something
-                </li>*@
             </ul>
-
-
-
         </div>
     </div>
 </div>
-
 <div class="to-right">
 
 </div>
