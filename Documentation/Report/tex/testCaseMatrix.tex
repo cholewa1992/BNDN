@@ -3,6 +3,7 @@
 \def\mystrut(#1,#2){\vrule height #1 depth #2 width 0pt}
 
 \newcolumntype{L}[1]{>{\mystrut(3ex,0ex)\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\mystrut(3ex,0ex)\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \newcommand{\footnoteref}[1]{\textsuperscript{\ref{#1}}}
 
@@ -10,12 +11,23 @@
 
 \newgeometry{left=1.5cm,top=1cm}
 
-Explanation of abbreviations in the following table: UNT = Unittest, UST = Usability Test, AT = Acceptance Test, IT = Integration Test
+Explanation of abbreviations in the following table:
+\begin{itemize}
+\item UNT = Unittest
+\item UST = Usability Test
+\item AT = Acceptance Test
+\item IT = Integration Test
+\end{itemize}
 
 \begin{longtable}{|L{2.1cm}|L{1cm}|L{12.4cm}|L{1.4cm}|}
 
 \hline \multicolumn{1}{|L{2.1cm}|}{ID} & \multicolumn{1}{L{1cm}|}{Type} & \multicolumn{1}{L{12.4cm}|}{Description} & \multicolumn{1}{L{1.4cm}|}{Status}  \\ \hline 
-\endfirsthead
+\endhead
+
+\multicolumn{4}{C{16.9cm}}{Continued on next page}\\
+\endfoot
+
+\endlastfoot
 
 
 FR-01-TC-01 & UST & Test if an end user is able to initiate a search & UST \cellcolor{blue!60} \\ \hline
@@ -25,7 +37,7 @@ FR-02-TC-03&UST&Test if an end user is able to find a media item with a specific
 FR-03-TC-01&AT&Test if an end user is presented with a range of all media items matching the search key when searching &Passed \cellcolor{green!65} \\ \hline
 FR-04-TC-01&UST&Test if an end user is able to find a media item with a specific title which is not on the first search result page within 2 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-05-TC-01&UST&Test if an end user is able to navigate to the details page of a media item in the search result within 2 minutes&UST \cellcolor{blue!60} \\ \hline
-FR-05-TC-02&AT&By a given search ensure that all results have a link to it's details page&Passed \cellcolor{green!65} \\ \hline
+FR-05-TC-02&AT&By a given search ensure that all results have a link to its details page&Passed \cellcolor{green!65} \\ \hline
 FR-06-TC-01&AT&Test if an end user is presented with a range of all media items matching the search key grouped by media type when searching &Passed \cellcolor{green!65} \\ \hline
 FR-07-TC-01&UST&Test if an end user is able to create an Account within 5 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-08-TC-01&AT&In creating an account ensure that the user can enter a desired username and password&Passed \cellcolor{green!65} \\ \hline
@@ -47,10 +59,11 @@ FR-21-TC-01&AT&When updating a password from the Account page, test that a warni
 FR-22-TC-01&AT&Test that a logged in user can successfully log out&Passed \cellcolor{green!65} \\ \hline
 FR-22-TC-02&UST&Test that a user who is already logged in can log out within 2 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-23-TC-01&AT&Ensure that no content only meant for logged users is displayed after a user has logged out&Passed \cellcolor{green!65} \\ \hline
+FR-24-38-TC-01&AT&Ensure that Media Items must have the attributes described in FR-24-30 and that they can have the attributes described in FR-31 to FR-38&Failed\footnoteref{note1} \cellcolor{red!65} \\ \hline
 FR-39-TC-01&AT&Test that a logged in user can upload a media item&Passed \cellcolor{green!65} \\ \hline
 FR-39-TC-02&UST&Test that a user who is already logged in can upload a media item within 3 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-40-TC-01&AT&Test that when uploading a Media Item, Information according to requirements in subsection 3.3.4.6 can be added&Failed\footnote{\label{note1} FR-38: Available/Unavailable for purchase} \cellcolor{red!65} \\ \hline
-FR-41-TC-01&IT&Test that if upload of a Media Item fails then no Media Item Information is saved&Cholewa \cellcolor{magenta!65} \\ \hline
+FR-41-TC-01&AT&Test that if upload of a Media Item fails then no Media Item Information is saved&Passed \cellcolor{green!65} \\ \hline
 FR-42-TC-01&AT&Test that an acknowledgement is displayed to the user if upload is successful&Passed \cellcolor{green!65} \\ \hline
 FR-43-TC-01&AT&Test that an error is displayed to the user if an upload fails&Failed \cellcolor{red!65} \\ \hline
 FR-44-TC-01&AT&Given a user id and a media item id, test if the user can buy the media item provided that he is not the owner and he has not bought the item already&Passed \cellcolor{green!65} \\ \hline
@@ -89,20 +102,26 @@ FR-62-TC-01&AT&Given a user and a media item id, test if a stream containing the
 FR-62-TC-02&UNT&Given a user and a media item id, test if an exception is thrown if the user does not have the correct access right.&Passed \cellcolor{green!65} \\ \hline
 FR-62-TC-03&UNT&Given a media item id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
 FR-62-TC-04&UNT&Given a user that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-63-TC-01&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (except the password) when the id is different from the requesting user's id and the requesting is not admin.&Passed \cellcolor{green!65} \\ \hline
+FR-63-TC-01&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (except the password) when the id is different from the requesting user's id and the requesting user is not admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-02&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (including the password) when the id is the same as the requesting user's id or the requesting user is admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-03&UNT&Given a requsting user and a user id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-64-TC-01 \cellcolor{red!65} \\ \hline
-FR-65-TC-01 \cellcolor{red!65} \\ \hline
-FR-66-TC-01 \cellcolor{red!65} \\ \hline
-FR-67-TC-01 \cellcolor{red!65} \\ \hline
-FR-68-TC-01&UNT&Test if the new user profile has been stored in the database&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-02&UNT&Given a non-unique username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-03&UNT&Given an invalid username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-04&UNT&Given an invalid password, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-69-TC-01&UNT&Test that new Accounts are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
-FR-75-TC-01&IT&Given a user, a media item and a stream containing the data of the media item, test if the stream is saved to a file&Passed \cellcolor{green!65} \\ \hline
-FR-75-TC-02&UNT&Given a user, a media item and a stream containing the data of the media item, test if the media item and all of its information is added to the database&Passed \cellcolor{green!65} \\ \hline
+FR-64-TC-01 & UNT & Given a timespan, test that the 10 most purchased \textit{Media Item}s are returned & Failed\footnote{Out of scope \label{note2}} \cellcolor{red!65} \\ \hline
+FR-65-TC-01 & UNT & Given a timespan, test that the 10 most viewed \textit{Media Item}s are returned & Failed\footnoteref{note2} \cellcolor{red!65} \\ \hline
+FR-66-TC-01 & UNT & Given a \textit{Media Item}, test that a count of how many times it has appeared in a search result as index 9 or lower is returned & Failed\footnoteref{note2} \cellcolor{red!65} \\ \hline
+FR-67-TC-01&UNT&Test if the new user profile has been stored in the database&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-02&UNT&Given a non-unique username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-03&UNT&Given an invalid username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-04&UNT&Given an invalid password, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-68-TC-01&UNT&Test that new Accounts are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
+FR-69-TC-01&UNT&Test if an exception is thrown if the username is not unique (case insensitive matching).&Passed \cellcolor{green!65} \\ \hline
+FR-70-TC-01&UNT&Test if an exception is thrown if the username does not consist of between 1 and 20 characters (both included).&Passed \cellcolor{green!65} \\ \hline
+FR-71-TC-01&UNT&Test if an exception is thrown if the username does not only contains alphanumeric characters (a-zA-Z0-9).&Passed \cellcolor{green!65} \\ \hline
+FR-72-TC-01&UNT&Test if an exception is thrown if the password does not consist of between 1 and 20 characters (both included).&Passed \cellcolor{green!65} \\ \hline
+FR-73-TC-01&UNT&Test if an exception is thrown if the password contains any whitespace character.&Passed \cellcolor{green!65} \\ \hline
+FR-74-TC-01&IT&Given a user, a media item and a stream containing the data of the media item, test if the stream is saved to a file&Passed \cellcolor{green!65} \\ \hline
+FR-74-TC-02&UNT&Given a user, a media item and a stream containing the data of the media item, test if the media item and all of its information is added to the database&Passed \cellcolor{green!65} \\ \hline
+FR-75-TC-01 & UNT & Given a valid \textit{Media Item} ID and a stream containing a thumbnail image, test that a reference to the thumbnail image is added to the \textit{Media Item}s \textit{Media Item Information} & Passed \cellcolor{green!65} \\ \hline
+FR-75-TC-02 & IT & Given a valid \textit{Media Item} ID and a stream containing a thumbnail image, test that the thumbnail image is saved to a file & Passed \cellcolor{green!65} \\ \hline
 FR-76-TC-01&UNT&Test that when a new piece of MediaItemInformation is added to the database it is automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
 FR-77-TC-01&UNT&Test that an Exception is thrown if a Media Item that does not have both a Type and a File Extension is uploaded&Passed \cellcolor{green!65} \\ \hline
 FR-78-TC-01&UNT&Test that newly uploaded Media Items are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
@@ -121,9 +140,9 @@ FR-83-TC-02&UNT&Given some new Media Item Information and a valid Account withou
 FR-84-TC-01&UNT&Given a Media Item ID and a valid Account with rights to delete the Media Item, test that the Media Item is deleted&Passed \cellcolor{green!65} \\ \hline
 FR-84-TC-02&IT&Given a Media Item ID and a valid Account with rights to delete the Media Item, test that the Media Items associated Media Item Information and its associations to Accounts are deleted&Passed \cellcolor{green!65} \\ \hline
 FR-84-TC-03&UNT&Given a Media Item ID and a valid Account without rights to delete the Media Item, test that an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-85-TC-01&UNT&Given a User and a request the User has rights to perform, test that the User is given access &Failed\footnote{Went with different solution \label{note2}} \cellcolor{cyan!65} \\ \hline
-FR-85-TC-02&UNT&Given a User and a request the User does not have the rights to perform, test that the User is denied access&Failed\footnoteref{note2} \cellcolor{cyan!65} \\ \hline
-FR-86-TC-01&UNT&Given a User and a request the User does not have the rights to perform, test that a response describing the problem is sent to the Client&Failed\footnoteref{note2} \cellcolor{cyan!65} \\ \hline
+FR-85-TC-01&UNT&Given a User and a request the User has rights to perform, test that the User is given access &Failed\footnote{Went with different solution \label{note3}} \cellcolor{red!65} \\ \hline
+FR-85-TC-02&UNT&Given a User and a request the User does not have the rights to perform, test that the User is denied access&Failed\footnoteref{note3} \cellcolor{red!65} \\ \hline
+FR-86-TC-01&UNT&Given a User and a request the User does not have the rights to perform, test that a response describing the problem is sent to the Client&Failed\footnoteref{note3} \cellcolor{red!65} \\ \hline
 FR-87-TC-01&AT&Given any request from a User trying to access a Media Item for which all of his Access Rights have expired, test that he is denied access&Passed \cellcolor{green!65} \\ \hline
 FR-88-TC-01&UNT&Given a user and a user id, test if an expiry date is returned for every media item the user with the given id has bought provided that the requesting user has the rights to perform this request (Admin or the user himself).&Passed \cellcolor{green!65} \\ \hline
 FR-88-TC-02&UNT&Given a valid user and a user id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
