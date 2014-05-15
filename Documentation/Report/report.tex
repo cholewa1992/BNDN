@@ -39,6 +39,11 @@
   basicstyle=\ttfamily
 }
 
+\newcommand\todo[1]{\textcolor{red}{TODO: }#1\PackageWarning{TODO:}{TODO tag!!}}
+
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{2}
@@ -139,6 +144,10 @@ The following describes scenarios of what end-users will be able to do on the pl
 \subfile{tex/DtoChoices.tex}
 
 % \subfile{tex/enums.tex}
+
+\section{Access Control}
+
+\subfile{tex/AccessControl.tex}
 
 \section{Erroneous states}
 
