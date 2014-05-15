@@ -1,25 +1,47 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
 
-
-
 \graphicspath{{img/}{../img/}}
 
+As a part of this project we have been collaborating with a team from Singapore Management University (SMU).
 
-As a part of this project we have been collaborating with Singapore Management University.
-
-\textbf{Primary goal:}
+\textbf{Primary goal:}\footnote{Taken from \url{https://wiki.smu.edu.sg/is411/2013T2-ITU}}
 \begin{enumerate}[label=\bfseries G\arabic*:]
 \item SMU and ITU students must negotiate and finalize the project web-service interface
 \item SMU students must implement a working client for the basic requirements.
 \item ITU students must implement and deploy agreed web-services.
 \end{enumerate}
 
-We are using Scrum, and therefore it was decided that our product owner together with a developer would be the main communication link. This was done to shield the rest of the team so that they could focus on developing.
+\subsection{Communication methods}
+We are using Scrum, and therefore it was decided that our product owner together with a developer would be the main communication link.
+This was done to shield the rest of the team so that they could focus on developing.
+\todo[line]{Write some more about communication methods. i.e. email, skype meetings and facebook.}
+\subsection{Beginning of collaboration}
+During the first week of collaboration a set of functional requirements for the SMU client was formed and adapted into \textit{ShareIt}'s existing requirements. 
+Most requirements were already met and only a few new were added. 
+The SMU requirements were prioritized and it was agreed that if  some requirements were not able to be met due to time pressure, those with lowest priority would be omitted.
 
-During the first week of collaboration a set of functional requirements for the SMU client was formed and adapted into Share-it's existing requirements. Most requirements was already met and only a few new was added. The SMU requirements was prioritized and it was agreed that if requirements where not to be met due to time pressure, those with lowest priority would be omitted.
+After we received the requirements from the SMU team we started working on the interfaces for our WCF services. 
+The goal was to have the interfaces designed and deployed as quickly as possible so the SMU team would be able to start coding against the services.
+However, the SMU team had some difficulties consuming our services.
+%Next step was for our group to make interfaces suiting the requirements so that SMU could begin client development as rapidly as possible. 
+%This did not go as we hoped.
+\subsection{WCF SOAP vs. HTML5 and JavaScript}
+The SMU team had already early on in the collaboration expressed a wish to develop their client using only HTML5 and JavaScript. 
+We knew that WCF as default uses the SOAP standard and wrongly assumed that since SOAP was a well defined communication standard it would not be a problem for the SMU team to consume our services using their desired technology.
 
-Next step was for our group to make interfaces suiting the requirements so that SMU could begin client development as rapidly as possible. This did not go as we hoped.
+As it turns out it is not easy to consume services via SOAP using only HTML5 and JavaScript.
+After a meeting with the SMU team where they expressed their difficulties it was decided that both parties would spend some time looking for ways to consume the SOAP services with JavaScript.
+Additionally we agreed to look into how easy it would be for us to switch from SOAP based services to a REST architecture using JSON as object notation, which we knew would be much easier to consume using JavaScript.
+Neither of the teams succeeded in finding a good way to consume the SOAP services with JavaScript and after looking into changing our architecture we realised that it would require quite a bit of work. 
+Furthermore we could not find a way for the REST architecture to support one of the features we had with SOAP, namely that it was possible to send meta data along with a byte stream when transferring files.
+
+When we passed this information along to the SMU team they informed us that they had already decided to switch technology to ASP.NET.
+This was great news for us since we already had experience setting up service references within Visual Studio.
+Since the SMU team did not have previous experience with .NET we agreed to act as consultants with regards to problems concerning C\# and Visual Studio.
+Lastly we agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}.
+
+\subsection{Setting up dummy data}
 
 The SMU students were delayed from the start due to complications devouring our service interface. The issue were that SMU had chosen to use HTML5 and javascript which did not integrate very well with our WCF implementation. A lot of time was used trying to accommodate these issues, but finally they decided to change technology to ASP.net making the service usage easier.
 
