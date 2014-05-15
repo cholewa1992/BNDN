@@ -1,5 +1,8 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
+\graphicspath{{img/}{../img/}}
+\label{sec:enums}
+
 When designing the DTOs for the \textit{ShareIt Back End} there was one decision which was particularly impactful. Since the data model was designed to be as generic as possible we needed to decide on how to best reflect this in the DTOs. We considered the following three approaches.
 \begin{itemize}
 \item Using inheritance to model the differences between the different entity types.
