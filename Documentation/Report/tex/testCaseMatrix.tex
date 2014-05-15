@@ -3,6 +3,7 @@
 \def\mystrut(#1,#2){\vrule height #1 depth #2 width 0pt}
 
 \newcolumntype{L}[1]{>{\mystrut(3ex,0ex)\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\mystrut(3ex,0ex)\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \newcommand{\footnoteref}[1]{\textsuperscript{\ref{#1}}}
 
@@ -21,7 +22,12 @@ Explanation of abbreviations in the following table:
 \begin{longtable}{|L{2.1cm}|L{1cm}|L{12.4cm}|L{1.4cm}|}
 
 \hline \multicolumn{1}{|L{2.1cm}|}{ID} & \multicolumn{1}{L{1cm}|}{Type} & \multicolumn{1}{L{12.4cm}|}{Description} & \multicolumn{1}{L{1.4cm}|}{Status}  \\ \hline 
-\endfirsthead
+\endhead
+
+\multicolumn{4}{C{16.9cm}}{Continued on next page}\\
+\endfoot
+
+\endlastfoot
 
 
 FR-01-TC-01 & UST & Test if an end user is able to initiate a search & UST \cellcolor{blue!60} \\ \hline
@@ -53,6 +59,7 @@ FR-21-TC-01&AT&When updating a password from the Account page, test that a warni
 FR-22-TC-01&AT&Test that a logged in user can successfully log out&Passed \cellcolor{green!65} \\ \hline
 FR-22-TC-02&UST&Test that a user who is already logged in can log out within 2 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-23-TC-01&AT&Ensure that no content only meant for logged users is displayed after a user has logged out&Passed \cellcolor{green!65} \\ \hline
+FR-24-38-TC-01&AT&Ensure that Media Items must have the attributes described in FR-24-30 and that they can have the attributes described in FR-31 to FR-38&Failed\footnoteref{note1} \cellcolor{red!65} \\ \hline
 FR-39-TC-01&AT&Test that a logged in user can upload a media item&Passed \cellcolor{green!65} \\ \hline
 FR-39-TC-02&UST&Test that a user who is already logged in can upload a media item within 3 minutes&UST \cellcolor{blue!60} \\ \hline
 FR-40-TC-01&AT&Test that when uploading a Media Item, Information according to requirements in subsection 3.3.4.6 can be added&Failed\footnote{\label{note1} FR-38: Available/Unavailable for purchase} \cellcolor{red!65} \\ \hline
@@ -95,7 +102,7 @@ FR-62-TC-01&AT&Given a user and a media item id, test if a stream containing the
 FR-62-TC-02&UNT&Given a user and a media item id, test if an exception is thrown if the user does not have the correct access right.&Passed \cellcolor{green!65} \\ \hline
 FR-62-TC-03&UNT&Given a media item id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
 FR-62-TC-04&UNT&Given a user that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-63-TC-01&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (except the password) when the id is different from the requesting user's id and the requesting is not admin.&Passed \cellcolor{green!65} \\ \hline
+FR-63-TC-01&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (except the password) when the id is different from the requesting user's id and the requesting user is not admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-02&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (including the password) when the id is the same as the requesting user's id or the requesting user is admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-03&UNT&Given a requsting user and a user id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
 FR-64-TC-01 & UNT & Given a timespan, test that the 10 most purchased \textit{Media Item}s are returned & Failed\footnote{Out of scope \label{note2}} \cellcolor{red!65} \\ \hline
@@ -106,6 +113,11 @@ FR-67-TC-02&UNT&Given a non-unique username, test if an exception is thrown&Pass
 FR-67-TC-03&UNT&Given an invalid username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
 FR-67-TC-04&UNT&Given an invalid password, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
 FR-68-TC-01&UNT&Test that new Accounts are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
+FR-69-TC-01&UNT&Test if an exception is thrown if the username is not unique (case insensitive matching).&Passed \cellcolor{green!65} \\ \hline
+FR-70-TC-01&UNT&Test if an exception is thrown if the username does not consist of between 1 and 20 characters (both included).&Passed \cellcolor{green!65} \\ \hline
+FR-71-TC-01&UNT&Test if an exception is thrown if the username does not only contains alphanumeric characters (a-zA-Z0-9).&Passed \cellcolor{green!65} \\ \hline
+FR-72-TC-01&UNT&Test if an exception is thrown if the password does not consist of between 1 and 20 characters (both included).&Passed \cellcolor{green!65} \\ \hline
+FR-73-TC-01&UNT&Test if an exception is thrown if the password contains any whitespace character.&Passed \cellcolor{green!65} \\ \hline
 FR-74-TC-01&IT&Given a user, a media item and a stream containing the data of the media item, test if the stream is saved to a file&Passed \cellcolor{green!65} \\ \hline
 FR-74-TC-02&UNT&Given a user, a media item and a stream containing the data of the media item, test if the media item and all of its information is added to the database&Passed \cellcolor{green!65} \\ \hline
 FR-75-TC-01 & UNT & Given a valid \textit{Media Item} ID and a stream containing a thumbnail image, test that a reference to the thumbnail image is added to the \textit{Media Item}s \textit{Media Item Information} & Passed \cellcolor{green!65} \\ \hline
