@@ -160,6 +160,7 @@ ehthumbs.db
 #White listing#
 !Documentation/Report/img/*.pdf
 !Documentation/Report/tex/img/*.pdf
+!Documentation/Notes/UsabilityTest/DetNyeSort/*.pdf
 
 #nuget trash
 Program/ArthShare/.nuget/*
