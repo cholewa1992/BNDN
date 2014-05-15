@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using ArtShare.Logic;
 using ArtShare.Models;
 using Microsoft.Ajax.Utilities;
@@ -164,6 +165,8 @@ namespace ArtShare.Controllers
         public ActionResult Register()
         {
             TempData["redirectTo"] = TempData["redirectTo"];
+            if (Request.Cookies["user"] != null)
+                return RedirectToAction("Details", new {Id = Request.Cookies["user"].Values["id"]});
             return View();
         }
 
