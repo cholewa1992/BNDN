@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
 \usepackage{fancyhdr}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
@@ -22,6 +22,8 @@
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{longtable}
+\usepackage{courier}
+\usepackage{todonotes}
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
 \definecolor{redstrings}{rgb}{0.9,0,0}
@@ -37,6 +39,9 @@
   stringstyle=\color{redstrings},
   basicstyle=\ttfamily
 }
+
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
 
 
 \setcounter{secnumdepth}{3}
@@ -60,7 +65,7 @@
 \author{Asbj\o rn Fjelbro Steffensen (afjs@itu.dk)\\ Thomas Stoy Dragsb\ae k (thst@itu.dk)\\ Nicki Hjorth J\o rgensen (nhjo@itu.dk)\\ Jacob Benjamin Cholewa (jbec@itu.dk)\\ Jakob Merrild (jmer@itu.dk)\\ Mathias Kindsholm Pedersen (mkin@itu.dk)}
 
 \begin{document}
-
+\listoftodos[TODO]
 \input{./tex/title.tex}
 \newpage
 \tableofcontents
@@ -139,6 +144,10 @@ The following describes scenarios of what end-users will be able to do on the pl
 
 % \subfile{tex/enums.tex}
 
+\section{Access Control}
+
+\subfile{tex/AccessControl.tex}
+
 \section{Erroneous states}
 
 \subfile{tex/CodeContracts.tex}
@@ -153,8 +162,7 @@ The following describes scenarios of what end-users will be able to do on the pl
 \chapter{User Manual}
 
 \chapter{Test Strategy}
-All developers write their own unit tests \\
-Integration testing is done by a third developer
+\subfile{tex/teststrategy.tex}
 
 \chapter{Test}
 
