@@ -1,4 +1,39 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
 
+This section is dedicated to thoroughly explain the architecture behind \textit{Artshare}, which is the client developed to use the functionality of the server. \textit{ArtShare} has been developed using the ASP.NET MVC framework by Microsoft\footnote{http://www.asp.net/mvc}. 
+
+The students at SMU developed another client using the functionality of the server, but the architecture of this client will not be described in this section nor in this report.
+
+\subsection{ASP.NET MVC}
+
+The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components that seperates application data and logic from the view that is displayed to the user. Figure xx, shows how the MVC components interacts with each other.
+
+Insert figure here
+
+In MVC the model represents the application data, business rules and logic, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. In ArtShare the model is defining all properties, determining which data that is to be used in the client.
+
+A view is a representation of data that is displayed to the user, therefore views are the UI of the application. All views are populated with the data objects defined in the model. The controller is what the user interacts with to manipulate the data objects in the model. It reads data and user input from the view and sends the manipulated data to the model. The controller also selects which view to render and passes on a specfic model if this is necessary.
+
+The seperation of the applications components ensures a loose coupling. Especially the seperation of the application data is an relevant part when talking about the development of ArtShare. The models developed are used in several views throughout in the application. An example is the detailmodels\footnote{movieDetailsModel, musicDetailsModel, bookDetailsModel}, that are used to display, edit and upload mediaItems.
+
+The loose coupling in the application framework also forms a sound basis for parallel programming. Developers can simultaneosly work on both the model, view and controllers, which were a great advantage in the development fase of ArtShare, since we wanted to distribute our resources as effectively as possible.
+
+Specifically ASP.NET MVC uses a Front-controller pattern to process requests through a single controller. This means that you are able to control all routings of the application. We have made use of this in ArtShare to simplify paths and make the details page more generic, so that \texttt{/details/\{id\}} will reroute to \texttt{/details/movie/\{id\}} if the given id is a movie.
+
+
+\subsection{Architectureal Alternatives}
+
+When developing front-end you can choose between numerous great frameworks and development patterns. ASP.NET offers itself three patterns, where MVC is one of them. 
+
+These days a lot of powerful Javascript frameworks exists, so many that picking one is a hard task.  
+
+Javascript frameworks, ruby on rails
+MVC vs MVVM
+
+But there are many other alternatives to ASP.NET. 
+
+Since the server is developed using the .NET platform it was an obvious choice to also choose a .NET platform for developing the client. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the web.config file. The choice for the MVC pattern ...
+
+
 \end{document}
