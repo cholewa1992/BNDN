@@ -92,17 +92,18 @@ FR-62-TC-04&UNT&Given a user that does not exist, test if an exception is thrown
 FR-63-TC-01&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (except the password) when the id is different from the requesting user's id and the requesting is not admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-02&UNT&Given a requesting user and a user id, test if a UserDTO with all information about the user with the given id is returned (including the password) when the id is the same as the requesting user's id or the requesting user is admin.&Passed \cellcolor{green!65} \\ \hline
 FR-63-TC-03&UNT&Given a requsting user and a user id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-64-TC-01 \cellcolor{red!65} \\ \hline
-FR-65-TC-01 \cellcolor{red!65} \\ \hline
-FR-66-TC-01 \cellcolor{red!65} \\ \hline
-FR-67-TC-01 \cellcolor{red!65} \\ \hline
-FR-68-TC-01&UNT&Test if the new user profile has been stored in the database&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-02&UNT&Given a non-unique username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-03&UNT&Given an invalid username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-68-TC-04&UNT&Given an invalid password, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-69-TC-01&UNT&Test that new Accounts are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
-FR-75-TC-01&IT&Given a user, a media item and a stream containing the data of the media item, test if the stream is saved to a file&Passed \cellcolor{green!65} \\ \hline
-FR-75-TC-02&UNT&Given a user, a media item and a stream containing the data of the media item, test if the media item and all of its information is added to the database&Passed \cellcolor{green!65} \\ \hline
+FR-64-TC-01 & UNT & Given a timespan, test that the 10 most purchased \textit{Media Item}s are returned & Failed\footnote{Out of scope \label{note2}} \cellcolor{red!65} \\ \hline
+FR-65-TC-01 & UNT & Given a timespan, test that the 10 most viewed \textit{Media Item}s are returned & Failed\footnoteref{note2} \cellcolor{red!65} \\ \hline
+FR-66-TC-01 & UNT & Given a \textit{Media Item}, test that a count of how many times it has appeared in a search result as index 9 or lower is returned & Failed\footnoteref{note2} \cellcolor{red!65} \\ \hline
+FR-67-TC-01&UNT&Test if the new user profile has been stored in the database&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-02&UNT&Given a non-unique username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-03&UNT&Given an invalid username, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-67-TC-04&UNT&Given an invalid password, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
+FR-68-TC-01&UNT&Test that new Accounts are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
+FR-74-TC-01&IT&Given a user, a media item and a stream containing the data of the media item, test if the stream is saved to a file&Passed \cellcolor{green!65} \\ \hline
+FR-74-TC-02&UNT&Given a user, a media item and a stream containing the data of the media item, test if the media item and all of its information is added to the database&Passed \cellcolor{green!65} \\ \hline
+FR-75-TC-01 & UNT & Given a valid \textit{Media Item} ID and a stream containing a thumbnail image, test that a reference to the thumbnail image is added to the \textit{Media Item}s \textit{Media Item Information} & Cholewa \cellcolor{magenta!65} \\ \hline
+FR-75-TC-02 & IT & Given a valid \textit{Media Item} ID and a stream containing a thumbnail image, test that the thumbnail image is saved to a file & Cholewa \cellcolor{magenta!65} \\ \hline
 FR-76-TC-01&UNT&Test that when a new piece of MediaItemInformation is added to the database it is automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
 FR-77-TC-01&UNT&Test that an Exception is thrown if a Media Item that does not have both a Type and a File Extension is uploaded&Passed \cellcolor{green!65} \\ \hline
 FR-78-TC-01&UNT&Test that newly uploaded Media Items are automatically given a unique ID&Passed \cellcolor{green!65} \\ \hline
@@ -121,9 +122,9 @@ FR-83-TC-02&UNT&Given some new Media Item Information and a valid Account withou
 FR-84-TC-01&UNT&Given a Media Item ID and a valid Account with rights to delete the Media Item, test that the Media Item is deleted&Passed \cellcolor{green!65} \\ \hline
 FR-84-TC-02&IT&Given a Media Item ID and a valid Account with rights to delete the Media Item, test that the Media Items associated Media Item Information and its associations to Accounts are deleted&Passed \cellcolor{green!65} \\ \hline
 FR-84-TC-03&UNT&Given a Media Item ID and a valid Account without rights to delete the Media Item, test that an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-85-TC-01&UNT&Given a User and a request the User has rights to perform, test that the User is given access &Failed\footnote{Went with different solution \label{note2}} \cellcolor{cyan!65} \\ \hline
-FR-85-TC-02&UNT&Given a User and a request the User does not have the rights to perform, test that the User is denied access&Failed\footnoteref{note2} \cellcolor{cyan!65} \\ \hline
-FR-86-TC-01&UNT&Given a User and a request the User does not have the rights to perform, test that a response describing the problem is sent to the Client&Failed\footnoteref{note2} \cellcolor{cyan!65} \\ \hline
+FR-85-TC-01&UNT&Given a User and a request the User has rights to perform, test that the User is given access &Failed\footnote{Went with different solution \label{note3}} \cellcolor{cyan!65} \\ \hline
+FR-85-TC-02&UNT&Given a User and a request the User does not have the rights to perform, test that the User is denied access&Failed\footnoteref{note3} \cellcolor{cyan!65} \\ \hline
+FR-86-TC-01&UNT&Given a User and a request the User does not have the rights to perform, test that a response describing the problem is sent to the Client&Failed\footnoteref{note3} \cellcolor{cyan!65} \\ \hline
 FR-87-TC-01&AT&Given any request from a User trying to access a Media Item for which all of his Access Rights have expired, test that he is denied access&Passed \cellcolor{green!65} \\ \hline
 FR-88-TC-01&UNT&Given a user and a user id, test if an expiry date is returned for every media item the user with the given id has bought provided that the requesting user has the rights to perform this request (Admin or the user himself).&Passed \cellcolor{green!65} \\ \hline
 FR-88-TC-02&UNT&Given a valid user and a user id that does not exist, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
