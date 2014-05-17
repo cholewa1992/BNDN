@@ -6,9 +6,9 @@
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}]
 \item Without prior knowledge of the client, a user must be able to
 	\begin{enumerate}
-	\item{Create an account within 5 minutes}
-	\item Search for media within 1 minute
-	\item Purchase media files within 3 minutes
+	\item Create an account within 5 minutes
+	\item Initiate a search within 1 minute
+	\item Purchase media files within 3 minutes (when logged in)
 	\end{enumerate}
 \end{enumerate}
 
@@ -16,7 +16,7 @@
 
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item If the connection to ShareIT is lost for any reason, the client must not crash. 
-\item In case of failure the client must provide extensive error messages, such that the user can understand and react to it accordingly.
+\item In case of failure the client must provide extensive error messages, such that the user can understand what went wrong and react to it accordingly.
 \end{enumerate}
 
 \subsubsection{Performance}
@@ -29,14 +29,14 @@
 \subsubsection{Supportability}
 
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
-\item Developers must be able to extend the functionality of the client by only reading the code and the documentation.
-\item Extensions might require a temporary shutdown of the web service.
+\item .NET developers must be able to extend the functionality of the client by only reading the code and the documentation.
+%\item Extensions might require a temporary shutdown of the web service.
 \item The code must be written in such way, that all modules can be tested in isolation.
 \end{enumerate}
 
 \subsubsection{Implementation}
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
-\item The client is developed in ASP.NET and is accessible through a web browser.
+\item The client must be developed in ASP.NET and must be accessible through a web browser.
 \item Minimum system requirements
 
 
@@ -53,10 +53,10 @@
 \item Each test case must be independent from the others and must test a module in isolation.
 \end{enumerate}
 
-\subsubsection{Interface}
+%\subsubsection{Interface}
 
-\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
-\item {\color{red}What standards in use by the client should be supported by the system?}
-\end{enumerate}
+%\begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
+%\item {\color{red}What standards in use by the client should be supported by the system?}
+%\end{enumerate}
 
 %\end{document}

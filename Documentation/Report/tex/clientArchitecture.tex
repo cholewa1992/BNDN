@@ -9,7 +9,7 @@ This section is dedicated to explain the architecture behind \textit{Artshare}, 
 
 \subsection{ASP.NET MVC}
 
-The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components that seperates application data and logic from the view that is displayed to the user. 
+The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components which seperates application data and logic from the view that is displayed to the user. 
 
 In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. The view is a representation of data and is displayed to the user. The controller is what the user interacts with to manipulate the data objects. It reads data and user input from the view and sends the manipulated data to the model. The controller also selects which view to render and passes on a specfic model if this is necessary.
 
@@ -19,8 +19,19 @@ In MVC the model represents the application domain data, which is the core part 
 \label{fig:mvc}
 \end{figure}
 
-Figure \ref{fig:mvc} shows an example of how MVC components interact with each other, using an actual example from Artshare. The figure illustrates the interaction when movie details are shown. A user interacts with ArtShare and asks for the movie details with a specific id. The controller manipulates the model, such that the model contains data about the correct movie. The controller then updates the view, by passing the manipulated model to the view, which is then displayed to the user.
+Figure \ref{fig:mvc} shows an example of how MVC components interact with each other, using an actual example from Artshare. The figure illustrates the interaction when movie details are shown. A user interacts with ArtShare and asks for the movie details of a movie with a specific id. The controller manipulates the model, such that the model contains data about the correct movie. The controller then updates the view, by passing the manipulated model to the view, which is then displayed to the user.
 
+The controllers in ArtShare delegate most of their tasks to the logic classes, which are interfaced. This allows for easier testing of the controllers and makes the logic classes replaceable if at one point it is decided to use a different logic (for instance a logic using a different service). The controller classes have overloaded constructors in order to support the injection of a logic class. The following code-snippet shows how this is done in the DetailsController class.
+
+\begin{lstlisting}
+	private readonly IDetailsLogic _logic;
+	public DetailsController() {
+		_logic = new DetailsLogic();
+	}
+	public DetailsController(IDetailsLogic detailsLogic) {
+		_logic = detailsLogic;
+	}
+\end{lstlisting}
 
 %In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. In ArtShare the model is defining all properties, determining which data to be used by a view.
 
@@ -30,18 +41,18 @@ Figure \ref{fig:mvc} shows an example of how MVC components interact with each o
 \subsection{Motivation}
 
 \paragraph{Motivation for choosing MVC}
-When developing front-end you can choose between numerous great frameworks and development patterns. ASP.NET offers itself three patterns, where MVC is one of them. The seperation of the application components in MVC ensures a loose coupling, which is the key motivation for choosing this framework.
+When developing front-end you can choose between numerous great frameworks and development patterns. ASP.NET offers three patterns, where MVC is one of them. The seperation of the application components in MVC ensures a loose coupling, which is the key motivation for choosing this framework.
 
-Especially the seperation of the application data is an relevant part when talking about the development of ArtShare. The models developed are used in several views throughout in the application. An example are the detailmodels\footnote{MovieDetailsModel, MusicDetailsModel, BookDetailsModel}, that are used to display, edit and upload mediaItems.
+Especially the seperation of the application data is a relevant part when talking about the development of ArtShare. The models developed are used in several views in the application. An example is the detailmodels\footnote{MovieDetailsModel, MusicDetailsModel, BookDetailsModel}, which are used to display, edit and upload \textit{Media Items}.
 
-The loose coupling in the application framework also forms a sound basis for parallel programming. When the model has been implemented, the developers can simoultanously work on the controllers and the views.
+The loose coupling in the application framework also forms a sound basis for parallel programming. When the model has been implemented, the developers can simultaneously work on the controllers and the views.
 
-Specifically ASP.NET MVC uses a Front-controller pattern to process requests through a single controller. This means that you are able to control all routings of the application. We have made use of this in ArtShare to simplify paths and make the details page more generic, so that \texttt{/details/\{id\}} will reroute to \texttt{/details/movie/\{id\}} if the given id is a movie.
+Specifically ASP.NET MVC uses a Front-controller pattern to process requests through a single controller. This means that you are able to control all routings of the application. There has been made use of this in ArtShare to simplify paths and make the details page more generic, so that \texttt{/details/\{id\}} will reroute to \texttt{/details/movie/\{id\}} if the given id is a movie.
 
 \paragraph{Motivation for choosing .NET}
-Lots of powerful Javascript frameworks offers the availability to develop web applications in MVC. Some of the most used are Angular.js, Backbone.js and Knockout.js. Other languages such as Ruby on Rails also uses MVC, like most of the web frameworks that exists.
+Lots of powerful Javascript frameworks offer to develop web applications in MVC. Some of the most used are Angular.js, Backbone.js and Knockout.js. Other languages such as Ruby on Rails also uses MVC, like most of the web frameworks that exists.
 
-Since the server is developed using the .NET platform it was an obvious choice to also choose a .NET platform for developing the client. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the web.config file. The choice for the MVC pattern ...
+Since the server is developed using the .NET platform it was an obvious choice to also develop the client in a .NET platform. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the \texttt{web.config} file. 
 
 
 \end{document}
