@@ -13,18 +13,12 @@ Following tests strategies will be used to accomplish this.
 \paragraph{Unit tests}
 As per the developers definition of done; a code task to be done, working and unit-tested code must be committed to the project repository. In addition to this all code will be Quality assured by another developer. This will enforce the code quality and ensure that code in-fact perform the intended logic
 
-%Throughout the project the developers have been working with a definition of done. This definition states that for a code task to be done, working and unit-tested code must be committed to the project repository. As a result of this all service components is unit tests to ensure that they in-fact perform the intended logic.
-
 \paragraph{Integration tests}
 
-To ensure that the integration between subsystems are working as intended, a set of integration tests will be written.
-
-%As every subsystem has been tested separately though unit tests it's important to test that the subsystems also work together. A set of integration tests have therefore been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This have been done by having a mock database. A full set of test data have been written and and all methods in the Business layer have been tested to ensure the intended database operation.
+To ensure that the integration between subsystems are working as intended, a set of integration tests will be written. The integration tests will also be used under development. We're not using continues integration, but every integration test will be ran after changing a tested subsystem. This will insure that logic will not break due to changes and optimizations.
 
 \paragraph{Usability tests}
-As the non-functional requirements for this project include requirements for usability, a usability test will be executed to ensure that the requirements are met.
-
-A set of tasks will be written to cover these requirements and tested on a small target group matching the target group of the system on parameters of age, gender and IT knowledge.
+As the non-functional requirements for this project include requirements for usability, a usability test will be executed to ensure that the requirements are met. A set of tasks will be written to cover these requirements and tested on a small target group matching the target group of the system on parameters of age, gender and IT knowledge.
 
 \paragraph{Acceptance tests}
 Acceptance tests are tests done to ensure that the system meets the system requirements. Acceptance testing is normally done by the customer, but as there is no customers to this project acceptance tests will be executed by the project group itself.
@@ -32,7 +26,27 @@ Acceptance tests are tests done to ensure that the system meets the system requi
 For every requirement a test case will be written. These test cases can either be tested though system testing, integration testing, unit tests or usability tests. System testing is a test case of the full working test where a task is manually carried out. 
 
 \subsection{Reflection and results}
-stuff
+This section will contain the results and a brief reflection following from the test strategy.
+
+\subsubsection{Results}
+\paragraph{Unit test results}
+
+\todo{Fill in numbers}
+x unit tests have been written covering all classes containing logic. x of the tests are covering ShareIT and x covering ArtShare. All unit tests are compiling and is running without errors.
+
+\paragraph{Integration test results}
+
+A set of integration tests have been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This have been done by having a mock database. A set of test data have been written and and all methods in the Business layer have been tested to ensure the intended database operation. All x tests are compiling and is running without errors
+
+Only integration tests have been implemented on these two subsystems as it was the only subsystems where logic relied on one another
+
+\paragraph{Usability test results}
+\todo{Write results}
+Some results
+
+\paragraph{Acceptance tests}
+For all requirements test cases have been written (See table \ref{testmatrix}). \todo{Write why some has not passed}
+
 
 
 \end{document}
