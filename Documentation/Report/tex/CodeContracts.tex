@@ -3,36 +3,47 @@
 
 \begin{document}
 
+%In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking in the business logic on our back-end.
 
+In the business logic layer of ShareIT, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been used to prevent runtime errors. Variables are checked with the Code Contracts by making assumptions on the functionality of the implemented code. Code Contracts can be used with three following syntaxes:
 
+ \textbf{Legacy if-then-throw:}
+\begin{lstlisting}
+   if(argument <= 0) throw new ArgumentException();  
+   Contract.EndContractBlock();
+\end{lstlisting}
 
-In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking in the business logic on our back-end.
+\textbf{Contract library:}
+\begin{lstlisting}
+   Contract.Requires(argument > 0);
+\end{lstlisting}
 
-Code contracts can be used with three different syntaxes
+\textbf{Contract library with custom exceptions:}
+\begin{lstlisting}
+   Contract.Requires<ArgumentException>(argument > 0);
+\end{lstlisting}
 
-\begin{itemize}
-\item \textbf{Legacy if-then-throw:}
-\subitem if(argument <= 0) throw new ArgumentException();  
-\subitem Contract.EndContractBlock();
+Overall, Code Contracts have been used because of readability and control. There are however a big difference in the three syntaxes, and therefore the syntax with custom exceptions have been chosen for one specific reason. 
 
-\item \textbf{Contract library:}
-\subitem Contract.Requires(argument > 0);
+When a Code Contract with no custom exception specified is broken, a ContractException is thrown. In the services of ShareIt, errors are exposed as faults, and without custom exceptions these faults would always be of type ContractException. In this case, one would have to check the exceptions message to be able to distinguish between the different exceptions in the system. With the use of custom exception, you can avoid this problem. 
 
-\item \textbf{Contract library with custom exceptions:}
-\subitem Contract.Requires<ArgumentException>(argument > 0);
-\end{itemize}
+The if-then-throw syntax have not been used mainly because of readability. This approach of syntax will most likely be chosen when expanding on a system already using the if-then-throw syntax. Since ShareIt is developed from scratch, there were no schematic consistency requirements in the form of legacy if-then-throw clauses.
 
-Overall we have chosen to use Code Contracts because of readability and control.
+When using the Contract library it is explicit from the method whether one are checking a pre- or postcondition. This is another benefit, when using Code Contracts, with or without custom exceptions.
 
-We have chosen not to use the if-then-throw syntax because of readability. This approach will most likely be chosen when expanding on a system already using the if-then-throw syntax, but since we are developing from a clean slate, we have no schematic consistency requirements in form of legacy if-then-throw clauses.
+Since ShareIt offers an open API, variables must be checked when they are parsed to the server and therefore assemblies are compiled with full runtime checking. This means that all members of the team, developing ShareIt, need Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
 
-Another benefit of using the Contract library is that it is explicit from the method whether we are checking a pre- or postcondition.
+%Overall, Code Contracts have been used because of readability and control. 
 
-When a contract with no custom exception specified is broken, a ContractException is thrown. This is why one also has the option for specifying an exception.
+%We have chosen not to use the if-then-throw syntax because of readability. This approach will most likely be chosen when expanding on a system already using the if-then-throw syntax, but since we are developing from a clean slate, we have no schematic consistency requirements in form of legacy if-then-throw clauses.
 
-We have chosen to use custom exceptions because we have to expose these errors as faults in our services. Without custom exceptions it would always be a type ContractException, and then we would have to check the exception message to distinguish.
+%Another benefit of using the Contract library is that it is explicit from the method whether we are checking a pre- or postcondition.
 
-Since we are developing an open API, we want to check variables parsed to us, and so our assemblies are compiled with full runtime checking. This means that all members of our team need Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
+%When a contract with no custom exception specified is broken, a ContractException is thrown. This is why one also has the option for specifying an exception.
+
+%We have chosen to use custom exceptions because we have to expose these errors as faults in our services. Without custom exceptions it would always be a type ContractException, and then we would have to check the exception message to distinguish.
+
+%Since we are developing an open API, we want to check variables parsed to us, and so our assemblies are compiled with full runtime checking. This means that all members of our team need Code Contracts installed in order to work on our source code. Ultimately this was the only hindrance we faced in using Code Contracts.
 
 
 
