@@ -9,6 +9,8 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
+
     public interface IMediaItemLogic : IDisposable
     {
         /// <summary>

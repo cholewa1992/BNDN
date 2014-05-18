@@ -12,7 +12,7 @@ using Client = BusinessLogicLayer.DTO.ClientDTO;
 namespace BusinessLogicLayer
 {
     /// <author>
-    /// Mathias Pedersen (mkin@itu.dk)
+    /// Mathias Pedersen (mkin@itu.dk), Thomas Dragsbæk (thst@itu.dk)
     /// </author>
     internal class AuthLogic: IAuthInternalLogic
     {

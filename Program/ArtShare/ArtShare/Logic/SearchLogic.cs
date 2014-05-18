@@ -11,6 +11,7 @@ using ShareItServices.MediaItemService;
 
 namespace ArtShare.Logic
 {
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     public class SearchLogic : ISearchLogic
     {    
         public SearchModel SearchMediaItems(int from, int to, string searchKey)

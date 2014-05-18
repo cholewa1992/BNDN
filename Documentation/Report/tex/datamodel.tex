@@ -29,8 +29,8 @@
 When designing the data model there were several considerations to make. The design goals for the data model were as follows:
 \begin{itemize}
 \item Make a generic data model that can suit both the ArtShare and the SMU Client.
-\item Make the model as extensible as possible. By this we mean that we can add a new property to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
-\item We wanted our data model to be in the highest normal form possible to avoid redundancy in regards to data space and corruption
+\item Make the model as extensible as possible. Meaning new properties can be added to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
+\item The data model should be in the highest normal form possible to avoid redundancy in regards to data space and corruption
 \end{itemize} 
 
 
@@ -40,7 +40,8 @@ When designing the data model there were several considerations to make. The des
 %(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
 
 
-Looking at the requirements for \textit{The System} two major entities ere identified, namely the \textit{User} and \textit{Media item} (modelled as entity). Additionally it bacame clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
+\textit{The System} revolves around two major entities, namely the \textit{User} and \textit{Media item} (modelled as entity). Additionally it bacame clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
+
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{ER.png}
@@ -48,7 +49,7 @@ Looking at the requirements for \textit{The System} two major entities ere ident
 \label{fig:use case diagram}
 \end{figure}
 
-In order to make the data model flexible and extensible wa decision was made to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
+In order to make the data model flexible and extensible a decision was made to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
 
 This facilitates the need clients might have concerning what information is stored in a \textit{User} or \textit{Media item} entity, as well as making it easier to add more information types iteratively.\\
 
