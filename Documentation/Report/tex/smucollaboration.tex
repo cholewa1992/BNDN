@@ -13,15 +13,15 @@ As a part of this project we have been collaborating with a team from Singapore 
 \end{enumerate}
 
 \subsection{Communication methods}
-We used Scrum and therefore it was decided that our product owner together with a developer would be the main communication link.
-This was done to shield the rest of the team so that they could focus on developing.
+As a development team, we used the procesmodel Scrum and therefore it was decided that our product owner together with a developer, would be the main communication link to the group of students at SMU.
+This was done to shield the rest of the team, so that they could focus on developing.
 The communication was initiated by us prior to the first video conference using email.
 After the first video conference it was decided that we would have weekly video meetings.
 However the audio quality was really poor and in the end we mainly communicated via our facebook group.
 \subsection{Beginning of collaboration}
 During the first week of collaboration a set of functional requirements for the SMU client was formed and adapted into \textit{ShareIt}'s existing requirements. 
 Most requirements were already met and only a few new were added. 
-The SMU requirements were prioritized and it was agreed that if  some requirements were not able to be met due to time pressure, those with lowest priority would be omitted.
+The SMU requirements were prioritized and it was agreed that if some requirements were not able to be met due to time pressure, those with lowest priority would be omitted.
 
 After we received the requirements from the SMU team we started working on the interfaces for our WCF services. 
 The goal was to have the interfaces designed and deployed as quickly as possible so the SMU team would be able to start coding against the services.
@@ -30,31 +30,31 @@ However, the SMU team had some difficulties consuming our services.
 %This did not go as we hoped.
 \subsection{WCF SOAP vs. HTML5 and JavaScript}
 The SMU team had already early on in the collaboration expressed a wish to develop their client using only HTML5 and JavaScript. 
-We knew that WCF as default uses the SOAP standard and wrongly assumed that since SOAP was a well defined communication standard it would not be a problem for the SMU team to consume our services using their desired technology.
+We knew that WCF as default uses the SOAP standard and wrongly assumed that since SOAP was a well defined communication standard, it would not be a problem for the SMU team to consume our services using their desired technology.
 
-As it turns out it is not easy to consume services via SOAP using only HTML5 and JavaScript.
-After a meeting with the SMU team where they expressed their difficulties it was decided that both parties would spend some time looking for ways to consume the SOAP services with JavaScript.
-Additionally we agreed to look into how easy it would be for us to switch from SOAP based services to a REST architecture using JSON as object notation, which we knew would be much easier to consume using JavaScript.
-Neither of the teams succeeded in finding a good way to consume the SOAP services with JavaScript and after looking into changing our architecture we realised that it would require quite a bit of work. 
-Furthermore we could not find a way for the REST architecture to support one of the features we had with SOAP, namely that it was possible to send meta data along with a byte stream when transferring files.
+As it turns out, it is not easy to consume services via SOAP using only HTML5 and JavaScript.
+After a meeting with the SMU team where they expressed their difficulties, it was decided that both parties would spend some time looking for ways to consume the SOAP services with JavaScript.
+Additionally we agreed to look into how easy it would be for us, to switch from SOAP based services to a REST architecture using JSON as object notation, which we knew would be much easier to consume using JavaScript.
+Neither of the teams succeeded in finding a good way to consume the SOAP services with JavaScript and after looking into changing our architecture we realised that it would require a substantial amount of work.
+Furthermore, we could not find a way for the REST architecture to support one of the features we had with SOAP, namely that it was possible to send meta data along with a byte stream when transferring files.
 
-When we passed this information along to the SMU team they informed us that they had already decided to switch technology to ASP.NET.
+When we passed this information along to the SMU team, they informed us that they had already decided to switch technology to ASP.NET.
 This was great news for us since we already had experience setting up service references within Visual Studio.
 Since the SMU team did not have previous experience with .NET we agreed to act as consultants with regards to problems concerning C\# and Visual Studio.
-We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}.
+We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}\footnote{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}.
 Lastly we showed the SMU team how to use the service reference wizard in Visual Studio to create proxy classes which they could use to call our services.
 
 \subsection{Dummy data vs database implementation}
-While we were exploring different options for how to create the connection between the SMU client and our services we had also implemented some stub versions of our logic classes and deployed services which used these stubs.
-We thought that the SMU team would have an easier time creating the code for their client if they could create code which called these dummy services and got a reply that somewhat resembled what they could expect from the live services.
+While we were exploring different options for how to create the connection between the SMU client and our services, we had also implemented some stub versions of our logic classes and deployed services which used these stubs.
+We thought that the SMU team would have an easier time creating the code for their client, if they could write code which called these dummy services and got a reply that somewhat resembled what they could expect from the live services.
 Additionally we did not feel comfortable releasing services which were not tested.
 
 However it is our impression that the SMU team did not make much use of these dummy services.
-They kept asking for when a database version of the services would be deployed and we kept postponing the deployment because we wanted the services to be fully operational.
+They kept asking for when a database version of the services would be deployed and we kept postponing the deployment, because we wanted the services to be fully operational.
 This resulted in the services only being deployed a few days before the initial deadline for the SMU team.
 In hindsight it would probably have been better to deploy the services earlier and have the SMU team help find any errors.
 
-\subsection{Conclusion}
+\subsection{Conclusion on collaboration}
 The experience of collaborating with the SMU team has been very interesting and educational teaching us the importance of clear and precise communication.
 It also helped showcase the differences in coding styles and practises, which are not as apparent when working only with ITU students since we are all taught the same practises. 
 Despite of the issues along the way it is our impression that the SMU team was satisfied with our collaboration, as were we.

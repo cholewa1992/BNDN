@@ -38,7 +38,7 @@
         switch (Model.AccessRight)
         {
             case 0: <button class="pure-button button-art" data-toggle="modal" data-target="#myModal">Buy</button> break;
-            case 1: <button class="pure-button button-art" onclick="location.href='@Url.Action("Index", "Download", new{Id = Model.ProductId, fileName = Model.Title})'">Download</button> break;
+            case 1: <button class="pure-button btn-success" onclick="location.href='@Url.Action("Index", "Download", new{Id = Model.ProductId, fileName = Model.Title})'">Download</button> break;
             case 2: <button class="pure-button button-art" onclick="location.href='@Url.Action("Edit", new{Id = Model.ProductId})'">Edit</button> goto case 1;
             case 3: <button class="pure-button button-art" data-toggle="modal" data-target="#myModalDelete">Delete</button> goto case 2;
 
