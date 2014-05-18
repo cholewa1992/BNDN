@@ -2,9 +2,13 @@
 
 \begin{document}
 \section{Error handling}
-In a WCF service exceptions are serialized to XML and passed to the client in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET client, it is very likely to fail as there is no guarantee that the exception exists in different platforms. As we are not interested in either limiting our clients to .NET implementations nor only using undeclared SOAP faults, we decided to use custom SOAP faults. 
+In a WCF service, exceptions are serialized to XML and passed to the client in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET client, it is very likely to fail, as there is no guarantee that the exception exists in different platforms. Due to the lack of desire to limit clients to .NET implemenations nor only using undeclared SOAP faults, it was decided to use custom SOAP faults.
 
-We have solved this by defining fault data contracts and then marking which SOAP faults each operation throws so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient which is thrown when the client is not recognized by the system and looks like this:
+%As we are not interested in either limiting our clients to .NET implementations nor only using undeclared SOAP faults, we decided to use custom SOAP faults. 
+
+The above mentioned issue was solved by defining fault contracts and then marking which SOAP faults each operation throws, so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient. This is thrown when a client is not recognized by the system. The following shows the implementation of the UnauthorizedClient data contract:
+
+%We have solved this by defining fault data contracts and then marking which SOAP faults each operation throws so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient which is thrown when the client is not recognized by the system and looks like this:
 
 \begin{figure}[H]
 \begin{lstlisting}[frame=single]
@@ -18,7 +22,8 @@ We have solved this by defining fault data contracts and then marking which SOAP
 \caption{UnauthorizedClient fault data contract}
 \end{figure}
 
-We have defined the following fault data contracts:
+%We have defined the following fault data contracts:
+The following data contracts have been defined in the system:
 
 \begin{itemize}
 \item AccessRightNotFound
@@ -29,7 +34,9 @@ We have defined the following fault data contracts:
 \item UnauthorizedUser
 \end{itemize}
 
-This solution allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
+The solution allows one to catch a CLR exception and instead throw the custom SOAP fault data contract which is interoperable with non-.NET implementations. The following code snippet is an example of a catch-block where the CLR exception is caught and transformed into a custom SOAP fault:
+
+%This solution allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
 
 \begin{figure}[H]
 \begin{lstlisting}[frame=single]
@@ -41,6 +48,6 @@ This solution allows us to catch a CLR exception and throw our custom SOAP fault
 \caption{Example body of catch-block}
 \end{figure}
 
-This decision was mainly made because we initially expected the SMU students to write their client in Javascript and HTML5. We later found that they decided to go with a .NET client and therefore this decision was somewhat unnecessary. 
+This decision of having custom SOAP faults was mainly because the SMU students initially were to write their client in Javascript and HTML5. Later conversations with the students from SMU showed, that they decided to go with a .NET client and therefore this decision seems somewhat unnecessary in the current context. 
 
 \end{document}

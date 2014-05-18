@@ -26,7 +26,7 @@
 
 \graphicspath{{img/}{../img/}}
 
-When designing the data model there were several considerations to make. Our design goals for the data model were as follows
+When designing the data model there were several considerations to make. The design goals for the data model were as follows:
 \begin{itemize}
 \item Make a generic data model that can suit both the ArtShare and the SMU Client.
 \item Make the model as extensible as possible. By this we mean that we can add a new property to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
@@ -40,7 +40,7 @@ When designing the data model there were several considerations to make. Our des
 %(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
 
 
-Looking at the requirements for \textit{The System} we identified two major entities, namely the \textit{User} and \textit{Media item}. Additionally we realised that we needed an entity representing a \textit{Client} in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
+Looking at the requirements for \textit{The System} two major entities ere identified, namely the \textit{User} and \textit{Media item}. Additionally it bacame clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{ER.png}
@@ -48,9 +48,9 @@ Looking at the requirements for \textit{The System} we identified two major enti
 \label{fig:use case diagram}
 \end{figure}
 
-In order to make the data model flexible and extensible we chose to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
+In order to make the data model flexible and extensible wa decision was made to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
 
-This both facilitates that clients can have different needs to which information is stored on a \textit{User} or \textit{Media item}, but also makes it easier to add more information types iteratively.\\
+This facilitates the need clients might have concerning what information is stored in a \textit{User} or \textit{Media item} entity, as well as making it easier to add more information types iteratively.\\
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -77,9 +77,9 @@ CREATE TABLE EntityInfo(
 \label{datamodel}
 \end{figure}
 
-Another choice we made was to have an AccessRight relation between \textit{User}s and \textit{Media item}s. We made this choice to facilitate different access rights to a \textit{Media item} like Owner and Buyer.
+Another design decision was to have an AccessRight relation between \textit{User}s and \textit{Media item}s. This choice was made to facilitate different access rights to a \textit{Media item} like Owner and Buyer.
 
-Our data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because we have IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. We have chosen to give it an ID either way because it was easier in regards to implementation of a generic Data Access Layer.
+The data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because it has IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. It was given an ID because it made the implementation of a generic Data Access Layer easier.
 
 The full data model SQL definition can be found in appendix
 

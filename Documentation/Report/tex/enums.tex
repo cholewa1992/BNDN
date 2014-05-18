@@ -3,7 +3,9 @@
 \graphicspath{{img/}{../img/}}
 \label{sec:enums}
 
-When designing the DTOs for the \textit{ShareIt Back End} there was one decision which was particularly impactful. Since the data model was designed to be as generic as possible we needed to decide on how to best reflect this in the DTOs. We considered the following three approaches.
+When designing the DTOs for the \textit{ShareIt Back End} there was one decision which was particularly impactful.
+Since the data model was designed to be as generic as possible a decision needed to be made on how to best reflect this in the DTOs.
+The following three approaches were considered.
 \begin{itemize}
 \item Using inheritance to model the differences between the different entity types.
 \item Using strings to represent the different entity types and entity information types.
@@ -11,9 +13,9 @@ When designing the DTOs for the \textit{ShareIt Back End} there was one decision
 \end{itemize}
 
 \subsubsection{Inheritance}
-Using inheritance to model the differences between different entity types had the advantage of allowing us to use polymorphism to make collections of \textit{Media Item} objects and passing them as result for e.g. the search function. Adding a new type would then simply be a matter of creating a new subtype as depicted on \ref{fig:dto_inheritance}.
+Using inheritance to model the differences between different entity types had the advantage of allowing the use of polymorphism to make collections of \textit{Media Item} objects and passing them as result for e.g. the search function. Adding a new type would then simply be a matter of creating a new subtype as depicted on \ref{fig:dto_inheritance}.
  
-However, this approach did not take advantage of the flexibility of the data model. We would have to define which properties each of the different \textit{Media Item}s had, thus forcing the \textit{Client} to use our definition of each type.
+However, this approach did not take advantage of the flexibility of the data model. The \textit{ShareIt Back End} would have to define which properties each of the different \textit{Media Item}s had, thus forcing the \textit{Client} to use its definition of each type.
 
 \begin{figure}[!h]
 \label{fig:dto_inheritance}
@@ -35,9 +37,11 @@ However, this would potentially be very costly for the services because queries 
 \end{figure}
 
 \subsubsection{Using enums to represent types}
-By using enums to represent types instead of strings we went for the middle ground between flexibility and type safety. The DTOs were still flexible enough that the \textit{Client}s were able to define which information they wanted each \textit{Media Item} to hold, but we ensured that the different information could only have a type specified by us.
+The middle groubd between flexibility and type safety was sought by using enums to represent types instead of strings.
+The DTOs were still flexible enough that the \textit{Client}s were able to define which information they wanted each \textit{Media Item} to hold, but it was ensured that the different information could only have a type specified by the \textit{ShareIt Back End}.
 
-In order to support the addition of new types to the database we made sure that the value of the enums matched the corresponding id in the database. This meant that we could cast enums to integers when saving data in the database and cast the ids to enums when retrieving data from the database. 
+In order to support the addition of new types to the database an invariant was enforced making sure that the value of the enums matches the corresponding id in the database. 
+This meant that the enums could be cast to integers when saving data in the database and vice versa when retrieving data from the database. 
 
 \begin{figure}[!h]
 \label{fig:dto_types_enum}
