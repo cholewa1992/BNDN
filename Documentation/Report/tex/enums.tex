@@ -37,7 +37,7 @@ However, this would potentially be very costly for the services because queries 
 \end{figure}
 
 \subsubsection{Using enums to represent types}
-The middle groubd between flexibility and type safety was sought by using enums to represent types instead of strings.
+The middle ground between flexibility and type safety was sought by using enums to represent types instead of strings.
 The DTOs were still flexible enough that the \textit{Client}s were able to define which information they wanted each \textit{Media Item} to hold, but it was ensured that the different information could only have a type specified by the \textit{ShareIt Back End}.
 
 In order to support the addition of new types to the database an invariant was enforced making sure that the value of the enums matches the corresponding id in the database. 
