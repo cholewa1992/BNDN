@@ -27,7 +27,7 @@ namespace ArtShare.Controllers
                 userCookie["id"] = model.User.Id + "";
                 userCookie["username"] = model.User.Username;
                 userCookie["password"] = model.User.Password;
-                userCookie.Expires.AddDays(365);
+                userCookie.Expires = DateTime.Now.AddDays(365);
                 HttpContext.Response.Cookies.Add(userCookie);
                 if (TempData["redirectTo"] != null)
                     return Redirect(TempData["redirectTo"] as string);

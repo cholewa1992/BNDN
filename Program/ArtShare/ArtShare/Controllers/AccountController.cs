@@ -139,7 +139,7 @@ namespace ArtShare.Controllers
                     userCookie["id"] = model.User.Id + "";
                     userCookie["username"] = model.User.Username;
                     userCookie["password"] = model.User.Password;
-                    userCookie.Expires.AddDays(365);
+                    userCookie.Expires = DateTime.Now.AddDays(365);
                     HttpContext.Response.Cookies.Add(userCookie);
 
                     //Sending the user back to the Account details page
@@ -188,7 +188,7 @@ namespace ArtShare.Controllers
                     userCookie["id"] = login.User.Id + "";
                     userCookie["username"] = login.User.Username;
                     userCookie["password"] = login.User.Password;
-                    userCookie.Expires.AddDays(365);
+                    userCookie.Expires = DateTime.Now.AddDays(365);
                     HttpContext.Response.Cookies.Add(userCookie);
                     if (TempData["redirectTo"] != null)
                         return Redirect(TempData["redirectTo"] as string);
