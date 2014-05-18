@@ -28,11 +28,13 @@
 
 When designing the data model there were several considerations to make. The design goals for the data model were as follows:
 \begin{itemize}
-\item Make a generic data model that can suit both the ArtShare and the SMU Client.
-\item Make the model as extensible as possible. Meaning new properties can be added to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
+\item Make a generic and flexible data model that can easily adapt to accommodate new functionality. 
+\item Make the model as extendible as possible. Meaning new properties can be added to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
 \item The data model should be in the highest normal form possible to avoid redundancy in regards to data space and corruption
 \end{itemize} 
 
+The first and second design goals stem from the non-functional requirements NFR-07 and NFR-08. These requirements specify that addition of new functionality and new types of media must be supported. In order to meet those requirements a flexible and extendible data model is required.
+The third design goal stems from the non-functional requirement NFR-04 which states that corrupt data must not reach the \textit{End User}s. A big part of meeting that requirement is to minimize the chance of data getting corrupted in the first place.
 
 %Firstly it was important to design a data model which was generic enough to accommodate the demands of the SMU team. Secondly it was important to design a data model which was in as high a normal form as possible in order to reduce redundant data and the possibility of creating corrupt data. Lastly we wanted to make the datamodel as extendible to new features as possible.  
 
