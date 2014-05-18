@@ -21,6 +21,7 @@ namespace BusinessLogicTests
     /// <summary>
     /// Summary description for MediaItemLogicTest
     /// </summary>
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     [TestClass]
     public class MediaItemLogicTest
     {
