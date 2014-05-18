@@ -21,7 +21,7 @@ In order to gain transparency in the BLL, Business Logic Layer, an Abstract Fact
 %% <--- HEAD
 
 \paragraph{Supportability} The Abstract Factory also achieves supportability.
-The subsystem is designed to support easy support to adding new logic
+The subsystem is designed to easily support adding new logic
 implementations. Adding new factories is not supported in the structure as the
 developer would have to change the BusinessLogicEntityFactory. The advantage
 of being able to do so is if different kind of logics supporting different
@@ -53,7 +53,7 @@ Reliability is achieved by having a standard factory on top (EntryFactory). This
 % <--- HEAD
 
 \paragraph{Testability}
-As per the project test strategy every subsystem should be unit and integration tested. Therefore the subsystem is designed to be highly testable by interfacing the subsystem. 
+As per the project test strategy every subsystem should be unit and integration tested. Therefore the subsystem is designed to be highly testable through interfacing.
 
 The overall subsystem design also included a test stub. The test stub facilitated ArtShare and SMU clients to be coded up against the logic before it was done. This facilitated parallel development in the project.
 
