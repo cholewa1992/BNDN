@@ -49,7 +49,7 @@ When designing the data model there were several considerations to make. The des
 \label{fig:use case diagram}
 \end{figure}
 
-In order to make the data model flexible and extensible a decision was made to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
+In order to make the data model flexible and extensible it was decided to only make the \textit{User} and \textit{Media item} carry required information while all other information, like title, artist, director, email etc., is made relational. This means that the \textit{Media item} is stored in three tables: Entity, EntityInfo and EntityInfotype (The SQL definition of \textit{Media Item} is shown fig \ref{datamodel}).
 
 This facilitates the need clients might have concerning what information is stored in a \textit{User} or \textit{Media item} entity, as well as making it easier to add more information types iteratively.\\
 
