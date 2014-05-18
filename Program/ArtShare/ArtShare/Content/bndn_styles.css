@@ -415,6 +415,20 @@ border: 0px;
     right: 0;
 }
 
+.search-container{
+    width: 100%;
+    height: 500px;
+}
+
+.pager{
+    position: relative;
+    margin-top: 20px;
+}
+
+.paginator{
+    height: 40px;
+}
+
 /* Upload */
 
 .upload span{
