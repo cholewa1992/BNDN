@@ -55,7 +55,7 @@ Reliability is achieved by having a standard factory on top (EntryFactory). This
 \paragraph{Testability}
 As per the project test strategy every subsystem should be unit and integration tested. Therefore the subsystem is designed to be highly testable through interfacing.
 
-The overall subsystem design also included a test stub. The test stub facilitated ArtShare and SMU clients to be coded up against the logic before it was done. This facilitated parallel development in the project.
+The subsystem also included a test stub. The test stub facilitated ArtShare and SMU clients to be coded up against the logic before it was done. This facilitated parallel development in the project.
 
 %\todo{Hvorfor hjælper interfaces på testability?}
 
@@ -66,8 +66,6 @@ The overall subsystem design also included a test stub. The test stub facilitate
 %Apart from testability the large amount of interfaces also made it possible for us to quickly make a test factory with a stub implementation. This allowed us to deploy something that the SMU students could work with very quickly while simultaneously working on the actual implementation. When the time came to deploy some of the actual implementation we just had to change factories.
 
 % --->
-
-
 
 \begin{figure}
 \centering
@@ -89,21 +87,21 @@ The overall subsystem design also included a test stub. The test stub facilitate
 %\end{figure}
 %
 %\end{landscape}
-%
-%
-%\newgeometry{left=5.5cm,bottom=1.5cm}
-%
-%\begin{landscape}
-%
-%\begin{figure}[!h]
-%\includegraphics[ scale=0.9]{BusinessLogicLayerDiagram2.pdf}
-%\caption{Class diagram showing internal interfaces}
-%\label{fig:BusinessLogic_InternalInterfaces}
-%\end{figure}
-%
-%\end{landscape}
-%
-%\restoregeometry
+
+
+\newgeometry{left=5.5cm,bottom=1.5cm}
+
+\begin{landscape}
+
+\begin{figure}[!h]
+\includegraphics[ scale=0.9]{BusinessLogicLayerDiagram2.pdf}
+\caption{Class diagram showing internal interfaces}
+\label{fig:BusinessLogic_InternalInterfaces}
+\end{figure}
+
+\end{landscape}
+
+\restoregeometry
 
 
 % <-- HEAD
