@@ -3,7 +3,7 @@
 
 \subsection{Multiple services}
 It was decided to make multiple services instead of one to maintain a high cohesion in the different services.
-The idea was to make it very clear what the responsibility of each service is. 
+The idea was to make it very clear what the responsibility of each service was. 
 This makes it easy for the developers of the \textit{Client}s to figure out which service to use and it will make it more convenient to find specific operations instead of having to look through one bloated service.
 Multiple services instead of one also allows for separate, dedicated front-ends that would target just certain parts of the whole system. 
 
@@ -14,7 +14,9 @@ As mentioned in the previous section, there are five different services, which a
 
 The \texttt{AccessRightService} is responsible for all operations on access rights. This includes making new admins, creating new access rights when a user purchases a \textit{Media item}, editing expiration dates, deleting access rights and getting purchase or upload histories of users. 
 
-The \texttt{AuthService} handles all authentications of users and \textit{Client}s. This is used to keep control of which \textit{Client}s use the services and to make sure that the users of the different clients exists in the system. The service is also able to check if a given user is admin on a given client.
+The \texttt{AuthService} handles all authentications of users and \textit{Client}s.
+This includes validating a user's credentials and checking if a given client exists.
+The service is also able to check if a given user is admin on a given client.
 
 The \texttt{MediaItemService} handles all actions that can be performed on \textit{Media item}s. These actions involve getting a specific \textit{Media Item}, getting multiple \textit{Media Item}s or getting multiple \textit{Media Item}s of a specific type. Searching is also handled here and can similarly be performed on all \textit{Media Item}s or on \textit{Media Item}s of a specific type if desired. Besides from getting and searching, the service also handles updates on \textit{Media Item}s, deletion of \textit{Media Item}s and rating of \textit{Media Item}s.
 
