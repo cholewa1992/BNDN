@@ -4,6 +4,7 @@ using ShareItServices.MediaItemService;
 
 namespace ArtShare.Models
 {
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     public class SearchModel
     {
         //Books
