@@ -1,0 +1,7 @@
+- Restructured sentences
+
+- Formalized a bit
+
+- - - - - - - - - 
+
+- Consider using \textit fot more glossary terms (User, Access Right)

@@ -1,0 +1,7 @@
+- Improved readability (restructured some sentences)
+
+- Formalized
+
+- - - - - - - - - 
+
+- Consider changing Entity to Media Item
