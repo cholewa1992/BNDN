@@ -12,6 +12,7 @@ using ShareItServices.MediaItemService;
 
 namespace ArtShare.Controllers
 {
+    /// <author>Thomas Dragsbæk (thst@itu.dk)</author>
     public class SearchController : Controller
     {
         private ISearchLogic _searchLogic;
@@ -28,15 +29,12 @@ namespace ArtShare.Controllers
         
         //
         // GET: /Search/
-
         public ActionResult Index()
         {
-            //return Index(); why??
             return View();
         }
 
         // GET: /Search/SearchMediaItems
-
         [HttpGet]
         public ActionResult SearchMediaItems(int from, int to, string searchKey)
         {
@@ -47,13 +45,12 @@ namespace ArtShare.Controllers
             }
             catch (Exception e)
             {
-                //TODO handle exceptions
-                return null;
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
             }
         }
 
         // GET: /Search/SearchMediaitemsByType
-
         [HttpGet]
         public ActionResult SearchMediaItemsByType(int from, int to, MediaItemTypeDTO type, string searchKey)
         {
@@ -64,13 +61,9 @@ namespace ArtShare.Controllers
             }
             catch (Exception e)
             {
-                //TODO handle exceptions
-                return null;
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index", "Home");
             }
-            
         }
-
-        
-
     }
 }
