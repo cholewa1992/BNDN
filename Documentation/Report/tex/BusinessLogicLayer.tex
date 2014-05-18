@@ -6,11 +6,11 @@
 
 \subsection{Business Logic Layer Design}
 
-This chapter will regard implementation of the Business Logic Layer. The design objectives were for the layer to be transparent, supportable, reliable and testable.
+This chapter will regard implementation of the Business Logic Layer. The design objectives is for the layer to be transparent, supportable, reliable and testable. The rest of the chapter will discus how this was achieved in the implementation. 
 
 %% <--- HEAD
 \paragraph{Transparency}
-In order to gain transparency in the BLL, Business Logic Layer, an Abstract Factory pattern with a regular Factory pattern on top has been used. This makes it possible to gain access to the concrete implementations of the Abstract Factory from the Service Layer while only exposing one concrete class, namely the BusinessLogicEntryFactory. The Service Layer can use the BusinessLogicEntryFactory to get an instance of any of the concrete factories in the Abstract Factory. When it has gotten a concrete factory it cannot see which factory it is using since all the concrete factories have the type IBusinessLogicFactory, nor will it be able to see what concrete product the factory produces.
+In order to gain transparency in the BLL, Business Logic Layer, an Abstract Factory pattern with a regular Factory pattern on top has been used (see figure \ref{BLLclassdiagram}). This makes it possible to gain access to the concrete implementations of the Abstract Factory from the Service Layer while only exposing one concrete class, namely the BusinessLogicEntryFactory. The design abstracts interface from concret implementation and enables the Service Layer using the BLL to only depend on the interface and the factory, but not the concret implementations.
 
 %% -----
 
@@ -20,8 +20,15 @@ In order to gain transparency in the BLL, Business Logic Layer, an Abstract Fact
 
 %% <--- HEAD
 
-\paragraph{Supportability}
-The Abstract Factory also achieves supportability. The subsystem (see figure \ref{BLLclassdiagram}) is designed to support easy support to adding new logic implementations. Adding new factories is not supported in the structure as the developer would have to change the BusinessLogicEntityFactory. The advantage of being able to do so is if different kind of logics supporting different kind of persistence was needed. This is not needed in ShareIT, as the persistence module is dependency injected (allowing persistence to be switched by injecting other persistence implementation), and therefore this structure suffices for the desired level of supportability.
+\paragraph{Supportability} The Abstract Factory also achieves supportability.
+The subsystem is designed to support easy support to adding new logic
+implementations. Adding new factories is not supported in the structure as the
+developer would have to change the BusinessLogicEntityFactory. The advantage
+of being able to do so is if different kind of logics supporting different
+kind of persistence was needed. This is not needed in ShareIT, as the
+persistence module is dependency injected (allowing persistence to be switched
+by injecting other persistence implementation), and therefore this structure
+suffices for the desired level of supportability.
 
 % ------
 
@@ -100,12 +107,11 @@ The overall subsystem design also included a test stub. The test stub facilitate
 
 
 % <-- HEAD
+
+
 % ------
 %Figure \ref{fig:BusinessLogic_AbstractFactory} above shows the class structure in the Business Logic Layer. The Entry Factory consists of a single concrete class which in our case is the BusinessLogicEntryFactory class. The BusinessLogicEntryFactory class makes it possible to get hold of the concrete factories without exposing the factories to the Service Layer.
-% --->
 
-% <-- HEAD
-% ------
 %Underneath the Entry Factory lies the Abstract Factory pattern which starts with the Abstract Factory interface which in our case is the IBusinessLogicFactory. This interface specifies a method for creating each of the Abstract Products in this Abstract Factory. The Abstract Products are IAuthLogic, IUserLogic, IMediaItemLogic, IAccessRightLogic and IDataTransferLogic. We then have two concrete implementations of this interface and those are the BusinessLogicFactory and the TestFactory classes. Each of the concrete factories can then produce an instance of a concrete implementation of each Abstract Product. These concrete implementations must implement the Abstract Product interface which contains the methods that are exposed to the Service Layer. But they must also implement an internal interface (ie. IAuthInternalLogic) which specifies methods that are used internally in the Business Logic Layer as shown in figure \ref{fig:BusinessLogic_InternalInterfaces} above. These internal interfaces make it possible for the different concrete logic classes to expose methods to one another but not to the Service Layer. In our implementation all the logic classes use the authentication methods specified in the IAuthInternalLogic interface to authenticate users, admins and clients.
 % --->
 
