@@ -46,16 +46,24 @@ A set of integration tests have been written to test that the Data Access Layer 
 Only integration tests have been implemented on these two subsystems as it was the only subsystems where logic relied on one another
 
 \paragraph{Usability test results}
-
+The usability tests consisted of 12 tasks based on 12 test cases (Marked as UST in table \ref{testmatrix}). Each test case was based on a functional requirement that determined what the user had to do within a time limit based on the non-functional requirements. The 12 test cases used in these usability tests were designed to test the most basic functions of the system such as creating a new account, finding a certain media item, uploading files etc. 
+Out of the four people involved in the usability tests all but one completed the the tasks within the time limit. However, one of the users failed two tasks (The ones based on FR-18-TC-02 and FR-48-TC-03). The feedback given from the users during the usability tests suggested that the main issues were:
+\begin{itemize}
+\item Finding the next page button on the search result page
+\item Finding the download button
+\item Rating items
+\item Noticing that it is required to type in the users password when updating account information
+\end{itemize} 
 
 \paragraph{Acceptance tests}
 For all requirements test cases have been written (See table \ref{testmatrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements was taken out of scope and therefore the tests of course do not pass.
 
 \paragraph{Reflection}
 
-Through the test strategy a well tested and working solution has emerged. Every functional requirement, except for those out-scoped, have been proved through acceptance tests.
+Through the test strategy a well tested and working solution has emerged. Every functional requirement, except for those that were out-scoped, have been proved through acceptance tests.
+In regards to the usability test cases 10 of them passed and 2 of them failed. The 2 that failed are considered failed even though only one user out of the four involved failed to complete those tasks. The feedback from the users inspired a change of the download button to a different colour and a change in the positioning of the next page button. These changes were easy to make since most users agreed on what changes needed to be made. In regards to the other two issues the feedback was not as clear. Since there was no time for a big redesign, fixing these issues was out-scoped.
 
-\newgeometry{left=1.5cm,top=1cm}
+\subsection{Test case matrix (full table in appendix)}
 
 Explanation of abbreviations in the following table:
 \begin{itemize}
@@ -65,12 +73,12 @@ Explanation of abbreviations in the following table:
 \item IT = Integration Test
 \end{itemize}
 
-\begin{longtable}{|L{2.1cm}|L{1cm}|L{12.4cm}|L{1.4cm}|}
+\begin{longtable}{|L{2.1cm}|L{0.8cm}|L{9cm}|L{1.2cm}|}
 
 
 \hline
-\multicolumn{1}{|L{2.1cm}|}{ID} & \multicolumn{1}{L{1cm}|}{Type} & \multicolumn{1}{L{12.4cm}|}{Description} & \multicolumn{1}{L{1.4cm}|}{Status}  \\ \hline 
-\endhead
+\multicolumn{1}{|L{2.1cm}|}{ID} & \multicolumn{1}{L{0.8cm}|}{Type} & \multicolumn{1}{L{9cm}|}{Description} & \multicolumn{1}{L{1.2cm}|}{Status}  \\ \hline 
+\endfirsthead
 
 FR-01-TC-01 & UST & Test if an end user is able to initiate a search within 2 minutes & Passed \cellcolor{green!60} \\ \hline
 FR-02-TC-01& UNT& Test if a media item containing the search key in the title is returned in the MediaItemSearchResultDTO when searching for said search key& Passed \cellcolor{green!65} \\ \hline
@@ -84,12 +92,7 @@ FR-06-TC-01&AT&Test if an end user is presented with a range of all media items 
 FR-07-TC-01&UST&Test if an end user is able to create an Account within 5 minutes&Passed \cellcolor{green!60} \\ \hline
 FR-08-TC-01&AT&In creating an account ensure that the user can enter a desired username and password&Passed \cellcolor{green!65} \\ \hline
 FR-09-TC-01&UNT&Given a username, test if an exception is thrown if the username already exist in the database (case insensitive matching)&Passed \cellcolor{green!65} \\ \hline
-FR-10-TC-01&AT&Test if an end user is presented with an informative message, if the username is unavailable&Passed \cellcolor{green!65} \\ \hline
-FR-11-TC-01&UNT&Given a username that is not between 1 and 20 characters (both included), test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-12-TC-01&UNT&Given a username that does not consist of only alphanumeric characters (a-zA-Z0-9), test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-13-TC-01&UNT&Given a password that is not between 1 and 50 characters (both included), test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-14-TC-01&UNT&Given a password that contains any whitespace character, test if an exception is thrown&Passed \cellcolor{green!65} \\ \hline
-FR-15-TC-01&AT&Test if an end user is presented with informative messages when FR-09 - FR-14 are not met&Passed \cellcolor{green!65} \\ \hline
+%FR-10-TC-01&AT&Test if an end user is presented with an informative message, if the username is unavailable&Passed \cellcolor{green!65} \\ \hline
 
 \captionsetup{belowskip=10pt}
 
