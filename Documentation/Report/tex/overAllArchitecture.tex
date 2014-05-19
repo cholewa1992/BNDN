@@ -1,11 +1,13 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
-The system consists of a client(ArtShare) and a server(ShareIt). 
-The Client consists mainly ASP.NET MVC with an added layer which acts as a bridge between ASP.NET MVC and the services provided by ShareIt. 
-ShareIt uses a three-layered architecture where the top layer is the WCF Services, the middle layer is the Business Logic Layer and the lower layer is the Data Access Layer.
+\graphicspath{{img/}{../img/}}
+
+The system consists of a client (\textit{ArtShare}) and a server (\textit{ShareIt}). 
+The Client mainly consists of ASP.NET MVC with an added layer which acts as a bridge between ASP.NET MVC and the services provided by ShareIt. 
+ShareIt uses a three-layered architecture where the top layer is the WCF Services, the middle layer is the Business Logic Layer and the lower layer is the Data Access Layer. The latter handles all communication with the database, which will be described in the following section.
 \begin{figure}[H]
 \centering
-\includegraphics{img/overall_architecture.pdf}
+\includegraphics{overall_architecture.pdf}
 \caption{Overall architecture of the system.}
 \end{figure}
 \end{document}
