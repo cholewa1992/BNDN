@@ -5,7 +5,7 @@
 
 When designing the DTOs for the \textit{ShareIt Back End} there was one decision which was particularly impactful.
 Since the data model was designed to be as generic as possible a decision needed to be made on how to best reflect this in the DTOs.
-The following three approaches were considered.
+The following three approaches were considered:
 \begin{itemize}
 \item Using inheritance to model the differences between the different entity types.
 \item Using strings to represent the different entity types and entity information types.
@@ -13,21 +13,21 @@ The following three approaches were considered.
 \end{itemize}
 
 \subsubsection{Inheritance}
-Using inheritance to model the differences between different entity types had the advantage of allowing the use of polymorphism to make collections of \textit{Media Item} objects and passing them as result for e.g. the search function. Adding a new type would then simply be a matter of creating a new subtype as depicted on \ref{fig:dto_inheritance}.
+Using inheritance to model the differences between different entity types had the advantage of allowing the use of polymorphism to make collections of \textit{Media Item} objects and passing them as result for e.g. the search function. Adding a new type would then simply be a matter of creating a new subtype as depicted on figure~\ref{fig:dto_inheritance}.
  
 However, this approach did not take advantage of the flexibility of the data model. The \textit{ShareIt Back End} would have to define which properties each of the different \textit{Media Item}s had, thus forcing the \textit{Client} to use its definition of each type.
 
 \begin{figure}[!h]
-\label{fig:dto_inheritance}
 \centering
 \includegraphics[scale=0.7]{DTOInheritance.pdf}
 \caption{DTOs using inheritance}
+\label{fig:dto_inheritance}
 \end{figure}
 
 \subsubsection{Using strings to represent types}
 Using strings to represent the different entity and information types had the advantage of making full use of the flexibility of the data model. The various \textit{Client}s would be able to define their own types simply by deciding on a name for them. 
 
-However, this would potentially be very costly for the services because queries would have to be made for every information to try and match the Type string with an EntityInfoType in the database to retrieve the id which the relation should be made to. If no such id could be found a new EntityInfoType would have to be created and stored. This would be extra cumbersome because spelling wouldn't be ensured across calls and the values \textit{"title"} and \textit{"Title"} would not be the same.
+However, this would potentially be very costly for the services because queries would have to be made for every information to try and match the Type string with an EntityInfoType in the database to retrieve the id which the relation should be made to. If no such id could be found a new EntityInfoType would have to be created and stored. This would be extra cumbersome because spelling would not be ensured across calls and the values \textit{``title''} and \textit{``Title''} would not be the same.
  
 \begin{figure}[!h]
 \label{fig:dto_types_string}
