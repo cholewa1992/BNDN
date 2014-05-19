@@ -68,6 +68,7 @@ All DTOs used in the system are implemented in ShareIt and exposed as DataContra
 %A user implementing our services can experience some type problems with our DTOs. For example the same UserDTO datacontract exposed by two different services will have different namespaces, and so are not interchangeable. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/} 
 %An implementor in a .NET environment can reference the ShareIt service and use the DTO classes locally. One may however experience some type problems. The reason is that some DTOs are exposed by different services, giving them different types, and so they are not interchangeable between these services. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/}
 
-
+\subsection{Coupling the data model with the DTOs}
+\subfile{tex/enums.tex}
 
 \end{document}
