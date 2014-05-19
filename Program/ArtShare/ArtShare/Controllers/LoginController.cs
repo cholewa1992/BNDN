@@ -13,6 +13,7 @@ namespace ArtShare.Controllers
 
         public ActionResult Index()
         {
+            TempData["redirectTo"] = TempData["redirectTo"];
             return View();
         }
 

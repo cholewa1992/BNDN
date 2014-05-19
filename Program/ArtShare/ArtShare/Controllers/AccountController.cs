@@ -47,19 +47,16 @@ namespace ArtShare.Controllers
             {
                 string username = "";
                 string password = "";
+                int userId = 0;
                 //Checking that the user is logged in
                 if (Request.Cookies["user"] != null)
                 {
                     username = Request.Cookies["user"].Values["username"];
                     password = Request.Cookies["user"].Values["password"];
+                    //userId = int.Parse(Request.Cookies["user"].Values["id"]);
                 }
 
                 var model = _accountLogic.GetAccountInformation(username, password, id);
-
-                if (_accountLogic.IsUserAdmin(username, password, id))
-                {
-                    model.isAdmin = true;
-                }
 
                 //Fetching and passing Account model to view
                 return View(model);
@@ -125,22 +122,25 @@ namespace ArtShare.Controllers
                     _accountLogic.UpdateAccountInformation(Request.Cookies["user"].Values["username"], Request.Cookies["user"].Values["password"], am);
 
                     //Logging in again (Is case the password was changed
-                    var model = new Logic.LoginLogic().Login(am.Username, am.Password);
-
-                    //Showing an exception if the user is not re-loggedin
-                    if (!model.LoggedIn)
+                    if (requestingUsername == am.Username)
                     {
-                        TempData["error"] = "Failed to login again - Something went horribly wrong";
-                        return RedirectToAction("Index", "Home");
-                    }
+                        var model = new Logic.LoginLogic().Login(am.Username, am.Password);
 
-                    //Setting cookie with the new password
-                    var userCookie = new HttpCookie("user");
-                    userCookie["id"] = model.User.Id + "";
-                    userCookie["username"] = model.User.Username;
-                    userCookie["password"] = model.User.Password;
-                    userCookie.Expires = DateTime.Now.AddDays(365);
-                    HttpContext.Response.Cookies.Add(userCookie);
+                        //Showing an exception if the user is not re-loggedin
+                        if (!model.LoggedIn)
+                        {
+                            TempData["error"] = "Failed to login again - Something went horribly wrong";
+                            return RedirectToAction("Index", "Home");
+                        }
+
+                        //Setting cookie with the new password
+                        var userCookie = new HttpCookie("user");
+                        userCookie["id"] = model.User.Id + "";
+                        userCookie["username"] = model.User.Username;
+                        userCookie["password"] = model.User.Password;
+                        userCookie.Expires = DateTime.Now.AddDays(365);
+                        HttpContext.Response.Cookies.Add(userCookie);
+                    }
 
                     //Sending the user back to the Account details page
                     TempData["success"] = "Your profile was successfully updated";
