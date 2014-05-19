@@ -122,7 +122,7 @@
             @if (Model.RatingsGiven > 0)
             {
                 <ul class="list-group">
-                    <li class="list-group-item"><strong>Average Rating:</strong> @Model.AvgRating</li>
+                    <li class="list-group-item"><strong>Average Rating:</strong> @Model.AvgRating.ToString("F2")</li>
                     <li class="list-group-item"><strong>Ratings Cast:</strong> @Model.RatingsGiven</li>
                 </ul>
             }

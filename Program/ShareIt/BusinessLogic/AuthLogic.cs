@@ -157,7 +157,7 @@ namespace BusinessLogicLayer
         /// <returns>a bool</returns>
         public bool IsUserAdminOnClient(UserDTO user, string clientToken)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
+           // Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(user.Username));
 
             return
                 _storage.Get<ClientAdmin>()

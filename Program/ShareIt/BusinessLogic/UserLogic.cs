@@ -103,7 +103,8 @@ namespace BusinessLogicLayer
                 throw new InvalidClientException();
             }
 
-            requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
+            if(!string.IsNullOrEmpty(requestingUser.Username) && !string.IsNullOrEmpty(requestingUser.Password))
+                requestingUser.Id = _authLogic.CheckUserExists(requestingUser);
                 
             bool sendPassword =  requestingUser.Id == targetUserId || ( requestingUser.Id > 0 && _authLogic.IsUserAdminOnClient(requestingUser.Id, clientToken));
 
