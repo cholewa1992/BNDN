@@ -29,8 +29,8 @@
 When designing the data model there were several considerations to make. The design goals for the data model were as follows:
 \begin{itemize}
 \item Make a generic and flexible data model that can easily adapt to accommodate new functionality. 
-\item Make the model as extendible as possible. Meaning new properties can be added to e.g. a \textit{Media item} without having to change the data model. This facilitates more iterative development.
-\item The data model should be in the highest normal form possible to avoid redundancy in regards to data space and corruption
+\item Make the model as extendible as possible. Meaning that new properties can be added without having to change the data model. This facilitates more iterative development.
+\item The data model should be in the highest normal form possible to avoid redundancy in regards to data space and corruption.
 \end{itemize} 
 
 The first and second design goals stem from the non-functional requirements NFR-07 and NFR-08. These requirements specify that addition of new functionality and new types of media must be supported. In order to meet those requirements a flexible and extendible data model is required.
@@ -84,6 +84,6 @@ Another design decision was to have an AccessRight relation between \textit{User
 
 The data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because it has IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. It was given an ID because it made the implementation of a generic Data Access Layer easier.
 
-The full data model SQL definition can be found in appendix
+The full data model SQL definition can be found in appendix~\ref{app:sql}.
 
 \end{document}

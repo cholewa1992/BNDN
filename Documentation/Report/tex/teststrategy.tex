@@ -46,7 +46,7 @@ A set of integration tests have been written to test that the Data Access Layer 
 Only integration tests have been implemented on these two subsystems as it was the only subsystems where logic relied on one another
 
 \paragraph{Usability test results}
-The usability tests consisted of 12 tasks based on 12 test cases (Marked as UST in table \ref{testmatrix}). Each test case was based on a functional requirement that determined what the user had to do within a time limit based on the non-functional requirements. The 12 test cases used in these usability tests were designed to test the most basic functions of the system such as creating a new account, finding a certain media item, uploading files etc. 
+The usability tests consisted of 12 tasks based on 12 test cases (Marked as UST in table \ref{tab:testcasematrix}). Each test case was based on a functional requirement that determined what the user had to do within a time limit based on the non-functional requirements. The 12 test cases used in these usability tests were designed to test the most basic functions of the system such as creating a new account, finding a certain media item, uploading files etc. 
 Out of the four people involved in the usability tests all but one completed the the tasks within the time limit. However, one of the users failed two tasks (The ones based on FR-18-TC-02 and FR-48-TC-03). The feedback given from the users during the usability tests suggested that the main issues were:
 \begin{itemize}
 \item Finding the next page button on the search result page
@@ -56,14 +56,14 @@ Out of the four people involved in the usability tests all but one completed the
 \end{itemize} 
 
 \paragraph{Acceptance tests}
-For all requirements test cases have been written (See table \ref{testmatrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements was taken out of scope and therefore the tests of course do not pass.
+For all requirements test cases have been written (See table \ref{tab:testcasematrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements was taken out of scope and therefore the tests of course do not pass.
 
 \paragraph{Reflection}
 
 Through the test strategy a well tested and working solution has emerged. Every functional requirement, except for those that were out-scoped, have been proved through acceptance tests.
 In regards to the usability test cases 10 of them passed and 2 of them failed. The 2 that failed are considered failed even though only one user out of the four involved failed to complete those tasks. The feedback from the users inspired a change of the download button to a different colour and a change in the positioning of the next page button. These changes were easy to make since most users agreed on what changes needed to be made. In regards to the other two issues the feedback was not as clear. Since there was no time for a big redesign, fixing these issues was out-scoped.
 
-\subsection{Test case matrix (full table in appendix)}
+\subsection{Test case matrix (full table in appendix \ref{app:testcasematrix})}
 
 Explanation of abbreviations in the following table:
 \begin{itemize}
@@ -96,7 +96,7 @@ FR-09-TC-01&UNT&Given a username, test if an exception is thrown if the username
 
 \captionsetup{belowskip=10pt}
 
-\caption{\label{testmatrix} Test case matrix (full table in appendix)}
+\caption{\label{tab:testcasematrix} Test case matrix (full table in appendix \ref{app:testcasematrix})}
 
 \end{longtable}
 
