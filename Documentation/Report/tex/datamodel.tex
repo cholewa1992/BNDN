@@ -42,7 +42,7 @@ The third design goal stems from the non-functional requirement NFR-04 which sta
 %(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
 
 
-\textit{The System} revolves around two major entities, namely the \textit{User} and \textit{Media item} (modelled as entity). Additionally it bacame clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
+\textit{The System} revolves around two major entities, namely the \textit{User} and \textit{Media item} (modelled as entity). Additionally it became clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
 
 
 \begin{figure}[H]
@@ -85,86 +85,5 @@ Another design decision was to have an AccessRight relation between \textit{User
 The data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because it has IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. It was given an ID because it made the implementation of a generic Data Access Layer easier.
 
 The full data model SQL definition can be found in appendix
-
-\todo{Move to appendix}
-
-\begin{lstlisting}
-CREATE TABLE Client(
-	Id Int IDENTITY Primary Key,
-	Name varchar(256) NOT NULL,
-	Token varchar(256) NOT NULL
-);
-
-CREATE TABLE EntityInfoType(
-	Id Int IDENTITY Primary Key,
-	Name varchar(256) NOT NULL,
-);
-
-CREATE TABLE EntityType(
-	Id Int IDENTITY Primary Key,
-	Type varchar(256) NOT NULL UNIQUE
-);
-
-CREATE TABLE Entity(
-	Id Int IDENTITY Primary Key,
-	FilePath varchar(256) NOT NULL,
-	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
-	TypeId Int REFERENCES EntityType(Id)
-);
-
-CREATE TABLE EntityInfo(
-	Data varchar(max),
-	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
-	EntityInfoTypeId Int NOT NULL REFERENCES EntityInfoType(Id) ON DELETE CASCADE,
-	Id INT IDENTITY Primary Key
-);
-
-CREATE TABLE UserAcc(
-	Id INT IDENTITY Primary Key,
-	Username varchar(20) NOT NULL UNIQUE,
-	Password varchar(50) NOT NULL
-);
-
-CREATE TABLE UserInfoType(
-	Id INT IDENTITY Primary Key,
-	Type varchar(256) NOT NULL UNIQUE
-);
-
-CREATE TABLE UserInfo(
-	Id Int IDENTITY Primary Key,
-	Data varchar(max),
-	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
-	UserInfoType Int NOT NULL REFERENCES UserInfoType(Id) ON DELETE CASCADE
-);
-
-CREATE TABLE AccessRightType(
-	Id Int IDENTITY Primary Key,
-	Name varchar(256) NOT NULL UNIQUE
-);
-
-CREATE TABLE AccessRight(
-	Id Int IDENTITY Primary Key,
-	Expiration datetime,
-	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
-	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
-	AccessRightTypeId INT NOT NULL REFERENCES AccessRightType(Id) ON DELETE CASCADE,
-);
-
-CREATE TABLE ClientAdmin(
-	Id Int IDENTITY Primary Key,
-	ClientId Int NOT NULL REFERENCES Client(Id) ON DELETE CASCADE,
-	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE	
-);
-
-CREATE TABLE Rating(
-	Id int IDENTITY Primary Key,
-	Value int NOT NULL,
-	UserId Int NOT NULL REFERENCES UserAcc(Id) ON DELETE CASCADE,
-	EntityId Int NOT NULL REFERENCES Entity(Id) ON DELETE CASCADE,
-);
-\end{lstlisting}
-
-
-
 
 \end{document}
