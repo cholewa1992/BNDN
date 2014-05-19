@@ -39,7 +39,8 @@ namespace ArtShare.Controllers
             if (userCookie == null)
             {
                 TempData["error"] = "You have to be logged in to download files.";
-                return RedirectToAction("Index", "Home");
+                TempData["redirectTo"] = Url.Action("Index", "Details",new {id});
+                return RedirectToAction("Index", "Login");
             }
 
             var user = new UserDTO() { Username = userCookie["username"], Password = userCookie["password"] };

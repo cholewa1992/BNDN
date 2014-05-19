@@ -47,19 +47,16 @@ namespace ArtShare.Controllers
             {
                 string username = "";
                 string password = "";
+                int userId = 0;
                 //Checking that the user is logged in
                 if (Request.Cookies["user"] != null)
                 {
                     username = Request.Cookies["user"].Values["username"];
                     password = Request.Cookies["user"].Values["password"];
+                    //userId = int.Parse(Request.Cookies["user"].Values["id"]);
                 }
 
                 var model = _accountLogic.GetAccountInformation(username, password, id);
-
-                if (_accountLogic.IsUserAdmin(username, password, id))
-                {
-                    model.isAdmin = true;
-                }
 
                 //Fetching and passing Account model to view
                 return View(model);
