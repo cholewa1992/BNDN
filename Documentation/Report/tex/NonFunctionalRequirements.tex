@@ -1,6 +1,8 @@
 %\documentclass[../report.tex]{subfiles}
 %\begin{document}
 
+ %Backend must support multiple clients.
+
 \subsubsection{Usability}
 
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}]
@@ -17,6 +19,7 @@
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
 \item If the connection to ShareIT is lost for any reason, the client must not crash. 
 \item In case of failure the client must provide extensive error messages, such that the user can understand what went wrong and react to it accordingly.
+\item Corrupt data must not reach the user in any way.
 \end{enumerate}
 
 \subsubsection{Performance}
@@ -29,7 +32,8 @@
 \subsubsection{Supportability}
 
 \begin{enumerate}[label=\textbf{NFR-\twodigits*}, resume]
-\item .NET developers must be able to extend the functionality of the service and client by only reading the code and the documentation.
+\item It must be possible to add support for new types of media e.g. photographs.
+\item It must be possible to add new functionality and expand upon the existing functionality e.g. adding an advanced search feature.
 %\item Extensions might require a temporary shutdown of the web service.
 \item The code must be written in such way, that all modules can be tested in isolation.
 \end{enumerate}
