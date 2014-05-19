@@ -54,5 +54,14 @@ Lots of powerful Javascript frameworks offer to develop web applications in MVC.
 
 Since the server is developed using the .NET platform it was an obvious choice to also develop the client in a .NET platform. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the \texttt{web.config} file. 
 
+\subsection{Upload \& Download}
+
+The possibility to upload and download \textit{Media Items} in ArtShare, is one of the most vital features of a system where sharing media is the focal point. From the functional requirement FR-39, we have that a \textit{User} must be able to upload media items, while FR-45, FR-46 and FR-47 explains that a User must be able to download media items, if certain conditions are fulfilled.
+
+In ArtShare upload-functionality is provided to the users through different types of input fields. By using the HTML file type attribute\footnote{http://www.w3schools.com/tags/att\_input\_type.asp} on an input field, users are able to select files using their native file system. The file is, along with information on the media file, posted to the UploadController which invokes a method on the service.
+
+When a User wants to download a media item, a method in the DownloadController is called. The DownloadController request the correct media item, by invoking a service exploited by ShareIT. The service returns a stream, which is then divided into small pieces before it is returned in a HTTP result. The reason for this breakdown of the stream is to ensure that the stream doesn't exceed the maximum buffer limit on the client. This design choice can also be traced back to NFR-06, namely that ArtShare must be able to support 10 concurrent users. Depending on the user's browser, the returned stream can be handled in various ways. E.g. when the browser Chrome (v31+) receives an HTTP result containing a stream, it automatically initiates the download process.
+
+
 
 \end{document}
