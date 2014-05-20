@@ -13,6 +13,7 @@ namespace ArtShare.Controllers
 {
     /// <author>
     /// Mathias Pedersen (mkin@itu.dk)
+    /// Jacob B. Cholewa (jbec@itu.dk)
     /// </author>
     public class AccountController : Controller
     {
