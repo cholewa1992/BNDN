@@ -12,38 +12,38 @@
 
 \section{Test Strategy}
 
-A very important part of every software project is to validate that the deliverable is working and fulfils its requirements. In this project the solution will therefore be tested to ensure a high quality and to prove that requirements have been met. Following tests strategies will be used to accomplish this.
+A very important part of every software project is to validate that the deliverable is working and that it satisfies its requirements. In this project both \textit{ArtShare} and \textit{ShareIt} will therefore be thoroughly tested to ensure a high quality product and to prove that requirements have been met. Following tests strategies will be used to accomplish this:
 
 \paragraph{Unit tests}
-As per the developers definition of done; for an implementation task to be done, working and unit-tested code must be committed to the project repository. In addition to this all code will be Quality assured by another developer. This will enforce the code quality and ensure that code in-fact perform the intended logic
+As per the developers' definition of done; for an implementation task to be done, working and unit-tested code must be committed to the project repository. In addition to this all code will go through a quality assurance session carried out by another developer. This will improve the code quality and ensure that all code actually does what it is supposed to.
 
 \paragraph{Integration tests}
 
-To ensure that the integration between subsystems are working as intended, a set of integration tests will be written. The integration tests will also be used under development. There will not be made use of continuous integration, but every integration test will be run after changing a tested subsystem. This will insure that logic will not break due to changes and optimizations.
+To ensure that the integration between subsystems are working as intended, a set of integration tests will be written. The integration tests will also be used during the development of \textit{The System}. There will not be made use of continuous integration, but every integration test will be run after changing something in a subsystem. This will ensure that any changes and optimizations made after the initial implementation does not break anything.
 
 \paragraph{Usability tests}
-As the requirements for this project specify how much time certain task can take, usability tests will be executed to ensure that those requirements are met. A set of tasks will be written to cover these requirements and tested on a small target group matching the target group of the system on parameters of age, gender and IT knowledge.
+As the requirements for this project specify how much time certain tasks may take, usability tests will be executed to ensure that those requirements are met. A set of tasks will be written based on these requirements. The usability tests will then be carried out by giving these tasks to a small group of people matching the target group of the system on parameters of age, gender and IT knowledge.
 
 \paragraph{System tests}
-System tests are tests done to ensure that the system meets all the requirements. System testing is normally done by the customer, but as there is no customers to this project these tests will be executed by the project group itself.
+System tests are tests done to ensure that a system meets all the requirements. System testing is normally done by the customer, but as there are no customers in this project these tests will be executed by the project group.
 
-For every requirement a test case will be written. These test cases can either be tested with acceptance testing, integration testing, unit tests or usability tests. Acceptance testing is a test case where a task is manually carried out. They are typically used for tasks that are difficult to unit test. 
+For every requirement a test case will be written. These test cases can either be tested by acceptance testing, integration testing, unit testing or usability testing. Acceptance testing is a test case where a task is manually carried out. They are typically used for tasks that are difficult to unit test. 
 
 \section{Results}
 %This section will contain the results and a brief reflection following from the test strategy.
 
 \paragraph{Unit test results}
 
-233 unit tests have been written covering all classes containing logic. 221 of the tests are covering \textit{ShareIt} and 12 covering \textit{ArtShare}. All unit tests are compiling and running without errors.
+233 unit tests have been written covering all classes containing logic. 221 of the tests are for \textit{ShareIt} and 12 are for \textit{ArtShare}. All unit tests are compiling and running without errors.
 
 \paragraph{Integration test results}
 
-A set of integration tests have been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This has been tested by having a test database. Some test data has been written into the test database and and all methods in the Business layer have been tested to ensure that they behave correctly when communicating with the database. All 20 tests are compiling and is running without errors
+A set of integration tests have been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This has been tested by having a test database. Some test data has been written into the test database and and all methods in the Business Logic Layer have been tested to ensure that they behave correctly when communicating with the database. All 20 tests are compiling and is running without errors
 
-Only integration tests have been implemented on these two subsystems as it was the only subsystems where logic relied on one another
+The only part of \textit{The System} that has been integration tested is the connection between the Business Logic Layer and the Data Access Layer, since these are the only subsystems that heavily relied on one another.
 
 \paragraph{Usability test results}
-The usability tests consisted of 12 tasks based on 12 test cases (Marked as UST in table \ref{tab:testcasematrix}). Each test case was based on a functional requirement that determined what the user had to do within a time limit based on the non-functional requirements. The 12 test cases used in these usability tests were designed to test the most basic functions of the system such as creating a new account, finding a certain media item, uploading files etc. 
+The usability tests consisted of 12 tasks based on 12 test cases (Marked as UST in table \ref{tab:testcasematrix}). Each test case was based on a functional requirement that determined what the user had to do within a time limit. These time limits were based on the non-functional requirements. The 12 test cases used in these usability tests were designed to test the most basic functions of the system such as creating a new account, finding a certain media item, uploading files etc. 
 Out of the four people involved in the usability tests all but one completed the the tasks within the time limit. However, one of the users failed two tasks (The ones based on FR-18-TC-02 and FR-48-TC-03). The feedback given from the users during the usability tests suggested that the main issues were:
 \begin{itemize}
 \item Finding the next page button on the search result page
@@ -52,9 +52,8 @@ Out of the four people involved in the usability tests all but one completed the
 \item Noticing that it is required to type in the users password when updating account information
 \end{itemize} 
 
-\paragraph{Acceptance tests}
-For all requirements test cases have been written (See table \ref{tab:testcasematrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements were taken out of scope and therefore the tests of course do not pass.
-
+\paragraph{Test cases}
+For each requirement \textit{The System} must satisfy, one or more test cases have been written and every test case has been carried out. The result is shown in the test case matrix (See table \ref{tab:testcasematrix}). Some requirements were taken out of scope and therefore the tests of course do not pass.
 
 
 \section{Test case matrix (full table in appendix \ref{app:testcasematrix})}

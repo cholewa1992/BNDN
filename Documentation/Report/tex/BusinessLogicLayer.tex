@@ -10,7 +10,7 @@ Because of this the Business Logic Layer (BLL) must focus on testability.
 Furthermore it must be easy to change which implementation of the BLL the service layer uses. 
 
 \subsection{Overall subsystem design}
-In order to make it easy to change which implementation of the BLL the service layer uses it was decided to use an Abstract Factory Pattern for the BLL.
+In order to make it easy to change which implementation of the BLL the service layer uses, it was decided to use an Abstract Factory Pattern for the BLL.
 The service layer can retrieve a concrete IBusinessLogicFactory by using the entry point, which is the BusinessLogicEntryFactory. 
 Using this factory the service layer can retrieve two different implementations of the IBusinessLogicFactory. 
 Because the IBusinessLogicFactory encapsulates the Abstract Factory Pattern, the service layer can be coded independently from the concrete implementation of the factory it uses.
@@ -33,7 +33,7 @@ Therefore the BLL is designed to be highly testable by creating interfaces for e
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{BLLclassdiagram.png}
+\includegraphics[scale=0.172]{BLLclassdiagram.png}
 \caption{Business Logic Layer class diagram (Not all classes are shown)}
 \label{fig:BLLclassdiagram}
 \end{figure}
