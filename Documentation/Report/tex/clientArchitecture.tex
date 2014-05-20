@@ -9,7 +9,7 @@ This section is dedicated to explain the architecture behind \textit{ArtShare}, 
 
 \subsection{ASP.NET MVC}
 
-The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components which seperates application data and logic from the view that is displayed to the user. 
+The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components which seperates application data and logic from the view that is displayed to the \textit{User}. 
 
 %In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. The view is a representation of data and is displayed to the user. The controller is what the user interacts with to manipulate the data objects. It reads data and user input from the view and sends the manipulated data to the model. The controller also selects which view to render and passes on a specfic model if this is necessary.
 
@@ -19,11 +19,12 @@ The ASP.NET MVC framework implements, as the name suggest, the model-view-contro
 \label{fig:mvc}
 \end{figure}
 
-Figure \ref{fig:mvc} shows an example of how MVC components interact with each other, using an actual example from \textit{ArtShare}. The figure illustrates the interaction when movie details are shown. A user interacts with \textit{ArtShare} and asks for the movie details of a movie with a specific id. The controller manipulates the model, such that the model contains data about the correct movie. The controller then updates the view, by passing the manipulated model to the view, which is then displayed to the user.
+Figure \ref{fig:mvc} shows an example of how MVC components interact with each other, using an actual example from \textit{ArtShare}. The figure illustrates the interaction when movie details are shown. A \textit{User} interacts with \textit{ArtShare} and asks for the movie details of a movie with a specific id. The controller manipulates the model, such that the model contains data about the correct movie. The controller then updates the view, by passing the manipulated model to the view, which is then displayed to the \textit{User}.
 
 The controllers in \textit{ArtShare} delegate most of their tasks to the logic classes, which are interfaced. This allows for easier testing of the controllers and makes the logic classes replaceable if at one point, it is decided to use a different logic (for instance a logic using a different service). The controller classes have overloaded constructors in order to support the injection of a logic class. The following code-snippet shows how this is done in the DetailsController class.
 
-\begin{lstlisting}
+\begin{figure}[H]
+\begin{lstlisting}[frame=tb]
 	private readonly IDetailsLogic _logic;
 	public DetailsController() {
 		_logic = new DetailsLogic();
@@ -32,6 +33,8 @@ The controllers in \textit{ArtShare} delegate most of their tasks to the logic c
 		_logic = detailsLogic;
 	}
 \end{lstlisting}
+\caption{The constructors in the DetailsController}
+\end{figure}
 
 %In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. In ArtShare the model is defining all properties, determining which data to be used by a view.
 
