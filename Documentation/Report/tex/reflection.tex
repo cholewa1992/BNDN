@@ -5,9 +5,11 @@
 
 %Proposed system
 \section{Proposed system}
-\paragraph{Scope} 
+%\paragraph{Scope} 
 
-\paragraph{Requirements}
+\paragraph{Requirements} In defining the requirements of the system, the main focus has been to ensure that each requirement is well defined and unambigous. This has resulted in quite a few requirements, which have been very useful when implementing functionality. The potential of the thorough requirements was not fully utilized, since some developers decided to go with another solution at the time.
+
+%grundige, ikke læse dem
 
 \paragraph{Mockups} In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of the client. These mockups would show all the functionality that the client was ideally throught to have, and thereby functional requirements could be derived from these mockups. Some of the created mockups can be seen in Appendix~\ref{app:mockups}. Furthermore the mockups helped the developers to agree on the overall design of ArtShare. The final version of ArtShare reflects this by having the same functionality as depicted in the mockups.
 %Design, Architecture & Implementation
@@ -24,8 +26,11 @@
 \section{Validation}
 	%221 unit tests in server vs 12 unit tests in client
 	%NFR not tested? f.eks. 10 concurrent users
-\paragraph{Usability testing} The received input from the usability tests showed that improvements on the design of ArtShare could be made. As described, some of these improvements were implemented and others are to be implemented in a later version. When all the changes derived from the usability tests have been implemented, another iteration of the tests must be run, to ensure that the issues have been fixed. 
+\paragraph{Test Strategy}
+Through the test strategy a well tested and working solution has emerged. Every functional requirement, except for those that were out-scoped, have been proved through acceptance tests.
+In regards to the usability test cases 10 of them passed and 2 of them failed. The 2 that failed are considered failed even though only one user out of the four involved failed to complete those tasks. The feedback from the users inspired a change of the download button to a different colour and a change in the positioning of the next page button. These changes were easy to make since most users agreed on what changes needed to be made. In regards to the other two issues the feedback was not as clear. Since there was no time for a big redesign, fixing these issues was out-scoped.
 
+\paragraph{Usability testing} The received input from the usability tests showed that improvements on the design of ArtShare could be made. As described, some of these improvements were implemented and others are to be implemented in a later version. When all the changes derived from the usability tests have been implemented, another iteration of the tests must be run, to ensure that the issues have actually been fixed. 
 
 \section{SMU collaboration}
 The experience of collaborating with the SMU team has been very interesting and educational, teaching us the importance of clear and precise communication.

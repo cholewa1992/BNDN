@@ -2,13 +2,13 @@
 
 
 \begin{document}
-This section will cover the error handling in \textit{ShareIt} and describe how the errors are exposed in the services. The error handling involves Code Contracts and custom exceptions while the exposition of errors include fault data contracts.
+This section will cover the error handling in \textit{ShareIt} and describe how the errors are exposed in the services. The focus of the error handling will not be on the general exception flow of \textit{ShareIt}, but on the use of Code Contracts.
 
 \subsection{Code Contracts}
 
 %In trying to prevent implementation errors from leading to runtime errors, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been implemented for variable checking in the business logic on our back-end.
 
-In the business logic layer of ShareIT, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been used to prevent runtime errors. Variables are checked with the Code Contracts by making assumptions on the functionality of the implemented code. Code Contracts can be used with three following syntaxes:
+In the Business Logic Layer of \textit{ShareIt}, Code Contracts\footnote{Microsoft Research plug-in for .NET} have been used to prevent runtime errors. Variables are checked with the Code Contracts by making assumptions on the functionality of the implemented code. Code Contracts can be used with three following syntaxes:
 
  \textbf{Legacy if-then-throw:}
 \begin{lstlisting}

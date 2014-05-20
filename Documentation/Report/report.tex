@@ -86,7 +86,7 @@
 \chapter{Proposed System}
 
 \section{Overview}
-The system to be developed should consist of a web application (\textit{ArtShare}) and a server (\textit{ShareIt}). The system should initially support upload and download of three different media types: books, videos and music, but it should be extensible such that adding additional media types in the future can be done relatively easy.
+The system to be developed will consist of a web application (\textit{ArtShare}) and a server (\textit{ShareIt}). The system should initially support upload and download of three different media types: books, videos and music, but it should be extensible such that adding additional media types in the future can be done relatively easy.
 %The purpose of the system is to handle different types of media files (e.g. books, videos, sound files or images). It must be extendible, such that new clients with similar functionality can use the same services as the client developed in this project.
 
 %The system is aimed at anyone who wants to buy media via the internet and anyone who wants to share media they have made via the internet. This could be anyone from a young girl who wants to buy the newest music to an aspiring writer who has written a book he wants to sell.
@@ -102,29 +102,23 @@ The system to be developed should consist of a web application (\textit{ArtShare
 %The following describes scenarios of what end-users will be able to do on the platform followed by use cases and functional requirements derived from these scenarios.
 
 
-This section contains the requirements to the system. The chronology of requirement elicitation has been as follows: Identification of involved Actors (section \ref{sec:Actors}), User Stories (section \ref{sec:User Stories}), Use cases (appendix \ref{sec:Use Cases}) and finally, deduced from the use cases, the functional (section \ref{sec:Functional Requirements}) and non-functional requirements (section \ref{sec:Non-functional Requirements}). The elicited functional requirements cover both ShareIt and ArtShare split into sections \ref{sec:Functional Requirements} and \ref{sec:Functional Requirements Server} and respectively. Note that use cases, as the middle ground they are, have been attached as appendix \ref{sec:Use Cases} and \ref{app:mockups}.
+This section contains the requirements to the system. The chronology of requirement elicitation has been as follows: Identification of involved Actors (section \ref{sec:Actors}), User Stories (section \ref{sec:User Stories}), Use cases (appendix \ref{sec:Use Cases}), mockups of ArtShare (appendix~\ref{app:mockups}) and finally, deduced from the use cases, the functional (section \ref{sec:Functional Requirements}) and non-functional requirements (section \ref{sec:Non-functional Requirements}). The elicited functional requirements cover both ShareIt and ArtShare. Requirements for \textit{ArtShare} can be found in section \ref{sec:Functional Requirements} and requirements for \textit{ShareIt} in appendix \ref{app:FR-ShareIt}. Note that use cases and mockups, as the middle ground they are, have been attached as appendix \ref{sec:Use Cases} and \ref{app:mockups}.
+
 
 % SCENARIOS SECTION %
 \subsection{Scenarios}
 \input{tex/scenarios.tex}
 
-
-
-
-
 % FUNCTION REQUIREMENTS
 
 \FloatBarrier
 \newpage \subsection{Functional Requirements - ArtShare}
-\input{tex/functionalRequirements.tex}
+\subfile{tex/functionalRequirements.tex}
 
-\newpage \subsection{Functional Requirements - ShareIt}
-\input{tex/functionalRequirementsServer.tex}
+\newpage \subsection{Non-functional Requirements -  ShareIt \& ArtShare}
+\subfile{tex/NonFunctionalRequirements.tex}
 
-\newpage \subsection{Non-functional Requirements}
-\input{tex/NonFunctionalRequirements.tex}
-
-\chapter{Design, Architecture \& Implementation}
+\chapter{Design, Architecture \& \\Implementation}
 
 \section{Overall architecture}
 \subfile{tex/overallArchitecture.tex}
@@ -168,10 +162,17 @@ This section contains the requirements to the system. The chronology of requirem
 \chapter{Reflection}
 \subfile{tex/reflection.tex}
 
+\chapter{Bibliography}
+\subfile{tex/bibliography.tex}
+
 \appendix
 
 \chapter{Use Cases}
 \input{tex/appendix_use_cases.tex}
+
+\chapter{Functional Requirements - ShareIt}
+\label{app:FR-ShareIt}
+\subfile{tex/appendix_functionalRequirementsServer.tex}
 
 \chapter{Data Model SQL}
 \label{app:sql}
@@ -179,6 +180,9 @@ This section contains the requirements to the system. The chronology of requirem
 
 \chapter{Business Logic Layer diagram}
 \subfile{tex/appendix_BLLDiagram.tex}
+
+\newpage
+\restoregeometry
 
 \chapter{Test Case Matrix}
 \label{app:testcasematrix}

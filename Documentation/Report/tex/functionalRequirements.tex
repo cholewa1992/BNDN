@@ -1,8 +1,8 @@
-%\documentclass[../report.tex]{subfiles}
+\documentclass[../report.tex]{subfiles}
 
 %As the enumerable can't continue across two seperate subfiles the \documentclass and \begin \end{document} lines must be commented out when commiting changes to this file.
 
-%\begin{document}
+\begin{document}
 
 \label{sec:Functional Requirements}
 
@@ -14,7 +14,7 @@
 	\item All \textit{End Users} must be able to initiate a search by providing a keyword or key-phrase.
 	\item The keyword or key-phrase must be matched with \textit{Media Items} on title and \textit{Uploader}.
 	\item The \textit{End User} must be presented with a range of all matches.
-	\item The \textit{End User} must be able to change the range of matches which is presented to him.
+	\item The \textit{End User} must be able to request the next range of matches as long as there are more matches to show.
 	\item Each match must include a link to a detailed page about the \textit{Media Item}.
 	\item Matches must be grouped by \textit{Media Type}. 
 \end{enumerate}	
@@ -22,23 +22,23 @@
 \subsubsection{Create account}
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item An \textbf{Anonymous User} must be able to create an \textit{Account}.
-	\item To create an \textit{Account} the \textbf{User} must provide a desired username and password.
+	\item An \texttt{Anonymous User} must be able to create an \textit{Account}.
+	\item To create an \textit{Account} the \texttt{Anonymous User} must provide a desired username and password.
 	\item Usernames must be unique with case insensitive matching. \label{FR-CA.3}
-	\item A \textbf{User} must be given an alert if the desired username is unavailable.
+	\item A \texttt{Anonymous User} must be given an alert if the desired username is unavailable.
 	\item A username must consist of between 1 and 20 characters.
 	\item A username must only consist of alphanumeric characters (a-zA-Z0-9).
 	\item A password must consist of between 1 and 50 characters. 
 	\label{FR-CA.6}
 	\item A password must not contain any whitespace characters. \label{FR-CA.7}
-	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} are not met a warning must be displayed to the \textbf{User}.
+	\item If requirements \ref{FR-CA.3} - \ref{FR-CA.7} are not met a warning must be displayed to the \texttt{Anonymous User}.
 \end{enumerate}
 	
 \subsubsection {Login}
 	
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item A registered \textbf{User} must be able to login to \textit{The System} providing a registered username and password pair.
-	\item If the username and password pair is not matched an error message must be displayed to the \textbf{User}. 
+	\item An \texttt{Anonymous User} who has already created an \textit{Account} must be able to login to \textit{The System} providing a registered username and password pair.
+	\item If the username and password pair is not matched an error message must be displayed to the \texttt{Anonymous User}. 
 \end{enumerate}
 		
 \subsubsection {Manage account}
@@ -81,7 +81,7 @@
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
 	\item A logged-in \textbf{User} must be able to upload \textit{Media Items} to the system.
-	\item When uploading a \textit{Media Item}, asslociated \textit{Media Item Informations} must satisfy requirements specified in subsection \ref{FR-Media}.
+	\item When uploading a \textit{Media Item}, associated \textit{Media Item Informations} must satisfy requirements specified in subsection \ref{FR-Media}.
 	\item If an upload is not successfully completed, no information about the \textit{Media Item} must be stored.
 	\item If an upload is successful an acknowledgement must be displayed to the \textbf{User}.
 	\item If an upload is unsuccessful an error message must be displayed to the \textbf{User}. 
@@ -90,27 +90,27 @@
 \subsubsection {Purchase Media Items}
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item A logged-in \textbf{User} must be able to purchase a \textit{Media Item} which is available for purchase provided he has not uploaded it himself or  purchased it previously.
+	\item A \textbf{User} must be able to purchase a \textit{Media Item} which is available for purchase provided he has not uploaded it himself or  purchased it previously.
 \end{enumerate}
 
 \subsubsection {Downloading Media Items}
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item A logged-in \textbf{User} must be able to download \textit{Media Items} which he has purchased.
-	\item A logged-in \textbf{User} must be able to download \textit{Media Items} which he has uploaded himself.
+	\item A \textbf{User} must be able to download \textit{Media Items} which he has purchased provided they have not been deleted by an \texttt{Admin}.
+	\item A \textbf{User} must be able to download \textit{Media Items} which he has uploaded himself provided they have not been deleted by an \texttt{Admin}.
 	\item An \textbf{Admin} must be able to download all \textit{Media Items}.
 \end{enumerate}
 		
 \subsubsection {Rating Media Items} \label{FR-RatingMedia}
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item A logged-in \textbf{User} must be able to rate \textit{Media Items} which he has purchased on a scale from 1 to 10 with 1 being the lowest rating and 10 being the highest rating.
+	\item A \textbf{User} must be able to rate \textit{Media Items} which he has purchased on a scale from 1 to 10 with 1 being the lowest rating and 10 being the highest rating.
 \end{enumerate}
 
 \subsubsection{Editing Media Item Information}
 
 \begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
-	\item A logged-in \textbf{User} must be able to edit the information about \textit{Media Items} which he has uploaded himself provided that all requirements in subsection \ref{FR-Media} are met.
+	\item A \textbf{User} must be able to edit the information about \textit{Media Items} which he has uploaded himself provided that all requirements in subsection \ref{FR-Media} are met.
 	\item An \textbf{Admin} must be able to edit the information about any \textit{Media Item} provided that all requirements in subsection \ref{FR-Media} are met.
 \end{enumerate}
 			
@@ -122,4 +122,4 @@
 	\item The \textit{Media Item} details page must provide information about the number of times the \textit{Media Item} has been rated.
 \end{enumerate}
 			
-%\end{document}
+\end{document}
