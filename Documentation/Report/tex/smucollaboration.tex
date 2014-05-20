@@ -11,7 +11,7 @@ As a part of this project we have been collaborating with a team from Singapore 
 \item ITU students must implement and deploy agreed web-services.
 \end{enumerate}
 
-\subsection{Communication methods}
+\section{Communication methods}
 As a development team, we used Scrum and therefore it was decided that our product owner together with a developer, would be the main communication link to the group of students at SMU.
 This was done to shield the rest of the team, so that they could focus on developing.
 The communication was initiated by us prior to the first video conference using email.
@@ -21,7 +21,7 @@ However the audio quality was really poor and in the end we mainly communicated 
 The facebook group was mainly used as a Q\&A session where the SMU students could ask questions about implementation and usage of the agreed web-services. Code examples could easily be shared between the two groups, which ensured a prompt resolution of possible issues. The facebook group was somewhat also used to notify the other group about changes in deadlines, possible errors in already deployed systems or information on the next meetings.
 
 
-\subsection{Beginning of collaboration}
+\section{Beginning of collaboration}
 During the first week of collaboration a set of functional requirements for the SMU client was formed and adapted into \textit{ShareIt}'s existing requirements. 
 Most requirements were already met and only a few new were added. 
 The SMU requirements were prioritized and it was agreed that if some requirements were not able to be met due to time pressure, those with lowest priority would be omitted.
@@ -31,7 +31,7 @@ The goal was to have the interfaces designed and deployed as quickly as possible
 However, the SMU team had some difficulties consuming our services.
 %Next step was for our group to make interfaces suiting the requirements so that SMU could begin client development as rapidly as possible. 
 %This did not go as we hoped.
-\subsection{WCF SOAP vs. HTML5 and JavaScript}
+\section{WCF SOAP vs. HTML5 and JavaScript}
 The SMU team had already early on in the collaboration expressed a wish to develop their client using only HTML5 and JavaScript. 
 We knew that WCF as default uses the SOAP standard and wrongly assumed that since SOAP was a well defined communication standard, it would not be a problem for the SMU team to consume our services using their desired technology.
 
@@ -44,10 +44,10 @@ Furthermore, we could not find a way for the REST architecture to support one of
 When we passed this information along to the SMU team, they informed us that they had already decided to switch technology to ASP.NET.
 This was great news for us since we already had experience setting up service references within Visual Studio.
 Since the SMU team did not have previous experience with .NET we agreed to act as consultants with regards to problems concerning C\# and Visual Studio.
-We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}\footnote{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}.
+We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}\footnote{\url{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}}.
 Lastly we showed the SMU team how to use the service reference wizard in Visual Studio to create proxy classes which they could use to call our services.
 
-\subsection{Dummy data vs database implementation}
+\section{Dummy data vs database implementation}
 While we were exploring different options for how to create the connection between the SMU client and our services, we had also implemented some stub versions of our logic classes and deployed services which used these stubs.
 We thought that the SMU team would have an easier time creating the code for their client, if they could write code which called these dummy services and got a reply that somewhat resembled what they could expect from the live services.
 Additionally we did not feel comfortable releasing services which were not tested.
