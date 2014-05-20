@@ -7,30 +7,30 @@
 \section{Proposed system}
 %\paragraph{Scope} 
 
-\paragraph{Requirements} In defining the requirements of the system, the main focus has been to ensure that each requirement is well defined and unambigous. This has resulted in quite a few requirements, which have been very useful when implementing functionality. The potential of the thorough requirements was not fully utilized, since some developers decided to go with another solution at the time.
+\paragraph{Requirements} In defining the requirements of the system, the main focus has been to ensure that each requirement is well defined and unambigous. This has resulted in quite a few requirements, which have been very useful when implementing functionality. The potential of the thorough requirements was not fully utilized, since some developers decided to go with another solution at the time. Because of this some of the requirements in the test-matrix is failing, since we went with another solution than initially decided. 
 
 %grundige, ikke læse dem
 
 \paragraph{Mockups} In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of the client. These mockups would show all the functionality that the client was ideally throught to have, and thereby functional requirements could be derived from these mockups. Some of the created mockups can be seen in Appendix~\ref{app:mockups}. Furthermore the mockups helped the developers to agree on the overall design of ArtShare. The final version of ArtShare reflects this by having the same functionality as depicted in the mockups.
+
 %Design, Architecture & Implementation
 \section{Design, Architecture \& Implementation}
-	%Architecture
-	%Services: shared or custom
-	%BLL (Overvejelse om at Search ikke er implementeret på en måde der overholder kravene. 				Der er altså ikke blevet kigget på krav i implementations perioden)
-	%DAL (f.eks. Datamodel: navngivning af entities)
-	%DTOs & enums
-	%Access control
-	%Erroneous states
-	%Client (Clienten har dårlig code reuse på nogle punkter, blandt andet pga. datacontract 				type problemerne)
+\paragraph{DTOs} 
+There are two points to reflect on concerning the DTOs with the system. First of all it would have been beneficial to use smaller DTOs with properties for the situations in which they would be used.
+Second of all is that, much redundant code had to be implemented on \textit{ArtShare} because of the namespace problems when referencing the \textit{ShareIt} services.
+
+\paragraph{Datamodel}
+One can argue that the naming of entities in the datamodel is ambigious and not the obvious choice. An example is the entity named "Entity", which advantageously could have been called "Media Item".
+
 %Validation
 \section{Validation}
-	%221 unit tests in server vs 12 unit tests in client
 	%NFR not tested? f.eks. 10 concurrent users
-\paragraph{Test Strategy}
-Through the test strategy a well tested and working solution has emerged. Every functional requirement, except for those that were out-scoped, have been proved through acceptance tests.
-In regards to the usability test cases 10 of them passed and 2 of them failed. The 2 that failed are considered failed even though only one user out of the four involved failed to complete those tasks. The feedback from the users inspired a change of the download button to a different colour and a change in the positioning of the next page button. These changes were easy to make since most users agreed on what changes needed to be made. In regards to the other two issues the feedback was not as clear. Since there was no time for a big redesign, fixing these issues was out-scoped.
+As a result of the well defined and thorough test strategy it can be guaranteed that the solution meets the functional requirements. However, some of the initial requirements have been out-scoped and are therefore not fulfilled. 
 
-\paragraph{Usability testing} The received input from the usability tests showed that improvements on the design of ArtShare could be made. As described, some of these improvements were implemented and others are to be implemented in a later version. When all the changes derived from the usability tests have been implemented, another iteration of the tests must be run, to ensure that the issues have actually been fixed. 
+\paragraph{Usability tests}
+Some of the functional requirements were covered by usability test cases. The received input from the these tests showed that four improvements on the design of \textit{ArtShare} could be made. Two of these inspired for a change of the download button to a different colour and a change in the positioning of the pagination buttons in the search result page. The last two were out-scoped, as there were no time for a big redesign. 
+
+If all the improvements derived from the feedback had been implemented, the tests should have been rerun to ensure that the implementations actually improved the design of \textit{ArtShare}.
 
 \section{SMU collaboration}
 The experience of collaborating with the SMU team has been very interesting and educational, teaching us the importance of clear and precise communication.
