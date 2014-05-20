@@ -7,11 +7,11 @@
 \section{Proposed system}
 %\paragraph{Scope} 
 
-\paragraph{Requirements} In defining the requirements of the system, the main focus has been to ensure that each requirement is well defined and unambigous. This has resulted in quite a few requirements, which have been very useful when implementing functionality. The potential of the thorough requirements was not fully utilized, since some developers decided to go with another solution at the time. Because of this some of the requirements in the test-matrix is failing, since we went with another solution than initially decided. 
+\paragraph{Requirements} In defining the requirements of the system, the main focus has been to ensure that each requirement is well defined and unambigous. This has resulted in quite a few requirements, which have been very useful when implementing functionality. However, the potential of the thorough requirements was not fully utilized, since some developers decided to go with another solution at the time. Because of this some of the requirements in the test-matrix are failing, since the solution that is implemented in \texit{The System} is different from what was initially decided.
 
 %grundige, ikke læse dem
 
-\paragraph{Mockups} In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of the client. These mockups would show all the functionality that the client was ideally throught to have, and thereby functional requirements could be derived from these mockups. Some of the created mockups can be seen in Appendix~\ref{app:mockups}. Furthermore the mockups helped the developers to agree on the overall design of ArtShare. The final version of ArtShare reflects this by having the same functionality as depicted in the mockups.
+\paragraph{Mockups} In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of \textit{ArtShare}s GUI. These mockups would show all the functionality that \textit{ArtShare} was ideally thought to have, and thereby functional requirements could be derived from these mockups. Some of the created mockups can be seen in Appendix~\ref{app:mockups}. Furthermore the mockups helped the developers agree on the overall design of \textit{ArtShare}. The final version of \textit{ArtShare} reflects this by having the same functionality as depicted in the mockups.
 
 %Design, Architecture & Implementation
 \section{Design, Architecture \& Implementation}
@@ -20,8 +20,8 @@
 
 
 \paragraph{DTOs} 
-There are two points to reflect on concerning the DTOs with the system. First of all it would have been beneficial to use smaller DTOs with properties for the situations in which they would be used.
-Second of all is that, much redundant code had to be implemented on \textit{ArtShare} because of the namespace problems when referencing the \textit{ShareIt} services.
+There are two points to reflect on concerning the DTOs with the system. Firstly, it would have been beneficial to use smaller DTOs with properties for the situations in which they would be used.
+Secondly, \textit{ArtShare} has a lot of redundant code caused by the namespace problems when referencing the \textit{ShareIt} services.
 
 \paragraph{Data model}
 One can argue that the naming of entities in the data model is ambiguous and not the obvious choice. An example is the entity named "Entity", which advantageously could have been called "Media Item".
