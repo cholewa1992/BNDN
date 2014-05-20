@@ -48,7 +48,7 @@ A DTO solution was chosen mainly for the sake of readability and code reuse. Som
 \label{sec:dtoStructure}
 
 %Our DTOs are implemented to encapsulate application domain data over software situation data.
-The DTOs are implemented to encapsulate application domain data over software situation data. An example is the UserDTO which encapsulates application domain data in the way that it holds all properties associated with a user. This means that an invoker of \texttt{CheckUserExists(UserDTO dto)} does not know what properties are expected in the DTO. This has been accommodated with proper documentation.
+The DTOs are implemented to encapsulate application domain data over software situation data. An example is the UserDTO which encapsulates application domain data in the way that it holds all properties associated with a \textit{User}. This means that an invoker of \texttt{CheckUserExists(UserDTO dto)} does not know what properties are expected in the DTO. This has been accommodated with proper documentation.
 
 A software situation DTO would be a CredentialDTO containing only username and password. Then when invoking \texttt{CheckUserExists(CredentialDTO dto)} an implementor would be much more certain as to what informations are expected.
 
