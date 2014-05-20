@@ -1,53 +1,24 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
-\begin{tabular}{l p{10 cm}}
-\textbf{The System} & Everything we develop. Consisting of the backend and the client \\ \\
-\textbf{Account} & The user profile \\ \\
-\textbf{Account Information} & All the information  that a specific \textit{Account} contains. These are the types of information an \textit{Account} can contain:
-\begin{enumerate}
-\item UserId
-\item Username
-\item Password
-\item Email
-\item Name
-\item Telephone Number
-\end{enumerate}\\ \\
-\textbf{Anonymous User} & An \textit{End User} which is not logged in.\\ \\
-\textbf{Buyer} & An \textit{Account} that has purchased a \textit{Media Item} is the \textit{Buyer} of said \textit{Media Item} \\ \\
-\textbf{Client} & Any system that acts as a frontend for the \textit{ShareIt back end} \\ \\
-\textbf{Uploader} & An \textit{Account} that has uploaded a \textit{Media Item} is the \textit{Uploader} of said \textit{Media Item}. \\ \\ %This means the \textit{Uploader} receives royalties each time the \textit{Media Item} is purchased. \\ \\
-\end{tabular}
-
-\begin{tabular}{l p{10 cm}}
-\textbf{Media Item} & A specific uploaded file \\ \\
-\textbf{Media Item Information} & All the information  about a specific \textit{Media Item}. These are the types of information a \textit{Media Item} can contain:
-\begin{enumerate}
-\item ProductId
-\item Title
-\item Description
-\item Thumbnail Image
-\item Type
-\item File Extension
-\item Media URL Link
-\item Keyword Tag
-\item Genre
-\item Category %SMU har bedt om denne. Måske skal den fjernes da jeg ikke ved hvad de mener med den.
-\item Track Length
-\item Runtime
-\item Number of Pages
-\item Author
-\item Director
-\item Artist
-\item Cast Member
-\item Release Date
-\item Language
-\end{enumerate} \\ \\
-\textbf{Media Type} & A common description for all \textit{Media} of the same type (books, videos, music) \\ \\
-\textbf{End User} & The person to interact with the client \\ \\
-\textbf{ArtShare} & The client to present our backend. Known as ArtShare. Consisting of the ASP.NET back end and the ASP.NET front end \\ \\
-\textbf{ShareIt Back End} & Software to be developed and to run on a server. Consisting of the ShareIt Service and the ShareIt database \\ \\
-\textbf{Details Page} & The page with the details about a specific \textit{Media} \\ \\
+\section{Glossary}
+\begin{longtable}{l p{10 cm}}
+\textbf{Account} & A profile created by an \textit{Anonymous User} in order to become a \textit{User} of \textit{The System} \\ \\
+\textbf{Account Information} & All the information associated with a specific \textit{Account} e.g. username or email-address.\\ \\
 \textbf{Account Page} & The page with the details about a specific \textit{Account} \\ \\
-\textbf{User} & An \textit{End User} which is logged in to an account.\\ \\
-\end{tabular}
+\textbf{Admin} & A \textit{User} with administrative rights, e.g. rights to delete \textit{Media Item}s\\ \\
+\textbf{Anonymous User} & An \textit{End User} who is not logged in.\\ \\
+\textbf{ArtShare} & The \textit{Client} developed by us to make use of the services provided by \textit{ShareIt}. \\ \\
+\textbf{Buyer} & A \textit{User} that has purchased a \textit{Media Item} is the \textit{Buyer} of said \textit{Media Item} \\ \\
+\textbf{Client} & Any system which uses the services provided by \textit{ShareIt} \\ \\
+\textbf{Details Page} & The page with the details about a specific \textit{Media Item} \\ \\
+\textbf{End User} & The person who interacts with \textit{ArtShare} \\ \\
+ %This means the \textit{Uploader} receives royalties each time the \textit{Media Item} is purchased. \\ \\
+\textbf{Media Item} & A specific uploaded file \\ \\
+\textbf{Media Item Information} & All the information  about a specific \textit{Media Item}, e.g. its title or description. \\ \\
+\textbf{Media Type} & The type of a \textit{Media Item}, i.e. Book, Movie or Music \\ \\
+\textbf{ShareIt} & The server which exposes the services necessary to support the requirements for \textit{ArtShare}.\\ \\
+\textbf{The System} & Everything the authors of this report develop. Consisting of \textit{ArtShare} and \textit{ShareIt} \\ \\
+\textbf{Uploader} & A \textit{User} that has uploaded a \textit{Media Item} is the \textit{Uploader} of said \textit{Media Item}. \\ \\
+\textbf{User} & An \textit{End User} who is logged into an \textit{Account}.\\ \\
+\end{longtable}
 \end{document}

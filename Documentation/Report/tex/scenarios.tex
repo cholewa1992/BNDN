@@ -4,29 +4,29 @@
 \subsubsection{Actors}
 \label{sec:Actors}
 \begin{itemize}
-\item \textbf{Admin} \\
-The Admin is an user with extended access rights to all content. 
-\item \textbf{Anonymous user}\\ 
-The Anonymous User is an anonymous client of the system. This actor is not able to use all functionality of the system. Only browsing the content is allowed
-\item \textbf{User} \\
-The User is an registered and identified client of the system. The user has created an account which he is logged into. This user is allowed to do more than the Anonymous User. This includes uploading, purchasing and rating content and managing account information and content uploaded by the User.
+\item \texttt{\textbf{Admin}} \\
+The \texttt{Admin} is a \texttt{User} with extended access rights to all content. 
+\item \texttt{\textbf{Anonymous User}}\\ 
+The \texttt{Anonymous User} is an anonymous \textit{End User} of \textit{The System}. This actor is not able to use all functionality of \textit{The System}. Only browsing the content is allowed.
+\item \texttt{\textbf{User}} \\
+The \texttt{User} is a registered and identified \textit{End User} of \textit{The System}. He has an \textit{Account} which he is logged into. This actor is allowed to do more than the \texttt{Anonymous User}. This includes uploading, purchasing and rating content and managing \textit{Account Information} and content uploaded by the \texttt{User} himself.
 \end{itemize}
 
 \subsubsection{User Stories}
 \label{sec:User Stories}
 \begin{itemize}
-\item UploadContent \\
-John is an anonymous user of \textit{ArtShare}. He wants to upload "The best day of my life", a movie he has made, so he can make some money from it. In order to be able to do so he must register a user with the system. He registers a user called John33. John33 finds the movie file he wants to upload and enters information about it into the system. He then uploads the movie.
-\item PurchaseContent \\
-Robert is an anonymous user of \textit{ArtShare}. He wants to purchase "War and Peace" as an ebook. He uses the search function to find the ebook he is looking for. In order to be able to purchase the ebook he must log in. Robert already has a user called Robbie93 so he logs in as Robbie93. Robbie93 purchases the ebook and downloads it.
-\item RateContent \\
-Daniel54 is a registered \textit{ArtShare} user. He has previously purchased and listened to the Pink Floyd song "Money". He thought it was a great song and he wants to let the other users of \textit{ArtShare} know about this. He finds "Money" using the search function. He then uses the rating system to give it a high rating.
-\item ManageUploadedContent \\
-Bob1970, a registered user of \textit{ArtShare}, notices that he made a spelling error in the title of the music track he just uploaded. He changes the title from "Parise the Lord" to "Praise the Lord" and saves the changes.
-\item ManageAccount \\
-Kelly89 is a registered user of \textit{ArtShare}. When Kelly89 registered with \textit{ArtShare}, she did not fill the description of her account. She now wants to add a description so that other users can see what to expect from her account. She updates the description and saves the changes.
-\item DeleteContent \\
-Anna, an admin of \textit{ArtShare}, has found a book without content. Anna deletes the book to avoid unsatisfied users.
+\item \textbf{UploadContent} \\
+John is an \texttt{Anonymous User} of \textit{ArtShare}. He wants to upload "The best day of my life", a movie he has made, so he can make some money from it. In order to be able to do so he must create an \textit{Account} in order to become a \texttt{User}. He creates an \textit{Account} called John33 which he logs into. John33 finds the movie file he wants to upload and enters information about it into \textit{ArtShare}. He then uploads the movie.
+\item \textbf{PurchaseAndDownloadContent} \\
+Robert is an \texttt{Anonymous User} of \textit{ArtShare}. He wants to purchase "War and Peace" as an ebook. He uses the search function to find the ebook he is looking for. In order to be able to purchase the ebook he must log in. Robert already has an \textit{Account} called Robbie93 so he logs in as Robbie93. Robbie93 purchases the ebook and downloads it.
+\item \textbf{RateContent} \\
+Daniel54 is a registered \textit{ArtShare} \texttt{User}. He has previously purchased and listened to the Pink Floyd song "Money". He thought it was a great song and he wants to let the other \texttt{User}s of \textit{ArtShare} know about this. He finds "Money" using the search function. He then uses the rating system to give it a high rating.
+\item \textbf{ManageUploadedContent} \\
+Bob1970, a registered \texttt{User} of \textit{ArtShare}, notices that he made a spelling error in the title of the music track he just uploaded. He changes the title from "Parise the Lord" to "Praise the Lord" and saves the changes.
+\item \textbf{ManageAccount} \\
+Kelly89 is a registered \texttt{User} of \textit{ArtShare}. She has not yet added anything to her \textit{Account Information}. She now wants to add her e-mail address so that other \texttt{User}s can contact her. She updates her e-mail address and saves the changes.
+\item \textbf{DeleteContent} \\
+Anna, an \texttt{Admin} of \textit{ArtShare}, has found a \textit{Media Item} without content. Anna deletes the \textit{Media Item} to avoid unsatisfied \texttt{User}s.
 \end{itemize}
 
 %\end{document}
