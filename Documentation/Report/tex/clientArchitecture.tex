@@ -21,7 +21,7 @@ The ASP.NET MVC framework implements, as the name suggest, the model-view-contro
 
 Figure \ref{fig:mvc} shows an example of how MVC components interact with each other, using an actual example from \textit{ArtShare}. The figure illustrates the interaction when movie details are shown. A user interacts with \textit{ArtShare} and asks for the movie details of a movie with a specific id. The controller manipulates the model, such that the model contains data about the correct movie. The controller then updates the view, by passing the manipulated model to the view, which is then displayed to the user.
 
-The controllers in \textit{ArtShare} delegate most of their tasks to the logic classes, which are interfaced. This allows for easier testing of the controllers and makes the logic classes replaceable if at one point it is decided to use a different logic (for instance a logic using a different service). The controller classes have overloaded constructors in order to support the injection of a logic class. The following code-snippet shows how this is done in the DetailsController class.
+The controllers in \textit{ArtShare} delegate most of their tasks to the logic classes, which are interfaced. This allows for easier testing of the controllers and makes the logic classes replaceable if at one point, it is decided to use a different logic (for instance a logic using a different service). The controller classes have overloaded constructors in order to support the injection of a logic class. The following code-snippet shows how this is done in the DetailsController class.
 
 \begin{lstlisting}
 	private readonly IDetailsLogic _logic;
@@ -50,7 +50,7 @@ The loose coupling in the application framework also forms a sound basis for bra
 Specifically ASP.NET MVC uses a Front-controller pattern to process requests through a single controller. This means that you are able to control all routings of the application. There has been made use of this in \textit{ArtShare} to simplify paths and make the details page more generic, so that \texttt{/details/\{id\}} will reroute to \texttt{/details/movie/\{id\}} if the given id is a movie.
 
 \paragraph{Motivation for choosing .NET}
-Lots of powerful Javascript frameworks offer to develop web applications in MVC. Some of the most used are Angular.js, Backbone.js and Knockout.js. Other languages such as Ruby on Rails also uses MVC, like most of the web frameworks that exists.
+Lots of powerful Javascript frameworks offers the ability to develop web applications in MVC. Some of the most used are Angular.js, Backbone.js and Knockout.js. Other languages such as Ruby on Rails also uses MVC, like most of the web frameworks that exists.
 
 Since \textit{ShareIt} is developed using the .NET platform it was an obvious choice to also develop \textit{ArtShare} in a .NET platform. \textit{ShareIt} provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the \texttt{web.config} file. 
 
@@ -58,7 +58,7 @@ Since \textit{ShareIt} is developed using the .NET platform it was an obvious ch
 
 The possibility to upload and download \textit{Media Items} in \textit{ArtShare} is one of the most vital features of a system where sharing media is the focal point. From the functional requirement FR-39, we have that a \textit{User} must be able to upload \textit{Media Item}s, while FR-45, FR-46 and FR-47 explains that a \textit{User} must be able to download \textit{Media Item}s, if certain conditions are fulfilled.
 
-In \textit{ArtShare} upload functionality is provided to the users through different types of input fields. By using the HTML file type attribute\cite{w3schools2014} on an input field, users are able to select files using their native file system. The file is, along with information on the media file, posted to the UploadController which invokes a method on the service.
+In \textit{ArtShare} upload functionality is provided to the \textit{User} through different types of input fields. By using the HTML file type attribute\cite{w3schools2014} on an input field, users are able to select files using their native file system. The file is, along with information on the media file, posted to the UploadController which invokes a method on the service.
 
 When a \textit{User} wants to download a \textit{Media Item}, a method in the DownloadController is called. The DownloadController request the correct \textit{Media Item}, by invoking a service exploited by \textit{ShareIt}. The service returns a stream, which is then divided into small pieces before it is returned in a HTTP result. The reason for this breakdown of the stream is to ensure that the stream does not exceed the maximum buffer limit on the client. This design choice can also be traced back to NFR-06, namely that \textit{ArtShare} must be able to support 10 concurrent users. Depending on the user's browser, the returned stream can be handled in various ways. E.g. when the browser Chrome (v31+) receives an HTTP result containing a stream, it automatically initiates the download process.
 
