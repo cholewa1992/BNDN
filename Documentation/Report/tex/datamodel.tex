@@ -30,7 +30,8 @@ When designing the data model there were several considerations to make. The des
 \begin{itemize}
 \item Make a generic and flexible data model that can easily adapt to accommodate new functionality. 
 \item Make the model as extendible as possible. Meaning that new properties can be added without having to change the data model. This facilitates more iterative development.
-\item The data model should be in the highest normal form possible to avoid redundancy in regards to data space and corruption.
+\item The data model should be in the highest normal form possible to minimize data space and avoid data corruption as a result of redundancy
+
 \end{itemize} 
 
 The first and second design goals stem from the non-functional requirements NFR-07 and NFR-08. These requirements specify that addition of new functionality and new types of media must be supported. In order to meet those requirements a flexible and extendible data model is required.
@@ -42,7 +43,7 @@ The third design goal stems from the non-functional requirement NFR-04 which sta
 %(WHY DID WE MAKE THE UPLOADER/OWNER OF A MEDIA ITEM A RELATION?!? NOW IT IS POSSIBLE FOR A MEDIA ITEM TO HAVE MORE THAN ONE UPLOADER/OWNER)
 
 
-\textit{The System} revolves around two major entities, namely the \textit{User} and \textit{Media item} (modelled as entity). Additionally it became clear that an entity representing a \textit{Client} was needed in order for the \textit{ShareIt Back End} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
+\textit{The System} revolves around two major entities, namely the \textit{User} and \textit{Media item} (modelled as Entity). Additionally it became clear that a table representing a \textit{Client} was needed in order for the \textit{ShareIt} to be able to differentiate which \textit{Media Item}s belonged to which \textit{Client}. \\
 
 
 \begin{figure}[H]
@@ -80,7 +81,7 @@ CREATE TABLE EntityInfo(
 \label{datamodel}
 \end{figure}
 
-Another design decision was to have an AccessRight relation between \textit{User}s and \textit{Media item}s. This choice was made to facilitate different access rights to a \textit{Media item} like Owner and Buyer.
+Another design decision was to have an AccessRight relation between \textit{User}s and \textit{Media item}s. This choice was made to facilitate different access rights to a \textit{Media item} like Uploader and Buyer.
 
 The data model is in 3NF (Third normal form). It is in 3NF and not BCNF (Boyce-Codd normal form) because it has IDs on all entities. An ID for e.g. \textbf{EntityInfo} (See figure \ref{datamodel} for table definition) is not needed as it could have been a weak entity. It was given an ID because it made the implementation of a generic Data Access Layer easier.
 
