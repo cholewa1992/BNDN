@@ -3,7 +3,7 @@
 \begin{document}
 \graphicspath{{img/}{../img/}}
 
-This section is dedicated to explain the architecture behind \textit{Artshare}, which is the client of this system, developed to use the ShareIt services. \textit{ArtShare} has been developed using the ASP.NET MVC framework by Microsoft\footnote{http://www.asp.net/mvc}. 
+This section is dedicated to explain the architecture behind \textit{Artshare}, which has been developed using the ASP.NET MVC framework by Microsoft\footnote{http://www.asp.net/mvc}. 
 
 %The students at SMU developed another client using the functionality of the server, but the architecture of this client will not be described in this section nor in this report.
 
@@ -11,7 +11,7 @@ This section is dedicated to explain the architecture behind \textit{Artshare}, 
 
 The ASP.NET MVC framework implements, as the name suggest, the model-view-controller architectural pattern, denoted by the abbreviation MVC. This pattern divides applications into three main components which seperates application data and logic from the view that is displayed to the user. 
 
-In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. The view is a representation of data and is displayed to the user. The controller is what the user interacts with to manipulate the data objects. It reads data and user input from the view and sends the manipulated data to the model. The controller also selects which view to render and passes on a specfic model if this is necessary.
+%In MVC the model represents the application domain data, which is the core part of the application. Most often the model objects are used to retrieve and store objects in a database. The view is a representation of data and is displayed to the user. The controller is what the user interacts with to manipulate the data objects. It reads data and user input from the view and sends the manipulated data to the model. The controller also selects which view to render and passes on a specfic model if this is necessary.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{mvc.pdf}
@@ -41,18 +41,18 @@ The controllers in ArtShare delegate most of their tasks to the logic classes, w
 \subsection{Motivation}
 
 \paragraph{Motivation for choosing MVC}
-When developing front-end you can choose between numerous great frameworks and development patterns. ASP.NET offers three patterns, where MVC is one of them. The seperation of the application components in MVC ensures a loose coupling, which is the key motivation for choosing this framework.
+When developing front-end you can choose between numerous great frameworks and development patterns. ASP.NET offers three patterns, where MVC is one of them. The seperation of the application components in MVC ensures a loose coupling, which in this case is the key motivation for choosing this framework.
 
 Especially the seperation of the application data is a relevant part when talking about the development of ArtShare. The models developed are used in several views in the application. An example is the detailmodels\footnote{MovieDetailsModel, MusicDetailsModel, BookDetailsModel}, which are used to display, edit and upload \textit{Media Items}.
 
-The loose coupling in the application framework also forms a sound basis for parallel programming. When the model has been implemented, the developers can simultaneously work on the controllers and the views.
+The loose coupling in the application framework also forms a sound basis for branched programming. When the model has been implemented, the developers can simultaneously work on the controllers and the views.
 
 Specifically ASP.NET MVC uses a Front-controller pattern to process requests through a single controller. This means that you are able to control all routings of the application. There has been made use of this in ArtShare to simplify paths and make the details page more generic, so that \texttt{/details/\{id\}} will reroute to \texttt{/details/movie/\{id\}} if the given id is a movie.
 
 \paragraph{Motivation for choosing .NET}
 Lots of powerful Javascript frameworks offer to develop web applications in MVC. Some of the most used are Angular.js, Backbone.js and Knockout.js. Other languages such as Ruby on Rails also uses MVC, like most of the web frameworks that exists.
 
-Since the server is developed using the .NET platform it was an obvious choice to also develop the client in a .NET platform. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the \texttt{web.config} file. 
+Since ShareIt is developed using the .NET platform it was an obvious choice to also develop the client in a .NET platform. The server provides services through service references. Using ASP.NET MVC, which is a .NET platform, it was easy to use these services, just by referencing them in the \texttt{web.config} file. 
 
 \subsection{Upload \& Download}
 
