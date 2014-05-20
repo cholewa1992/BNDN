@@ -2,9 +2,9 @@
 
 \begin{document}
 \subsection{Exposing errors}
-In a WCF service, exceptions are serialized to XML and passed to the \textit{Client} in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET \textit{Client}, it is very likely to fail, as there is no guarantee that the exception exists in different platforms. Since neither limiting \textit{Clients} to .NET implementations nor only using undeclared SOAP faults were desired, it was decided to use custom SOAP faults.
+In a WCF service, exceptions are serialized to XML and passed to the \textit{Client} in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET \textit{Client}, it is very likely to fail, as there is no guarantee that the exception exists in different platforms. Since neither limiting \textit{Client}s to .NET implementations nor only using undeclared SOAP faults were desired, it was decided to use custom SOAP faults.
 
-The above mentioned issue was solved by defining fault contracts and then marking which SOAP faults each operation throws, so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient. This is thrown when a client is not recognized by the system. The following shows the implementation of the UnauthorizedClient fault data contract:
+The above mentioned issue was solved by defining fault contracts and then marking which SOAP faults each operation throws, so that they are exposed to \textit{Client}s in WSDL. An example of such a data contract is the UnauthorizedClient. This is thrown when a client is not recognized by the system. The following shows the implementation of the UnauthorizedClient fault data contract:
 
 
 \begin{figure}[H]
