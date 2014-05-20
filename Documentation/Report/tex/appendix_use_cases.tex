@@ -14,31 +14,31 @@ Use case name:  & EditUserAccountInfo   \\   \hline
 Participating actors:  & \texttt{User, \texttt{Admin}} \\   \hline   
 \\      
 Flow of events: & \begin{enumerate}
-\item{The \texttt{Actor} navigates to the \textit{Account Page} of the \textit{Account} which info is to be edited}
+\item{The \texttt{Actor} navigates to the \textit{Account Page} of the \textit{Account} whose info is to be edited}
 \item{The \texttt{Actor} initiates the editing of this \textit{Account}}
 \item{The \texttt{Actor} is presented with a form containing \textit{Account Information}}
 \item{The \texttt{Actor} edits whatever information he wants in the form}
 \item{The \texttt{Actor} either chooses to discard the changes or to save them}
-\item{The \texttt{Actor} is redirected to the \textit{Account Page}}
+\item{The \texttt{Actor} is redirected to the \textit{Account Page} of the \textit{Account} that has been edited}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
 \item[\textbf{5a:}]{\textbf{The \texttt{Actor} saves the changes}}
-\item[]  5a1. The changes are saved by the \textit{System}
+\item[]  5a1. The changes are saved by \textit{The System}
 \item[\textbf{5b:}]\textbf{The \texttt{Actor} discards the changes}
-\item[]  5b1. The changes are not saved by the \textit{System}
+\item[]  5b1. The changes are not saved by \textit{The System}
 \end{itemize}
 \\ \hline
 \\
-Rules: & \texttt{Users} can only edit their own \textit{Account} information whereas \texttt{Admins} can edit the information of any  \textit{Account}
+Rules: & \texttt{Users} can only edit their own \textit{Account Information} whereas \texttt{Admins} can edit the \textit{Account Information} of any  \textit{Account}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
-Exit condition: & The \textit{Account}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
+Exit condition: & The \textit{Account}'s info has been changed and \textit{The System} has been updated to reflect these changes OR
 nothing has changed if the \texttt{Actor} discarded the changes\\ \hline
 \\
-Quality requirements: & The \textit{System} must reflect the changes to the \textit{Account} and notify the \texttt{User} within 5 seconds of the \texttt{User} submitting the changes \\ \hline  
+Quality requirements: & \textit{The System} must reflect the changes to the \textit{Account} and process the request in 5 seconds or less \\ \hline  
 \end{tabular}
 \end{table}
 
@@ -55,31 +55,31 @@ Use case name:  & EditMediaInfo   \\   \hline
 Participating actors:  & \texttt{\texttt{User}, \texttt{Admin}} \\   \hline   
 \\             
 Flow of events: & \begin{enumerate}
-\item{The \texttt{Actor} navigates to the \textit{Details Page} of the \textit{Media} which info is to be edited}
-\item{The \texttt{Actor} initiates the editing of this \textit{Media}}
+\item{The \texttt{Actor} navigates to the \textit{Details Page} of the \textit{Media Item} whose info is to be edited}
+\item{The \texttt{Actor} initiates the editing of this \textit{Media Item}}
 \item{The \texttt{Actor} is presented with a form containing \textit{Media Item Information}}
 \item{The \texttt{Actor} edits whatever information he wants in the form}
 \item{The \texttt{Actor} either chooses to discard the changes or to save them}
-\item{The \texttt{Actor} is redirected to the \textit{Details Page} of the \textit{Media} that has been edited}
+\item{The \texttt{Actor} is redirected to the \textit{Details Page} of the \textit{Media Item} that has been edited}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
 \item[\textbf{5a:}]{\textbf{The \texttt{Actor} saves the changes}}
-\item[]  5a1. The changes are saved by the \textit{System}
+\item[]  5a1. The changes are saved by \textit{The System}
 \item[\textbf{5b:}]{\textbf{The \texttt{Actor} discards the changes}}
-\item[]  5b1. The changes are not saved by the \textit{System}
+\item[]  5b1. The changes are not saved by \textit{The System}
 \end{itemize}
 \\ \hline
 \\
-Rules: & \texttt{Users} can only edit the information of the \textit{Media} they have uploaded whereas \texttt{Admins} can edit the information of all \textit{Media}
+Rules: & \texttt{Users} can only edit the information of the \textit{Media Items} they have uploaded whereas \texttt{Admins} can edit the information of all \textit{Media Items}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
-Exit condition: & The \textit{Media}'s info has been changed and the \textit{System} has been updated to reflect these changes OR
+Exit condition: & The \textit{Media Items}s info has been changed and \textit{The System} has been updated to reflect these changes OR
 nothing has changed if the \texttt{Actor} discarded the changes \\ \hline
 \\
-Quality requirements: & The \textit{System} must reflect the changes to the \textit{Account} and notify the \texttt{User} within 5 seconds of the \texttt{User} submitting the changes \\ \hline  
+Quality requirements: & \textit{The System} must reflect the changes to the \textit{Account} and process the request in 5 seconds or less \\ \hline  
 \end{tabular}
 \end{table}
 
@@ -96,18 +96,18 @@ Use case name:  & DownloadMedia   \\   \hline
 Participating actors:  & \texttt{\texttt{User}, \texttt{Admin}} \\   \hline   
 \\             
 Flow of events: & \begin{enumerate}
-\item{The \texttt{Actor} navigates to the \textit{Details Page} for the \textit{Media} which is to be downloaded}
-\item{The \texttt{Actor} initiates the download of the \textit{Media}}
-\item{The \textit{System} transfers the file containing the \textit{Media} to the \texttt{Actor}'s local hard drive}
+\item{The \texttt{Actor} navigates to the \textit{Details Page} of the \textit{Media Item} which is to be downloaded}
+\item{The \texttt{Actor} initiates the download of the \textit{Media Item}}
+\item{\textit{The System} transfers the file containing the \textit{Media Item} to the \texttt{Actor}'s local hard drive}
 \end{enumerate}
 \\ \hline
 \\
-Rules: & \texttt{Users} can only download \textit{Media} that they have gained access to by purchasing it whereas \texttt{Admins} can download all \textit{Media}
+Rules: & \texttt{Users} can only download \textit{Media Items} that they have gained access to by purchasing it whereas \texttt{Admins} can download all \textit{Media Items}
 \\   \hline 
 \\
 Entry condition: & The \texttt{Actor} must be logged in \\ \hline
 \\
-Exit condition: & The \texttt{Actor} has received the \textit{Media} \\ \hline
+Exit condition: & The \texttt{Actor} has received the \textit{Media Item} \\ \hline
 \\
 Quality requirements: & N/A  \\ \hline
 \end{tabular}
@@ -126,16 +126,16 @@ Use case name:  & DeleteMedia   \\   \hline
 Participating actors:  & \texttt{Admin} \\   \hline   
 \\             
 Flow of events: & \begin{enumerate}
-\item{The \texttt{Admin} navigates to the \textit{Details Page} of the \textit{Media} which is to be deleted}
-\item{The \texttt{Admin} is asked to confirm the deletion of the \textit{Media}}
-\item{The \texttt{Admin} chooses whether or not to delete the \textit{Media}}
+\item{The \texttt{Admin} navigates to the \textit{Details Page} of the \textit{Media Item} which is to be deleted}
+\item{The \texttt{Admin} is asked to confirm the deletion of the \textit{Media Item}}
+\item{The \texttt{Admin} chooses whether or not to delete the \textit{Media Item}}
 \end{enumerate}
 \\
 Alternatives: & \begin{itemize}
-\item[\textbf{3a:}]{\textbf{The \texttt{Admin} confirms the deletion of the \textit{Media}}}
-\item[]  3a1. The file is deleted and the \textit{System} is updated to reflect that the \textit{Media} is no longer available
-\item[\textbf{3b:}]{\textbf{The \texttt{Admin} cancels the deletion of the \textit{Media}}}
-\item[]  3b1. No changes are saved by the \textit{System} and the \texttt{Admin} is redirected to the \textit{Details Page} of the \textit{Media} which was to be deleted
+\item[\textbf{3a:}]{\textbf{The \texttt{Admin} confirms the deletion of the \textit{Media Item}}}
+\item[]  3a1. The file is deleted and \textit{The System} is updated to reflect that the \textit{Media Item} is no longer available
+\item[\textbf{3b:}]{\textbf{The \texttt{Admin} cancels the deletion of the \textit{Media Item}}}
+\item[]  3b1. No changes are saved by \textit{The System} and the \texttt{Admin} is redirected to the \textit{Details Page} of the \textit{Media Item} which was to be deleted
 \end{itemize}
 \\ \hline
 \\
@@ -144,7 +144,7 @@ Rules: & N/A
 \\
 Entry condition: & \texttt{Admin} must be logged in \\ \hline
 \\
-Exit condition: & The file containing the \textit{Media} has been deleted and the \textit{System} has been updated to reflect these changes \\ \hline
+Exit condition: & The file containing the \textit{Media Item} has been deleted and \textit{The System} has been updated to reflect these changes \\ \hline
 \\
 Quality requirements: & N/A \\ \hline  
 \end{tabular}
@@ -175,7 +175,7 @@ Alternatives: & \begin{itemize}
 Rules: & N/A \\ \hline \\
 Entry condition: & N/A \\ \hline \\
 Exit condition: & The \texttt{Actor} has found the result he was looking for or he is certain that the search keyword did not help him find what he was looking for \\ \hline \\
-Quality requirements: & The search results (if any) must be presented within 5 seconds from initiating search \\ \hline           
+Quality requirements: & \textit{The System} must process the search request in 5 seconds or less \\ \hline           
 \end{tabular}
 \end{table}
 
@@ -192,14 +192,14 @@ Participating actors:  & \texttt{Anonymous user} \\   \hline \\
 Flow of events: & \begin{enumerate}
 \item{The \texttt{Anonymous user} initiates the creation of an \textit{Account}}
 \item{The \texttt{Anonymous user} is presented with a form to fill}
-\item{The \texttt{Anonymous user} fills out the form by entering Username, Password and any of the optional \textit{Account Information} before submitting} %update when account information is known 
+\item{The \texttt{Anonymous user} fills out the form by entering Username and Password
 \item{The \texttt{Anonymous user} is notified that the \textit{Account} is created}
 \end{enumerate}
 \\   \hline \\
 Rules: & The \textit{Account} must have a unique user name and email \\ \hline \\
 Entry condition: & The \texttt{Anonymous user} has no \textit{Account} \\ \hline \\
 Exit condition: & The \texttt{Anonymous user} has created an \textit{Account} \\ \hline \\
-Quality requirements: & The \textit{Account} must be created within 5 seconds from submitting \\  \hline      
+Quality requirements: & \textit{The System} must process the request in 5 seconds or less \\  \hline      
 \end{tabular} \\
 \end{table}
 
@@ -216,19 +216,20 @@ Participating actors:  & \texttt{Anonymous user, User} \\   \hline \\
 Flow of events: & \begin{enumerate}
 \item{The \texttt{Anonymous user} initiates the login}
 \item{The \texttt{Anonymous user} is presented with a login form}
-\item{The \texttt{Anonymous user} enters his user name and password before submitting}
+\item{The \texttt{Anonymous user} enters his user name and password}
 \end{enumerate} \\
 Alternatives: & \begin{itemize}
 \item[\textbf{3a:}] \textbf{The \texttt{Anonymous user} enters the correct user name and password}
 \item[]  3a1. The \texttt{Anonymous user} is logged in and becomes a \texttt{User}
 \item[\textbf{3b:}] \textbf{The \texttt{Anonymous user} enters the incorrect user name or password}
 \item[]  3b1. The \texttt{Anonymous user} is notified that the user name or password was incorrect
+\item[]  3b2. The \texttt{Anonymous user} is redirected to the login page
 \end{itemize} \\ 
 \hline \\
 Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{Anonymous User} is not logged in \\ \hline \\
 Exit condition: & The \texttt{Anonymous user} has been logged in to his \textit{Account} and is now a \texttt{User} or the \texttt{Anonymous user} is notified that the user name or password is incorrect \\ \hline \\
-Quality requirements: & The \texttt{Anonymous user} must be logged in within 5 seconds from submitting provided that user name and password are correct \\ \hline \\            
+Quality requirements: & The \texttt{Anonymous user} must be logged in provided that user name and password are correct and \textit{The System} must process the request in 5 seconds or less \\ \hline \\            
 \end{tabular} \\
 \end{table}
 
@@ -251,7 +252,7 @@ Flow of events: & \begin{enumerate}
 Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{User} is logged in \\ \hline \\
 Exit condition: & The \texttt{User} is no longer logged in and is therefore an \texttt{Anonymous user} \\ \hline \\
-Quality requirements: & The \texttt{User} must be logged out within 5 seconds from initiating the logout \\ \hline             
+Quality requirements: & \textit{The System} must process the request in 5 seconds or less \\ \hline             
 \end{tabular} \\
 \end{table}
 \\ \\ \\
@@ -269,18 +270,18 @@ Participating actors:  & \texttt{User} \\   \hline \\
 Flow of events: & \begin{enumerate}
 \item{The \texttt{User} initiates the upload}
 \item{The \texttt{User} is presented with a form to fill}
-\item{The \texttt{User} chooses the \textit{Media} he wishes to upload. He enters the Type which is a required field and any of the optional \textit{Media Item Information} of the \textit{Media} before submitting}
+\item{The \texttt{User} chooses the \textit{Media Item} he wishes to upload. He enters the Type which is a required field and any of the optional \textit{Media Item Information} of the \textit{Media Item} before submitting}
 \end{enumerate} \\
 Alternatives: & \begin{itemize}
-\item[\textbf{3a:}] \textbf{The \textit{Media} is accepted}
-\item[]  3a1. The \texttt{User} is notified that the \textit{Media} is being uploaded
-\item[\textbf{3b:}] \textbf{The \textit{Media} is not accepted}
-\item[]  3b1. The \texttt{User} is notified that the \textit{Media} is not accepted
+\item[\textbf{3a:}] \textbf{The \textit{Media Item} is accepted}
+\item[]  3a1. The \texttt{User} is notified that the \textit{Media Item} is being uploaded
+\item[\textbf{3b:}] \textbf{The \textit{Media Item} is not accepted}
+\item[]  3b1. The \texttt{User} is notified that the \textit{Media Item} is not accepted
 \end{itemize}
 \\   \hline \\
 Rules: & N/A \\ \hline \\
-Entry condition: & The \texttt{User} is logged in and he has the desired \textit{Media} locally on his system \\ \hline \\
-Exit condition: & The \texttt{User} has uploaded the desired \textit{Media} \\ \hline \\
+Entry condition: & The \texttt{User} is logged in and he has the desired \textit{Media Item} locally on his system \\ \hline \\
+Exit condition: & The \texttt{User} has uploaded the desired \textit{Media Item} \\ \hline \\
 Quality requirements: & N/A \\ \hline \\
 \end{tabular} \\
 \end{table}
@@ -296,15 +297,15 @@ Quality requirements: & N/A \\ \hline \\
 Use case name:  & Purchase   \\   \hline \\                
 Participating actors:  & \texttt{User} \\   \hline \\         
 Flow of events: & \begin{enumerate}
-\item{The \texttt{User} initiates the purchase of the selected \textit{Media}}
-\item{The \texttt{User} is notified that the \textit{Media} has been bought}
-\item{The \texttt{User} will now be able to download the \textit{Media}}
+\item{The \texttt{User} initiates the purchase of the selected \textit{Media Item}}
+\item{The \texttt{User} is notified that the \textit{Media Item} has been bought}
+\item{The \texttt{User} will now be able to download the \textit{Media Item}}
 \end{enumerate}
 \\
 \hline \\
 Rules: & N/A \\ \hline \\
 Entry condition: & The \texttt{User} is logged in \\ \hline \\
-Exit condition: & The \texttt{User} has bought the desired \textit{Media} or is notified that he does not have enough coins to buy the \textit{Media} \\ \hline \\
-Quality requirements: & The \textit{Media} must be purchased within 5 seconds from initiating the purchase \\ \hline             
+Exit condition: & The \texttt{User} has bought the desired \textit{Media Item} \\ \hline \\
+Quality requirements: & \textit{The System} must process the request in 5 seconds or less \\ \hline             
 \end{tabular} \\
 \end{table}
