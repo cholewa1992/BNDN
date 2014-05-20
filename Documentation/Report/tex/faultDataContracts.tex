@@ -2,16 +2,13 @@
 
 \begin{document}
 \subsection{Exposing errors}
-In a WCF service, exceptions are serialized to XML and passed to the client in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET client, it is very likely to fail, as there is no guarantee that the exception exists in different platforms. Due to the lack of desire to limit clients to .NET implemenations nor only using undeclared SOAP faults, it was decided to use custom SOAP faults.
+In a WCF service, exceptions are serialized to XML and passed to the \textit{Client} in a SOAP message. If a CLR\footnote{Common Language Runtime - the virtual machine component of Microsoft's .NET framework} exception is passed to a non-.NET \textit{Client}, it is very likely to fail, as there is no guarantee that the exception exists in different platforms. Since neither limiting \textit{Clients} to .NET implementations nor only using undeclared SOAP faults were desired, it was decided to use custom SOAP faults.
 
-%As we are not interested in either limiting our clients to .NET implementations nor only using undeclared SOAP faults, we decided to use custom SOAP faults. 
+The above mentioned issue was solved by defining fault contracts and then marking which SOAP faults each operation throws, so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient. This is thrown when a client is not recognized by the system. The following shows the implementation of the UnauthorizedClient fault data contract:
 
-The above mentioned issue was solved by defining fault contracts and then marking which SOAP faults each operation throws, so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient. This is thrown when a client is not recognized by the system. The following shows the implementation of the UnauthorizedClient data contract:
-
-%We have solved this by defining fault data contracts and then marking which SOAP faults each operation throws so that they are exposed to clients in WSDL. An example of such a data contract is the UnauthorizedClient which is thrown when the client is not recognized by the system and looks like this:
 
 \begin{figure}[H]
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=tb]
     [DataContract]
     public class UnauthorizedClient
     {
@@ -35,10 +32,8 @@ The above mentioned issue was solved by defining fault contracts and then markin
 
 The solution allows one to catch a CLR exception and instead throw the custom SOAP fault data contract which is interoperable with non-.NET implementations. The following code snippet is an example of a catch-block where the custom CLR exception is caught and transformed into a custom SOAP fault:
 
-%This solution allows us to catch a CLR exception and throw our custom SOAP fault data contract which is interoperable with non-.NET implementations instead. The following code snippet is from a catch-block:
-
 \begin{figure}[H]
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=tb]
     var fault = new UnauthorizedClient();
     fault.Message = "The Client is not authorized to perform this request.";
     throw new FaultException<UnauthorizedClient>(fault, 
@@ -47,6 +42,6 @@ The solution allows one to catch a CLR exception and instead throw the custom SO
 \caption{Example body of catch-block}
 \end{figure}
 
-This decision of having custom SOAP faults was mainly because the SMU students initially were to write their client in Javascript and HTML5. Later conversations with the students from SMU showed, that they decided to go with a .NET client and therefore this decision seems somewhat unnecessary in the current context. 
+This decision of having custom SOAP faults was mainly because the SMU students initially were to write their \textit{Client} in Javascript and HTML5. However, the students from SMU decided to go with a .NET \textit{Client} and therefore this decision seems somewhat unnecessary. 
 
 \end{document}
