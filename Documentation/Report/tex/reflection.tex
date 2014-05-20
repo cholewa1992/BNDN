@@ -3,33 +3,34 @@
 \begin{document}
 \graphicspath{{img/}{../img/}}
 
-\section{Validation of requirements}
+%Proposed system
+\section{Proposed system}
+\paragraph{Scope} 
 
-- Lever vi op til kravene(testmatrix)
-- Overvejelse om at Search ikke er implementeret på en måde der overholder kravene. Der er altså ikke blevet kigget på krav i implementations perioden
+\paragraph{Requirements}
 
-\section{System Architecure}
+\paragraph{Mockups} In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of the client. These mockups would show all the functionality that the client was ideally throught to have, and thereby functional requirements could be derived from these mockups. Some of the created mockups can be seen in Appendix~\ref{app:mockups}. Furthermore the mockups helped the developers to agree on the overall design of ArtShare. The final version of ArtShare reflects this by having the same functionality as depicted in the mockups.
+%Design, Architecture & Implementation
+\section{Design, Architecture \& Implementation}
+	%Architecture
+	%Services: shared or custom
+	%BLL (Overvejelse om at Search ikke er implementeret på en måde der overholder kravene. 				Der er altså ikke blevet kigget på krav i implementations perioden)
+	%DAL (f.eks. Datamodel: navngivning af entities)
+	%DTOs & enums
+	%Access control
+	%Erroneous states
+	%Client (Clienten har dårlig code reuse på nogle punkter, blandt andet pga. datacontract 				type problemerne)
+%Validation
+\section{Validation}
+	%221 unit tests in server vs 12 unit tests in client
+	%NFR not tested? f.eks. 10 concurrent users
+\paragraph{Usability testing} The received input from the usability tests showed that improvements on the design of ArtShare could be made. As described, some of these improvements were implemented and others are to be implemented in a later version. When all the changes derived from the usability tests have been implemented, another iteration of the tests must be run, to ensure that the issues have been fixed. 
 
-- Overordnet struktur på backend
 
-
-\subsection{Implementation}
-
-- Brugen af Dto software startes
-- Clienten har dårlig code reuse på nogle punkter, blandt andet pga. datacontract type problemerne
-
-\subsection{Mockups \& Client Architecture}
-
-In the process of defining all the functional requirements of ShareIt and ArtShare, it was decided to produce mockups of the client. These mockups would show all the functionality that the client was ideally throught of having, and thereby functional requirements could be derived from these mockups. You can see some of the created mockups in Appendix \ref{app:mockups}.
-
-- Hvad har mockups gjort for os
-
-\section{Collaboration}
-
+\section{SMU collaboration}
 The experience of collaborating with the SMU team has been very interesting and educational, teaching us the importance of clear and precise communication.
 It also helped showcase the differences in coding styles and practises, which are not as apparent when working only with ITU students since we are all taught the same practices. 
 Despite of the issues along the way it is our impression that the SMU team was satisfied with the collaboration and so were we.
-
 
 
 \end{document}
