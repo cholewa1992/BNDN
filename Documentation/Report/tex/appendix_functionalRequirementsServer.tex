@@ -1,15 +1,17 @@
-%\documentclass[../report.tex]{subfiles}
+\documentclass[../report.tex]{subfiles}
 
 %As the enumerable can't continue across two seperate subfiles the \documentclass and \begin \end{document} lines must be commented out when commiting changes to this file.
 
-%\begin{document}
+\begin{document}
 
 \label{sec:Functional Requirements Server}
 
 \noindent
 
 \subsubsection{Read}
-\begin{enumerate}[label=\textbf{FR-\twodigits*}, resume]
+\begin{enumerate}[label=\textbf{FR-\twodigits*}]
+
+\setcounter{enumi}{53}
 
 \item The \textit{ShareIt Back End} must be able to provide \textit{Media Item Information} about a specific \textit{Media Item}.
 
@@ -31,11 +33,11 @@
 
 \item The \textit{ShareIt Back End} must be able to provide \textit{Account Information} about a specific \textit{Account}.
 
-\item (S) The \textit{ShareIT Back End} must be able to provide a list of the 10 most purchased \textit{Media Items} in a given timespan
+\item The \textit{ShareIT Back End} must be able to provide a list of the 10 most purchased \textit{Media Items} in a given timespan
 
-\item (S) The \textit{ShareIT Back End} must be able to provide a list of the 10 most viewed \textit{Details page}s of \textit{Media Items} in a given timespan
+\item The \textit{ShareIT Back End} must be able to provide a list of the 10 most viewed \textit{Details page}s of \textit{Media Items} in a given timespan
 
-\item (S) The \textit{ShareIT Back End} must be able to provide a count on how many times a \textit{Media Item} has occurred in a search result as index 9 or higher index 0 being the first hit. 
+\item The \textit{ShareIT Back End} must be able to provide a count on how many times a \textit{Media Item} has occurred in a search result as index 9 or higher index 0 being the first hit. 
 
 \end{enumerate}
 
@@ -58,7 +60,7 @@
 
 \item The \textit{ShareIT Back End} must be able to receive a \textit{Media Item} file along with any supported types of \textit{Media Item Information} and add it to the collection of stored \textit{Media Items}.
 
-\item (S) The \textit{ShareIt Back End} must be able to store a thumbnail image
+\item The \textit{ShareIt Back End} must be able to store a thumbnail image
 
 \item When the \textit{ShareIT Back End} stores a new \textit{Media Item} each piece of \textit{Media Item Information} must be given a unique ID.
 
@@ -66,7 +68,7 @@
 
 \item The \textit{ShareIT Back End} must add a unique ID to a \textit{Media Item} when storing it.
 
-\item Associations between \textit{Account}s and \textit{Media Item}s must include a value from 1-10 representing a rating.
+\item Rating associations between \textit{Account}s and \textit{Media Item}s must include a value from 1-10 representing a rating.
 
 \item The \textit{ShareIt Back End} must be able to associate a \textit{Media Item} with an \textit{Account} as \textit{Buyer}.
 
@@ -95,12 +97,12 @@
 
 \item The \textit{ShareIt Back End} must be able to notify the \textit{Client} if a \textit{User} sends a request which he does not have access rights to perform.
 
-\item (S) Access rights must restrict access if the associated expiration date is exceeded
+\item Access rights must restrict access if the associated expiration date is exceeded
 
-\item (S) The \textit{ShareIT Back End} must be able to provide data about when a given \textit{User}'s access rights expires.
+\item The \textit{ShareIT Back End} must be able to provide data about when a given \textit{User}'s access rights expires.
 
-\item (S) \textit{The ShareIT Back End} must be able to provide access expiration given a \textit{Media Item} and a \textit{User}
+\item \textit{The ShareIT Back End} must be able to provide access expiration given a \textit{Media Item} and a \textit{User}
 
 \end{enumerate}
 
-%\end{document}
+\end{document}
