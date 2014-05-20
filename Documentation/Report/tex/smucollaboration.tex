@@ -3,7 +3,7 @@
 
 \graphicspath{{img/}{../img/}}
 
-As a part of this project we have been collaborating with a team from Singapore Management University (SMU). The primary goals\footnote{Taken from \url{https://wiki.smu.edu.sg/is411/2013T2-ITU}} of this collaboration were as follows:
+As a part of this project we have been collaborating with a team from Singapore Management University (SMU). The primary goals\cite{SMU-Wiki-1} of this collaboration were as follows:
 
 \begin{enumerate}[label=\bfseries G\arabic*:]
 \item SMU and ITU students must negotiate and finalize the project web-service interface
@@ -18,13 +18,13 @@ The communication was initiated by us prior to the first video conference using 
 After the first video conference it was decided that we would have weekly video meetings.
 However the audio quality was really poor and in the end we mainly communicated via a facebook group, created to maintain frequent contact and to share files easily.
 
-The facebook group was mainly used as a Q\&A session where the SMU students could ask questions about implementation and usage of the agreed web-services. Code examples could easily be shared between the two groups, which ensured a prompt resolution of possible issues. The facebook group was somewhat also used to notify the other group about changes in deadlines, possible errors in already deployed systems or information on the next meetings.
+The facebook group was mainly used as a Q\&A session where the SMU students could ask questions about implementation and usage of the agreed web-services. Code examples could easily be shared between the two groups, which ensured a prompt resolution of possible issues. The facebook group was also used to notify the other group about changes in deadlines, possible errors in already deployed systems or information on the next meetings.
 
 
 \section{Beginning of collaboration}
 During the first week of collaboration a set of functional requirements for the SMU client was formed and adapted into \textit{ShareIt}'s existing requirements. 
 Most requirements were already met and only a few new were added. 
-The SMU requirements were prioritized and it was agreed that if some requirements were not able to be met due to time pressure, those with lowest priority would be omitted.
+The SMU requirements were prioritized and it was agreed that if some requirements were not able to be met due to time pressure. Those with lowest priority would be omitted.
 
 After we received the requirements from the SMU team we started working on the interfaces for our WCF services. 
 The goal was to have the interfaces designed and deployed as quickly as possible so the SMU team would be able to start coding against the services.
@@ -35,22 +35,22 @@ However, the SMU team had some difficulties consuming our services.
 The SMU team had already early on in the collaboration expressed a wish to develop their client using only HTML5 and JavaScript. 
 We knew that WCF as default uses the SOAP standard and wrongly assumed that since SOAP was a well defined communication standard, it would not be a problem for the SMU team to consume our services using their desired technology.
 
-As it turns out, it is not easy to consume services via SOAP using only HTML5 and JavaScript.
+As it turns out, it is not easy to consume SOAP services using only HTML5 and JavaScript.
 After a meeting with the SMU team where they expressed their difficulties, it was decided that both parties would spend some time looking for ways to consume the SOAP services with JavaScript.
-Additionally we agreed to look into how easy it would be for us, to switch from SOAP based services to a REST architecture using JSON as object notation, which we knew would be much easier to consume using JavaScript.
+Additionally we agreed to look into how easy it would be for us, to switch from SOAP based services to a REST architecture using JSON as object notation, which we knew would be much easier for the SMU team to consume using JavaScript.
 Neither of the teams succeeded in finding a good way to consume the SOAP services with JavaScript and after looking into changing our architecture we realised that it would require a substantial amount of work.
 Furthermore, we could not find a way for the REST architecture to support one of the features we had with SOAP, namely that it was possible to send meta data along with a byte stream when transferring files.
 
 When we passed this information along to the SMU team, they informed us that they had already decided to switch technology to ASP.NET.
 This was great news for us since we already had experience setting up service references within Visual Studio.
 Since the SMU team did not have previous experience with .NET we agreed to act as consultants with regards to problems concerning C\# and Visual Studio.
-We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}\footnote{\url{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}}.
+We also agreed to add code samples in C\# to the \href{https://wiki.smu.edu.sg/is411/Team8\_Services\_Documentation}{documentation of our services on the wikipage}\cite{SMU-Wiki-2}.
 Lastly we showed the SMU team how to use the service reference wizard in Visual Studio to create proxy classes which they could use to call our services.
 
 \section{Dummy data vs database implementation}
 While we were exploring different options for how to create the connection between the SMU client and our services, we had also implemented some stub versions of our logic classes and deployed services which used these stubs.
-We thought that the SMU team would have an easier time creating the code for their client, if they could write code which called these dummy services and got a reply that somewhat resembled what they could expect from the live services.
-Additionally we did not feel comfortable releasing services which were not tested.
+We thought that the SMU team would have an easier time creating the code for their client, if they could write code which called these dummy services and get a reply that somewhat resembled what they could expect from the live services.
+Additionally we did not feel comfortable deploying services which were not tested.
 
 However it is our impression that the SMU team did not make much use of these dummy services.
 They kept asking for when a database version of the services would be deployed and we kept postponing the deployment, because we wanted the services to be fully operational.

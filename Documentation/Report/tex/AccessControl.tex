@@ -33,7 +33,7 @@ In order to associate a token with a \textit{Client} the token has to be transfe
 \subsection{User credential validation}
 \label{sec:UserCredential}
 
-Operations on \textit{ShareIt} that need to distinguish a \textit{User} in any way take a \textit{UserDTO}. In these cases the UserDTO is validated with the database on its Username and Password properties. An example is the operation to validate whether a \textit{User} is registered with \textit{The System}. The clientToken argument discussed in section \ref{sec:Token} can also be seen here. 
+Operations on \textit{ShareIt} that need to distinguish a \textit{User} in any way take a \textit{UserDTO}. In these cases the UserDTO is validated with the database on its username and password properties. An example is the operation to validate whether a \textit{User} is registered with \textit{The System}. The clientToken argument discussed in section \ref{sec:Token} can also be seen here. 
 
 \begin{center}
 \begin{lstlisting}
@@ -42,7 +42,7 @@ Operations on \textit{ShareIt} that need to distinguish a \textit{User} in any w
 \end{center}
 
 
-While the clientToken has a single purpose, namely to validate \textit{Client}s, the \textit{User} credential check is multi-functional in the way it determines many types of access rights with the system.
+While the clientToken has a single purpose, namely to validate \textit{Client}s, the \textit{User} credential check is multi-functional in the way it determines many types of access rights with \textit{The System}.
 
 
 \subsection{Access rights}
@@ -63,6 +63,6 @@ Every call to a service that requires a \textit{User} will therefore validate th
 \end{lstlisting}
 
 
-If the user credentials are not accepted an \texttt{InvalidUserException} is thrown, while an \texttt{Unauthorized- UserException} is thrown if the user did not have the correct type of access right. 
+If the user credentials are not accepted an \texttt{InvalidUserException} is thrown, while an \texttt{Unauthorized- UserException} is thrown if the \textit{User} did not have the correct type of access right. 
 
 \end{document}

@@ -5,18 +5,18 @@
 To maintain a high cohesion in the services, it was decided to make multiple services instead of just one. This makes it easy for the developers of the \textit{Client}s to figure out which service to use and it will make it more convenient to find specific operations instead of having to look through one bloated service. Multiple services instead of one also allows for separate, dedicated front-ends that would target just certain parts of the whole system. 
 
 \subsection{Service responsibilities}
-There are five different services, which are responsible for different parts of the system. 
+There are five different services, which are responsible for different parts of \textit{The System}. 
 
-The \texttt{AccessRightService} is responsible for all operations on access rights. This includes making new admins, creating new access rights when a \textit{User} purchases a \textit{Media item}, editing expiration dates, deleting access rights and getting purchase or upload histories of \textit{User}s. 
+\textbf{AccessRightService} is responsible for all operations on access rights. This includes making new admins, creating new access rights when a \textit{User} purchases a \textit{Media item}, editing expiration dates, deleting access rights and getting purchase or upload histories of \textit{User}s. 
 
-The \texttt{AuthService} handles all authentications of \textit{Users} and \textit{Client}s.
-This includes validating a \textit{User}'s credentials and checking if a given \textit{Client} exists.
+\textbf{AuthService} handles all authentications of \textit{Users} and \textit{Client}s.
+This includes validating a \textit{User}s credentials and checking if a given \textit{Client} exists.
 The service is also able to check if a given \textit{User} is admin on a given \textit{Client}.
 
-The \texttt{MediaItemService} handles all actions that can be performed on \textit{Media item}s. These actions involve getting information about a specific \textit{Media Item}, multiple \textit{Media Item}s or multiple \textit{Media Item}s of a specific type. Searching is also handled here and can similarly be performed on all \textit{Media Item}s or on \textit{Media Item}s of a specific type. Furthermore, the service also handles updates, deletions and ratings of \textit{Media Item}s.
+\textbf{MediaItemService} handles all actions that can be performed on \textit{Media Item}s. These actions involve getting information about a specific \textit{Media Item}, multiple \textit{Media Item}s or multiple \textit{Media Item}s of a specific type. Searching is also handled here and can similarly be performed on all \textit{Media Item}s or on \textit{Media Item}s of a specific type. Furthermore, the service also handles updates, deletions and ratings of \textit{Media Item}s.
 
-The \texttt{TransferService} is responsible for uploading and downloading data. It allows \textit{Client}s to download \textit{Media Item}s and to upload a \textit{Media Item}s together with its meta information. It is also responsible for uploading thumbnail images and associating these with \textit{Media Item}s.
+\textbf{TransferService} is responsible for uploading and downloading data. It allows \textit{Client}s to download \textit{Media Item}s and to upload \textit{Media Item}s together with its meta information. It is also responsible for uploading thumbnail images and associating these with \textit{Media Item}s.
 
-The \texttt{UserService} handles all \textit{User} related actions. This includes creating and deleting \textit{Account}s, getting and updating \textit{Account Information} and getting all \textit{Users}. 
+\textbf{UserService} handles all \textit{User} related actions. This includes creating and deleting \textit{Account}s, getting and updating \textit{Account Information} and getting all \textit{Users}. 
 
 \end{document}
