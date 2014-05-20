@@ -12,35 +12,33 @@
 
 \section{Test Strategy}
 
-A very important part of every software project is to validate that the deliverable is working and fulfils its requirements. In this project the solution will therefore be tested to ensure a high quality and to prove that requirements have been meet.
-
-Following tests strategies will be used to accomplish this.
+A very important part of every software project is to validate that the deliverable is working and fulfils its requirements. In this project the solution will therefore be tested to ensure a high quality and to prove that requirements have been met. Following tests strategies will be used to accomplish this.
 
 \paragraph{Unit tests}
-As per the developers definition of done; a code task to be done, working and unit-tested code must be committed to the project repository. In addition to this all code will be Quality assured by another developer. This will enforce the code quality and ensure that code in-fact perform the intended logic
+As per the developers definition of done; for an implementation task to be done, working and unit-tested code must be committed to the project repository. In addition to this all code will be Quality assured by another developer. This will enforce the code quality and ensure that code in-fact perform the intended logic
 
 \paragraph{Integration tests}
 
-To ensure that the integration between subsystems are working as intended, a set of integration tests will be written. The integration tests will also be used under development. We're not using continues integration, but every integration test will be ran after changing a tested subsystem. This will insure that logic will not break due to changes and optimizations.
+To ensure that the integration between subsystems are working as intended, a set of integration tests will be written. The integration tests will also be used under development. There will not be made use of continuous integration, but every integration test will be run after changing a tested subsystem. This will insure that logic will not break due to changes and optimizations.
 
 \paragraph{Usability tests}
-As the non-functional requirements for this project include requirements for usability, a usability test will be executed to ensure that the requirements are met. A set of tasks will be written to cover these requirements and tested on a small target group matching the target group of the system on parameters of age, gender and IT knowledge.
+As the requirements for this project specify how much time certain task can take, usability tests will be executed to ensure that those requirements are met. A set of tasks will be written to cover these requirements and tested on a small target group matching the target group of the system on parameters of age, gender and IT knowledge.
 
-\paragraph{Acceptance tests}
-Acceptance tests are tests done to ensure that the system meets the system requirements. Acceptance testing is normally done by the customer, but as there is no customers to this project acceptance tests will be executed by the project group itself.
+\paragraph{System tests}
+System tests are tests done to ensure that the system meets all the requirements. System testing is normally done by the customer, but as there is no customers to this project these tests will be executed by the project group itself.
 
-For every requirement a test case will be written. These test cases can either be tested though system testing, integration testing, unit tests or usability tests. System testing is a test case of the full working test where a task is manually carried out. 
+For every requirement a test case will be written. These test cases can either be tested with acceptance testing, integration testing, unit tests or usability tests. Acceptance testing is a test case where a task is manually carried out. They are typically used for tasks that are difficult to unit test. 
 
 \section{Results}
 %This section will contain the results and a brief reflection following from the test strategy.
 
 \paragraph{Unit test results}
 
-233 unit tests have been written covering all classes containing logic. 221 of the tests are covering ShareIT and 12 covering ArtShare. All unit tests are compiling and is running without errors.
+233 unit tests have been written covering all classes containing logic. 221 of the tests are covering \textit{ShareIt} and 12 covering \textit{ArtShare}. All unit tests are compiling and running without errors.
 
 \paragraph{Integration test results}
 
-A set of integration tests have been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This have been done by having a mock database. A set of test data have been written and and all methods in the Business layer have been tested to ensure the intended database operation. All 20 tests are compiling and is running without errors
+A set of integration tests have been written to test that the Data Access Layer and the Business Logic Layer is working together as intended. This has been tested by having a test database. Some test data has been written into the test database and and all methods in the Business layer have been tested to ensure that they behave correctly when communicating with the database. All 20 tests are compiling and is running without errors
 
 Only integration tests have been implemented on these two subsystems as it was the only subsystems where logic relied on one another
 
@@ -55,7 +53,7 @@ Out of the four people involved in the usability tests all but one completed the
 \end{itemize} 
 
 \paragraph{Acceptance tests}
-For all requirements test cases have been written (See table \ref{tab:testcasematrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements was taken out of scope and therefore the tests of course do not pass.
+For all requirements test cases have been written (See table \ref{tab:testcasematrix}) and every test have been ran. The result is shown in the test case matrix. Some of the failed tests have been corrected while others have been marked out of scope. Some requirements were taken out of scope and therefore the tests of course do not pass.
 
 
 

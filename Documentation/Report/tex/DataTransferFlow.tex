@@ -6,21 +6,21 @@
 
 
 
-DTOs(Data Transfer Objects) are widely used for storing application domain data through the control flow. The alternative to encapsulating the data in objects is passing it around as native .NET typed arguments\footnote{fx int, string, DateTime, List<T>}.
+Data Transfer Objects (DTOs) are widely used for storing application domain data through the control flow. The alternative to encapsulating the data in objects is passing it around as native .NET typed arguments\footnote{E.g. int, string, DateTime, List<T>}.
 
 
 
 
 
 \begin{itemize}
-\item DTO passing
+\item DTO passing:
 \begin{center}
 \begin{lstlisting}
 public void CheckUserExists(UserDTO dto)
 \end{lstlisting}
 \end{center}
 
-\item Native type passing
+\item Native type passing:
 \begin{center}
 \begin{lstlisting}
 public void CheckUserExists(string username, string password)
@@ -28,7 +28,7 @@ public void CheckUserExists(string username, string password)
 \end{center}
 \end{itemize}
 
-There are several advantages to using DTOs
+There are several advantages to using DTOs:
 
 \begin{itemize}
 %\item Readability. When there is a need for many informations the method signatures will grow huge when using native type arguments.
@@ -42,7 +42,7 @@ There are several advantages to using DTOs
 \end{itemize}
 
 %We have chosen to use DTOs mainly for the readability and code reuse, later realizing one flaw in our DTO design as described in the next subsection.
-A DTO solution was chosen mainly for the sake of readability and code reuse. Some disadvantages in ShareIt's use of DTOs are described in sections \ref{sec:dtoStructure} and \ref{sec:dtoExposition}.
+A DTO solution was chosen mainly for the sake of readability and code reuse. Some disadvantages in \textit{ShareIt}'s use of DTOs are described in sections \ref{sec:dtoStructure} and \ref{sec:dtoExposition}.
 
 \subsection{DTO structure}
 \label{sec:dtoStructure}
@@ -52,21 +52,20 @@ The DTOs are implemented to encapsulate application domain data over software si
 
 A software situation DTO would be a CredentialDTO containing only username and password. Then when invoking \texttt{CheckUserExists(CredentialDTO dto)} an implementor would be much more certain as to what informations are expected.
 
-\todo{Remember to reflect on this}
 
 %For example our UserDTO encapsulates application domain data in the way that it holds all properties associated with a user. This means that an invoker of \texttt{CheckUserExists(UserDTO dto)} does not know what properties are needed in the DTO.
 
 
 
 
-\subsection{DTO exposition by services}
+\subsection{DTO exposure by services}
 \label{sec:dtoExposition}
 
 %Our back-end DTOs are exposed as DataContracts through our WCF services. This means that an implementing client will know our DTO classes and our DTO transfer flow will reach all the way to any client who can then choose to use the DTOs in any way.
-All DTOs used in the system are implemented in ShareIt and exposed as DataContracts through WCF services. An implementor in a .NET environment can reference the ShareIt service so that DataContracts exposed are usable in his assemblies. Many services on ArtShare expose the UserDTO, however the same DataContract exposed by different services has different types depending on the service, and so they can not be used interchangeably between services. As a consequent ArtShare does some property transfers from UserDTO to a UserDTO with the needed type. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/}
+All DTOs used in the system are implemented in \textit{ShareIt} and exposed as DataContracts through WCF services. A developer in a .NET environment can reference the \textit{ShareIt} service so that DataContracts exposed are usable in his assemblies. Many services on \textit{ShareIt} expose the UserDTO, however the same DataContract exposed by different services has different types depending on the service, and so they can not be used interchangeably between services. As a consequence \textit{ArtShare} does some property transfers from UserDTO to a UserDTO with the needed type. This simply means initializing the new object with the old's properties. This could be solved by building a datacontracts assembly and using it for service references \cite{freddes2010}
 
 %A user implementing our services can experience some type problems with our DTOs. For example the same UserDTO datacontract exposed by two different services will have different namespaces, and so are not interchangeable. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/} 
-%An implementor in a .NET environment can reference the ShareIt service and use the DTO classes locally. One may however experience some type problems. The reason is that some DTOs are exposed by different services, giving them different types, and so they are not interchangeable between these services. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/}
+%An implementor in a .NET environment can reference the \textit{ShareIt} service and use the DTO classes locally. One may however experience some type problems. The reason is that some DTOs are exposed by different services, giving them different types, and so they are not interchangeable between these services. This could be solved by building the datacontracts assembly and using it for service references.\footnote{http://www.freddes.se/2010/05/02/sharing-datacontracts-between-wcf-services/}
 
 \subsection{Coupling the data model with the DTOs}
 \subfile{tex/enums.tex}
