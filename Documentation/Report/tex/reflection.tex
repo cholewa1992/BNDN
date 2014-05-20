@@ -16,12 +16,22 @@
 %Design, Architecture & Implementation
 \section{Design, Architecture \& Implementation}
 
-\paragraph{Architecture}
-
+\paragraph{Architecture \& Design}
+The decision to use a layered architecture for \textit{ShareIt} was mainly influenced by a desire to separate the services from the storage.
+However, this lead to a decision to make it easy to change the implementation of the Business Logic Layer (BLL) and Data Access Layer by use of the Abstract Factory Pattern and Bridge Pattern respectively.
+The use of an Abstract Factory Pattern in the BLL makes it more difficult to implement new functionality.
+This clashes with non-functional requirement \textbf{NFR-08} which specifies that it should be easy to implement new functionality.
+When the decision was made to use the Abstract Factory Pattern it was however deemed more important, to be able to quickly create a dummy implementation of the BLL which could be deployed and used by the SMU team.
+The Abstract Factory Pattern made it possible to easily switch this implementation with the actually implementation, when it was completed.
 
 \paragraph{DTOs} 
+<<<<<<< HEAD
 There are two points to reflect on concerning the DTOs with the system. Firstly, it would have been beneficial to use smaller DTOs with properties for the situations in which they would be used.
 Secondly, \textit{ArtShare} has a lot of redundant code caused by the namespace problems when referencing the \textit{ShareIt} services.
+=======
+There are two points to reflect on concerning the DTOs with the system. First of all it would have been beneficial to use smaller DTOs with properties for the situations in which they would be used.
+Second of all, much redundant code had to be implemented on \textit{ArtShare} because of the namespace problems when referencing the \textit{ShareIt} services.
+>>>>>>> 428910174909c0ae47ab10d7743a4694ffa5389c
 
 \paragraph{Data model}
 One can argue that the naming of entities in the data model is ambiguous and not the obvious choice. An example is the entity named "Entity", which advantageously could have been called "Media Item".
