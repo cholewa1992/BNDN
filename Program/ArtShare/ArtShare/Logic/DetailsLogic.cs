@@ -14,6 +14,10 @@ namespace ArtShare.Logic
     /// <summary>
     /// Logic for media item details
     /// </summary>
+    /// <author>
+    /// Mathias Pedersen (mkin@itu.dk)
+    /// Asbjørn Steffensen (afjs@itu.dk)
+    /// </author>
     public class DetailsLogic : IDetailsLogic
     {
 
