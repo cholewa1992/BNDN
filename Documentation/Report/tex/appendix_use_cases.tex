@@ -1,6 +1,42 @@
 
 \label{sec:Use Cases}
 
+\captionsetup[table]{labelformat=empty}
+\captionsetup[table]{font=large}
+\captionsetup[table]{textfont=bf}
+
+\noindent
+\begin{table}[h!]
+\caption{UC-01}
+\label{UC-01}
+\centering
+\begin{tabular}{ l  p{8cm} }  
+\hline
+\\
+Use case name:  & RateMedia   \\   \hline    
+\\            
+Participating actors:  & \texttt{\texttt{User}} \\   \hline   
+\\             
+Flow of events: & \begin{enumerate}
+\item{The \texttt{User} finds the \textit{Media} to be rated and navigates to its \textit{Details Page}}
+\item{The \texttt{User} chooses to rate this \textit{Media}}
+\item{The \texttt{User} is presented with a rating form where he selects a rating to give the \textit{Media}}
+\item{The \textit{System} saves the rating of the \textit{Media} and notifies the \texttt{User} of this}
+\end{enumerate}
+\\ \hline
+\\
+Rules: & Each \texttt{User} can only rate the same \textit{Media} once
+\\   \hline 
+\\
+Entry condition: & \texttt{User} must be logged in \\ \hline
+\\
+Exit condition: & The \textit{Media} has been rated \\ \hline
+\\
+Quality requirements: & The \textit{System} must reflect the changes to the rating and notify the \texttt{User} within 5 seconds of the
+\texttt{User} submitting the rating\\ \hline  
+\end{tabular}
+\end{table}
+
 \noindent
 \begin{table}[h!]
 \caption{UC-02}
