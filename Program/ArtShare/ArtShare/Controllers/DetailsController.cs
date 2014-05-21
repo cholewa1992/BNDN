@@ -11,6 +11,7 @@ namespace ArtShare.Controllers
 {
     /// <author>
     /// Mathias Pedersen (mkin@itu.dk)
+    /// Asbjørn Steffensen (afjs@itu.dk)
     /// </author>
     public class DetailsController : Controller
     {
